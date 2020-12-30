@@ -8,10 +8,17 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            "runtimeVersion": "15.3.0",
+            "runtimeArgs": [
+              "--experimental-wasm-simd"
+            ],
+            "args": [
+              "> log.log"
+            ],
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/test.js"
+            "program": "${workspaceFolder}/test.js" //
         }
     ]
 }

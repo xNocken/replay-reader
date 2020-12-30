@@ -101,17 +101,16 @@ const event = (replay) => {
   const length = replay.readUInt32();
 
   let data = replay.decryptBuffer(length);
-
   let result;
 
   if (group === 'playerElim') {
-    result = new PlayerEliminationEvent(eventId, group, metadata, startTime, endTime)
+    result = new PlayerEliminationEvent(eventId, group, metadata, startTime, endTime);
     parsePlayerElim(result, data);
   } else if (metadata === 'AthenaMatchStats') {
-    result = new MatchStatsEvent(eventId, group, metadata, startTime, endTime)
+    result = new MatchStatsEvent(eventId, group, metadata, startTime, endTime);
     parseMatchStats(result, data);
   } else if (metadata === 'AthenaMatchTeamStats') {
-    result = new MatchTeamStatsEvent(eventId, group, metadata, startTime, endTime)
+    result = new MatchTeamStatsEvent(eventId, group, metadata, startTime, endTime);
     parseMatchTeamStats(result, data);
   }
 

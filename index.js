@@ -1,4 +1,3 @@
-const { writeFileSync } = require('fs');
 const Replay = require('./src/Classes/Replay');
 const { replayInfo, replayChunks } = require('./src/parse');
 
@@ -8,10 +7,10 @@ const parse = (buffer) => {
   const info = replayInfo(replay);
   const chunks = replayChunks(replay);
 
-  writeFileSync('replay.json', JSON.stringify({
+  return {
     info,
-    ...chunks,
-  }, null, 2))
+    chunks,
+  };
 }
 
 module.exports = parse;

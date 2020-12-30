@@ -1,17 +1,15 @@
 class Info {
-  constructor() {
-    this.LengthInMs = 0;
-    this.NetworkVersion = 0;
-    this.Changelist = 0;
-    this.FriendlyName = 0;
-    this.Timestamp = 0;
-    this.TotalDataSizeInBytes = 0;
-    this.IsLive = 0;
-    this.IsCompressed = 0;
-    this.IsEncrypted = false;
-    this.EncryptionKey = [];
-    this.FileVersion = [];
-  }
+  LengthInMs = 0;
+  NetworkVersion = 0;
+  Changelist = 0;
+  FriendlyName = 0;
+  Timestamp = 0;
+  TotalDataSizeInBytes = 0;
+  IsLive = 0;
+  IsCompressed = 0;
+  IsEncrypted = false;
+  EncryptionKey = [];
+  FileVersion = [];
 }
 
 module.exports = Info;

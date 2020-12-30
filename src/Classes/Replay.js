@@ -79,6 +79,25 @@ class Replay {
   }
 
   /**
+   * Read a intpacked
+   * @returns {number} the int
+   */
+  readIntPacked() {
+    let value = 0;
+    let count = 0;
+    let remaining = true;
+
+    while (remaining) {
+      let nextByte = this.buffer[this.offset++];
+      remaining = (nextByte & 1) === 1;
+      nextByte >>= 1;
+      value += nextByte << (7 * count++);
+    }
+
+    return value;
+  }
+
+  /**
    * Read a int32
    * @returns {number} the int
    */
@@ -202,7 +221,7 @@ class Replay {
   /**
    * Decrypt a buffer
    * @param {number} length buffer length
-   * @returns {Buffer} decrypted buffer
+   * @returns {Replay} decrypted buffer
    */
   decryptBuffer(length) {
     const bytes = this.readBytes(length);
@@ -222,6 +241,38 @@ class Replay {
 
     return newBuffer;
   }
+
+  /**
+   * Decrypt a buffer
+   * @param {number} length buffer length
+   * @returns {Replay} decrypted buffer
+   */
+  encryptBuffer(length) {
+    const bytes = this.readBytes(length);
+    let newBuffer = new Replay();
+
+    newBuffer.header = this.header;
+    newBuffer.info = this.info;
+    newBuffer.playerList = this.playerList;
+
+    if (!this.info.IsEncrypted) {
+      newBuffer.buffer = bytes;
+      return newBuffer;
+    };
+
+    const decipher = crypto.createDecipheriv('aes-256-ecb', this.info.EncryptionKey, null);
+    newBuffer.buffer = Buffer.from(decipher.update(bytes, 'binary', 'binary') + decipher.final('binary'), 'binary');
+
+    return newBuffer;
+  }
+
+  /**
+   * Checks the flag for streaming fixes
+   * @returns {Boolean} decrypted buffer
+   */
+   hasLevelStreamingFixes() {
+     return ((this.header.Flags >> 1) & 1) === 1;
+   }
 }
 
 module.exports = Replay;

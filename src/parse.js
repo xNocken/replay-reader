@@ -2,6 +2,7 @@ const Info = require('./Classes/Info');
 const Replay = require('./Classes/Replay');
 const event = require('./event');
 const parseHeader = require('./header');
+const parseReplayData = require('./replayData');
 
 /**
  * Parse the replays meta
@@ -60,19 +61,23 @@ const replayChunks = (replay) => {
 
     switch (chunkType) {
       case 0:
-        const parsedHeader = parseHeader(replay);
-        chunks.push(parsedHeader);
+        chunks.push(parseHeader(replay));
+        break;
+
+      case 1:
+        chunks.push(parseReplayData(replay));
         break;
 
       case 2:
-        // maybe TODO: handle this later
+        // maybe TODO: handle checkpoints later
         break;
 
       case 3:
         chunks.push(event(replay));
         break;
+
       default:
-        console.log('Unhandled chunkType', chunkType);
+        console.warn('Unhandled chunkType:', chunkType);
     }
 
     replay.offset = startOffset + chunkSize;

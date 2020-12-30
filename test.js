@@ -1,4 +1,4 @@
 const fs = require('fs');
 const parse = require('.');
 
-parse(fs.readFileSync('1.replay'));
+fs.writeFileSync('replay.json', JSON.stringify(parse(fs.readFileSync('1.replay')), null, 2));
