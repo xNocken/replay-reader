@@ -35,7 +35,9 @@ const header = (replay) => {
   }
 
   if (header.networkVersion <= 6) {
-    result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString, (a) => a.readUInt32)
+    throw Error('Not implented')
+  } else {
+    result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
   }
 
   if (result.NetworkVersion >= 9) {

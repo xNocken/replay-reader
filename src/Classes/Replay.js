@@ -88,7 +88,7 @@ class Replay {
     let remaining = true;
 
     while (remaining) {
-      let nextByte = this.buffer[this.offset++];
+      let nextByte = this.readByte()[0];
       remaining = (nextByte & 1) === 1;
       nextByte >>= 1;
       value += nextByte << (7 * count++);
@@ -198,7 +198,7 @@ class Replay {
     const returnArray = [];
     for (let i = 0; i < length; i += 1) {
       const obj = {};
-      obj[fn1(this)] = obj[fn2(this)];
+      obj[fn1(this)] = fn2(this);
       returnArray.push(obj);
     }
     return returnArray;
@@ -267,12 +267,28 @@ class Replay {
   }
 
   /**
-   * Checks the flag for streaming fixes
-   * @returns {Boolean} decrypted buffer
+   * Checks the flag for HasStreamingFixes
+   * @returns {Boolean}
    */
-   hasLevelStreamingFixes() {
-     return ((this.header.Flags >> 1) & 1) === 1;
-   }
+  hasLevelStreamingFixes() {
+    return ((this.header.Flags >> 1) & 1) === 1;
+  }
+
+  /**
+   * Checks the flag for GameSpecificFrameData
+   * @returns {Boolean}
+   */
+  hasGameSpecificFrameData() {
+    return ((this.header.Flags >> 3) & 1) === 1;
+  }
+
+  /**
+   * Checks the flag for GameSpecificFrameData
+   * @returns {Boolean}
+   */
+  atEnd() {
+    return this.offset >= this.buffer.length;
+  }
 }
 
 module.exports = Replay;

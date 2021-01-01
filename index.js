@@ -1,10 +1,10 @@
 const Replay = require('./src/Classes/Replay');
 const { replayInfo, replayChunks } = require('./src/parse');
 
-const parse = (buffer) => {
+const parse = async (buffer) => {
   const replay = new Replay(buffer);
 
-  const info = replayInfo(replay);
+  const info = await replayInfo(replay);
   const chunks = replayChunks(replay);
 
   return {

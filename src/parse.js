@@ -51,7 +51,7 @@ const replayInfo = (replay) => {
 * Parse the replays meta
 * @param {Replay} replay the replay
 */
-const replayChunks = (replay) => {
+const replayChunks = async (replay) => {
   const chunks = [];
 
   while (replay.buffer.byteLength > replay.offset) {
@@ -65,7 +65,7 @@ const replayChunks = (replay) => {
         break;
 
       case 1:
-        chunks.push(parseReplayData(replay));
+        chunks.push(await parseReplayData(replay));
         break;
 
       case 2:

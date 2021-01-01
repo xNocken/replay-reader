@@ -1,4 +1,5 @@
 const ooz = require('ooz-wasm');
+const fs = require('fs');
 const Replay = require('./Classes/Replay');
 
 /**
@@ -9,6 +10,8 @@ const decompress = (replay, isCompressed) => {
   if (!isCompressed) {
     return replay;
   }
+
+  fs.writeFileSync('hi', replay.buffer);
 
   const decompressedSize = replay.readInt32();
   const compressedSize = replay.readInt32();
