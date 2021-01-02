@@ -1,11 +1,12 @@
-const NetBitReader = require("../Classes/NetBitReader");
-const DataBunch = require("../Classes/DataBunch");
-const UChannel = require("../Classes/UChannel");
+const NetBitReader = require('../Classes/NetBitReader');
+const DataBunch = require('../Classes/DataBunch');
+const UChannel = require('../Classes/UChannel');
+const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
+const { channels } = require('../utils/globalData');
 
 let inPacketId = 0;
 let inReliable = 0;
 let bunchIndex = 0;
-const channels = {};
 
 /**
  *
@@ -133,3 +134,5 @@ const recievedPacket = (packetArchive) => {
     }
   }
 };
+
+module.exports = recievedPacket;

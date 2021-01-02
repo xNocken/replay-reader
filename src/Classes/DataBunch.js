@@ -1,4 +1,9 @@
+const NetBitReader = require('./NetBitReader');
+
 class DataBunch {
+  /**
+   * @type {NetBitReader}
+   */
   archive;
   packetId;
   chIndex;

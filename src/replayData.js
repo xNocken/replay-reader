@@ -5,8 +5,7 @@ const decompress = require('./decompress');
 const readExportData = require('./replayData/netExportData');
 const readExternalData = require('./replayData/readExternalData');
 const readPacket = require('./replayData/readPacket');
-const NetFieldExportGroupMap = {};
-const NetFieldExportGroupIndexToGroup = {};
+const recievedPacket = require('./replayData/recievedPacket');
 let packetIndex = 0;
 
 /**

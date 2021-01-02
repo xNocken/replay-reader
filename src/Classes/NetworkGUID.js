@@ -5,7 +5,7 @@ class NetworkGUID {
     return this.value > 0;
   }
 
-  iyDynamic() {
+  isDynamic() {
     this.value > 0 && (this.value & 1) != 1;
   }
 
