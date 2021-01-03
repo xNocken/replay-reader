@@ -1,0 +1,86 @@
+const NetBitReader = require('../Classes/NetBitReader');
+const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
+const { channels, netFieldParser } = require('../utils/globalData');
+
+/**
+ *
+ * @param {NetBitReader} archive
+ * @param {NetFieldExportGroup} group
+ * @param {number} channelIndex
+ * @param {boolean} enableProperyChecksum
+ * @param {boolean} netDeltaUpdate
+ */
+const receiveProperties = (archive, group, channelIndex, enableProperyChecksum = true, netDeltaUpdate = false) => {
+  let exportGroup;
+
+  if (group.pathName === '/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C') {
+    console.log();
+  }
+
+  if (channels[channelIndex].isIgnoringChannel(group.pathName)) {
+    return false;
+  }
+
+  if (!netFieldParser.willReadType(group.pathName)) {
+    channels[channelIndex].ignoreChannel(group.pathName);
+
+    return false;
+  }
+
+  if (enableProperyChecksum) {
+    const doChecksum = archive.readBit();
+  }
+
+  exportGroup = netFieldParser.createType(group);
+
+  let hasData = false;
+
+  while (true) {
+    let handle = archive.readIntPacked();
+
+    if (handle === 0) {
+      break;
+    }
+
+    handle--;
+
+    if (!group.isInvalidIndex(handle)) {
+      return false;
+    }
+
+    const exportt = group?.netFieldExports[handle];
+    const numbits = archive.readIntPacked();
+
+    if (numbits == 0) {
+      continue;
+    }
+
+    if (!exportt) {
+      archive.skipBits(numbits);
+      continue;
+    }
+
+    if (exportt.incompatible) {
+      archive.skipBits(numbits);
+      continue;
+    }
+
+    hasData = true;
+
+    try {
+      const cmdReader = new NetBitReader(archive.readBits(numbits), numbits);
+
+      netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader);
+    } catch (ex) {
+
+    }
+  }
+
+  if (!netDeltaUpdate && hasData) {
+    // onExportRead(channelIndex, exportGroup);
+  }
+
+  return true;
+};
+
+module.exports = receiveProperties;

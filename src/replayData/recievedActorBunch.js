@@ -1,4 +1,5 @@
 const DataBunch = require("../Classes/DataBunch");
+const processBunch = require("./processBunch");
 
 /**
  *
@@ -7,6 +8,8 @@ const DataBunch = require("../Classes/DataBunch");
 const recievedActorBunch = (bunch) => {
   if (bunch.bHasMustBeMappedGUIDs) {
     const numMusteBeMappedGUIDs = bunch.archive.readUInt16();
+
+    console.log();
 
     for (let i = 0; i < numMusteBeMappedGUIDs; i++) {
       const guid = bunch.archive.readIntPacked();

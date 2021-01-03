@@ -7,14 +7,14 @@ const internalLoadObject = require("./internalLoadObject");
  */
 const readContentBlockHeader = (bunch) => {
   let bObjectDeleted = false;
-  let bOutHasRepLayout = bunch.archive.readBit();
-  let bIsActor = bunch.archive.readBit();
+  const bOutHasRepLayout = bunch.archive.readBit();
+  const bIsActor = bunch.archive.readBit();
 
   if (bIsActor) {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
-      repObject: cchannels[bunch.chIndex].actor.archetype?.value || channels[bunch.chIndex].actor.actorNetGUID.value,
+      repObject: channels[bunch.chIndex].actor.archetype?.value || channels[bunch.chIndex].actor.actorNetGUID.value,
     }
   }
 

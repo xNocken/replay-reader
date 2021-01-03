@@ -1,6 +1,7 @@
-const DataBunch = require("../Classes/DataBunch");
-const NetBitReader = require("../Classes/NetBitReader");
-const netGuidCache = require("../utils/netGuidCache");
+const DataBunch = require('../Classes/DataBunch');
+const NetBitReader = require('../Classes/NetBitReader');
+const netGuidCache = require('../utils/netGuidCache');
+const receiveProperties = require('./recieveProperties');
 
 /**
  *
@@ -12,5 +13,15 @@ const netGuidCache = require("../utils/netGuidCache");
 const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout) => {
   const netFielExportGroup = netGuidCache.GetNetFieldExportGroup(repObject);
 
-  // TODO
+  if (netFielExportGroup == null) {
+    return true;
+  }
+
+  if (bHasRepLayout) {
+    if (receiveProperties(archive, netFielExportGroup, bunch.chIndex)) {
+
+    }
+  }
 };
+
+module.exports = recievedReplicatorBunch;

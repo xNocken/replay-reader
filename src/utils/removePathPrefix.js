@@ -7,20 +7,20 @@
 
 const removePathPrefix = (path, toRemove = '') => {
   if (toRemove !== '') {
-    if (toRemove.Length > path.Length) {
+    if (toRemove.length > path.length) {
       return path;
     }
 
-    for (var i = 0; i < toRemove.Length; i++) {
+    for (var i = 0; i < toRemove.length; i++) {
       if (path[i] != toRemove[i]) {
         return path;
       }
     }
 
-    return path.substring(toRemove.Length);
+    return path.substring(toRemove.length);
   }
 
-  for (var i = path.Length - 1; i >= 0; i--) {
+  for (var i = path.length - 1; i >= 0; i--) {
     switch (path[i]) {
       case '.':
         return path.substring(i + 1);

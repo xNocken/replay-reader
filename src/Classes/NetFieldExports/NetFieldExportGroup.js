@@ -8,3 +8,5 @@ class NetFieldExportGroup {
     return handle >= 0 && handle < this.netFieldExportsLength;
   }
 }
+
+module.exports = NetFieldExportGroup;

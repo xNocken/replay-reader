@@ -19,7 +19,7 @@ class NetBitReader {
      * @type {Buffer}
      */
     this.buffer = input;
-    this.lastBit = bitCount || this.buffer * 8;
+    this.lastBit = bitCount || this.buffer.length * 8;
   }
 
   /**
@@ -27,12 +27,18 @@ class NetBitReader {
    * @returns {number}
    */
   readBit() {
-    if (this.atEnd() ||this.isError) {
+    if (this.atEnd() || this.isError) {
       this.isError = true;
       return false;
     }
 
-    const value = this.buffer.toString('binary')[this.offset];
+    let bits = this.buffer[Math.floor(this.offset / 8)].toString(2);
+
+    bits = '0'.repeat(8 - bits.length) + bits;
+
+    bits = bits.split('').reverse().join('');
+
+    const value = parseInt(bits[this.offset % 8] || 0);
 
     this.offset += 1;
 
@@ -40,7 +46,20 @@ class NetBitReader {
   }
 
   readBits(count) {
-    return Buffer.from(this.buffer.toString('binary').slice(this.offset, this.offset + count), 'binary');
+    let result = '';
+
+    for (let i = 0; i < count; i++) {
+      result += this.readBit();
+    }
+
+    result = result.split('');
+
+    const bytes = [];
+    for (let i = 0; i < count / 8; i ++) {
+      bytes.push(parseInt(result.splice(0, 8).reverse().join(''), 2))
+    }
+
+    return Buffer.from(bytes);
   }
 
   /**
@@ -70,10 +89,10 @@ class NetBitReader {
     let bitCountLeftInByte = 8 - (this.offset % 8);
     let srcMaskByte0 = ((1 << bitCountLeftInByte) - 1);
     let srcMaskByte1 = ((1 << bitCountUsedInByte) - 1);
-    let srcIndex = this.offset;
+    let srcIndex = Math.floor(this.offset / 8);
     let nextSrcIndex = bitCountUsedInByte != 0 ? srcIndex + 1 : srcIndex;
 
-    let value;
+    let value = 0;
 
     for (let It = 0, shiftCount = 0; It < 5; It++, shiftCount += 7) {
       if (!this.canRead(8)) {
@@ -86,7 +105,7 @@ class NetBitReader {
 
       this.offset += 8;
 
-      const readByte = (((this.buffer[srcIndex] >> bitCountUsedInByte) & srcMaskByte0) | ((this.buffer[nextSrcIndex] & srcMaskByte1) << (bitCountLeftInByte) & 7));
+      const readByte = (((this.buffer[srcIndex] >> bitCountUsedInByte) & srcMaskByte0) | ((this.buffer[nextSrcIndex] & srcMaskByte1) << (bitCountLeftInByte & 7)));
       value = ((readByte >> 1) << shiftCount) | value;
       srcIndex++;
       nextSrcIndex++;
@@ -95,31 +114,12 @@ class NetBitReader {
         break;
       }
     }
+
+    return value;
   }
 
   readBytes(byteCount) {
-    if (!this.canRead(byteCount * 8) || byteCount < 0) {
-      return [];
-    }
-
-    let bitCountUsedInByte = this.offset % 8;
-    let bitCountLeftInByte = 8 - (this.offset % 8);
-    const result = [];
-    const byteOffset = Math.floor(this.offset / 8);
-
-    if (bitCountUsedInByte === 0) {
-      result = this.buffer.slice(byteCount, byteOffset + byteCount)
-    } else {
-      const output = [];
-
-      for (let i = 0; i < byteCount; i++) {
-        output[i] = ((this.buffer[byteOffset + i] >> bitCountUsedInByte) | ((this.buffer[byteOffset + i] & ((1 << bitCountUsedInByte) - 1)) << bitCountLeftInByte))
-      }
-
-      result = output;
-    }
-
-    this.position += byteCount * 8;
+    return this.readBits(byteCount * 8);
   }
 
   readByte() {
@@ -186,7 +186,8 @@ class NetBitReader {
   }
 
   appendDataFromChecked(data, bitCount) {
-    this.buffer = Buffer.from(this.buffer.toString(2) + data.toString(2), 'binary');
+    this.buffer = Buffer.from(this.buffer.toString('hex') + data.toString('hex'), 'hex');
+    this.lastBit = bitCount;
   }
 
   readUInt16() {
@@ -252,6 +253,10 @@ class NetBitReader {
     }
 
     return new FRotator(pitch, yaw, roll);
+  }
+
+  skipBits(bits) {
+    this.offset += bits;
   }
 }
 

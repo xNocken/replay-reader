@@ -1,6 +1,5 @@
 const FVector = require('../Classes/FVector');
 const NetBitReader = require('../Classes/NetBitReader');
-const recievedActorBunch = require('./recievedActorBunch');
 
 /**
  * @param {NetBitReader} archive

@@ -6,3 +6,5 @@ class NetFieldExport {
   type;
   incompatible;
 }
+
+module.exports = NetFieldExport;

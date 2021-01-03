@@ -3,6 +3,7 @@ const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
 const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
 const { channels } = require('../utils/globalData');
+const recievedRawBunch = require('./recievedRawBunch');
 
 let inPacketId = 0;
 let inReliable = 0;
@@ -17,7 +18,7 @@ const recievedPacket = (packetArchive) => {
 
   inPacketId++;
 
-  while (packetArchive.atEnd()) {
+  while (!packetArchive.atEnd()) {
     if (packetArchive.header.EngineNetworkVersion < 8) {
       var isAckDummy = packetArchive.readBit();
     }
@@ -26,6 +27,10 @@ const recievedPacket = (packetArchive) => {
 
     const bControl = packetArchive.readBit();
     bunch.packetId = inPacketId;
+
+    if (bunch.packetId === 166) {
+      console.log();
+    }
     bunch.bOpen = bControl ? packetArchive.readBit() : false;
     bunch.bClose = bControl ? packetArchive.readBit() : false;
 
@@ -77,7 +82,7 @@ const recievedPacket = (packetArchive) => {
       }
     } else if (bunch.bReliable ||bunch.bOpen) {
       chName = packetArchive.readFName();
-
+      let hi;
       // TODO: chType
 
     }
@@ -88,9 +93,9 @@ const recievedPacket = (packetArchive) => {
     const channel = channels[bunch.chIndex] != null;
 
     const maxPacket = 1024 * 2;
-    const bucnhDataBits = packetArchive.readSerializedInt(maxPacket * 8);
-
-    bunch.archive = new NetBitReader(packetArchive.readBits(bucnhDataBits), bucnhDataBits);
+    const bunchDataBits = packetArchive.readSerializedInt(maxPacket * 8);
+    const bits = packetArchive.readBits(bunchDataBits);
+    bunch.archive = new NetBitReader(bits, bunchDataBits);
 
     bunch.archive.header = packetArchive.header;
     bunch.archive.info = packetArchive.info;
@@ -98,8 +103,7 @@ const recievedPacket = (packetArchive) => {
     bunchIndex++;
 
     if (bunch.bHasPackageExportMaps) {
-      // TODO
-      recieveNetGUIDBunch();
+      recieveNetGUIDBunch(bunch.archive);
     }
 
     if (channel && false) {
@@ -126,7 +130,6 @@ const recievedPacket = (packetArchive) => {
       channels[bunch.chIndex] = newChannel;
 
       try {
-        // TODO
         recievedRawBunch(bunch);
       } catch (ex) {
         console.log(ex);

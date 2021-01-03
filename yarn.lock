@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+linq@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/linq/-/linq-3.2.3.tgz#5d9fd6da4e89742d4c447e3d657e74cb254e339d"
+  integrity sha512-OI48ncDVi29Hc4g5+hPd58AkI8YtLUFkZWWvvyC+w1+j8PsDi28tLZnbv3+8PvxSiJUEQDihkQjrIrPkFzEFqQ==
+
 ooz-wasm@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ooz-wasm/-/ooz-wasm-1.0.0.tgz#01f02156cb515e8591fbe18f1d65847d4c579c95"

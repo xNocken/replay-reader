@@ -1,5 +1,5 @@
 const DataBunch = require("../Classes/DataBunch");
-const recieveNetGUIDBunch = require("./recieveNetGUIDBunch");
+const recievedNextBunch = require("./recievedNextBunch");
 
 /**
  * @param {DataBunch} bunch

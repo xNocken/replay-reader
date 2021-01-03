@@ -6,11 +6,11 @@ class NetworkGUID {
   }
 
   isDynamic() {
-    this.value > 0 && (this.value & 1) != 1;
+    return this.value > 0 && (this.value & 1) != 1;
   }
 
   isDefault() {
-    return this.value !== 1;
+    return this.value == 1;
   }
 
   serialze(reader) {

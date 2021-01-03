@@ -1,3 +1,4 @@
+const NetBitReader = require("../Classes/NetBitReader");
 const Replay = require("../Classes/Replay");
 const internalLoadObject = require("./internalLoadObject");
 

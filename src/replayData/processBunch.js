@@ -7,6 +7,7 @@ const netGuidCache = require('../utils/netGuidCache');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
 const readContentBlockPayload = require('./readContentBlockPayload');
+const recievedReplicatorBunch = require('./recievedReplicatorBunch');
 
 /**
  *
@@ -22,6 +23,10 @@ const processBunch = (bunch) => {
     }
 
     const inActor = new Actor();
+
+    if (bunch.packetId === 166) {
+      console.log();
+    }
 
     inActor.actorNetGUID = internalLoadObject(bunch.archive, false);
 
@@ -50,10 +55,10 @@ const processBunch = (bunch) => {
 
     channel.actor = inActor;
 
-    onChannelOpened(channel.ChannelIndex, inActor.actorNetGUID);
+    // onChannelOpened() // TODO: replayReader#65
 
-    if (netGuidCache.tryGetPathName(channel.archetype || 0)) {
-      const path = netGuidCache.tryGetPathName(channel.archetype || 0);
+    if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
+      const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);
 
       if (playerControllerGroups[path]) {
         bunch.archive.readByte();
@@ -62,7 +67,7 @@ const processBunch = (bunch) => {
   }
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bHasRepLayout, reader } = readContentBlockPayload(bunch);
+    const { repObject, bObjectDeleted, bOutHasRepLayout, reader } = readContentBlockPayload(bunch);
 
     if (bObjectDeleted) {
       continue;
@@ -76,8 +81,10 @@ const processBunch = (bunch) => {
       continue;
     }
 
-    if (recievedReplicatorBunch(bunch, reader, repObject, bHasRepLayout)) {
+    if (recievedReplicatorBunch(bunch, reader, repObject, bOutHasRepLayout)) {
       continue;
     }
   }
 };
+
+module.exports = processBunch;

@@ -78,13 +78,13 @@ const parsePlaybackPackets = (replay) => {
  * @param {PlaybackPacket} packet
  */
 const recievedRawPacket = (packet, replay) => {
-  const lastByte = packet.data[packet.data.length - 1];
+  let lastByte = packet.data[packet.data.length - 1];
 
   if (lastByte === 0) {
     throw Error('Malformed packet: Received packet with 0\'s in last byte of packet');
   }
 
-  const bitSize = (packet.data.length * 8) - 1;
+  let bitSize = (packet.data.length * 8) - 1;
 
   while (!((lastByte & 0x80) >= 1)) {
     lastByte *= 2;

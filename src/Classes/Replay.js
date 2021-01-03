@@ -289,6 +289,31 @@ class Replay {
   atEnd() {
     return this.offset >= this.buffer.length;
   }
+
+  readBoolean8() {
+    return this.readByte()[0] === 1;
+  }
+
+  readFName() {
+    const isHardcoded = this.readBoolean8();
+
+    if (isHardcoded) {
+      let nameIndex;
+
+      if (this.header.EngineNetworkVersion < 6) {
+        nameIndex = this.readUInt32();
+      } else {
+        nameIndex = this.readIntPacked();
+      }
+
+      return nameIndex.toString();
+    }
+
+    const inString = this.readString();
+    const inNumber = this.readInt32();
+
+    return inString;
+  }
 }
 
 module.exports = Replay;

@@ -1,5 +1,6 @@
 const NetworkGUID = require('../Classes/NetworkGUID');
 const Replay = require('../Classes/Replay');
+const netGuidCache = require('../utils/netGuidCache');
 const removePathPrefix = require('../utils/removePathPrefix');
 
 /**
@@ -30,12 +31,12 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, internalLoadObjectR
       const outerGuid = internalLoadObject(replay, true, internalLoadObjectRecursionCount + 1);
       const pathName = replay.readString();
 
-      if ((flags & 4) === 1) {
+      if ((flags & 4) == 4) {
         const checksum = replay.readUInt32();
       }
 
       if (isExportingNetGUIDBunch) {
-        guidCache.NetGuidToPathName[netGuid.Value] = removePathPrefix(pathName);
+        netGuidCache.NetGuidToPathName[netGuid.value] = removePathPrefix(pathName);
       }
 
       return netGuid;

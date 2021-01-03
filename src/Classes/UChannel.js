@@ -6,14 +6,14 @@ class UChannel {
   actor;
 
   get archetypeId() {
-    return this.actor?.archettype?.value;
+    return this.actor?.archetype?.value;
   }
 
-  get aactorId() {
+  get actorId() {
     return this.actor?.actorNetGUID?.value;
   }
 
-  ignoreChanneel (group) {
+  ignoreChannel (group) {
     this._ignore.push(group);
   }
 
