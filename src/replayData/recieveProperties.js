@@ -1,6 +1,7 @@
 const NetBitReader = require('../Classes/NetBitReader');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const { channels, netFieldParser } = require('../utils/globalData');
+const onExportRead = require('./export/onExportRead');
 
 /**
  *
@@ -12,10 +13,6 @@ const { channels, netFieldParser } = require('../utils/globalData');
  */
 const receiveProperties = (archive, group, channelIndex, enableProperyChecksum = true, netDeltaUpdate = false) => {
   let exportGroup;
-
-  if (group.pathName === '/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C') {
-    console.log();
-  }
 
   if (channels[channelIndex].isIgnoringChannel(group.pathName)) {
     return false;
@@ -44,7 +41,7 @@ const receiveProperties = (archive, group, channelIndex, enableProperyChecksum =
 
     handle--;
 
-    if (!group.isInvalidIndex(handle)) {
+    if (!group.isValidIndex(handle)) {
       return false;
     }
 
@@ -72,12 +69,12 @@ const receiveProperties = (archive, group, channelIndex, enableProperyChecksum =
 
       netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader);
     } catch (ex) {
-
+      console.log(ex.message);
     }
   }
 
   if (!netDeltaUpdate && hasData) {
-    // onExportRead(channelIndex, exportGroup);
+    onExportRead(channelIndex, exportGroup);
   }
 
   return true;

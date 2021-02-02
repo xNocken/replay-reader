@@ -1,0 +1,105 @@
+{
+  "path": "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C",
+  "properties": {
+    "Owner": {
+      "name": "Owner",
+      "type": "ActorGuid",
+      "parseFunction": "readProperty"
+    },
+    "bHidden": {
+      "name": "bHidden",
+      "type": "boolean",
+      "parseFunction": "readBoolean"
+    },
+    "bReplicatedMovement": {
+      "name": "bReplicatedMovement",
+      "type": "boolean",
+      "parseFunction": "readBoolean"
+    },
+    "bTearOff": {
+      "name": "bTearOff",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "bCanBeDamaged": {
+      "name": "bCanBeDamaged",
+      "type": "bool",
+      "parseFunction": "readBoolean"
+    },
+    "RemoteRole": {
+      "name": "RemoteRole",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "AttachParent": {
+      "name": "ReplicatedMovement",
+      "type": "AttachParent",
+      "parseFunction": "ignore"
+    },
+    "LocationOffset": {
+      "name": "LocationOffset",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RelativeScale3D": {
+      "name": "RelativeScale3D",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RotationOffset": {
+      "name": "RotationOffset",
+      "type": "FVector",
+      "parseFunction": "readRotationShort"
+    },
+    "AttachSocket": {
+      "name": "AttachSocket",
+      "type": "FName",
+      "parseFunction": "readFName"
+    },
+    "ExitSocketIndex": {
+      "name": "ExitSocketIndex",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "AttachComponent": {
+      "name": "AttachComponent",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "Role": {
+      "name": "Role",
+      "type": "object",
+      "parseFunction": "ignore"
+    },
+    "Instigator": {
+      "name": "Instigator",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "RemoteViewPitch": {
+      "name": "RemoteViewPitch",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "PlayerState": {
+      "name": "PlayerState",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "Backpack": {
+      "name": "Backpack",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "Character": {
+      "name": "Character",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    }
+  }
+}

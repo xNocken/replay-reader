@@ -7,7 +7,7 @@ const Replay = require('./Classes/Replay');
  */
 const decompress = (replay, isCompressed) => {
   if (!isCompressed) {
-    return replay;
+    return replay.buffer;
   }
 
   const decompressedSize = replay.readInt32();

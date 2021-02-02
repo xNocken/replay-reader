@@ -1,5 +1,5 @@
 debug/
 node_modules/
 log.log
-1.replay
+*.replay
 replay.json

@@ -24,10 +24,6 @@ const processBunch = (bunch) => {
 
     const inActor = new Actor();
 
-    if (bunch.packetId === 166) {
-      console.log();
-    }
-
     inActor.actorNetGUID = internalLoadObject(bunch.archive, false);
 
     if (bunch.archive.atEnd() && inActor.actorNetGUID.isDynamic()) {

@@ -1,3 +1,4 @@
+const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
 const UChannel = require('../Classes/UChannel');
 
@@ -9,6 +10,11 @@ const globalData = {
   playerControllerGroups: {},
   netFieldParser: new NetFieldParser(),
   netFieldExports: {},
+  /**
+   * @type {DataBunch}
+   */
+  partialBunch: null,
+  inReliable: 0,
 };
 
 module.exports = globalData;

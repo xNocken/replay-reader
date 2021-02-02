@@ -13,8 +13,8 @@ class NetworkGUID {
     return this.value == 1;
   }
 
-  serialze(reader) {
-    reader.readIntPacket();
+  serialize(reader) {
+    this.value = reader.readIntPacked();
   }
 }
 

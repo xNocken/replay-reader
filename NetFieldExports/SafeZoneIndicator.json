@@ -1,0 +1,65 @@
+{
+  "path": "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C",
+  "properties": {
+    "RemoteRole": {
+      "name": "RemoteRole",
+      "type": "object",
+      "parseFunction": "Ignore"
+    },
+    "Role": {
+      "name": "Role",
+      "type": "object",
+      "parseFunction": "Ignore"
+    },
+    "LastRadius": {
+      "name": "LastRadius",
+      "type": "float",
+      "parseFunction": "readFloat"
+    },
+    "NextRadius": {
+      "name": "NextRadius",
+      "type": "float",
+      "parseFunction": "readFloat"
+    },
+    "LastCenter": {
+      "name": "LastCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "NextCenter": {
+      "name": "NextCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "NextNextCenter": {
+      "name": "NextNextCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "SafeZoneStartShrinkTime": {
+      "name": "SafeZoneStartShrinkTime",
+      "type": "float",
+      "parseFunction": "readFloat"
+    },
+    "SafeZoneFinishShrinkTime": {
+      "name": "SafeZoneFinishShrinkTime",
+      "type": "float",
+      "parseFunction": "readFloat"
+    },
+    "bPausedForPreview": {
+      "name": "bPausedForPreview",
+      "type": "boolean",
+      "parseFunction": "readBoolean"
+    },
+    "MegaStormDelayTimeBeforeDestruction": {
+      "name": "MegaStormDelayTimeBeforeDestruction",
+      "type": "float",
+      "parseFunction": "readFloat"
+    },
+    "Radius": {
+      "name": "Radius",
+      "type": "float",
+      "parseFunction": "readFloat"
+    }
+  }
+}

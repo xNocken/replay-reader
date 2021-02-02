@@ -5,7 +5,7 @@ const parse = async (buffer) => {
   const replay = new Replay(buffer);
 
   const info = await replayInfo(replay);
-  const chunks = replayChunks(replay);
+  const chunks = await replayChunks(replay);
 
   return {
     info,

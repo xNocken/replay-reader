@@ -2,11 +2,12 @@ const NetBitReader = require('../Classes/NetBitReader');
 const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
 const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
-const { channels } = require('../utils/globalData');
+const globals = require('../utils/globalData');
 const recievedRawBunch = require('./recievedRawBunch');
 
+const { channels } = globals;
+
 let inPacketId = 0;
-let inReliable = 0;
 let bunchIndex = 0;
 
 /**
@@ -28,9 +29,6 @@ const recievedPacket = (packetArchive) => {
     const bControl = packetArchive.readBit();
     bunch.packetId = inPacketId;
 
-    if (bunch.packetId === 166) {
-      console.log();
-    }
     bunch.bOpen = bControl ? packetArchive.readBit() : false;
     bunch.bClose = bControl ? packetArchive.readBit() : false;
 
@@ -56,7 +54,7 @@ const recievedPacket = (packetArchive) => {
     bunch.bPartial = packetArchive.readBit();
 
     if (bunch.bReliable) {
-      bunch.chSequence = inReliable + 1;
+      bunch.chSequence = globals.inReliable + 1;
     } else if (bunch.bPartial) {
       bunch.chSequence = inPacketId;
     } else {
@@ -80,7 +78,7 @@ const recievedPacket = (packetArchive) => {
       } else if (chType === 4) {
         chName = 1;
       }
-    } else if (bunch.bReliable ||bunch.bOpen) {
+    } else if (bunch.bReliable || bunch.bOpen) {
       chName = packetArchive.readFName();
       let hi;
       // TODO: chType
@@ -110,7 +108,7 @@ const recievedPacket = (packetArchive) => {
       'ähm'
     }
 
-    if (bunch.bReliable && bunch.chSequence <= inReliable) {
+    if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
       continue;
     }
 
@@ -129,11 +127,12 @@ const recievedPacket = (packetArchive) => {
 
       channels[bunch.chIndex] = newChannel;
 
-      try {
-        recievedRawBunch(bunch);
-      } catch (ex) {
-        console.log(ex);
-      }
+    }
+
+    try {
+      recievedRawBunch(bunch);
+    } catch (ex) {
+      console.log(ex);
     }
   }
 };

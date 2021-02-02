@@ -134,10 +134,12 @@ const parseReplayData = async (replay) => {
   binaryReplay.header = replay.header;
   binaryReplay.info = replay.info;
 
+  let index = 0;
+
   while (binaryReplay.buffer.length > binaryReplay.offset) {
     const playbackPackets = parsePlaybackPackets(binaryReplay);
 
-    playbackPackets.forEach((packet) => {
+    playbackPackets.forEach((packet, index) => {
       if (packet.state === 0) {
         packetIndex++;
 

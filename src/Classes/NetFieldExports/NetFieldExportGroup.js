@@ -4,7 +4,7 @@ class NetFieldExportGroup {
   netFieldExportsLength;
   netFieldExports;
 
-  isInvalidIndex(handle) {
+  isValidIndex(handle) {
     return handle >= 0 && handle < this.netFieldExportsLength;
   }
 }

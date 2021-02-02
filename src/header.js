@@ -44,7 +44,7 @@ const header = (replay) => {
     result.Flags = replay.readUInt32();
   }
 
-  header.gameSpicificData = replay.readArray((a) => a.readString);
+  result.gameSpicificData = replay.readArray((a) => a.readString());
 
   replay.header = result;
 

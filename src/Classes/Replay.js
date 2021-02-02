@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const unrealNames = require('../../Classes/UnrealNames');
 const Header = require('./Header');
 const Info = require('./Info');
 const Player = require('./Player');
@@ -306,7 +307,7 @@ class Replay {
         nameIndex = this.readIntPacked();
       }
 
-      return nameIndex.toString();
+      return unrealNames[nameIndex];
     }
 
     const inString = this.readString();

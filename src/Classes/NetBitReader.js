@@ -1,6 +1,7 @@
+const unrealNames = require('../../Classes/UnrealNames');
 const FRotator = require('./FRotator');
 const FVector = require('./FVector');
-const Header = require('./header');
+const Header = require('./Header');
 
 class NetBitReader {
   /**
@@ -32,13 +33,7 @@ class NetBitReader {
       return false;
     }
 
-    let bits = this.buffer[Math.floor(this.offset / 8)].toString(2);
-
-    bits = '0'.repeat(8 - bits.length) + bits;
-
-    bits = bits.split('').reverse().join('');
-
-    const value = parseInt(bits[this.offset % 8] || 0);
+    let value = this.buffer[Math.floor(this.offset / 8)] >> (this.offset % 8) & 1;
 
     this.offset += 1;
 
@@ -46,20 +41,18 @@ class NetBitReader {
   }
 
   readBits(count) {
-    let result = '';
+    const buffer = Buffer.from({ length: Math.ceil(count / 8) });
 
     for (let i = 0; i < count; i++) {
-      result += this.readBit();
+      const byteOffset = Math.floor(i / 8);
+      const bitOffset = i % 8;
+
+      if (this.readBit()) {
+        buffer[byteOffset] |= (1 << bitOffset);
+      }
     }
 
-    result = result.split('');
-
-    const bytes = [];
-    for (let i = 0; i < count / 8; i ++) {
-      bytes.push(parseInt(result.splice(0, 8).reverse().join(''), 2))
-    }
-
-    return Buffer.from(bytes);
+    return buffer;
   }
 
   /**
@@ -168,7 +161,7 @@ class NetBitReader {
         nameIndex = this.readIntPacked();
       }
 
-      return nameIndex.toString();
+      return unrealNames[nameIndex];
     }
 
     const inString = this.readString();
@@ -204,6 +197,10 @@ class NetBitReader {
 
   readVector() {
     return new FVector(this.readFloat32(), this.readFloat32(), this.readFloat32());
+  }
+
+  readPackedVector100() {
+    return this.readPackedVector(100, 30);
   }
 
   readPackedVector(scaleFactor, maxBits) {
