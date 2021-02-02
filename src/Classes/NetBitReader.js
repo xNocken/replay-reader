@@ -55,6 +55,18 @@ class NetBitReader {
     return buffer;
   }
 
+  readBitsToInt(count) {
+    let result = 0;
+
+    for (let i = 0; i < count; i++) {
+      if (this.readBit()) {
+        result |= (1 << i);
+      }
+    }
+
+    return result;
+  }
+
   /**
    * Return the next bits from the array thats smaller than maxValue
    * @param {number} maxValue
@@ -194,6 +206,15 @@ class NetBitReader {
   readFloat32() {
     return Buffer.from(this.readBytes(4)).readFloatLE(0);
   }
+
+  /**
+   * Read an id
+   * @returns {string} the id
+   */
+  readId() {
+    return Buffer.from(this.readBytes(16)).toString('hex');
+  }
+
 
   readVector() {
     return new FVector(this.readFloat32(), this.readFloat32(), this.readFloat32());

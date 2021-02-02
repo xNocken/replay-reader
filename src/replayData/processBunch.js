@@ -6,6 +6,7 @@ const { channels, playerControllerGroups } = require('../utils/globalData');
 const netGuidCache = require('../utils/netGuidCache');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
+const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
 const recievedReplicatorBunch = require('./recievedReplicatorBunch');
 
@@ -51,7 +52,7 @@ const processBunch = (bunch) => {
 
     channel.actor = inActor;
 
-    // onChannelOpened() // TODO: replayReader#65
+    onChannelOpened(bunch.chIndex, channel.actor);
 
     if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
       const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);

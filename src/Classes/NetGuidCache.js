@@ -1,5 +1,6 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const removePathPrefix = require('../utils/removePathPrefix');
+const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
 
 class NetGuidCache {
   NetFieldExportGroupMap = {};
@@ -9,6 +10,19 @@ class NetGuidCache {
   ArchTypeToExportGroup = {};
   FailedPaths = [];
   CleanedPaths = {};
+  _networkGameplayTagNodeIndex = null;
+
+  get NetworkGameplayTagNodeIndex() {
+    if (!this._networkGameplayTagNodeIndex) {
+      const nodeIndex = this.NetFieldExportGroupMap["NetworkGameplayTagNodeIndex"];
+
+      if (nodeIndex !== undefined) {
+        this._networkGameplayTagNodeIndex = nodeIndex;
+      }
+    }
+
+    return this._networkGameplayTagNodeIndex;
+  };
 
   /**
    *
@@ -117,6 +131,16 @@ class NetGuidCache {
     }
 
     return this.NetFieldExportGroupMap[group];
+  }
+
+  tryGetTagName(tagIndex) {
+    if (tagIndex < this.NetworkGameplayTagNodeIndex.netFieldExportsLength) {
+      if (this.NetworkGameplayTagNodeIndex.netFieldExports[tagIndex]) {
+        return this.NetworkGameplayTagNodeIndex.netFieldExports[tagIndex].name;
+      }
+    }
+
+    return '';
   }
 }
 

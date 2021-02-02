@@ -31,6 +31,8 @@ class NetFieldParser {
       }
     });
 
+    exportGroup.type = group.pathName.split('/').pop();
+
     return exportGroup;
   }
 

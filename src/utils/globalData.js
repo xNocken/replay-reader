@@ -14,7 +14,19 @@ const globalData = {
    * @type {DataBunch}
    */
   partialBunch: null,
+  parseLevel: 1, // TODO: make config
   inReliable: 0,
+  players: [],
+  actorToChannel: [],
+  channelToActor: [],
+  pawnChannelToStateChannel: [],
+  queuedPlayerPawns: [],
+  result: {
+    players: [],
+    gameData: {
+      safeZones: [],
+    }
+  }
 };
 
 module.exports = globalData;
