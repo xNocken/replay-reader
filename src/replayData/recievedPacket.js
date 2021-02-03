@@ -104,10 +104,6 @@ const recievedPacket = (packetArchive) => {
       recieveNetGUIDBunch(bunch.archive);
     }
 
-    if (channel && false) {
-      'ähm'
-    }
-
     if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
       continue;
     }

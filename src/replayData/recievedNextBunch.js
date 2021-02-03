@@ -5,13 +5,16 @@ const globalData = require('../utils/globalData');
  * @param {DataBunch} bunch
  */
 const recievedNextBunch = (bunch) => {
+  if (bunch.chIndex === 5721) {
+    console;
+  }
   if (bunch.bReliable) {
     globalData.inReliable = bunch.chSequence;
   }
 
   if (bunch.bPartial) {
     if (bunch.bPartialInital) {
-      if (globalData.partialBunch != null) {
+      if (globalData.partialBunch) {
         if (!globalData.partialBunch.bPartialFinal) {
           if (globalData.partialBunch.bReliable) {
             if (bunch.bReliable) {
@@ -25,7 +28,7 @@ const recievedNextBunch = (bunch) => {
         globalData.partialBunch = null;
       }
 
-      globalData.partialBunch = new DataBunch();
+      globalData.partialBunch = new DataBunch(bunch);
       const bitsLeft = bunch.archive.getBitsLeft();
 
       if (!bunch.bHasPackageExportMaps) {
@@ -40,14 +43,14 @@ const recievedNextBunch = (bunch) => {
     } else {
       let bSequenceMatches = false;
 
-      if (globalData.partialBunch != null) {
+      if (globalData.partialBunch) {
         const bReliableSequencesMatches = bunch.chSequence === globalData.partialBunch.chSequence + 1;
         const bUnreliableSequenceMatches = bReliableSequencesMatches || (bunch.chSequence === globalData.partialBunch.chSequence);
 
         bSequenceMatches = globalData.partialBunch.bReliable ? bReliableSequencesMatches : bUnreliableSequenceMatches;
       }
 
-      if (globalData.partialBunch != null && !globalData.partialBunch.bPartialFinal && bSequenceMatches && globalData.partialBunch.bReliable == bunch.bReliable) {
+      if (globalData.partialBunch && !globalData.partialBunch.bPartialFinal && bSequenceMatches && globalData.partialBunch.bReliable == bunch.bReliable) {
         const bitsLeft = bunch.archive.getBitsLeft();
 
         if (!bunch.bHasPackageExportMaps && bitsLeft > 0) {
@@ -73,7 +76,7 @@ const recievedNextBunch = (bunch) => {
           globalData.partialBunch.bIsReplicationPaused = bunch.bIsReplicationPaused;
           globalData.partialBunch.bhasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
 
-          recievedSequencedBunch(bunch);
+          recievedSequencedBunch(globalData.partialBunch);
           return
         }
         return;

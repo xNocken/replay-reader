@@ -10,17 +10,17 @@
     "UniqueId": {
       "name": "UniqueId",
       "type": "string",
-      "parseFunction": "readId"
+      "parseFunction": "readNetId"
     },
     "PlayerNamePrivate": {
       "name": "PlayerNamePrivate",
       "type": "string",
-      "parseFunction": "readString"
+      "parseFunction": "ignore"
     },
     "bOnlySpectator": {
       "name": "bOnlySpectator",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "Boolean"
     },
     "DeathTags": {
       "name": "DeathTags",

@@ -8,11 +8,12 @@ const parse = async (buffer) => {
   const info = await replayInfo(replay);
   const chunks = await replayChunks(replay);
 
-  globalData
+  globalData.result.players = Object.values(globalData.players);
 
   return {
     info,
     chunks,
+    data: globalData.result,
   };
 }
 

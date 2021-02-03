@@ -17,6 +17,8 @@ const tryGetPlayerDataFromPawn = (pawn) => {
 };
 
 const handlePlayerPawn = (chIndex, pawn) => {
+  let playerState;
+
   if (pawn.PlayerState !== null) {
     const actorId = pawn.PlayerState;
 
@@ -39,23 +41,20 @@ const handlePlayerPawn = (chIndex, pawn) => {
 
       return;
     }
+
+    playerState = players[stateChannelIndex];
+
   } else {
-    const playerState = tryGetPlayerDataFromPawn(chIndex);
+    playerState = tryGetPlayerDataFromPawn(chIndex);
 
     if (!playerState) {
       return;
     }
   }
 
-  if (!result.players[chIndex]) {
-    result.players[chIndex] = pawn;
-
-    return;
-  }
-
   Object.entries(pawn).forEach(([key, value]) => {
     if (value) {
-      result.players[chIndex][key] = value;
+      playerState[key] = value;
     }
   });
 };

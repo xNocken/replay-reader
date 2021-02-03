@@ -14,6 +14,10 @@ const recievedActorBunch = (bunch) => {
     }
   }
 
+  if (bunch.archive.lastBit === 48514) {
+    console;
+  }
+
   processBunch(bunch);
 };
 

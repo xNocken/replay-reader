@@ -1,6 +1,6 @@
 const FRotator = require('./FRotator');
 const FVector = require('./FVector');
-const NetworkGUID = require('./NetworkGUID');
+const NetworkGUID = require('../../Classes/NetworkGUID');
 
 class Actor {
   /**

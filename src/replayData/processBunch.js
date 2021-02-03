@@ -52,7 +52,7 @@ const processBunch = (bunch) => {
 
     channel.actor = inActor;
 
-    onChannelOpened(bunch.chIndex, channel.actor);
+    onChannelOpened(bunch.chIndex, inActor.actorNetGUID);
 
     if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
       const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);

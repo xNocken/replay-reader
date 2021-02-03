@@ -26,7 +26,7 @@ class NetFieldParser {
     let netExport = this.netFieldGroups[group.pathName];
 
     group.netFieldExports.forEach((field) => {
-      if (field && netExport[field.name]) {
+      if (field && netExport[field.name] && netExport[field.name].parseFunction !== 'ignore') {
         exportGroup[field.name] = null;
       }
     });
@@ -70,6 +70,39 @@ class NetFieldParser {
         }
 
         data = dingens;
+        break;
+
+      case 'readDynamicArray':
+        const count = netBitReader.readIntPacked();
+        const arr = [];
+
+        for (let i = 0; i < count; i++) {
+          switch (netFieldInfo.type) {
+            case 'float':
+              arr.push(netBitReader.readFloat32());
+              break;
+
+            case 'int':
+              arr.push(netBitReader.readInt32());
+              break;
+
+            case 'uint':
+              arr.push(netBitReader.readUInt32());
+              break;
+
+            default:
+              const theClass = require(`../../../Classes/${netFieldInfo.type}.js`);
+              const dingens = new theClass();
+              dingens.serialize(netBitReader);
+
+              if (dingens.resolve) {
+                dingens.resolve(netGuidCache);
+              }
+
+              arr.push(dingens);
+              break;
+          }
+        }
         break;
 
       default:

@@ -42,6 +42,12 @@ const handlePlayerState = (chIndex, state) => {
     newPlayer = true;
   }
 
+  Object.entries(state).forEach(([key, value]) => {
+    if (value) {
+      playerData[key] = value;
+    }
+  });
+
   if (newPlayer) {
     handleQueuedPlayerPawns(chIndex);
   }

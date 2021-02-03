@@ -65,7 +65,7 @@ const replayChunks = async (replay) => {
         break;
 
       case 1:
-        chunks.push(await parseReplayData(replay));
+        await parseReplayData(replay);
         break;
 
       case 2:

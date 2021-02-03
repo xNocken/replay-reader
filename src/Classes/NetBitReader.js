@@ -131,12 +131,24 @@ class NetBitReader {
     return this.readBytes(1);
   }
 
+  readInt8() {
+    return this.readBytes(1)[0]
+  }
+
+  readInt16() {
+    return Buffer.from(this.readBytes(2)).readInt16LE()
+  }
+
   readUInt32() {
     return Buffer.from(this.readBytes(4)).readUInt32LE()
   }
 
   readInt32() {
     return Buffer.from(this.readBytes(4)).readInt32LE()
+  }
+
+  readUInt64() {
+    return Buffer.from(this.readBytes(8)).readBigUInt64LE()
   }
 
   readString() {
@@ -187,12 +199,23 @@ class NetBitReader {
   }
 
   getBitsLeft() {
-    return this.lastBit - this.offset + 1;
+    return this.lastBit - this.offset;
   }
 
+  /**
+   *
+   * @param {Buffer} data
+   * @param {number} bitCount
+   */
   appendDataFromChecked(data, bitCount) {
-    this.buffer = Buffer.from(this.buffer.toString('hex') + data.toString('hex'), 'hex');
-    this.lastBit = bitCount;
+    const newBuffer = Buffer.from({ length: data.length + this.buffer.length });
+
+    this.buffer.copy(newBuffer);
+    data.copy(newBuffer, this.buffer.length);
+
+    this.buffer = newBuffer;
+
+    this.lastBit += bitCount;
   }
 
   readUInt16() {
@@ -215,6 +238,54 @@ class NetBitReader {
     return Buffer.from(this.readBytes(16)).toString('hex');
   }
 
+  /**
+   * Read an id
+   * @returns {string} the id
+   */
+  readNetId() {
+    const typeHashOther = 31;
+    const encodingFlags = this.readByte()[0];
+
+    let encoded = false;
+
+    if ((encodingFlags & 1) === 1) {
+      encoded = true;
+
+      if ((encodingFlags & 2) === 2) {
+        return "";
+      }
+    }
+
+    const typeHash = encodingFlags & 248;
+
+    if (typeHash == 0) {
+      return 'NULL';
+    }
+
+    let bValidHashType = typeHash != 0;
+    let typeString = '';
+
+    if (typeHash === typeHashOther) {
+      typeString = this.readString();
+
+      if (typeString === 'None') {
+        bValidHashType = false;
+      }
+    }
+
+    if (bValidHashType) {
+      if (encoded) {
+        const encodedSize = this.readByte()[0];
+
+        return Buffer.from(this.readBytes(encodedSize)).toString('hex');
+      }
+
+      return this.readString();
+    }
+
+    return "";
+  }
+
 
   readVector() {
     return new FVector(this.readFloat32(), this.readFloat32(), this.readFloat32());
@@ -222,6 +293,14 @@ class NetBitReader {
 
   readPackedVector100() {
     return this.readPackedVector(100, 30);
+  }
+
+  readPackedVector10() {
+    return this.readPackedVector(10, 24);
+  }
+
+  readPackedVector1() {
+    return this.readPackedVector(1, 24);
   }
 
   readPackedVector(scaleFactor, maxBits) {

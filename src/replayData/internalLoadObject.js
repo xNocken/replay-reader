@@ -1,4 +1,4 @@
-const NetworkGUID = require('../Classes/NetworkGUID');
+const NetworkGUID = require('../../Classes/NetworkGUID');
 const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
 const removePathPrefix = require('../utils/removePathPrefix');

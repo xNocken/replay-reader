@@ -1,4 +1,4 @@
-const NetworkGUID = require("../src/Classes/NetworkGUID");
+const NetworkGUID = require("./NetworkGUID");
 
 class ActorGuid extends NetworkGUID {
 

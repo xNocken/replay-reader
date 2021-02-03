@@ -67,6 +67,9 @@ const receiveProperties = (archive, group, channelIndex, enableProperyChecksum =
     try {
       const cmdReader = new NetBitReader(archive.readBits(numbits), numbits);
 
+      cmdReader.header = archive.header;
+      cmdReader.info = archive.info;
+
       netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader);
     } catch (ex) {
       console.log(ex.message);

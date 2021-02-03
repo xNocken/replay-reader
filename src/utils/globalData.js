@@ -16,7 +16,7 @@ const globalData = {
   partialBunch: null,
   parseLevel: 1, // TODO: make config
   inReliable: 0,
-  players: [],
+  players: {},
   actorToChannel: [],
   channelToActor: [],
   pawnChannelToStateChannel: [],
@@ -25,8 +25,9 @@ const globalData = {
     players: [],
     gameData: {
       safeZones: [],
-    }
-  }
+    },
+    gameState: {},
+  },
 };
 
 module.exports = globalData;

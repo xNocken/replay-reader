@@ -2,6 +2,7 @@ const NetBitReader = require('../Classes/NetBitReader');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
+const fs = require('fs');
 const readNetFieldExport = require('./readNetFieldExport');
 
 /**
@@ -19,6 +20,7 @@ const readNetFieldExports = (replay) => {
     if (isExported) {
       const pathname = replay.readString();
       const numExports = replay.readIntPacked();
+      fs.appendFileSync('ok.txt', pathname + '\n');
 
       group = netGuidCache.NetFieldExportGroupMap[pathname];
       if (!group) {
@@ -33,10 +35,6 @@ const readNetFieldExports = (replay) => {
     } else {
       group = netGuidCache.GetNetFieldExportGroupFromIndex(pathNameIndex);
     }
-
-    const bitArchive = new NetBitReader(replay.buffer, replay.buffer.length * 8);
-    bitArchive.offset = replay.offset * 8;
-    bitArchive.header = replay.header;
 
     const netField = readNetFieldExport(replay);
 
