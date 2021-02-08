@@ -155,6 +155,7 @@ class NetBitReader {
     const length = this.readInt32();
 
     if (!this.canRead(length)) {
+      this.isError = true;
       return '';
     }
 
