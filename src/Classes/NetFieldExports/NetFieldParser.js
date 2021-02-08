@@ -3,11 +3,12 @@ const netGuidCache = require('../../utils/netGuidCache');
 
 class NetFieldParser {
   netFieldGroups = {};
+  classNetCacheToNetFieldGroup = {};
 
   constructor() {
-    fs.readdirSync('NetFieldExports').forEach((path) => {
+    fs.readdirSync(`${module.path}/../../../NetFieldExports`).forEach((path) => {
       try {
-        const fieldExport = JSON.parse(fs.readFileSync(`NetFieldExports/${path}`));
+        const fieldExport = JSON.parse(fs.readFileSync(`${module.path}/../../../NetFieldExports/${path}`));
 
         this.netFieldGroups[fieldExport.path] = fieldExport.properties;
       } catch (_) {
@@ -111,6 +112,16 @@ class NetFieldParser {
     }
 
     obj[netFieldInfo.name] = data;
+  }
+
+  tryGetClassNetCacheProperty(property, group) {
+    const groupInfo = this.netFieldGroups[group];
+
+    if (!groupInfo) {
+      return false;
+    }
+
+    return groupInfo[property];
   }
 }
 

@@ -1,0 +1,13 @@
+{
+  "path": "Athena_GameState_C_ClassNetCache",
+  "parseLevel": 1,
+  "type": "ClassNetCache",
+  "properties": {
+    "CurrentPlaylistInfo": {
+      "name": "CurrentPlaylistInfo",
+      "type": "PlaylistInfo",
+      "isFunction": false,
+      "isCustomStruct": true
+    }
+  }
+}

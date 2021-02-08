@@ -249,8 +249,8 @@
     },
     "LastReplicatedEmoteExecuted": {
       "name": "LastReplicatedEmoteExecuted",
-      "type": "ItemDefinition",
-      "parseFunction": "readProperty"
+      "type": "int",
+      "parseFunction": "readInt32"
     },
     "bCanBeInterrupted": {
       "name": "bCanBeInterrupted",

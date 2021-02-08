@@ -20,7 +20,6 @@ const readNetFieldExports = (replay) => {
     if (isExported) {
       const pathname = replay.readString();
       const numExports = replay.readIntPacked();
-      fs.appendFileSync('ok.txt', pathname + '\n');
 
       group = netGuidCache.NetFieldExportGroupMap[pathname];
       if (!group) {

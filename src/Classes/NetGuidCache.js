@@ -10,6 +10,7 @@ class NetGuidCache {
   ArchTypeToExportGroup = {};
   FailedPaths = [];
   CleanedPaths = {};
+  CleanedClassNetCache = {};
   _networkGameplayTagNodeIndex = null;
 
   get NetworkGameplayTagNodeIndex() {
@@ -141,6 +142,21 @@ class NetGuidCache {
     }
 
     return '';
+  }
+
+  tryGetClassNetCache(group, useFullName) {
+    if (!group) {
+      return false;
+    }
+
+    let classNetCachePath = this.CleanedClassNetCache[group];
+
+    if (!classNetCachePath) {
+      classNetCachePath = useFullName ? `${group}_ClassNetCache` : `${removePathPrefix(group)}_ClassNetCache`;
+      this.CleanedClassNetCache[group] = classNetCachePath;
+    }
+
+    return this.NetFieldExportGroupMap[classNetCachePath];
   }
 }
 

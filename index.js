@@ -14,7 +14,7 @@ const parse = async (buffer) => {
   return {
     info,
     chunks,
-    data: globalData.result,
+    ...globalData.result,
   };
 }
 

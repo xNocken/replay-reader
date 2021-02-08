@@ -2,7 +2,9 @@ const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
 const UChannel = require('../Classes/UChannel');
 
-const globalData = {
+// TODO: make this better
+
+const globalDataDefault = () => ({
   /**
    * @type {Array<UChannel>}
    */
@@ -26,12 +28,15 @@ const globalData = {
     players: [],
     gameData: {
       safeZones: [],
+      playlistInfo: null,
     },
     mapData: {
       pickups: [],
     },
     gameState: {},
   },
-};
+});
+
+let globalData = globalDataDefault();
 
 module.exports = globalData;
