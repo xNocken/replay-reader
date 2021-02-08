@@ -20,7 +20,7 @@
     "bOnlySpectator": {
       "name": "bOnlySpectator",
       "type": "boolean",
-      "parseFunction": "Boolean"
+      "parseFunction": "readBoolean"
     },
     "DeathTags": {
       "name": "DeathTags",

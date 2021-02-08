@@ -1,3 +1,4 @@
+const handleFortPickup = require("./FortPickup");
 const handlePlayerState = require("./FortPlayerState");
 const handleGameState = require("./GameState");
 const handlePlayerPawn = require("./PlayerPawn");
@@ -19,6 +20,10 @@ const onExportRead = (chIndex, value) => {
 
     case 'Athena_GameState.Athena_GameState_C':
       handleGameState(chIndex, value);
+      break;
+
+    case 'FortniteGame.FortPickupAthena':
+      handleFortPickup(chIndex, value);
       break;
   }
 };

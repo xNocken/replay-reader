@@ -21,10 +21,14 @@ const globalData = {
   channelToActor: [],
   pawnChannelToStateChannel: [],
   queuedPlayerPawns: [],
+  pickups: {},
   result: {
     players: [],
     gameData: {
       safeZones: [],
+    },
+    mapData: {
+      pickups: [],
     },
     gameState: {},
   },

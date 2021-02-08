@@ -9,6 +9,7 @@ const parse = async (buffer) => {
   const chunks = await replayChunks(replay);
 
   globalData.result.players = Object.values(globalData.players);
+  globalData.result.mapData.pickups = Object.values(globalData.pickups);
 
   return {
     info,
