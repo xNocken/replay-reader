@@ -2,7 +2,7 @@ class FDateTime {
   time;
 
   serialize(reader) {
-    this.time = new Date(parseInt(reader.readUInt64()), 10); // TODO: Fix
+    this.time = new Date(parseInt((reader.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
   }
 }
 

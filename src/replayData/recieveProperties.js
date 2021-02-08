@@ -71,6 +71,10 @@ const receiveProperties = (archive, group, channelIndex, enableProperyChecksum =
       cmdReader.info = archive.info;
 
       netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader);
+
+      if (cmdReader.isError || cmdReader.atEnd() || archive.atEnd()) {
+        break;
+      }
     } catch (ex) {
       console.log(ex.message);
     }
