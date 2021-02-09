@@ -22,6 +22,7 @@ class DataBunch {
   bHasMustBeMappedGUIDs;
   bIgnoreRPCs;
   closeReason;
+  timeSeconds;
 
   constructor (inBunch) {
     if (!inBunch) {
@@ -46,6 +47,7 @@ class DataBunch {
     this.bHasMustBeMappedGUIDs = inBunch.bHasMustBeMappedGUIDs;
     this.bIgnoreRPCs = inBunch.bIgnoreRPCs;
     this.closeReason = inBunch.closeReason;
+    this.timeSeconds = inBunch.timeSeconds;
   }
 }
 

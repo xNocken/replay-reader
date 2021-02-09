@@ -14,7 +14,7 @@ let bunchIndex = 0;
  *
  * @param {NetBitReader} packetArchive
  */
-const recievedPacket = (packetArchive) => {
+const recievedPacket = (packetArchive, timeSeconds) => {
   const OLD_MAX_ACTOR_CHANNELS = 10240;
 
   inPacketId++;
@@ -24,7 +24,9 @@ const recievedPacket = (packetArchive) => {
       var isAckDummy = packetArchive.readBit();
     }
 
-    const bunch = new DataBunch()
+    const bunch = new DataBunch();
+
+    bunch.timeSeconds = timeSeconds;
 
     const bControl = packetArchive.readBit();
     bunch.packetId = inPacketId;

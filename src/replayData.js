@@ -66,6 +66,8 @@ const parsePlaybackPackets = (replay) => {
 
     const packet = readPacket(replay);
 
+    packet.timeSeconds = timeSeconds;
+
     packets.push(packet);
 
     done = packet.state;
@@ -97,7 +99,7 @@ const recievedRawPacket = (packet, replay) => {
   packetArchive.info = replay.info;
 
   try {
-    recievedPacket(packetArchive);
+    recievedPacket(packetArchive, packet.timeSeconds);
   } catch (ex) {
     console.log(ex);
   }

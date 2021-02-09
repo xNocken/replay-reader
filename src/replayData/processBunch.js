@@ -27,6 +27,8 @@ const processBunch = (bunch) => {
 
     inActor.actorNetGUID = internalLoadObject(bunch.archive, false);
 
+    netGuidCache.addActor(inActor);
+
     if (bunch.archive.atEnd() && inActor.actorNetGUID.isDynamic()) {
       return;
     }

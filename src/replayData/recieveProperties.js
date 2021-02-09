@@ -1,3 +1,4 @@
+const DataBunch = require('../Classes/DataBunch');
 const NetBitReader = require('../Classes/NetBitReader');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const { channels, netFieldParser } = require('../utils/globalData');
@@ -7,12 +8,13 @@ const onExportRead = require('./export/onExportRead');
  *
  * @param {NetBitReader} archive
  * @param {NetFieldExportGroup} group
- * @param {number} channelIndex
+ * @param {DataBunch} bunch
  * @param {boolean} enableProperyChecksum
  * @param {boolean} netDeltaUpdate
  */
-const receiveProperties = (archive, group, channelIndex, enableProperyChecksum = true, netDeltaUpdate = false) => {
+const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false) => {
   let exportGroup;
+  const channelIndex = bunch.chIndex;
 
   if (channels[channelIndex].isIgnoringChannel(group.pathName)) {
     return false;
@@ -77,7 +79,7 @@ const receiveProperties = (archive, group, channelIndex, enableProperyChecksum =
   }
 
   if (!netDeltaUpdate && hasData) {
-    onExportRead(channelIndex, exportGroup);
+    onExportRead(channelIndex, exportGroup, bunch.timeSeconds);
   }
 
   return true;

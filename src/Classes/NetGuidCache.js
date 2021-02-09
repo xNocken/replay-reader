@@ -1,5 +1,6 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const removePathPrefix = require('../utils/removePathPrefix');
+const Actor = require('./Actor');
 const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
 
 class NetGuidCache {
@@ -12,6 +13,7 @@ class NetGuidCache {
   CleanedPaths = {};
   CleanedClassNetCache = {};
   _networkGameplayTagNodeIndex = null;
+  actorIdToActorMap = [];
 
   get NetworkGameplayTagNodeIndex() {
     if (!this._networkGameplayTagNodeIndex) {
@@ -157,6 +159,18 @@ class NetGuidCache {
     }
 
     return this.NetFieldExportGroupMap[classNetCachePath];
+  }
+
+  /**
+   *
+   * @param {Actor} inActor
+   */
+  addActor(inActor) {
+    this.actorIdToActorMap[inActor.actorNetGUID.value] = inActor;
+  }
+
+  tryGetActorById(netGuid) {
+    return this.actorIdToActorMap[netGuid];
   }
 }
 

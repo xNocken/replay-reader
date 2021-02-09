@@ -21,7 +21,7 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout) => {
   }
 
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFielExportGroup, bunch.chIndex)) {
+    if (!receiveProperties(archive, netFielExportGroup, bunch)) {
       return false;
     }
   }
