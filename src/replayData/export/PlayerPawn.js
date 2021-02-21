@@ -2,8 +2,10 @@ const {
   players,
   actorToChannel,
   pawnChannelToStateChannel,
-  queuedPlayerPawns
+  queuedPlayerPawns,
+  channelToActor,
 } = require("../../utils/globalData");
+const netGuidCache = require("../../utils/netGuidCache");
 
 const tryGetPlayerDataFromPawn = (pawn) => {
   const stateChannel = pawnChannelToStateChannel[pawn];
@@ -51,8 +53,9 @@ const handlePlayerPawn = (chIndex, pawn) => {
     }
   }
 
+  playerState.actor = netGuidCache.tryGetActorById(channelToActor[chIndex]);
   Object.entries(pawn).forEach(([key, value]) => {
-    if (value) {
+    if (value !== null) {
       playerState[key] = value;
     }
   });

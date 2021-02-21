@@ -1,5 +1,6 @@
 const NetBitReader = require('../Classes/NetBitReader');
 const internalLoadObject = require('./internalLoadObject');
+const receiveNetFieldExportsCompat = require('./receiveNetFieldExportsCompat');
 
 /**
  * @param {NetBitReader} packet

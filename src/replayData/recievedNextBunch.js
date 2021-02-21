@@ -5,9 +5,6 @@ const globalData = require('../utils/globalData');
  * @param {DataBunch} bunch
  */
 const recievedNextBunch = (bunch) => {
-  if (bunch.chIndex === 5721) {
-    console;
-  }
   if (bunch.bReliable) {
     globalData.inReliable = bunch.chSequence;
   }

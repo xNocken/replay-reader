@@ -4,6 +4,8 @@ const NetBitReader = require('../Classes/NetBitReader');
 /**
  * @param {NetBitReader} archive
  * @param {FVector} defaultVector
+ *
+ * @returns {FVector}
  */
 const conditionallySerializeQuantizedVector = (archive, defaultVector) => {
   const bWasSerialized = archive.readBit();

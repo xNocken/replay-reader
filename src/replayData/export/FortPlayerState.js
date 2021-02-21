@@ -43,7 +43,7 @@ const handlePlayerState = (chIndex, state) => {
   }
 
   Object.entries(state).forEach(([key, value]) => {
-    if (value) {
+    if (value !== null) {
       playerData[key] = value;
     }
   });

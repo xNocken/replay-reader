@@ -12,10 +12,10 @@
       "type": "boolean",
       "parseFunction": "readBoolean"
     },
-    "bReplicatedMovement": {
-      "name": "bReplicatedMovement",
+    "bReplicateMovement": {
+      "name": "bReplicateMovement",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "ignore"
     },
     "bTearOff": {
       "name": "bTearOff",
@@ -34,12 +34,12 @@
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
-      "type": "Ignore",
-      "parseFunction": "ignore"
+      "type": "FRepMovement",
+      "parseFunction": "readProperty"
     },
     "AttachParent": {
-      "name": "ReplicatedMovement",
-      "type": "AttachParent",
+      "name": "AttachParent",
+      "type": "Ignore",
       "parseFunction": "ignore"
     },
     "LocationOffset": {
