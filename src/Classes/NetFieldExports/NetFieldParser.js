@@ -4,6 +4,7 @@ const netGuidCache = require('../../utils/netGuidCache');
 class NetFieldParser {
   netFieldGroups = {};
   classNetCacheToNetFieldGroup = {};
+  theClassCache = {};
 
   constructor() {
     fs.readdirSync(`${module.path}/../../../NetFieldExports`).forEach((path) => {
@@ -26,12 +27,6 @@ class NetFieldParser {
 
     let netExport = this.netFieldGroups[group.pathName];
 
-    group.netFieldExports.forEach((field) => {
-      if (field && netExport[field.name] && netExport[field.name].parseFunction !== 'ignore') {
-        exportGroup[field.name] = null;
-      }
-    });
-
     exportGroup.type = group.pathName.split('/').pop();
 
     return exportGroup;
@@ -50,7 +45,7 @@ class NetFieldParser {
       return false;
     }
 
-    this.setType(obj, exportGroup, netFieldInfo, netBitReader);
+    return this.setType(obj, exportGroup, netFieldInfo, netBitReader);
   }
 
   setType(obj, exportGroup, netFieldInfo, netBitReader) {
@@ -59,10 +54,15 @@ class NetFieldParser {
     switch (netFieldInfo.parseFunction) {
       case 'ignore':
         data = undefined;
-        break;
+        return false;
 
       case 'readProperty':
-        const theClass = require(`../../../Classes/${netFieldInfo.type}.js`);
+        if (!this.theClassCache[netFieldInfo.type]) {
+          this.theClassCache[netFieldInfo.type] = require(`../../../Classes/${netFieldInfo.type}.js`);
+        }
+
+        const theClass = this.theClassCache[netFieldInfo.type];
+
         const dingens = new theClass();
         dingens.serialize(netBitReader);
 
@@ -112,6 +112,7 @@ class NetFieldParser {
     }
 
     obj[netFieldInfo.name] = data;
+    return true;
   }
 
   tryGetClassNetCacheProperty(property, group) {

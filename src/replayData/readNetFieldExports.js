@@ -4,6 +4,7 @@ const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
 const fs = require('fs');
 const readNetFieldExport = require('./readNetFieldExport');
+const { netFieldParser } = require('../utils/globalData');
 
 /**
  * I hope i find out what it does, when its finished
@@ -29,7 +30,7 @@ const readNetFieldExports = (replay) => {
         group.netFieldExportsLength = numExports;
 
         group.netFieldExports = [];
-        netGuidCache.addToExportGroupMap(pathname, group);
+        netGuidCache.addToExportGroupMap(pathname, group, netFieldParser);
       }
     } else {
       group = netGuidCache.GetNetFieldExportGroupFromIndex(pathNameIndex);

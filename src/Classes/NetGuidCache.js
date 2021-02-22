@@ -14,6 +14,7 @@ class NetGuidCache {
   CleanedClassNetCache = {};
   _networkGameplayTagNodeIndex = null;
   actorIdToActorMap = [];
+  netguidToNetFieldExportgroup = [];
 
   get NetworkGameplayTagNodeIndex() {
     if (!this._networkGameplayTagNodeIndex) {
@@ -32,9 +33,13 @@ class NetGuidCache {
    * @param {string} group
    * @param {NetFieldExportGroup} exportGroup
    */
-  addToExportGroupMap(group, exportGroup) {
+  addToExportGroupMap(group, exportGroup, netFieldParser) {
     if (group.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
+    }
+
+    if (group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.willReadType(exportGroup.pathName)) { // TODO: keep this in the eye
+      return;
     }
 
     this.NetFieldExportGroupMap[group] = exportGroup;
@@ -46,16 +51,17 @@ class NetGuidCache {
   }
 
   GetNetFieldExportGroup(netguid) {
+    if (this.netguidToNetFieldExportgroup[netguid] !== undefined) {
+      return this.netguidToNetFieldExportgroup[netguid];
+    }
+
     let group = this.ArchTypeToExportGroup[netguid];
 
     if (!group) {
       const path = this.NetGuidToPathName[netguid];
 
       if (!path) {
-        return null;
-      }
-
-      if (this.FailedPaths.includes(netguid)) {
+        this.netguidToNetFieldExportgroup[netguid] = null;
         return null;
       }
 
@@ -63,23 +69,22 @@ class NetGuidCache {
 
       if (group) {
         this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];
+        this.netguidToNetFieldExportgroup[netguid] = group;
+        
         return group;
       }
 
       let returnValue;
+      const NetFieldExportGroupMapEntries = Object.entries(this.NetFieldExportGroupMap);
 
-      Object.entries(this.NetFieldExportGroupMap).forEach((groupPathKvp) => {
-        if (returnValue) {
-          return;
-        }
+      for (let i = 0; i < NetFieldExportGroupMapEntries.length; i++) {
+        const [groupPath, value] = NetFieldExportGroupMapEntries[i];
 
-        const groupPath = groupPathKvp[0];
-
-        let groupPathFixed = this.CleanedPaths[groupPathKvp[1].pathNameIndex];
+        let groupPathFixed = this.CleanedPaths[value.pathNameIndex];
 
         if (!groupPathFixed) {
           groupPathFixed = removePathPrefix(groupPath);
-          this.CleanedPaths[groupPathKvp[1].pathNameIndex] = groupPathFixed;
+          this.CleanedPaths[value.pathNameIndex] = groupPathFixed;
         }
 
         if (path.includes(groupPathFixed)) {
@@ -87,23 +92,22 @@ class NetGuidCache {
           this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMap[groupPath];
 
           returnValue = this.NetFieldExportGroupMap[groupPath];
+
+          break;
         }
-      });
+      }
 
       if (returnValue) {
+        this.netguidToNetFieldExportgroup[netguid] = returnValue;
         return returnValue;
       }
 
       const cleanedPath = cleanPathSuffix(path);
 
-      Object.entries(this.NetFieldExportGroupMap).forEach((groupPathKvp) => {
-        if (returnValue) {
-          return;
-        }
+      for (let i = 0; i < NetFieldExportGroupMapEntries.length; i++) {
+        const [groupPath, value] = NetFieldExportGroupMapEntries[i];
 
-        const [groupPath] = groupPathKvp;
-
-        const groupPathFixed = this.CleanedPaths[groupPathKvp[1].PathNameIndex];
+        const groupPathFixed = this.CleanedPaths[value.PathNameIndex];
 
         if (groupPathFixed) {
           if (this.groupPathFixed.includes(cleanedPath)) {
@@ -111,17 +115,23 @@ class NetGuidCache {
             this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMap[groupPath];
 
             returnValue =  this.NetFieldExportGroupMap[groupPath];
+
+            break;
           }
         }
-      });
+      }
 
       if (returnValue) {
+        this.netguidToNetFieldExportgroup[netguid] = returnValue;
         return returnValue;
       }
 
       this.FailedPaths.push(path);
+      this.netguidToNetFieldExportgroup[netguid] = null;
       return null;
     }
+
+    this.netguidToNetFieldExportgroup[netguid] = group;
 
     return group;
   }

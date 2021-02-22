@@ -72,7 +72,9 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       cmdReader.header = archive.header;
       cmdReader.info = archive.info;
 
-      netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader);
+      if (!netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader)) {
+        exportt.incompatible = true;
+      }
     } catch (ex) {
       console.log(ex.message);
     }

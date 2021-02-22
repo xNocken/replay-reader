@@ -49,7 +49,7 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout) => {
 
     const { outField: fieldCache, reader } = result;
 
-    if (fieldCache === null || fieldCache.incompatible || reader === null || reader.isError || reader.atEnd()) {
+    if (!fieldCache || fieldCache.incompatible || !reader || reader.isError || reader.atEnd()) {
       continue;
     }
 

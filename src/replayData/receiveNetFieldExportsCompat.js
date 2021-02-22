@@ -1,4 +1,5 @@
 const NetBitReader = require('../Classes/NetBitReader');
+const { netFieldParser } = require('../utils/globalData');
 const netGuidCache = require('../utils/netGuidCache');
 const readNetFieldExport = require('./readNetFieldExport');
 
@@ -28,7 +29,7 @@ const receiveNetFieldExportsCompat = (packet) => {
         group.netFieldExportsLength = numExports;
 
         group.netFieldExports = [];
-        netGuidCache.addToExportGroupMap(pathName, group);
+        netGuidCache.addToExportGroupMap(pathName, group, netFieldParser);
       }
     } else {
       group = netGuidCache.getNetFieldExportGroupFromIndex(pathNameIndex);

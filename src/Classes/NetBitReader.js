@@ -7,13 +7,13 @@ class NetBitReader {
   /**
    * @type {number}
    */
-  offset = 0;
+  offset;
   /**
    * @type {Header}
    */
   header;
   info;
-  isError = false;
+  isError;
 
   constructor(input, bitCount) {
     /**
@@ -21,6 +21,8 @@ class NetBitReader {
      */
     this.buffer = input;
     this.lastBit = bitCount || this.buffer.length * 8;
+    this.offset = 0;
+    this.isError = false;
   }
 
   /**
@@ -33,7 +35,9 @@ class NetBitReader {
       return false;
     }
 
-    let value = this.buffer[Math.floor(this.offset / 8)] >> (this.offset % 8) & 1;
+    const byteOffset = ~~(this.offset / 8); // ~~ = math.floor
+
+    let value = this.buffer[byteOffset] >> (this.offset % 8) & 1;
 
     this.offset += 1;
 
@@ -43,9 +47,14 @@ class NetBitReader {
   readBits(count) {
     const buffer = Buffer.from({ length: Math.ceil(count / 8) });
 
+    let byteOffset;
+
     for (let i = 0; i < count; i++) {
-      const byteOffset = Math.floor(i / 8);
       const bitOffset = i % 8;
+      
+      if (bitOffset == 0) {
+        byteOffset = ~~(i / 8); 
+      }
 
       if (this.readBit()) {
         buffer[byteOffset] |= (1 << bitOffset);
@@ -94,7 +103,7 @@ class NetBitReader {
     let bitCountLeftInByte = 8 - (this.offset % 8);
     let srcMaskByte0 = ((1 << bitCountLeftInByte) - 1);
     let srcMaskByte1 = ((1 << bitCountUsedInByte) - 1);
-    let srcIndex = Math.floor(this.offset / 8);
+    let srcIndex = ~~(this.offset / 8); // ~~ = math.floor
     let nextSrcIndex = bitCountUsedInByte != 0 ? srcIndex + 1 : srcIndex;
 
     let value = 0;
@@ -124,7 +133,19 @@ class NetBitReader {
   }
 
   readBytes(byteCount) {
-    return this.readBits(byteCount * 8);
+    const arr = [];
+
+    if ((this.offset % 8) === 0) {
+      while (byteCount) {
+        arr.push(this.buffer[this.offset / 8]);
+        byteCount -= 1;
+        this.offset += 8;
+      }
+
+      return Buffer.from(arr);
+    } else {
+      return this.readBits(byteCount * 8);
+    }
   }
 
   readByte() {
@@ -228,7 +249,9 @@ class NetBitReader {
   }
 
   readFloat32() {
-    return Buffer.from(this.readBytes(4)).readFloatLE(0);
+    const hi = this.readBytes(4);
+    const result = Buffer.from(hi).readFloatLE(0);
+    return result;
   }
 
   /**

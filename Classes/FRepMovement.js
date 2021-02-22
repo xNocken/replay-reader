@@ -15,7 +15,7 @@ class FRepMovement {
    * @param {NetBitReader} reader
    */
   serialize(reader) {
-    const flags = reader.readBits(2);
+    const flags = reader.readBits(2)[0];
     this.bSimulatedPhysicSleep = (flags & (1 << 0)) > 0;
     this.bRepPhysics = (flags & (1 << 1)) > 0;
 

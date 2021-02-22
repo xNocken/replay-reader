@@ -22,7 +22,6 @@ const handleQueuedPlayerPawns = (stateChIndex) => {
 };
 
 const handlePlayerState = (chIndex, state) => {
-  // TODO: find bug for duplicate players
   if (state.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);
     return;

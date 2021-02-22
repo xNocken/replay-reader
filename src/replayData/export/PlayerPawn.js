@@ -20,7 +20,7 @@ const tryGetPlayerDataFromPawn = (pawn) => {
 const handlePlayerPawn = (chIndex, pawn) => {
   let playerState;
 
-  if (pawn.PlayerState !== null) {
+  if (pawn.PlayerState) {
     const actorId = pawn.PlayerState;
 
     let stateChannelIndex = actorToChannel[actorId];
