@@ -5,7 +5,7 @@ const processBunch = require("./processBunch");
  *
  * @param {DataBunch} bunch
  */
-const recievedActorBunch = (bunch) => {
+const recievedActorBunch = (bunch, globalData) => {
   if (bunch.bHasMustBeMappedGUIDs) {
     const numMusteBeMappedGUIDs = bunch.archive.readUInt16();
 
@@ -14,7 +14,7 @@ const recievedActorBunch = (bunch) => {
     }
   }
 
-  processBunch(bunch);
+  processBunch(bunch, globalData);
 };
 
 module.exports = recievedActorBunch;

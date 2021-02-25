@@ -1,6 +1,5 @@
 const DataBunch = require('../Classes/DataBunch');
 const NetBitReader = require('../Classes/NetBitReader');
-const { netFieldParser } = require('../utils/globalData');
 const netGuidCache = require('../utils/netGuidCache');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomProperty = require('./receiveCustomProperty');
@@ -13,15 +12,16 @@ const receiveProperties = require('./recieveProperties');
  * @param {number} repObject
  * @param {boolean} bHasRepLayout
  */
-const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout) => {
+const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
   const netFielExportGroup = netGuidCache.GetNetFieldExportGroup(repObject);
+  const { netFieldParser } = globalData;
 
   if (netFielExportGroup == null) {
     return true;
   }
 
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFielExportGroup, bunch)) {
+    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData)) {
       return false;
     }
   }
@@ -59,11 +59,11 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout) => {
 
     const classNetProperty = netFieldParser.tryGetClassNetCacheProperty(fieldCache.name, classNetCache.pathName);
 
-    if (classNetProperty)  {
+    if (classNetProperty) {
       if (classNetProperty.isFunction) {
         throw Error('RPC not yet implemented');
       } else if (classNetProperty.isCustomStruct) {
-        if (!receiveCustomProperty(reader, classNetProperty, bunch.chIndex, classNetCache.pathName)) {
+        if (!receiveCustomProperty(reader, classNetProperty, bunch.chIndex, classNetCache.pathName, globalData)) {
           continue;
         }
       } else {

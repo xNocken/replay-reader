@@ -12,7 +12,7 @@ let packetIndex = 0;
  * Get packets from the replay
  * @param {Replay} replay the replay
  */
-const parsePlaybackPackets = (replay) => {
+const parsePlaybackPackets = (replay, globalData) => {
   let currentLevelIndex;
 
   if (replay.header.NetworkVersion >= 6) {
@@ -22,7 +22,7 @@ const parsePlaybackPackets = (replay) => {
   const timeSeconds = replay.readFloat32();
 
   if (replay.header.NetworkVersion >= 10) {
-    readExportData(replay);
+    readExportData(replay, globalData);
   }
 
   if (replay.hasLevelStreamingFixes()) {
@@ -32,14 +32,7 @@ const parsePlaybackPackets = (replay) => {
       const levelName = replay.readString();
     }
   } else {
-    const numStreamingLevels = replay.readIntPacked();
-
-    for (let i = 0; i < numStreamingLevels; i++) {
-      const pakageName = replay.readString();
-      const pakageNameToLoad = replay.readString();
-
-      throw Error('FTransform deserialize not implemented');
-    }
+    throw Error('FTransform deserialize not implemented');
   }
 
   if (replay.hasLevelStreamingFixes()) {
@@ -59,7 +52,7 @@ const parsePlaybackPackets = (replay) => {
   const packets = [];
   let done = false;
 
-  while(!done) {
+  while (!done) {
     if (replay.hasLevelStreamingFixes()) {
       replay.readIntPacked();
     }
@@ -79,7 +72,7 @@ const parsePlaybackPackets = (replay) => {
 /**
  * @param {PlaybackPacket} packet
  */
-const recievedRawPacket = (packet, replay) => {
+const recievedRawPacket = (packet, replay, globalData) => {
   let lastByte = packet.data[packet.data.length - 1];
 
   if (lastByte === 0) {
@@ -99,7 +92,7 @@ const recievedRawPacket = (packet, replay) => {
   packetArchive.info = replay.info;
 
   try {
-    recievedPacket(packetArchive, packet.timeSeconds);
+    recievedPacket(packetArchive, packet.timeSeconds, globalData);
   } catch (ex) {
     console.log(ex);
   }
@@ -109,7 +102,7 @@ const recievedRawPacket = (packet, replay) => {
  * Parse the replayData event
  * @param {Replay} replay the replay
  */
-const parseReplayData = async (replay) => {
+const parseReplayData = async (replay, globalData) => {
   let start;
   let end;
   let length;
@@ -139,13 +132,13 @@ const parseReplayData = async (replay) => {
   let index = 0;
 
   while (binaryReplay.buffer.length > binaryReplay.offset) {
-    const playbackPackets = parsePlaybackPackets(binaryReplay);
+    const playbackPackets = parsePlaybackPackets(binaryReplay, globalData);
 
     playbackPackets.forEach((packet, index) => {
       if (packet.state === 0) {
         packetIndex++;
 
-        recievedRawPacket(packet, replay);
+        recievedRawPacket(packet, replay, globalData);
       }
     })
   }

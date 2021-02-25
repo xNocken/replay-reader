@@ -1,11 +1,10 @@
 const DataBunch = require("../Classes/DataBunch");
-const { channels } = require("../utils/globalData");
 const internalLoadObject = require("./internalLoadObject");
 
 /**
  * @param {DataBunch} bunch
  */
-const readContentBlockHeader = (bunch) => {
+const readContentBlockHeader = (bunch, globalData) => {
   let bObjectDeleted = false;
   const bOutHasRepLayout = bunch.archive.readBit();
   const bIsActor = bunch.archive.readBit();
@@ -14,7 +13,7 @@ const readContentBlockHeader = (bunch) => {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
-      repObject: channels[bunch.chIndex].actor.archetype?.value || channels[bunch.chIndex].actor.actorNetGUID.value,
+      repObject: globalData.channels[bunch.chIndex].actor.archetype?.value || globalData.channels[bunch.chIndex].actor.actorNetGUID.value,
     }
   }
 

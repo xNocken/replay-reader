@@ -1,13 +1,10 @@
-const {
-  players,
-  actorToChannel,
-  pawnChannelToStateChannel,
-  queuedPlayerPawns,
-  channelToActor,
-} = require("../../utils/globalData");
 const netGuidCache = require("../../utils/netGuidCache");
 
-const tryGetPlayerDataFromPawn = (pawn) => {
+const tryGetPlayerDataFromPawn = (pawn, globalData) => {
+  const {
+    players,
+    pawnChannelToStateChannel,
+  } = globalData;
   const stateChannel = pawnChannelToStateChannel[pawn];
 
   if (stateChannel) {
@@ -17,7 +14,14 @@ const tryGetPlayerDataFromPawn = (pawn) => {
   return null;
 };
 
-const handlePlayerPawn = (chIndex, pawn) => {
+const handlePlayerPawn = (chIndex, pawn, timeseconds, globalData) => {
+  const {
+    players,
+    actorToChannel,
+    pawnChannelToStateChannel,
+    queuedPlayerPawns,
+    channelToActor,
+  } = globalData;
   let playerState;
 
   if (pawn.PlayerState) {
@@ -46,7 +50,7 @@ const handlePlayerPawn = (chIndex, pawn) => {
     playerState = players[stateChannelIndex];
 
   } else {
-    playerState = tryGetPlayerDataFromPawn(chIndex);
+    playerState = tryGetPlayerDataFromPawn(chIndex, globalData);
 
     if (!playerState) {
       return;

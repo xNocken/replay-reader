@@ -1,13 +1,13 @@
 const NetBitReader = require('../Classes/NetBitReader');
-const { netFieldParser } = require('../utils/globalData');
 const netGuidCache = require('../utils/netGuidCache');
 const readNetFieldExport = require('./readNetFieldExport');
 
 /**
  * @param {NetBitReader} packet
  */
-const receiveNetFieldExportsCompat = (packet) => {
-  const numLayoutCmdLayout = packet.readUInt32();
+const receiveNetFieldExportsCompat = (packet, globalData) => {
+const { netFieldParser } = globalData;
+const numLayoutCmdLayout = packet.readUInt32();
 
   for (let i = 0; i < numLayoutCmdLayout; i++) {
     const pathNameIndex = packet.readIntPacked();

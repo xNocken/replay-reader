@@ -1,9 +1,7 @@
-const { result } = require("../../utils/globalData");
-
-const handleGameState = (chIndex, gameState) => {
+const handleGameState = (chIndex, gameState, timeSeconds, globalData) => {
   Object.entries(gameState).forEach(([key, value]) => {
     if (value !== null) {
-      result.gameState[key] = value;
+      globalData.result.gameState[key] = value;
     }
   });
 };

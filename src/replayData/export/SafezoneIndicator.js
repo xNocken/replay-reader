@@ -1,8 +1,6 @@
-const { result } = require("../../utils/globalData");
-
-const handleSafezone = (chIndex, info) => {
+const handleSafezone = (chIndex, info, timeSeconds, globalData) => {
   if (info.SafeZoneStartShrinkTime && info.SafeZoneFinishShrinkTime) {
-    result.gameData.safeZones.push(info)
+    globalData.result.gameData.safeZones.push(info)
   }
 };
 

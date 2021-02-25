@@ -1,6 +1,6 @@
 {
   "path": "/Script/FortniteGame.FortPickupAthena",
-  "parseLevel": 1,
+  "parseLevel": 2,
   "properties": {
     "bReplicateMovement": {
       "name": "bReplicateMovement",

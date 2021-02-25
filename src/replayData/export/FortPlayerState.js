@@ -1,9 +1,9 @@
-const { players, channelToActor, queuedPlayerPawns } = require("../../utils/globalData");
 const handlePlayerPawn = require("./PlayerPawn");
 
 const onlySpectatingPlayers = [];
 
-const handleQueuedPlayerPawns = (stateChIndex) => {
+const handleQueuedPlayerPawns = (stateChIndex, globalData) => {
+  const {  channelToActor, queuedPlayerPawns } = globalData;
   const actorId = channelToActor[stateChIndex];
 
   if (!actorId) {
@@ -21,7 +21,8 @@ const handleQueuedPlayerPawns = (stateChIndex) => {
   });
 };
 
-const handlePlayerState = (chIndex, state) => {
+const handlePlayerState = (chIndex, state, timeSeconds, globalData) => {
+  const { players } = globalData;
   if (state.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);
     return;
@@ -48,7 +49,7 @@ const handlePlayerState = (chIndex, state) => {
   });
 
   if (newPlayer) {
-    handleQueuedPlayerPawns(chIndex);
+    handleQueuedPlayerPawns(chIndex, globalData);
   }
 };
 

@@ -5,11 +5,11 @@ const receiveNetFieldExportsCompat = require('./receiveNetFieldExportsCompat');
 /**
  * @param {NetBitReader} packet
  */
-const recieveNetGUIDBunch = (packet) => {
+const recieveNetGUIDBunch = (packet, globalData) => {
   const bHasRepLayoutExport = packet.readBit();
 
   if (bHasRepLayoutExport) {
-    receiveNetFieldExportsCompat(packet);
+    receiveNetFieldExportsCompat(packet, globalData);
     return;
   }
 

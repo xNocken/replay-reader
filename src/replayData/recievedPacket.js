@@ -2,10 +2,8 @@ const NetBitReader = require('../Classes/NetBitReader');
 const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
 const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
-const globals = require('../utils/globalData');
 const recievedRawBunch = require('./recievedRawBunch');
 
-const { channels } = globals;
 
 let inPacketId = 0;
 let bunchIndex = 0;
@@ -14,7 +12,8 @@ let bunchIndex = 0;
  *
  * @param {NetBitReader} packetArchive
  */
-const recievedPacket = (packetArchive, timeSeconds) => {
+const recievedPacket = (packetArchive, timeSeconds, globals) => {
+  const { channels } = globals;
   const OLD_MAX_ACTOR_CHANNELS = 10240;
 
   inPacketId++;
@@ -103,7 +102,7 @@ const recievedPacket = (packetArchive, timeSeconds) => {
     bunchIndex++;
 
     if (bunch.bHasPackageExportMaps) {
-      recieveNetGUIDBunch(bunch.archive);
+      recieveNetGUIDBunch(bunch.archive, globals);
     }
 
     if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
@@ -128,7 +127,7 @@ const recievedPacket = (packetArchive, timeSeconds) => {
     }
 
     try {
-      recievedRawBunch(bunch);
+      recievedRawBunch(bunch, globals);
     } catch (ex) {
       console.log(ex);
     }

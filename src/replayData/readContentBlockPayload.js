@@ -6,10 +6,10 @@ const readContentBlockHeader = require('./readContentBlockHeader');
  *
  * @param {DataBunch} bunch
  */
-const readContentBlockPayload = (bunch) => {
+const readContentBlockPayload = (bunch, globalData) => {
   let reader = null;
 
-  let { repObject, bOutHasRepLayout, bObjectDeleted } = readContentBlockHeader(bunch);
+  let { repObject, bOutHasRepLayout, bObjectDeleted } = readContentBlockHeader(bunch, globalData);
 
   if (bObjectDeleted) {
     return {

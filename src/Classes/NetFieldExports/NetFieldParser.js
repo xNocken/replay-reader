@@ -6,16 +6,38 @@ class NetFieldParser {
   classNetCacheToNetFieldGroup = {};
   theClassCache = {};
 
-  constructor() {
-    fs.readdirSync(`${module.path}/../../../NetFieldExports`).forEach((path) => {
-      try {
-        const fieldExport = JSON.parse(fs.readFileSync(`${module.path}/../../../NetFieldExports/${path}`));
+  constructor(globalData) {
+    if (!globalData.onlyUseCustomNetFieldExports) {
+      fs.readdirSync(`${module.path}/../../../NetFieldExports`).forEach((path) => {
+        try {
+          const fieldExport = JSON.parse(fs.readFileSync(`${module.path}/../../../NetFieldExports/${path}`));
 
-        this.netFieldGroups[fieldExport.path] = fieldExport.properties;
-      } catch (_) {
-        console.log(`Error while loading ${path}`)
-      }
-    });
+          if (fieldExport.parseLevel > globalData.parseLevel) {
+            return;
+          }
+
+          this.netFieldGroups[fieldExport.path] = fieldExport.properties;
+        } catch (_) {
+          console.log(`Error while loading ${path}`)
+        }
+      });
+    }
+
+    if (globalData.netFieldExportPath) {
+      fs.readdirSync(globalData.netFieldExportPath).forEach((path) => {
+        try {
+          const fieldExport = JSON.parse(fs.readFileSync(`${globalData.netFieldExportPath}/${path}`));
+
+          if (fieldExport.parseLevel > globalData.parseLevel) {
+            return;
+          }
+
+          this.netFieldGroups[fieldExport.path] = fieldExport.properties;
+        } catch (_) {
+          console.log(`Error while loading ${path}`)
+        }
+      });
+    }
   }
 
   willReadType(group) {

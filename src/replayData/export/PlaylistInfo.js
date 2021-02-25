@@ -1,7 +1,5 @@
-const { result } = require("../../utils/globalData")
-
-const handlePlaylistInfo = (chIndex, data) => {
-  result.gameData.playlistInfo = data.name;
+const handlePlaylistInfo = (chIndex, data, timeSeconds, globalData) => {
+  globalData.result.gameData.playlistInfo = data.name;
 }
 
 module.exports = handlePlaylistInfo;

@@ -6,9 +6,9 @@ const readNetFieldExports = require('./readNetFieldExports');
  * Read the export data :D
  * @param {Replay} replay the replay
  */
-const readExportData = (replay) => {
-  readNetFieldExports(replay);
-  readNetExportGuids(replay);
+const readExportData = (replay, globalData) => {
+  readNetFieldExports(replay, globalData);
+  readNetExportGuids(replay, globalData);
 };
 
 module.exports = readExportData;

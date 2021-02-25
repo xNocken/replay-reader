@@ -1,5 +1,4 @@
 const NetBitReader = require("../Classes/NetBitReader");
-const { netFieldParser } = require("../utils/globalData");
 
 const readFieldHeaderAndPayload = (archive, group) => {
   if (archive.atEnd()) {

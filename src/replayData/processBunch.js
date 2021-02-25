@@ -2,7 +2,6 @@ const Actor = require('../Classes/Actor');
 const DataBunch = require('../Classes/DataBunch');
 const FRotator = require('../Classes/FRotator');
 const FVector = require('../Classes/FVector');
-const { channels, playerControllerGroups } = require('../utils/globalData');
 const netGuidCache = require('../utils/netGuidCache');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
@@ -14,7 +13,8 @@ const recievedReplicatorBunch = require('./recievedReplicatorBunch');
  *
  * @param {DataBunch} bunch
  */
-const processBunch = (bunch) => {
+const processBunch = (bunch, globalData) => {
+  const { channels, playerControllerGroups } = globalData;
   const channel = channels[bunch.chIndex];
   const actor = channel.actor != null;
 
@@ -54,7 +54,7 @@ const processBunch = (bunch) => {
 
     channel.actor = inActor;
 
-    onChannelOpened(bunch.chIndex, inActor.actorNetGUID);
+    onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
 
     if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
       const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);
@@ -66,7 +66,7 @@ const processBunch = (bunch) => {
   }
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bOutHasRepLayout, reader } = readContentBlockPayload(bunch);
+    const { repObject, bObjectDeleted, bOutHasRepLayout, reader } = readContentBlockPayload(bunch, globalData);
 
     if (bObjectDeleted) {
       continue;
@@ -80,7 +80,7 @@ const processBunch = (bunch) => {
       continue;
     }
 
-    if (recievedReplicatorBunch(bunch, reader, repObject, bOutHasRepLayout)) {
+    if (recievedReplicatorBunch(bunch, reader, repObject, bOutHasRepLayout, globalData)) {
       continue;
     }
   }

@@ -1,9 +1,7 @@
-const { actorToChannel, channelToActor } = require("../utils/globalData")
-
-const onChannelOpened = (chIndex, actor) => {
+const onChannelOpened = (chIndex, actor, globalData) => {
   if (actor) {
-    actorToChannel[actor.value] = chIndex;
-    channelToActor[chIndex] = actor.value;
+    globalData.actorToChannel[actor.value] = chIndex;
+    globalData.channelToActor[chIndex] = actor.value;
   }
 }
 

@@ -2,41 +2,47 @@ const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
 const UChannel = require('../Classes/UChannel');
 
-// TODO: make this better
+class GlobalData {
+  constructor(overrideConfig = {}) {
+    /**
+     * @type {Array<UChannel>}
+     */
+    this.channels = [];
+    this.playerControllerGroups = {};
+    this.netFieldExports = {};
+    /**
+     * @type {DataBunch}
+     */
+    this.partialBunch = null;
+    this.parseLevel = 1;
+    this.inReliable = 0;
+    this.players = {};
+    this.actorToChannel = [];
+    this.channelToActor = [];
+    this.pawnChannelToStateChannel = [];
+    this.queuedPlayerPawns = [];
+    this.pickups = {};
+    this.result = {
+      players: [],
+      gameData: {
+        safeZones: [],
+        playlistInfo: null,
+      },
+      mapData: {
+        pickups: [],
+      },
+      gameState: {},
+    };
+    this.onExportRead = null;
+    this.netFieldExportPath = null;
+    this.onlyUseCustomNetFieldExports = false;
 
-const globalDataDefault = () => ({
-  /**
-   * @type {Array<UChannel>}
-   */
-  channels: [],
-  playerControllerGroups: {},
-  netFieldParser: new NetFieldParser(),
-  netFieldExports: {},
-  /**
-   * @type {DataBunch}
-   */
-  partialBunch: null,
-  parseLevel: 1, // TODO: make config
-  inReliable: 0,
-  players: {},
-  actorToChannel: [],
-  channelToActor: [],
-  pawnChannelToStateChannel: [],
-  queuedPlayerPawns: [],
-  pickups: {},
-  result: {
-    players: [],
-    gameData: {
-      safeZones: [],
-      playlistInfo: null,
-    },
-    mapData: {
-      pickups: [],
-    },
-    gameState: {},
-  },
-});
+    Object.entries(overrideConfig).forEach(([key, value]) => {
+      this[key] = value;
+    });
 
-let globalData = globalDataDefault();
+    this.netFieldParser = new NetFieldParser(this);
+  }
+}
 
-module.exports = globalData;
+module.exports = GlobalData;

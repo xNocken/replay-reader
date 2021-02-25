@@ -1,10 +1,10 @@
 const DataBunch = require('../Classes/DataBunch');
 const recievedSequencedBunch = require('./recievedSequenceBunch');
-const globalData = require('../utils/globalData');
+
 /**
  * @param {DataBunch} bunch
  */
-const recievedNextBunch = (bunch) => {
+const recievedNextBunch = (bunch, globalData) => {
   if (bunch.bReliable) {
     globalData.inReliable = bunch.chSequence;
   }
@@ -73,7 +73,7 @@ const recievedNextBunch = (bunch) => {
           globalData.partialBunch.bIsReplicationPaused = bunch.bIsReplicationPaused;
           globalData.partialBunch.bhasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
 
-          recievedSequencedBunch(globalData.partialBunch);
+          recievedSequencedBunch(globalData.partialBunch, globalData);
           return
         }
         return;
@@ -83,7 +83,7 @@ const recievedNextBunch = (bunch) => {
     }
   }
 
-  recievedSequencedBunch(bunch);
+  recievedSequencedBunch(bunch, globalData);
 };
 
 module.exports = recievedNextBunch;
