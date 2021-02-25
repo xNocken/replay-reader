@@ -1,5 +1,7 @@
 {
-  "path": "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C",
+  "path": [
+    "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C"
+  ],
   "parseLevel": 1,
   "properties": {
     "RemoteRole": {

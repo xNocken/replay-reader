@@ -15,8 +15,9 @@ class NetFieldParser {
           if (fieldExport.parseLevel > globalData.parseLevel) {
             return;
           }
-
-          this.netFieldGroups[fieldExport.path] = fieldExport.properties;
+          fieldExport.path.forEach((path) => {
+            this.netFieldGroups[path] = fieldExport;
+          })
         } catch (_) {
           console.log(`Error while loading ${path}`)
         }
@@ -32,7 +33,9 @@ class NetFieldParser {
             return;
           }
 
-          this.netFieldGroups[fieldExport.path] = fieldExport.properties;
+          fieldExport.path.forEach((path) => {
+            this.netFieldGroups[path] = fieldExport;
+          })
         } catch (_) {
           console.log(`Error while loading ${path}`)
         }
@@ -49,7 +52,15 @@ class NetFieldParser {
 
     let netExport = this.netFieldGroups[group.pathName];
 
-    exportGroup.type = group.pathName.split('/').pop();
+    group.netFieldExports.forEach((field) => {
+      if (field && netExport.properties[field.name] && netExport.properties[field.name].parseFunction !== 'ignore') {
+        exportGroup[field.name] = null;
+      }
+    });
+
+    exportGroup.type = netExport.customExportName || group.pathName.split('/').pop();
+
+    exportGroup.pathName = group.pathName;
 
     return exportGroup;
   }
@@ -61,7 +72,7 @@ class NetFieldParser {
       return false;
     }
 
-    const netFieldInfo = netGroupInfo[exportt.name];
+    const netFieldInfo = netGroupInfo.properties[exportt.name];
 
     if (!netFieldInfo) {
       return false;

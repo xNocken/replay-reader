@@ -29,7 +29,7 @@ const numLayoutCmdLayout = packet.readUInt32();
         group.netFieldExportsLength = numExports;
 
         group.netFieldExports = [];
-        netGuidCache.addToExportGroupMap(pathName, group, netFieldParser);
+        netGuidCache.addToExportGroupMap(pathName, group, netFieldParser, globalData);
       }
     } else {
       group = netGuidCache.getNetFieldExportGroupFromIndex(pathNameIndex);

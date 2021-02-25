@@ -33,12 +33,12 @@ class NetGuidCache {
    * @param {string} group
    * @param {NetFieldExportGroup} exportGroup
    */
-  addToExportGroupMap(group, exportGroup, netFieldParser) {
+  addToExportGroupMap(group, exportGroup, netFieldParser, globalData) {
     if (group.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
 
-    if (group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.willReadType(exportGroup.pathName)) { // TODO: keep this in the eye
+    if (!globalData.debug && group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.willReadType(exportGroup.pathName)) { // TODO: keep this in the eye
       return;
     }
 
@@ -70,7 +70,7 @@ class NetGuidCache {
       if (group) {
         this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];
         this.netguidToNetFieldExportgroup[netguid] = group;
-        
+
         return group;
       }
 

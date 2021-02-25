@@ -1,5 +1,7 @@
 {
-  "path": "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C",
+  "path": [
+    "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C"
+  ],
   "parseLevel": 1,
   "properties": {
     "Owner": {

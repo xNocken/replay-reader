@@ -1,5 +1,7 @@
 {
-  "path": "/Script/FortniteGame.FortPlayerStateAthena",
+  "path": [
+    "/Script/FortniteGame.FortPlayerStateAthena"
+  ],
   "parseLevel": 1,
   "properties": {
     "PlayerID": {
@@ -24,6 +26,16 @@
     },
     "DeathTags": {
       "name": "DeathTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    },
+    "VictimTags": {
+      "name": "VictimTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    },
+    "FinisherOrDownerTags": {
+      "name": "FinisherOrDownerTags",
       "type": "FGameplayTagContainer",
       "parseFunction": "readProperty"
     }

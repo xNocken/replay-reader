@@ -1,5 +1,3 @@
-// TODO
-
 const NetBitReader = require("../src/Classes/NetBitReader");
 
 class FRepMovement {

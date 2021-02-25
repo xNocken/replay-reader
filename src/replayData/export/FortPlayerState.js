@@ -17,7 +17,7 @@ const handleQueuedPlayerPawns = (stateChIndex, globalData) => {
   }
 
   playerPawns.forEach((playerPawn) => {
-    handlePlayerPawn(playerPawn.chIndex, playerPawn.playerPawn)
+    handlePlayerPawn(playerPawn.chIndex, playerPawn.playerPawn, 0, globalData)
   });
 };
 

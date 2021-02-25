@@ -1,0 +1,30 @@
+{
+  "path": [
+    "/Game/Building/ActorBlueprints/Containers/Tiered_Chest_Athena.Tiered_Chest_Athena_C",
+    "/Game/Building/ActorBlueprints/Containers/Tiered_Ammo_Athena.Tiered_Ammo_Athena_C"
+  ],
+  "customExportName": "Chests",
+  "parseLevel": 2,
+  "properties": {
+    "bHidden": {
+      "name": "bHidden",
+      "type": "boolean",
+      "parseFunction": "readBoolean"
+    },
+    "bAlreadySearched": {
+      "name": "bAlreadySearched",
+      "type": "boolean",
+      "parseFunction": "readBoolean"
+    },
+    "ReplicatedLootTier": {
+      "name": "ReplicatedLootTier",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "SearchingPawn": {
+      "name": "SearchingPawn",
+      "type": "uint",
+      "parseFunction": "readIntPacket"
+    }
+  }
+}

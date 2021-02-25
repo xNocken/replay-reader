@@ -1,9 +1,13 @@
+const handleChests = require("./Chests");
 const handleFortPickup = require("./FortPickup");
 const handlePlayerState = require("./FortPlayerState");
 const handleGameState = require("./GameState");
+const handlePlayerBuilds = require("./HandlePlayerBuilds");
+const handleValets = require("./HandleValets");
 const handlePlayerPawn = require("./PlayerPawn");
 const handlePlaylistInfo = require("./PlaylistInfo");
 const handleSafezone = require("./SafezoneIndicator");
+const handleSpeedSign = require("./SpeedSign");
 
 const onExportRead = (chIndex, value, timeseconds, globalData) => {
   switch (value.type) {
@@ -31,7 +35,26 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
       handlePlaylistInfo(chIndex, value, timeseconds, globalData);
       break;
 
+    case 'PlayerBuilds':
+      handlePlayerBuilds(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'Valet':
+      handleValets(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'BP_Athena_SpeedSign.BP_Athena_SpeedSign_C':
+      handleSpeedSign(chIndex, value, timeseconds, globalData)
+      break;
+
+    case 'Chests':
+      handleChests(chIndex, value, timeseconds, globalData);
+      break;
+
     default:
+      if (globalData.debug) {
+        console.log('Unhandled export:', value.type)
+      }
       break;
   }
 };

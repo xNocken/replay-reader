@@ -1,5 +1,7 @@
 {
-  "path": "Athena_GameState_C_ClassNetCache",
+  "path": [
+    "Athena_GameState_C_ClassNetCache"
+  ],
   "parseLevel": 1,
   "type": "ClassNetCache",
   "properties": {

@@ -10,7 +10,7 @@ const receiveCustomProperty = (reader, fieldCache, chIndex, pathName, globalData
     dingens.resolve(netGuidCache);
   }
 
-  dingens.type = pathName.split('/').pop();
+  dingens.type = fieldCache.customExportName || pathName.split('/').pop();
 
   if (globalData.onExportRead) {
     globalData.onExportRead(chIndex, dingens, 0, globalData);

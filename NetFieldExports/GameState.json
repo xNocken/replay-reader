@@ -1,5 +1,7 @@
 {
-  "path": "/Game/Athena/Athena_GameState.Athena_GameState_C",
+  "path": [
+    "/Game/Athena/Athena_GameState.Athena_GameState_C"
+  ],
   "parseLevel": 1,
   "properties": {
     "GoldenPoiLocationTags": {

@@ -30,12 +30,20 @@ class GlobalData {
       },
       mapData: {
         pickups: [],
+        playerBuilds: [],
+        speedSigns: [],
+        chests: [],
+        vehicles: {
+          valets: [],
+        }
       },
       gameState: {},
     };
     this.onExportRead = null;
     this.netFieldExportPath = null;
     this.onlyUseCustomNetFieldExports = false;
+
+    this.debug = false;
 
     Object.entries(overrideConfig).forEach(([key, value]) => {
       this[key] = value;

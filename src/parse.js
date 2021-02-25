@@ -3,6 +3,7 @@ const Replay = require('./Classes/Replay');
 const event = require('./event');
 const parseHeader = require('./header');
 const parseReplayData = require('./replayData');
+const GlobalData = require('./utils/globalData');
 
 /**
  * Parse the replays meta
@@ -50,12 +51,16 @@ const replayInfo = (replay) => {
 /**
 * Parse the replays meta
 * @param {Replay} replay the replay
+* @param {GlobalData} globalData globals
 */
 const replayChunks = async (replay, globalData) => {
   const chunks = [];
 
   while (replay.buffer.byteLength > replay.offset) {
-    console.log(100 - ((replay.buffer.length - replay.offset) / replay.buffer.length * 100));
+    if (globalData.debug) {
+      console.log(100 - ((replay.buffer.length - replay.offset) / replay.buffer.length * 100));
+    }
+
     const chunkType = replay.readUInt32();
     const chunkSize = replay.readInt32();
     const startOffset = replay.offset;

@@ -1,7 +1,9 @@
 const DataBunch = require('../Classes/DataBunch');
 const NetBitReader = require('../Classes/NetBitReader');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
+const GlobalData = require('../utils/globalData');
 const onExportRead = require('./export/onExportRead');
+const fs = require('fs');
 
 /**
  *
@@ -10,6 +12,7 @@ const onExportRead = require('./export/onExportRead');
  * @param {DataBunch} bunch
  * @param {boolean} enableProperyChecksum
  * @param {boolean} netDeltaUpdate
+ * @param {GlobalData} globalData
  */
 const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData) => {
   let exportGroup;
@@ -22,6 +25,14 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
 
   if (!netFieldParser.willReadType(group.pathName)) {
     channels[channelIndex].ignoreChannel(group.pathName);
+
+    if (globalData.debug) {
+      fs.appendFileSync('notReadingGroups.txt', group.pathName +'\n');
+
+      group.netFieldExports.forEach((exporttt) =>  {
+        fs.appendFileSync('notReadingGroups.txt', '    ' + exporttt.name + '\n');
+      });
+    }
 
     return false;
   }
