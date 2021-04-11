@@ -24,6 +24,10 @@ class FGameplayTagContainer {
       tag.resolve(cache);
     });
   }
+
+  toJSON() {
+    return this.tags;
+  }
 }
 
 module.exports = FGameplayTagContainer;

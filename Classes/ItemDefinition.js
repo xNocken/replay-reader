@@ -17,6 +17,10 @@ class ItemDefinition extends NetworkGUID {
       }
     }
   }
+
+  toJSON() {
+    return this.name;
+  }
 }
 
 module.exports = ItemDefinition;

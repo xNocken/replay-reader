@@ -1,16 +1,12 @@
 {
   "path": [
-    "/Valet/SportsCar/Valet_SportsCar_Vehicle.Valet_SportsCar_Vehicle_C",
-    "/Valet/BasicCar/Valet_BasicCar_Vehicle.Valet_BasicCar_Vehicle_C",
-    "/Valet/SportsCar/Valet_SportsCar_Vehicle_Upgrade.Valet_SportsCar_Vehicle_Upgrade_C",
-    "/Valet/SportsCar/Valet_SportsCar_Vehicle_Turbo.Valet_SportsCar_Vehicle_Turbo_C",
-    "/Valet/TaxiCab/Valet_TaxiCab_Vehicle.Valet_TaxiCab_Vehicle_C",
-    "/Valet/BasicTruck/Valet_BasicTruck_Vehicle.Valet_BasicTruck_Vehicle_C",
-    "/Valet/BigRig/Valet_BigRig_Vehicle.Valet_BigRig_Vehicle_C",
-    "/Valet/BigRig/Valet_BigRig_Vehicle_Upgrade.Valet_BigRig_Vehicle_Upgrade_C",
-    "/Valet/BasicTruck/Valet_BasicTruck_Vehicle_Upgrade.Valet_BasicTruck_Vehicle_Upgrade_C",
-    "/Valet/BasicCar/Valet_BasicCar_Vehicle_Upgrade.Valet_BasicCar_Vehicle_Upgrade_C"
+    "/Valet/BasicCar",
+    "/Valet/BasicTruck",
+    "/Valet/BigRig/",
+    "/Valet/SportsCar",
+    "/Valet/TaxiCab"
   ],
+  "partialPath": true,
   "customExportName": "Valet",
   "parseLevel": 2,
   "properties": {

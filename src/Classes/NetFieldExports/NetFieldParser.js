@@ -18,8 +18,8 @@ class NetFieldParser {
           fieldExport.path.forEach((path) => {
             this.netFieldGroups[path] = fieldExport;
           })
-        } catch (_) {
-          console.log(`Error while loading ${path}`)
+        } catch (err) {
+          console.log(`Error while loading ${path}: "${err.message}"`)
         }
       });
     }
@@ -36,21 +36,35 @@ class NetFieldParser {
           fieldExport.path.forEach((path) => {
             this.netFieldGroups[path] = fieldExport;
           })
-        } catch (_) {
-          console.log(`Error while loading ${path}`)
+        } catch (err) {
+          console.log(`Error while loading ${path}: "${err.message}"`)
         }
       });
     }
   }
 
   willReadType(group) {
-    return !!this.netFieldGroups[group];
+    return !!this.getNetFieldExport(group)
+  }
+
+  getNetFieldExport(group) {
+    const exportt = Object.entries(this.netFieldGroups).find(([key, { partialPath }]) => {
+      if (partialPath) {
+        return group.includes(key);
+      }
+
+      return key === group;
+    });
+
+    if (exportt) {
+      return exportt[1];
+    }
   }
 
   createType(group) {
     const exportGroup = {};
 
-    let netExport = this.netFieldGroups[group.pathName];
+    let netExport = this.getNetFieldExport(group.pathName);
 
     group.netFieldExports.forEach((field) => {
       if (field && netExport.properties[field.name] && netExport.properties[field.name].parseFunction !== 'ignore') {
@@ -65,8 +79,8 @@ class NetFieldParser {
     return exportGroup;
   }
 
-  readField(obj, exportt, handle, exportGroup, netBitReader) {
-    const netGroupInfo = this.netFieldGroups[exportGroup.pathName];
+  readField(obj, exportt, handle, exportGroup, netBitReader, globalData) {
+    const netGroupInfo = this.getNetFieldExport(exportGroup.pathName);
 
     if (!netGroupInfo) {
       return false;
@@ -78,10 +92,10 @@ class NetFieldParser {
       return false;
     }
 
-    return this.setType(obj, exportGroup, netFieldInfo, netBitReader);
+    return this.setType(obj, exportGroup, netFieldInfo, netBitReader, globalData);
   }
 
-  setType(obj, exportGroup, netFieldInfo, netBitReader) {
+  setType(obj, exportGroup, netFieldInfo, netBitReader, globalData) {
     let data;
 
     switch (netFieldInfo.parseFunction) {
@@ -97,10 +111,10 @@ class NetFieldParser {
         const theClass = this.theClassCache[netFieldInfo.type];
 
         const dingens = new theClass();
-        dingens.serialize(netBitReader);
+        dingens.serialize(netBitReader, globalData);
 
         if (dingens.resolve) {
-          dingens.resolve(netGuidCache);
+          dingens.resolve(netGuidCache, globalData);
         }
 
         data = dingens;
@@ -149,7 +163,7 @@ class NetFieldParser {
   }
 
   tryGetClassNetCacheProperty(property, group) {
-    const groupInfo = this.netFieldGroups[group];
+    const groupInfo = this.getNetFieldExport(group);
 
     if (!groupInfo) {
       return false;

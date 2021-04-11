@@ -13,6 +13,10 @@ class FGameplayTag {
   resolve(cache) {
     this.tagName = cache.tryGetTagName(this.tagIndex);
   }
+
+  toJSON() {
+    return this.tagName;
+  }
 }
 
 module.exports = FGameplayTag;

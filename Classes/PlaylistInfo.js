@@ -14,6 +14,10 @@ class PlaylistInfo {
   resolve(cache) {
     this.name = cache.tryGetPathName(this.id);
   }
+
+  toJSON() {
+    return this.name;
+  }
 }
 
 module.exports = PlaylistInfo;

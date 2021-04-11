@@ -55,10 +55,15 @@ const replayInfo = (replay) => {
 */
 const replayChunks = async (replay, globalData) => {
   const chunks = [];
+  let lastOffset = 0;
+  let lastTime = Date.now();
 
   while (replay.buffer.byteLength > replay.offset) {
     if (globalData.debug) {
+      console.log(((replay.offset - lastOffset) / ((Date.now() - lastTime) / 1000)).toFixed(0) + ' bytes/s')
       console.log(100 - ((replay.buffer.length - replay.offset) / replay.buffer.length * 100));
+      lastOffset = replay.offset;
+      lastTime = Date.now();
     }
 
     const chunkType = replay.readUInt32();
