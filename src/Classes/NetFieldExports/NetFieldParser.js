@@ -105,7 +105,21 @@ class NetFieldParser {
 
       case 'readProperty':
         if (!this.theClassCache[netFieldInfo.type]) {
-          this.theClassCache[netFieldInfo.type] = require(`../../../Classes/${netFieldInfo.type}.js`);
+          let classPath;
+
+          if (globalData.customClassPath) {
+            classPath = `../../../${globalData.customClassPath}/${netFieldInfo.type}.js`;
+
+            if (!fs.existsSync(`${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
+              classPath = null;
+            }
+          }
+
+          if (!classPath) {
+            classPath = `../../../Classes/${netFieldInfo.type}.js`;
+          }
+
+          this.theClassCache[netFieldInfo.type] = require(classPath);
         }
 
         const theClass = this.theClassCache[netFieldInfo.type];
@@ -139,7 +153,25 @@ class NetFieldParser {
               break;
 
             default:
-              const theClass = require(`../../../Classes/${netFieldInfo.type}.js`);
+              if (!this.theClassCache[netFieldInfo.type]) {
+                let classPath;
+
+                if (globalData.customClassPath) {
+                  classPath = `../../../${globalData.customClassPath}/${netFieldInfo.type}.js`;
+
+                  if (!fs.existsSync(`${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
+                    classPath = null;
+                  }
+                }
+
+                if (!classPath) {
+                  classPath = `../../../Classes/${netFieldInfo.type}.js`;
+                }
+
+                this.theClassCache[netFieldInfo.type] = require(classPath);
+              }
+
+              const theClass = this.theClassCache[netFieldInfo.type];
               const dingens = new theClass();
               dingens.serialize(netBitReader);
 

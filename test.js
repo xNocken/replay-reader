@@ -11,6 +11,7 @@ const onRead = () => {
     parseLevel: 10,
     // netFieldExportPath: 'NetFieldExports',
     // onlyUseCustomNetFieldExports: false,
+    // customClassPath: 'Classes',
     debug: true,
   }), null, 2));
   console.timeEnd();
