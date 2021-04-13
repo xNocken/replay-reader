@@ -50,7 +50,15 @@ class NetGuidCache {
     return this.NetGuidToPathName[netGuid];
   }
 
+  GetNetFieldExportGroupString(path) {
+    return this.NetFieldExportGroupMap[path];
+  }
+
   GetNetFieldExportGroup(netguid) {
+    if (typeof netguid === 'string')  {
+      return this.GetNetFieldExportGroupString(netguid);
+    }
+
     if (this.netguidToNetFieldExportgroup[netguid] !== undefined) {
       return this.netguidToNetFieldExportgroup[netguid];
     }

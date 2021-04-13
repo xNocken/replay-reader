@@ -99,7 +99,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     }
   }
 
-  return true;
+  return exportGroup;
 };
 
 module.exports = receiveProperties;

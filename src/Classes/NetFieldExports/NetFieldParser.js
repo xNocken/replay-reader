@@ -169,7 +169,7 @@ class NetFieldParser {
       return false;
     }
 
-    return groupInfo[property];
+    return groupInfo.properties[property];
   }
 }
 

@@ -2,6 +2,7 @@ const DataBunch = require('../Classes/DataBunch');
 const NetBitReader = require('../Classes/NetBitReader');
 const netGuidCache = require('../utils/netGuidCache');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
+const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
 const receiveProperties = require('./recieveProperties');
 
@@ -67,7 +68,17 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           continue;
         }
       } else {
-        throw Error('CustomDeltaProperty not yet implemented');
+        const group = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+
+        if (!netFieldParser.willReadType(group.pathName)) {
+          continue;
+        }
+
+        if (group) {
+          if (receiveCustomDeltaProperty(reader, group, bunch, classNetProperty.EnablePropertyChecksum, globalData)) {
+            continue;
+          }
+        }
       }
     }
   }

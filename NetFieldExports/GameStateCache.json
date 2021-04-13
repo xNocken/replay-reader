@@ -10,6 +10,12 @@
       "type": "PlaylistInfo",
       "isFunction": false,
       "isCustomStruct": true
+    },
+    "ActiveGameplayModifiers": {
+      "name": "ActiveGameplayModifiers",
+      "type": "/Script/FortniteGame.ActiveGameplayModifier",
+      "isFunction": false,
+      "isCustomStruct": false
     }
   }
 }

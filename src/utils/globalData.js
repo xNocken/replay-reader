@@ -27,6 +27,7 @@ class GlobalData {
       gameData: {
         safeZones: [],
         playlistInfo: null,
+        activeGameplayModifiers: [],
       },
       mapData: {
         pickups: [],

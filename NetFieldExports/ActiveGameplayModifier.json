@@ -1,0 +1,13 @@
+{
+  "path": [
+    "/Script/FortniteGame.ActiveGameplayModifier"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "ModifierDef": {
+      "name": "ModifierDef",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    }
+  }
+}
