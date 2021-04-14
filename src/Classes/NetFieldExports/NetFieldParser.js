@@ -15,6 +15,7 @@ class NetFieldParser {
           if (fieldExport.parseLevel > globalData.parseLevel) {
             return;
           }
+
           fieldExport.path.forEach((path) => {
             this.netFieldGroups[path] = fieldExport;
           })
@@ -125,7 +126,7 @@ class NetFieldParser {
         const theClass = this.theClassCache[netFieldInfo.type];
 
         const dingens = new theClass();
-        dingens.serialize(netBitReader, globalData);
+        dingens.serialize(netBitReader, globalData, netFieldInfo.config || {});
 
         if (dingens.resolve) {
           dingens.resolve(netGuidCache, globalData);

@@ -80,7 +80,7 @@ const replayChunks = async (replay, globalData) => {
         break;
 
       case 2:
-        // maybe TODO: handle checkpoints later
+        // TODO: handle checkpoints later
         break;
 
       case 3:

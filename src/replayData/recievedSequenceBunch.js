@@ -1,4 +1,5 @@
 const DataBunch = require('../Classes/DataBunch');
+const onChannelClosed = require('./onChannelClosed');
 const recievedActorBunch = require('./recievedActorBunch');
 
 /**
@@ -10,7 +11,7 @@ const recievedSequencedBunch = (bunch, globalData) => {
   if (bunch.bClose) {
     delete globalData.channels[bunch.chIndex];
 
-    // onChannelClosed(bunch.ChIndex, channels[bunch.chIndex]?.actor?.actorNetGUID); // TODO
+    onChannelClosed(bunch.ChIndex, globalData.channels[bunch.chIndex]?.actor.actorNetGUID, globalData);
 
     return true;
   }

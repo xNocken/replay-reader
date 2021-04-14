@@ -62,9 +62,9 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
     if (classNetProperty) {
       if (classNetProperty.isFunction) {
-        throw Error('RPC not yet implemented');
+        throw Error('RPC not yet implemented'); // TODO
       } else if (classNetProperty.isCustomStruct) {
-        if (!receiveCustomProperty(reader, classNetProperty, bunch.chIndex, classNetCache.pathName, globalData)) {
+        if (!receiveCustomProperty(reader, classNetProperty, bunch, classNetCache.pathName, globalData)) {
           continue;
         }
       } else {

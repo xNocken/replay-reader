@@ -81,8 +81,19 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
       }
     } else if (bunch.bReliable || bunch.bOpen) {
       chName = packetArchive.readFName();
-      let hi;
-      // TODO: chType
+      switch (chName) {
+        case 'Control':
+          chType = 1
+          break;
+
+        case 'Voice':
+          chType = 4
+          break;
+
+        case 'Actor':
+          chType = 2
+          break;
+      }
 
     }
 

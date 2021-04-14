@@ -51,9 +51,9 @@ class NetBitReader {
 
     for (let i = 0; i < count; i++) {
       const bitOffset = i % 8;
-      
+
       if (bitOffset == 0) {
-        byteOffset = ~~(i / 8); 
+        byteOffset = ~~(i / 8);
       }
 
       if (this.readBit()) {
@@ -350,6 +350,30 @@ class NetBitReader {
     const z = (dz - bias) / scaleFactor;
 
     return new FVector(x, y, z);
+  }
+
+  readRotation() {
+    let pitch = 0;
+    let yaw = 0;
+    let roll = 0;
+
+    if (this.readBit()) {
+      pitch = this.readByte()[0] * 360 / 65536;
+    }
+
+    if (this.readBit()) {
+      yaw = this.readByte()[0] * 360 / 65536;
+    }
+
+    if (this.readBit()) {
+      roll = this.readByte()[0] * 360 / 65536;
+    }
+
+    if (this.isError) {
+      return new FRotator(0, 0, 0);
+    }
+
+    return new FRotator(pitch, yaw, roll);
   }
 
   readRotationShort() {

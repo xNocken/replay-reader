@@ -38,7 +38,7 @@ class NetGuidCache {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
 
-    if (!globalData.debug && group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.willReadType(exportGroup.pathName)) { // TODO: keep this in the eye
+    if (!globalData.debug && group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.willReadType(exportGroup.pathName)) {
       return;
     }
 
