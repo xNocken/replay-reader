@@ -4,10 +4,10 @@ const netGuidCache = require('../utils/netGuidCache');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
+const receivedRPC = require('./receivedRPC');
 const receiveProperties = require('./recieveProperties');
 
 /**
- *
  * @param {DataBunch} bunch
  * @param {NetBitReader} archive
  * @param {number} repObject
@@ -62,7 +62,11 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
     if (classNetProperty) {
       if (classNetProperty.isFunction) {
-        throw Error('RPC not yet implemented'); // TODO
+        var functionGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+
+        if (!receivedRPC(reader, functionGroup, bunch, globalData)) {
+          return false;
+        }
       } else if (classNetProperty.isCustomStruct) {
         if (!receiveCustomProperty(reader, classNetProperty, bunch, classNetCache.pathName, globalData)) {
           continue;

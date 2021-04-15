@@ -2,6 +2,7 @@ const handleChests = require("./Chests");
 const handleFortPickup = require("./FortPickup");
 const handlePlayerState = require("./FortPlayerState");
 const handleGameState = require("./GameState");
+const handleFortBroadcastRemoteClientInfoMapMarker = require("./handleFortBroadCastRemoteClientInfoMapMarker");
 const handlePlayerBuilds = require("./HandlePlayerBuilds");
 const handleValets = require("./HandleValets");
 const handlePlayerPawn = require("./PlayerPawn");
@@ -49,6 +50,11 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
 
     case 'Chests':
       handleChests(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker':
+    case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker':
+      handleFortBroadcastRemoteClientInfoMapMarker(chIndex, value, timeseconds, globalData);
       break;
 
     default:

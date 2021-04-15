@@ -36,7 +36,8 @@ class GlobalData {
         chests: [],
         vehicles: {
           valets: [],
-        }
+        },
+        markers: [],
       },
       gameState: {},
     };

@@ -109,9 +109,9 @@ class NetFieldParser {
           let classPath;
 
           if (globalData.customClassPath) {
-            classPath = `../../../${globalData.customClassPath}/${netFieldInfo.type}.js`;
+            classPath = `${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.js`;
 
-            if (!fs.existsSync(`${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
+            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
               classPath = null;
             }
           }
