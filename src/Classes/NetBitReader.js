@@ -358,15 +358,15 @@ class NetBitReader {
     let roll = 0;
 
     if (this.readBit()) {
-      pitch = this.readByte()[0] * 360 / 65536;
+      pitch = this.readByte()[0] * 360 / 256;
     }
 
     if (this.readBit()) {
-      yaw = this.readByte()[0] * 360 / 65536;
+      yaw = this.readByte()[0] * 360 / 256;
     }
 
     if (this.readBit()) {
-      roll = this.readByte()[0] * 360 / 65536;
+      roll = this.readByte()[0] * 360 / 256;
     }
 
     if (this.isError) {
