@@ -16,11 +16,13 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       globalData.onNetDeltaRead(bunch.chIndex, {
         deleted: true,
         elementIndex,
-      });
+        path: group.pathName,
+      }, bunch.timeSeconds, globalData);
     } else {
       onNetDeltaRead(bunch.chIndex, {
         deleted: true,
         elementIndex,
+        path: group.pathName,
       }, bunch.timeSeconds, globalData);
     }
   }
@@ -30,11 +32,15 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
 
     const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData);
 
+    if (!exportGroup) {
+      continue;
+    }
+
     if (globalData.onNetDeltaRead) {
       globalData.onNetDeltaRead(bunch.chIndex, {
         elementIndex,
         export: exportGroup,
-      });
+      }, bunch.timeSeconds, globalData);
     } else {
       onNetDeltaRead(bunch.chIndex, {
         elementIndex,

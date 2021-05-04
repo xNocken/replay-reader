@@ -79,7 +79,7 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
         }
 
         if (group) {
-          if (receiveCustomDeltaProperty(reader, group, bunch, classNetProperty.EnablePropertyChecksum, globalData)) {
+          if (receiveCustomDeltaProperty(reader, group, bunch, classNetProperty.EnablePropertyChecksum || true, globalData)) {
             continue;
           }
         }
