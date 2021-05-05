@@ -35,7 +35,7 @@ class NetBitReader {
       return false;
     }
 
-    const byteOffset = ~~(this.offset / 8); // ~~ = math.floor
+    const byteOffset = ~~(this.offset / 8); // ~~ = math.trunc
 
     let value = this.buffer[byteOffset] >> (this.offset % 8) & 1;
 
@@ -103,7 +103,7 @@ class NetBitReader {
     let bitCountLeftInByte = 8 - (this.offset % 8);
     let srcMaskByte0 = ((1 << bitCountLeftInByte) - 1);
     let srcMaskByte1 = ((1 << bitCountUsedInByte) - 1);
-    let srcIndex = ~~(this.offset / 8); // ~~ = math.floor
+    let srcIndex = ~~(this.offset / 8); // ~~ = math.trunc
     let nextSrcIndex = bitCountUsedInByte != 0 ? srcIndex + 1 : srcIndex;
 
     let value = 0;
