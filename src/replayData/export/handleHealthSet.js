@@ -1,5 +1,8 @@
 const FortSet = require('../../../Classes/FortSet');
 
+let healthStartHandle;
+let shieldStartHandle;
+
 const createFortSet = (handle, value) => {
   const fortset = new FortSet();
 
@@ -19,19 +22,15 @@ const handleHealthSet = (chIndex, value, timeseconds, globalData) => {
     return;
   }
 
-  const startingHandles = Object.entries(value).filter(([, a]) => a.name === 'Maximum');
+  if (healthStartHandle === undefined) {
+    const startingHandles = Object.entries(value).filter(([, a]) => a.name === 'Maximum');
 
-  if (startingHandles[0]) {
-    const healthStartHandle = parseInt(startingHandles[0][0]) - 3;
-
-    player.health = createFortSet(healthStartHandle, value);
+    healthStartHandle = parseInt(startingHandles[0][0]) - 3;
+    shieldStartHandle = parseInt(startingHandles[1][0]) - 3;
   }
 
-  if (startingHandles[1]) {
-    const shieldStartHandle = parseInt(startingHandles[1][0]) - 3;
-
-    player.shield = createFortSet(shieldStartHandle, value);
-  }
+  player.health = createFortSet(healthStartHandle, value);
+  player.shield = createFortSet(shieldStartHandle, value);
 };
 
 module.exports = handleHealthSet;
