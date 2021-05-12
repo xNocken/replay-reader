@@ -1,10 +1,12 @@
 const fs = require('fs');
+const DebugObject = require('../../../Classes/DebugObject');
 const netGuidCache = require('../../utils/netGuidCache');
 
 class NetFieldParser {
   netFieldGroups = {};
   classNetCacheToNetFieldGroup = {};
   theClassCache = {};
+  redirects = {};
 
   constructor(globalData) {
     if (!globalData.onlyUseCustomNetFieldExports) {
@@ -19,6 +21,12 @@ class NetFieldParser {
           fieldExport.path.forEach((path) => {
             this.netFieldGroups[path] = fieldExport;
           })
+
+          if (fieldExport.redirects) {
+            fieldExport.redirects.forEach((path) => {
+              this.redirects[path] = fieldExport.path[0];
+            });
+          }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)
         }
@@ -37,6 +45,12 @@ class NetFieldParser {
           fieldExport.path.forEach((path) => {
             this.netFieldGroups[path] = fieldExport;
           })
+
+          if (fieldExport.redirects) {
+            fieldExport.redirects.forEach((path) => {
+              this.redirects[path] = fieldExport.path[0];
+            });
+          }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)
         }
@@ -45,7 +59,7 @@ class NetFieldParser {
   }
 
   willReadType(group) {
-    return !!this.getNetFieldExport(group)
+    return !!this.getNetFieldExport(group);
   }
 
   getNetFieldExport(group) {
@@ -89,15 +103,22 @@ class NetFieldParser {
 
     const netFieldInfo = netGroupInfo.properties[exportt.name];
 
-    if (!netFieldInfo) {
+    if (!netFieldInfo && !netGroupInfo.parseUnknownHandles) {
       return false;
     }
 
-    return this.setType(obj, exportGroup, netFieldInfo, netBitReader, globalData);
+    return this.setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt);
   }
 
-  setType(obj, exportGroup, netFieldInfo, netBitReader, globalData) {
+  setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt) {
     let data;
+
+    if (!netFieldInfo) {
+      data = new DebugObject(netBitReader.readBits(netBitReader.lastBit), exportt);
+
+      obj[exportt.handle] = data;
+      return true;
+    }
 
     switch (netFieldInfo.parseFunction) {
       case 'ignore':
@@ -203,6 +224,10 @@ class NetFieldParser {
     }
 
     return groupInfo.properties[property];
+  }
+
+  getRedirect(path) {
+    return this.redirects[path] || path;
   }
 }
 

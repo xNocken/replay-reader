@@ -54,7 +54,7 @@ class NetGuidCache {
     return this.NetFieldExportGroupMap[path];
   }
 
-  GetNetFieldExportGroup(netguid) {
+  GetNetFieldExportGroup(netguid, globalData) {
     if (typeof netguid === 'string')  {
       return this.GetNetFieldExportGroupString(netguid);
     }
@@ -66,7 +66,7 @@ class NetGuidCache {
     let group = this.ArchTypeToExportGroup[netguid];
 
     if (!group) {
-      const path = this.NetGuidToPathName[netguid];
+      let path = this.NetGuidToPathName[netguid];
 
       if (!path) {
         this.netguidToNetFieldExportgroup[netguid] = null;
@@ -74,6 +74,8 @@ class NetGuidCache {
       }
 
       group = this.NetFieldExportGroupMapPathFixed[netguid];
+
+      path = globalData.netFieldParser.getRedirect(path);
 
       if (group) {
         this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];

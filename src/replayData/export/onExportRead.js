@@ -3,6 +3,7 @@ const handleFortPickup = require("./FortPickup");
 const handlePlayerState = require("./FortPlayerState");
 const handleGameState = require("./GameState");
 const handleFortBroadcastRemoteClientInfoMapMarker = require("./handleFortBroadCastRemoteClientInfoMapMarker");
+const handleHealthSet = require("./handleHealthSet");
 const handlePlayerBuilds = require("./HandlePlayerBuilds");
 const handleValets = require("./HandleValets");
 const handlePlayerPawn = require("./PlayerPawn");
@@ -55,6 +56,10 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
     case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker':
     case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker':
       handleFortBroadcastRemoteClientInfoMapMarker(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'FortniteGame.FortRegenHealthSet':
+      handleHealthSet(chIndex, value, timeseconds, globalData);
       break;
 
     default:

@@ -14,7 +14,7 @@ const receiveProperties = require('./recieveProperties');
  * @param {boolean} bHasRepLayout
  */
 const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
-  const netFielExportGroup = netGuidCache.GetNetFieldExportGroup(repObject);
+  const netFielExportGroup = netGuidCache.GetNetFieldExportGroup(repObject, globalData);
   const { netFieldParser } = globalData;
 
   if (netFielExportGroup == null) {
