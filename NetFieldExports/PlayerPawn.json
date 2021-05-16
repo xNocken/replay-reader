@@ -622,7 +622,7 @@
     "MusicPack": {
       "name": "MusicPack",
       "type": "ItemDefinition",
-      "parseFunction": "readDynamicArray"
+      "parseFunction": "readProperty"
     },
     "PetSkin": {
       "name": "PetSkin",

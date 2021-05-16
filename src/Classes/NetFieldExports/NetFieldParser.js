@@ -1,6 +1,7 @@
 const fs = require('fs');
 const DebugObject = require('../../../Classes/DebugObject');
 const netGuidCache = require('../../utils/netGuidCache');
+const NetBitReader = require('../NetBitReader');
 
 class NetFieldParser {
   netFieldGroups = {};
@@ -120,7 +121,7 @@ class NetFieldParser {
       return true;
     }
 
-    switch (netFieldInfo.parseFunction) {
+    theSwitch: switch (netFieldInfo.parseFunction) {
       case 'ignore':
         data = undefined;
         return false;
@@ -159,52 +160,77 @@ class NetFieldParser {
       case 'readDynamicArray':
         const count = netBitReader.readIntPacked();
         const arr = [];
+        const isGroupType = ['float', 'int', 'uint'].includes(netFieldInfo.type);
 
-        for (let i = 0; i < count; i++) {
-          switch (netFieldInfo.type) {
-            case 'float':
-              arr.push(netBitReader.readFloat32());
-              break;
+        while (true) {
+          let index = netBitReader.readIntPacked();
 
-            case 'int':
-              arr.push(netBitReader.readInt32());
-              break;
+          if (index === 0) {
+            if (netBitReader.readIntPacked() !== 0) {
+              console.log('rip');
+            }
 
-            case 'uint':
-              arr.push(netBitReader.readUInt32());
-              break;
-
-            default:
-              if (!this.theClassCache[netFieldInfo.type]) {
-                let classPath;
-
-                if (globalData.customClassPath) {
-                  classPath = `../../../${globalData.customClassPath}/${netFieldInfo.type}.js`;
-
-                  if (!fs.existsSync(`${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
-                    classPath = null;
-                  }
-                }
-
-                if (!classPath) {
-                  classPath = `../../../Classes/${netFieldInfo.type}.js`;
-                }
-
-                this.theClassCache[netFieldInfo.type] = require(classPath);
-              }
-
-              const theClass = this.theClassCache[netFieldInfo.type];
-              const dingens = new theClass();
-              dingens.serialize(netBitReader);
-
-              if (dingens.resolve) {
-                dingens.resolve(netGuidCache);
-              }
-
-              arr.push(dingens);
-              break;
+            break;
           }
+
+          index--;
+
+          if (index > count) {
+            console.log('rip2');
+            data = arr;
+
+            break theSwitch;
+          }
+
+          let newData = [];
+
+          if (isGroupType) {
+            newData = this.createType(exportGroup);
+          }
+
+          while (true) {
+            let handle = netBitReader.readIntPacked();
+
+            if (handle === 0) {
+              break;
+            }
+
+            handle--;
+
+            const exporttt = exportGroup.netFieldExports[handle];
+            const numBits = netBitReader.readIntPacked();
+
+            if (numBits === 0) {
+              continue;
+            }
+
+            if (!exporttt) {
+              netBitReader.skip(numBits);
+              continue;
+            }
+
+            const cmdReader = new NetBitReader(netBitReader.readBits(numBits), numBits);
+            cmdReader.header = netBitReader.header;
+            cmdReader.info = netBitReader.info;
+
+            if (isGroupType) {
+              this.readField(newData, exporttt, handle, exportGroup, cmdReader, globalData);
+            } else {
+              const temp = {};
+
+              this.setType(temp, exportGroup, {
+                ...netFieldInfo,
+                parseFunction: 'readProperty',
+              }, cmdReader, globalData, exporttt);
+
+              newData = temp[netFieldInfo.name];
+            }
+          }
+
+          arr[index] = newData;
         }
+
+        data = arr;
         break;
 
       default:

@@ -6,7 +6,7 @@ class FDateTime {
   }
 
   toJSON() {
-    return this.time;
+    return this.time.toISOString();
   }
 }
 
