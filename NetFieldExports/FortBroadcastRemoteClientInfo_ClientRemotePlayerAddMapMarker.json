@@ -1,0 +1,13 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "PlayerID": {
+      "name": "PlayerID",
+      "type": "int",
+      "parseFunction": "readUInt32"
+    }
+  }
+}

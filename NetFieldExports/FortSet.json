@@ -1,0 +1,12 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortRegenHealthSet"
+  ],
+  "customExportName": "FortniteGame.FortRegenHealthSet",
+  "parseLevel": 1,
+  "parseUnknownHandles": true,
+  "redirects": [
+    "HealthSet"
+  ],
+  "properties": []
+}

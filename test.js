@@ -1,4 +1,18 @@
 const fs = require('fs');
 const parse = require('.');
 
-parse(fs.readFileSync('1.replay'));
+const onRead = () => {
+ console;
+};
+
+(async() => {
+  console.time();
+  fs.writeFileSync('replay.json', JSON.stringify(await parse(fs.readFileSync('./test.replay'), {
+    parseLevel: 10,
+    // netFieldExportPath: 'NetFieldExports',
+    // onlyUseCustomNetFieldExports: false,
+    // customClassPath: 'Classes',
+    // debug: true,
+  }), null, 2));
+  console.timeEnd();
+})()

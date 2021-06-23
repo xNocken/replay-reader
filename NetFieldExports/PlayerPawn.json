@@ -1,0 +1,690 @@
+{
+  "path": [
+    "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "Owner": {
+      "name": "Owner",
+      "type": "ActorGuid",
+      "parseFunction": "readProperty"
+    },
+    "bHidden": {
+      "name": "bHidden",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bReplicateMovement": {
+      "name": "bReplicateMovement",
+      "type": "boolean",
+      "parseFunction": "ignore"
+    },
+    "bTearOff": {
+      "name": "bTearOff",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "bCanBeDamaged": {
+      "name": "bCanBeDamaged",
+      "type": "bool",
+      "parseFunction": "readBit"
+    },
+    "RemoteRole": {
+      "name": "RemoteRole",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty"
+    },
+    "AttachParent": {
+      "name": "AttachParent",
+      "type": "Ignore",
+      "parseFunction": "ignore"
+    },
+    "LocationOffset": {
+      "name": "LocationOffset",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RelativeScale3D": {
+      "name": "RelativeScale3D",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RotationOffset": {
+      "name": "RotationOffset",
+      "type": "FVector",
+      "parseFunction": "readRotationShort"
+    },
+    "AttachSocket": {
+      "name": "AttachSocket",
+      "type": "FName",
+      "parseFunction": "readFName"
+    },
+    "ExitSocketIndex": {
+      "name": "ExitSocketIndex",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "AttachComponent": {
+      "name": "AttachComponent",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "Role": {
+      "name": "Role",
+      "type": "object",
+      "parseFunction": "ignore"
+    },
+    "Instigator": {
+      "name": "Instigator",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "RemoteViewPitch": {
+      "name": "RemoteViewPitch",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "PlayerState": {
+      "name": "PlayerState",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "Controller": {
+      "name": "Controller",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "MovementBase": {
+      "name": "MovementBase",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "BoneName": {
+      "name": "BoneName",
+      "type": "FName",
+      "parseFunction": "readProperty"
+    },
+    "Location": {
+      "name": "Location",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "Rotation": {
+      "name": "Rotation",
+      "type": "FRotator",
+      "parseFunction": "readRotationShort"
+    },
+    "bServerHasBaseComponent": {
+      "name": "bServerHasBaseComponent",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bRelativeRotation": {
+      "name": "bRelativeRotation",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bServerHasVelocity": {
+      "name": "bServerHasVelocity",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplayLastTransformUpdateTimeStamp": {
+      "name": "ReplayLastTransformUpdateTimeStamp",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "ReplicatedMovementMode": {
+      "name": "ReplicatedMovementMode",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "bIsCrouched": {
+      "name": "bIsCrouched",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bProxyIsJumpForceApplied": {
+      "name": "bProxyIsJumpForceApplied",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsActive": {
+      "name": "bIsActive",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "Position": {
+      "name": "Position",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "Acceleration": {
+      "name": "Acceleration",
+      "type": "FVector",
+      "parseFunction": "ignore"
+    },
+    "LinearVelocity": {
+      "name": "LinearVelocity",
+      "type": "FVector",
+      "parseFunction": "readPackedVector10"
+    },
+    "CurrentMovementStyle": {
+      "name": "CurrentMovementStyle",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [4]
+    },
+    "bIgnoreNextFallingDamage": {
+      "name": "bIgnoreNextFallingDamage",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "TeleportCounter": {
+      "name": "TeleportCounter",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "PawnUniqueID": {
+      "name": "PawnUniqueID",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "bIsDying": {
+      "name": "bIsDying",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "CurrentWeapon": {
+      "name": "CurrentWeapon",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "bIsInvulnerable": {
+      "name": "bIsInvulnerable",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bMovingEmote": {
+      "name": "bMovingEmote",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bWeaponActivated": {
+      "name": "bWeaponActivated",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsDBNO": {
+      "name": "bIsDBNO",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bWasDBNOOnDeath": {
+      "name": "bWasDBNOOnDeath",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "JumpFlashCount": {
+      "name": "JumpFlashCount",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "bWeaponHolstered": {
+      "name": "bWeaponHolstered",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "SpawnImmunityTime": {
+      "name": "SpawnImmunityTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bInterruptCurrentLine": {
+      "name": "bInterruptCurrentLine",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "LastReplicatedEmoteExecuted": {
+      "name": "LastReplicatedEmoteExecuted",
+      "type": "int",
+      "parseFunction": "readIntPacked"
+    },
+    "bCanBeInterrupted": {
+      "name": "bCanBeInterrupted",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bCanQue": {
+      "name": "bCanQue",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ForwardAlpha": {
+      "name": "ForwardAlpha",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "RightAlpha": {
+      "name": "RightAlpha",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "TurnDelta": {
+      "name": "TurnDelta",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "SteerAlpha": {
+      "name": "SteerAlpha",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "GravityScale": {
+      "name": "GravityScale",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "WorldLookDir": {
+      "name": "WorldLookDir",
+      "type": "FVector",
+      "parseFunction": "readPackedVector1"
+    },
+    "bIgnoreForwardInAir": {
+      "name": "bIgnoreForwardInAir",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsHonking": {
+      "name": "bIsHonking",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsJumping": {
+      "name": "bIsJumping",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsSprinting": {
+      "name": "bIsSprinting",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "Vehicle": {
+      "name": "Vehicle",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "VehicleApexZ": {
+      "name": "VehicleApexZ",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "SeatIndex": {
+      "name": "SeatIndex",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "bIsWaterJump": {
+      "name": "bIsWaterJump",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsWaterSprintBoost": {
+      "name": "bIsWaterSprintBoost",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsWaterSprintBoostPending": {
+      "name": "bIsWaterSprintBoostPending",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "BuildingState": {
+      "name": "BuildingState",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [2]
+    },
+    "bIsTargeting": {
+      "name": "bIsTargeting",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "PawnMontage": {
+      "name": "PawnMontage",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "bPlayBit": {
+      "name": "bPlayBit",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsPlayingEmote": {
+      "name": "bIsPlayingEmote",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "FootstepBankOverride": {
+      "name": "FootstepBankOverride",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "PackedReplicatedSlopeAngles": {
+      "name": "PackedReplicatedSlopeAngles",
+      "type": "ushort",
+      "parseFunction": "readUInt16"
+    },
+    "bStartedInteractSearch": {
+      "name": "bStartedInteractSearch",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "AccelerationPack": {
+      "name": "AccelerationPack",
+      "type": "ushort",
+      "parseFunction": "readUInt16"
+    },
+    "bIsWaitingForEmoteInteraction": {
+      "name": "bIsWaitingForEmoteInteraction",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "GroupEmoteLookTarget": {
+      "name": "GroupEmoteLookTarget",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "bIsSkydiving": {
+      "name": "bIsSkydiving",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsParachuteOpen": {
+      "name": "bIsParachuteOpen",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsParachuteForcedOpen": {
+      "name": "bIsParachuteForcedOpen",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsSkydivingFromBus": {
+      "name": "bIsSkydivingFromBus",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bReplicatedIsInSlipperyMovement": {
+      "name": "bReplicatedIsInSlipperyMovement",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsInAnyStorm": {
+      "name": "bIsInAnyStorm",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsSlopeSliding": {
+      "name": "bIsSlopeSliding",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsProxySimulationTimedOut": {
+      "name": "bIsProxySimulationTimedOut",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsInsideSafeZone": {
+      "name": "bIsInsideSafeZone",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsOutsideSafeZone": {
+      "name": "bIsOutsideSafeZone",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "Zipline": {
+      "name": "Zipline",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "PetState": {
+      "name": "PetState",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "bIsZiplining": {
+      "name": "bIsZiplining",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bJumped": {
+      "name": "bJumped",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ParachuteAttachment": {
+      "name": "ParachuteAttachment",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "RemoteViewData32": {
+      "name": "RemoteViewData32",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "bNetMovementPrioritized": {
+      "name": "bNetMovementPrioritized",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "EntryTime": {
+      "name": "EntryTime",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "CapsuleRadiusAthena": {
+      "name": "CapsuleRadiusAthena",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "CapsuleHalfHeightAthena": {
+      "name": "CapsuleHalfHeightAthena",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "WalkSpeed": {
+      "name": "WalkSpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "RunSpeed": {
+      "name": "RunSpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "CrouchedSprintSpeed": {
+      "name": "CrouchedSprintSpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "PlayRate": {
+      "name": "PlayRate",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "BlendTime": {
+      "name": "BlendTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "ForcePlayBit": {
+      "name": "ForcePlayBit",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "IsStopped": {
+      "name": "IsStopped",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "SkipPositionCorrection": {
+      "name": "SkipPositionCorrection",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "RepAnimMontageStartSection": {
+      "name": "RepAnimMontageStartSection",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "SimulatedProxyGameplayCues": {
+      "name": "SimulatedProxyGameplayCues",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "WeaponActivated": {
+      "name": "WeaponActivated",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsInWaterVolume": {
+      "name": "bIsInWaterVolume",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "BannerIconId": {
+      "name": "BannerIconId",
+      "type": "string",
+      "parseFunction": "readString"
+    },
+    "BannerColorId": {
+      "name": "BannerColorId",
+      "type": "string",
+      "parseFunction": "readString"
+    },
+    "ItemWraps": {
+      "name": "ItemWraps",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "SkyDiveContrail": {
+      "name": "SkyDiveContrail",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "Glider": {
+      "name": "Glider",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "bIsDefaultCharacter": {
+      "name": "bIsDefaultCharacter",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "Pickaxe": {
+      "name": "Pickaxe",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "Character": {
+      "name": "Character",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "DBNOHoister": {
+      "name": "DBNOHoister",
+      "type": "ActorGuid",
+      "parseFunction": "readProperty"
+    },
+    "Backpack": {
+      "name": "Backpack",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "LoadingScreen": {
+      "name": "LoadingScreen",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "Dances": {
+      "name": "Dances",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "MusicPack": {
+      "name": "MusicPack",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "PetSkin": {
+      "name": "PetSkin",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "EncryptedPawnReplayData": {
+      "name": "EncryptedPawnReplayData",
+      "type": "FAthenaPawnReplayData",
+      "parseFunction": "readProperty"
+    },
+    "GravityFloorAltitude": {
+      "name": "GravityFloorAltitude",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "GravityFloorWidth": {
+      "name": "GravityFloorWidth",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "GravityFloorGravityScalar": {
+      "name": "GravityFloorGravityScalar",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "ReplicatedWaterBody": {
+      "name": "ReplicatedWaterBody",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "DBNORevivalStacking": {
+      "name": "DBNORevivalStacking",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "ServerWorldTimeRevivalTime": {
+      "name": "ServerWorldTimeRevivalTime",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "FlySpeed": {
+      "name": "FlySpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bIsSkydivingFromLaunchPad": {
+      "name": "bIsSkydivingFromLaunchPad",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bInGliderRedeploy": {
+      "name": "bInGliderRedeploy",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bReplicatedIsInVortex": {
+      "name": "bReplicatedIsInVortex",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "path": [
+    "FortBroadcastRemoteClientInfo_ClassNetCache"
+  ],
+  "parseLevel": 1,
+  "type": "ClassNetCache",
+  "properties": {
+    "ClientRemotePlayerAddMapMarker": {
+      "name": "ClientRemotePlayerAddMapMarker",
+      "type": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker",
+      "isFunction": true,
+      "isCustomStruct": false
+    },
+    "ClientRemotePlayerRemoveMapMarker": {
+      "name": "ClientRemotePlayerRemoveMapMarker",
+      "type": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker",
+      "isFunction": true,
+      "isCustomStruct": false
+    }
+  }
+}

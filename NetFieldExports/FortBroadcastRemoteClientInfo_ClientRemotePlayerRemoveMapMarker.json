@@ -1,0 +1,18 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "PlayerID": {
+      "name": "PlayerID",
+      "type": "int",
+      "parseFunction": "readUInt32"
+    },
+    "BasePosition": {
+      "name": "BasePosition",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    }
+  }
+}

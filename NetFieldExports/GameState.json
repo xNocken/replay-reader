@@ -1,0 +1,458 @@
+{
+  "path": [
+    "/Game/Athena/Athena_GameState.Athena_GameState_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "GoldenPoiLocationTags": {
+      "name": "GoldenPoiLocationTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    },
+    "DefaultBattleBus": {
+      "name": "DefaultBattleBus",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "bReplicatedHasBegunPlay": {
+      "name": "bReplicatedHasBegunPlay",
+      "type": "bool",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedWorldTimeSeconds": {
+      "name": "ReplicatedWorldTimeSeconds",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "MatchState": {
+      "name": "MatchState",
+      "type": "FName",
+      "parseFunction": "readProperty"
+    },
+    "ElapsedTime": {
+      "name": "ElapsedTime",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "WorldLevel": {
+      "name": "WorldLevel",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "CraftingBonus": {
+      "name": "CraftingBonus",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "TeamCount": {
+      "name": "TeamCount",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "TeamSize": {
+      "name": "TeamSize",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "AdditionalPlaylistLevelsStreamed": {
+      "name": "AdditionalPlaylistLevelsStreamed",
+      "type": "FName",
+      "parseFunction": "readDynamicArray"
+    },
+    "WorldDaysElapsed": {
+      "name": "WorldDaysElapsed",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "GameplayState": {
+      "name": "GameplayState",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [3]
+    },
+    "GameSessionId": {
+      "name": "GameSessionId",
+      "type": "string",
+      "parseFunction": "readString"
+    },
+    "SpawnPointsCap": {
+      "name": "SpawnPointsCap",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "SpawnPointsAllocated": {
+      "name": "SpawnPointsAllocated",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "PlayerSharedMaxTrapAttributes": {
+      "name": "SpawnPointsAllocated",
+      "type": "float",
+      "parseFunction": "readDynamicArray"
+    },
+    "TotalPlayerStructures": {
+      "name": "TotalPlayerStructures",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "ServerGameplayTagIndexHash": {
+      "name": "ServerGameplayTagIndexHash",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "GameDifficulty": {
+      "name": "GameDifficulty",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bAllowLayoutRequirementsFeature": {
+      "name": "bAllowLayoutRequirementsFeature",
+      "type": "bool",
+      "parseFunction": "readBit"
+    },
+    "ServerStability": {
+      "name": "ServerStability",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [3]
+    },
+    "RoundTimeAccumulated": {
+      "name": "RoundTimeAccumulated",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "RoundTimeCriticalThreshold": {
+      "name": "RoundTimeCriticalThreshold",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "ServerChangelistNumber": {
+      "name": "ServerChangelistNumber",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "CreativeRealEstatePlotManager": {
+      "name": "CreativeRealEstatePlotManager",
+      "type": "int",
+      "parseFunction": "ignore"
+    },
+    "WarmupCountdownStartTime": {
+      "name": "WarmupCountdownStartTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "WarmupCountdownEndTime": {
+      "name": "WarmupCountdownEndTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bSafeZonePaused": {
+      "name": "bSafeZonePaused",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "AircraftStartTime": {
+      "name": "AircraftStartTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bSkyTubesShuttingDown": {
+      "name": "bSkyTubesShuttingDown",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "SafeZonesStartTime": {
+      "name": "SafeZonesStartTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bSkyTubesDisabled": {
+      "name": "bSkyTubesDisabled",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "PlayersLeft": {
+      "name": "PlayersLeft",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "ReplOverrideData": {
+      "name": "ReplOverrideData",
+      "type": "uint",
+      "parseFunction": "ignore"
+    },
+    "EndGameStartTime": {
+      "name": "EndGameStartTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "TeamsLeft": {
+      "name": "TeamsLeft",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "EndGameKickPlayerTime": {
+      "name": "EndGameKickPlayerTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "ServerToClientPreloadList": {
+      "name": "ServerToClientPreloadList",
+      "type": "ItemDefinition",
+      "parseFunction": "ignore"
+    },
+    "ClientVehicleClassesToLoad": {
+      "name": "ClientVehicleClassesToLoad",
+      "type": "ItemDefinition",
+      "parseFunction": "ignore"
+    },
+    "bAllowUserPickedCosmeticBattleBus": {
+      "name": "bAllowUserPickedCosmeticBattleBus",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "TeamFlightPaths": {
+      "name": "TeamFlightPaths",
+      "type": "readUInt32",
+      "parseFunction": "ignore"
+    },
+    "StormCapState": {
+      "name": "StormCapState",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [3]
+    },
+    "FlightStartLocation": {
+      "name": "FlightStartLocation",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "FlightStartRotation": {
+      "name": "FlightStartRotation",
+      "type": "FRotator",
+      "parseFunction": "readRotationShort"
+    },
+    "FlightSpeed": {
+      "name": "FlightSpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "TimeTillFlightEnd": {
+      "name": "TimeTillFlightEnd",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "TimeTillDropStart": {
+      "name": "TimeTillDropStart",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "TimeTillDropEnd": {
+      "name": "TimeTillDropEnd",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "UtcTimeStartedMatch": {
+      "name": "UtcTimeStartedMatch",
+      "type": "FDateTime",
+      "parseFunction": "readProperty"
+    },
+    "SafeZonePhase": {
+      "name": "SafeZonePhase",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "GamePhase": {
+      "name": "GamePhase",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [3]
+    },
+    "Aircrafts": {
+      "name": "Aircrafts",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "bAircraftIsLocked": {
+      "name": "bAircraftIsLocked",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "LobbyAction": {
+      "name": "LobbyAction",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "WinningPlayerState": {
+      "name": "WinningPlayerState",
+      "type": "ActorGuid",
+      "parseFunction": "readProperty"
+    },
+    "WinningPlayerList": {
+      "name": "WinningPlayerList",
+      "type": "readUInt32",
+      "parseFunction": "readDynamicArray"
+    },
+    "WinningTeam": {
+      "name": "WinningTeam",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "WinningScore": {
+      "name": "WinningScore",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "CurrentHighScore": {
+      "name": "CurrentHighScore",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "CurrentHighScoreTeam": {
+      "name": "CurrentHighScoreTeam",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "bStormReachedFinalPosition": {
+      "name": "bStormReachedFinalPosition",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "SpectateAPartyMemberAvailable": {
+      "name": "SpectateAPartyMemberAvailable",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "HopRockDuration": {
+      "name": "HopRockDuration",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bIsLargeTeamGame": {
+      "name": "bIsLargeTeamGame",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ActiveTeamNums": {
+      "name": "ActiveTeamNums",
+      "type": "NetworkGUID",
+      "parseFunction": "ignore"
+    },
+    "AirCraftBehavior": {
+      "name": "AirCraftBehavior",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "DefaultGliderRedeployCanRedeploy": {
+      "name": "DefaultGliderRedeployCanRedeploy",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "DefaultRedeployGliderLateralVelocityMult": {
+      "name": "DefaultRedeployGliderLateralVelocityMult",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "DefaultRedeployGliderHeightLimit": {
+      "name": "DefaultRedeployGliderHeightLimit",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "EventTournamentRound": {
+      "name": "EventTournamentRound",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [3]
+    },
+    "EventId": {
+      "name": "EventId",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "PlayerBotsLeft": {
+      "name": "PlayerBotsLeft",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "DefaultParachuteDeployTraceForGroundDistance": {
+      "name": "DefaultParachuteDeployTraceForGroundDistance",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "DefaultRebootMachineHotfix": {
+      "name": "DefaultRebootMachineHotfix",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "SignalInStormRegenSpeed": {
+      "name": "SignalInStormRegenSpeed",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "MutatorGenericInt": {
+      "name": "MutatorGenericInt",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "StormCNDamageVulnerabilityLevel0": {
+      "name": "StormCNDamageVulnerabilityLevel0",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "StormCNDamageVulnerabilityLevel1": {
+      "name": "StormCNDamageVulnerabilityLevel1",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "StormCNDamageVulnerabilityLevel2": {
+      "name": "StormCNDamageVulnerabilityLevel2",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "StormCNDamageVulnerabilityLevel3": {
+      "name": "StormCNDamageVulnerabilityLevel3",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bEnabled": {
+      "name": "bEnabled",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bConnectedToRoot": {
+      "name": "bConnectedToRoot",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "GameServerNodeType": {
+      "name": "GameServerNodeType",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "VolumeManager": {
+      "name": "VolumeManager",
+      "type": "uint",
+      "parseFunction": "ignore"
+    },
+    "TrackedCosmetics": {
+      "name": "TrackedCosmetics",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "VariantUsageByCosmetic": {
+      "name": "VariantUsageByCosmetic",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "PrioritizedCosmeticIndices": {
+      "name": "PrioritizedCosmeticIndices",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    },
+    "Mappings": {
+      "name": "Mappings",
+      "type": "ItemDefinition",
+      "parseFunction": "readDynamicArray"
+    }
+  }
+}

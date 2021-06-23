@@ -1,0 +1,30 @@
+{
+  "path": [
+    "/Game/Building/ActorBlueprints/Containers/"
+  ],
+  "customExportName": "Chests",
+  "parseLevel": 2,
+  "partialPath": true,
+  "properties": {
+    "bHidden": {
+      "name": "bHidden",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bAlreadySearched": {
+      "name": "bAlreadySearched",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedLootTier": {
+      "name": "ReplicatedLootTier",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "SearchingPawn": {
+      "name": "SearchingPawn",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    }
+  }
+}

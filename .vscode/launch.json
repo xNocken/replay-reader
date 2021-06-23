@@ -8,6 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            "runtimeArgs": [
+              "--experimental-wasm-simd"
+            ],
             "skipFiles": [
                 "<node_internals>/**"
             ],

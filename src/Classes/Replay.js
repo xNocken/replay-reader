@@ -1,149 +1,299 @@
 const crypto = require('crypto');
+const unrealNames = require('../../Classes/UnrealNames');
+const FRotator = require('./FRotator');
+const FVector = require('./FVector');
 const Header = require('./Header');
-const Info = require('./Info');
-const Player = require('./Player');
 
-/**
- * A binary parser
- *
- * @author https://github.com/ThisNils
- */
 class Replay {
-  /**
-   * @param {Buffer} buffer the binary buffer
-   */
-  constructor(buffer) {
+  constructor(input, bitCount) {
     /**
-     * The buffer
      * @type {Buffer}
      */
-    if (buffer) {
-      this.buffer = Buffer.from(buffer);
-    }
-
+    this.buffer = input;
+    this.lastBit = bitCount || this.buffer.length * 8;
     /**
-     * Current byte offset
      * @type {number}
      */
     this.offset = 0;
+    this.isError = false;
+    this.offsets = [];
 
     /**
-     * Header informations about the replay
      * @type {Header}
      */
-    this.header = null;
+    this.header;
+  }
 
-    /**
-     * Informations about the replay
-     * @type {Info}
-     */
-    this.info = null;
+  addOffset(offset) {
+    if (!this.canRead(offset)) {
+      throw Error('offset is larger than buffer');
+    }
 
-    /**
-     * If the replay is compressed
-     * @type {Boolean}
-     */
-    this.isCompressed = false;
+    this.offsets.push(this.lastBit);
 
-    /**
-     * A list of all players
-     * @type {Array<Player>}
-     */
-    this.playerList = [];
+    this.lastBit = this.offset + offset;
+  }
+
+  addOffsetByte(offset) {
+    this.addOffset(offset * 8)
+  }
+
+  popOffset(numBits, ignoreError) {
+    if (!this.offsets.length) {
+      throw Error('no offsets available');
+    }
+
+    if (this.isError && !ignoreError) {
+      throw Error(`Too much was read expected ${numBits}`);
+    }
+
+    this.isError = false;
+
+    this.offset = this.lastBit;
+
+    this.lastBit = this.offsets.pop();
+  }
+
+  getLastByte() {
+    return this.buffer[(~~this.lastBit / 8) - 1];
   }
 
   /**
-   * Skip bytes
-   * @param {number} count bytes to skip
+   * Returns the bit at current offset
+   * @returns {boolean}
    */
-  skip(count) {
-    this.offset += count;
-  }
+  readBit() {
+    if (this.atEnd() || this.isError) {
+      this.isError = true;
+      return false;
+    }
 
-  /**
-   * Go to a buffer offset
-   * @param {number} offset new offset
-   */
-  goto(offset) {
-    this.offset = offset;
-  }
+    const byteOffset = ~~(this.offset / 8); // ~~ = math.trunc
 
-  /**
-   * Read a uint16
-   * @returns {number} the int
-   */
-  readUInt16() {
-    const int = this.buffer.readUInt16LE(this.offset);
-    this.offset += 2;
-    return int;
-  }
+    let value = this.buffer[byteOffset] >> (this.offset % 8) & 1;
 
-  /**
-   * Read a int32
-   * @returns {number} the int
-   */
-  readInt32() {
-    const int = this.buffer.readInt32LE(this.offset);
-    this.offset += 4;
-    return int;
-  }
-
-  /**
-   * Read a int32
-   * @returns {number} the int
-   */
-  readUInt32() {
-    const int = this.buffer.readUInt32LE(this.offset);
-    this.offset += 4;
-    return int;
-  }
-
-  /**
-   * Read a float32
-   * @returns {number} the float
-   */
-  readFloat32() {
-    const float = this.buffer.readFloatLE(this.offset);
-    this.offset += 4;
-    return float;
-  }
-
-  /**
-   * Read a uint64
-   * @returns {bigint} the int
-   */
-  readUInt64() {
-    const int = this.buffer.readBigUInt64LE(this.offset);
-    this.offset += 8;
-    return int;
-  }
-
-  /**
-   * Read a byte
-   * @returns {Buffer} the byte
-   */
-  readByte() {
-    const byte = Buffer.from(this.buffer.toString('binary', this.offset, this.offset + 1), 'binary');
     this.offset += 1;
-    return byte;
+
+    return value === 1;
+  }
+
+  readBits(count) {
+    const buffer = Buffer.allocUnsafe(Math.ceil(count / 8));
+
+    let byteOffset;
+    let currentBit = 1;
+
+    for (let i = 0; i < count; i++) {
+      const bitOffset = i % 8;
+
+      if (bitOffset === 0) {
+        byteOffset = ~~(i / 8);
+        currentBit = 1;
+      }
+
+      if (this.readBit()) {
+        buffer[byteOffset] |= (currentBit);
+      } else {
+        buffer[byteOffset] &= ~(currentBit);
+      }
+
+      currentBit *= 2;
+    }
+
+    return buffer;
+  }
+
+  readBitsToInt(count) {
+    let result = 0;
+    let val = 1;
+
+    for (let i = 0; i < count; i++) {
+      if (this.readBit()) {
+        result |= (val);
+      }
+
+      val *= 2;
+    }
+
+    return result;
   }
 
   /**
-   * Read multiple bytes
-   * @returns {Buffer} the bytes
+   * Return the next bits from the array thats smaller than maxValue
+   * @param {number} maxValue
+   *
+   * @returns {number}
    */
-  readBytes(count) {
-    const bytes = Buffer.from(this.buffer.toString('binary', this.offset, this.offset + count), 'binary');
-    this.offset += count;
-    return bytes;
+  readSerializedInt(maxValue) {
+    let value = 0;
+
+    for (let mask = 1; (value + mask) < maxValue; mask *= 2) {
+      if (this.readBit()) {
+        value |= mask;
+      }
+    }
+
+    return value;
   }
 
-  /**
-   * Read a boolean
-   * @returns {boolean} the boolean
-   */
-  readBool() {
+  canRead(number) {
+    return number + this.offset <= this.lastBit;
+  }
+
+  readIntPacked() {
+    let remaining = true;
+    let value = 0;
+    let index = 0;
+
+    while (remaining) {
+      const currentByte = this.readByte();
+
+      remaining = (currentByte & 1) === 1;
+
+      value += (currentByte >> 1) << (7 * index);
+
+      index += 1;
+    }
+
+    return value;
+  }
+
+  readBytes(byteCount) {
+    if ((this.offset % 8) === 0) {
+      const arr = Buffer.allocUnsafe(byteCount);
+      const start = ~~(this.offset / 8);
+
+      this.buffer.copy(arr, 0, start, start + byteCount);
+
+      this.offset += byteCount * 8;
+
+      return arr;
+    } else {
+      return this.readBits(byteCount * 8);
+    }
+  }
+
+  readByte() {
+    return this.readBytes(1)[0];
+  }
+
+  readInt16() {
+    return this.readBytes(2).readInt16LE()
+  }
+
+  readUInt32() {
+    return this.readBytes(4).readUInt32LE()
+  }
+
+  readInt32() {
+    return this.readBytes(4).readInt32LE()
+  }
+
+  readUInt64() {
+    return this.readBytes(8).readBigUInt64LE()
+  }
+
+  readString() {
+    const length = this.readInt32();
+
+    if (!this.canRead(length)) {
+      this.isError = true;
+      return '';
+    }
+
+    if (length === 0) {
+      return '';
+    }
+
+    let value;
+
+    if (length < 0) {
+      value = this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
+    } else {
+      value = this.readBytes(length).slice(0, -1).toString('utf-8');
+    }
+
+    return value;
+  }
+
+  readFName() {
+    const isHardcoded = this.readBit();
+
+    if (isHardcoded) {
+      let nameIndex;
+
+      if (this.header.EngineNetworkVersion < 6) {
+        nameIndex = this.readUInt32();
+      } else {
+        nameIndex = this.readIntPacked();
+      }
+
+      return unrealNames[nameIndex];
+    }
+
+    const inString = this.readString();
+    this.skipBytes(4);
+
+    return inString;
+  }
+
+  readFNameByte() {
+    const isHardcoded = this.readByte();
+
+    if (isHardcoded) {
+      let nameIndex;
+
+      if (this.header.EngineNetworkVersion < 6) {
+        nameIndex = this.readUInt32();
+      } else {
+        nameIndex = this.readIntPacked();
+      }
+
+      return unrealNames[nameIndex];
+    }
+
+    const inString = this.readString();
+    this.skipBytes(4);
+
+    return inString;
+  }
+
+  readBoolean() {
     return this.readInt32() === 1;
+  }
+
+  getBitsLeft() {
+    return this.lastBit - this.offset;
+  }
+
+  /**
+   *
+   * @param {Buffer} data
+   * @param {number} bitCount
+   */
+  appendDataFromChecked(data, bitCount) {
+    const newBuffer = Buffer.allocUnsafe(data.length + this.buffer.length);
+
+    this.buffer.copy(newBuffer);
+    data.copy(newBuffer, this.buffer.length);
+
+    this.buffer = newBuffer;
+
+    this.lastBit += bitCount;
+  }
+
+  readUInt16() {
+    return this.readBytes(2).readUInt16LE(0);
+  }
+
+  atEnd() {
+    return this.lastBit <= this.offset;
+  }
+
+  readFloat32() {
+    const hi = this.readBytes(4);
+    const result = hi.readFloatLE(0);
+    return result;
   }
 
   /**
@@ -155,6 +305,54 @@ class Replay {
   }
 
   /**
+   * Read an id
+   * @returns {string} the id
+   */
+  readNetId() {
+    const typeHashOther = 31;
+    const encodingFlags = this.readByte();
+
+    let encoded = false;
+
+    if ((encodingFlags & 1) === 1) {
+      encoded = true;
+
+      if ((encodingFlags & 2) === 2) {
+        return "";
+      }
+    }
+
+    const typeHash = encodingFlags & 248;
+
+    if (typeHash == 0) {
+      return 'NULL';
+    }
+
+    let bValidHashType = typeHash != 0;
+    let typeString = '';
+
+    if (typeHash === typeHashOther) {
+      typeString = this.readString();
+
+      if (typeString === 'None') {
+        bValidHashType = false;
+      }
+    }
+
+    if (bValidHashType) {
+      if (encoded) {
+        const encodedSize = this.readByte();
+
+        return this.readBytes(encodedSize).toString('hex');
+      }
+
+      return this.readString();
+    }
+
+    return "";
+  }
+
+  /**
    * Read an array
    * @param {function} fn the function for all array elements
    * @returns {array} the array
@@ -162,9 +360,11 @@ class Replay {
   readArray(fn) {
     const length = this.readUInt32();
     const returnArray = [];
+
     for (let i = 0; i < length; i += 1) {
       returnArray.push(fn(this));
     }
+
     return returnArray;
   }
 
@@ -177,50 +377,162 @@ class Replay {
   readObjectArray(fn1, fn2) {
     const length = this.readUInt32();
     const returnArray = [];
+
     for (let i = 0; i < length; i += 1) {
       const obj = {};
-      obj[fn1(this)] = obj[fn2(this)];
+      obj[fn1(this)] = fn2(this);
       returnArray.push(obj);
     }
+
     return returnArray;
   }
 
-  /**
-   * Read a string
-   * @returns {string} the string
-   */
-  readString() {
-    const length = this.readInt32();
-    if (length === 0) return '';
-    if (length < 0) return this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
 
-    const str = this.readBytes(length).slice(0, -1);
+  readVector() {
+    return { x: this.readFloat32(), y: this.readFloat32(), z: this.readFloat32() };
+  }
 
-    return str.toString('utf-8');
+  readPackedVector100() {
+    return this.readPackedVector(100, 30);
+  }
+
+  readPackedVector10() {
+    return this.readPackedVector(10, 24);
+  }
+
+  readPackedVector1() {
+    return this.readPackedVector(1, 24);
+  }
+
+  readPackedVector(scaleFactor, maxBits) {
+    const bits = this.readSerializedInt(maxBits);
+
+    if (this.isError) {
+      return { x: 0, y: 0, z: 0 };
+    }
+
+    const bias = 1 << (bits + 1);
+    const max = 1 << (bits + 2);
+
+    const dx = this.readSerializedInt(max);
+    const dy = this.readSerializedInt(max);
+    const dz = this.readSerializedInt(max);
+
+    if (this.isError) {
+      return { x: 0, y: 0, z: 0 };
+    }
+
+    const x = (dx - bias) / scaleFactor;
+    const y = (dy - bias) / scaleFactor;
+    const z = (dz - bias) / scaleFactor;
+
+    return { x, y, z };
   }
 
   /**
    * Decrypt a buffer
    * @param {number} length buffer length
-   * @returns {Buffer} decrypted buffer
+   * @returns {Replay} decrypted buffer
    */
   decryptBuffer(length) {
-    const bytes = this.readBytes(length);
-    let newBuffer = new Replay();
-
-    newBuffer.header = this.header;
-    newBuffer.info = this.info;
-    newBuffer.playerList = this.playerList;
-
     if (!this.info.IsEncrypted) {
-      newBuffer.buffer = bytes;
-      return newBuffer;
+      this.addOffsetByte(length);
+
+      return this;
     };
 
-    const decipher = crypto.createDecipheriv('aes-256-ecb', this.info.EncryptionKey, null);
-    newBuffer.buffer = Buffer.from(decipher.update(bytes, 'binary', 'binary') + decipher.final('binary'), 'binary');
+    const bytes = this.readBytes(length);
 
-    return newBuffer;
+    const decipher = crypto.createDecipheriv('aes-256-ecb', this.info.EncryptionKey, null);
+    const newBuffer = Buffer.from(decipher.update(bytes, 'binary', 'binary') + decipher.final('binary'), 'binary');
+
+    const newReplay = new Replay(newBuffer);
+
+    newReplay.header = this.header;
+    newReplay.info = this.info;
+    newReplay.playerList = this.playerList;
+
+    return newReplay;
+  }
+
+  readRotation() {
+    let pitch = 0;
+    let yaw = 0;
+    let roll = 0;
+
+    if (this.readBit()) {
+      pitch = this.readByte() * 360 / 256;
+    }
+
+    if (this.readBit()) {
+      yaw = this.readByte() * 360 / 256;
+    }
+
+    if (this.readBit()) {
+      roll = this.readByte() * 360 / 256;
+    }
+
+    if (this.isError) {
+      return { pitch: 0, yaw: 0, roll: 0 };
+    }
+
+    return { pitch, yaw, roll };
+  }
+
+  readRotationShort() {
+    let pitch = 0;
+    let yaw = 0;
+    let roll = 0;
+
+    if (this.readBit()) {
+      pitch = this.readUInt16() * 360 / 65536;
+    }
+
+    if (this.readBit()) {
+      yaw = this.readUInt16() * 360 / 65536;
+    }
+
+    if (this.readBit()) {
+      roll = this.readUInt16() * 360 / 65536;
+    }
+
+    if (this.isError) {
+      return { pitch: 0, yaw: 0, roll: 0 };
+    }
+
+    return { pitch, yaw, roll };
+  }
+
+  skipBits(bits) {
+    this.offset += bits;
+  }
+
+  skipBytes(bits) {
+    this.offset += bits * 8;
+  }
+
+  getByteOffset() {
+    return this.offset / 8;
+  }
+
+  goToByte(offset) {
+    this.offset = offset * 8;
+  }
+
+  /**
+   * Checks the flag for HasStreamingFixes
+   * @returns {Boolean}
+   */
+  hasLevelStreamingFixes() {
+    return (this.header.Flags & 2) === 2;
+  }
+
+  /**
+   * Checks the flag for GameSpecificFrameData
+   * @returns {Boolean}
+   */
+  hasGameSpecificFrameData() {
+    return (this.header.Flags & 8) === 8;
   }
 }
 

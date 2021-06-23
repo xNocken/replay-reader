@@ -1,0 +1,199 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortPickupAthena"
+  ],
+  "parseLevel": 2,
+  "properties": {
+    "bReplicateMovement": {
+      "name": "bReplicateMovement",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty"
+    },
+    "LocationOffset": {
+      "name": "LocationOffset",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RelativeScale3D": {
+      "name": "RelativeScale3D",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "RotationOffset": {
+      "name": "RotationOffset",
+      "type": "FVector",
+      "parseFunction": "readRotationShort"
+    },
+    "AttachComponent": {
+      "name": "AttachComponent",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "Owner": {
+      "name": "Owner",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "bRandomRotation": {
+      "name": "bRandomRotation",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "Count": {
+      "name": "Count",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "ItemDefinition": {
+      "name": "ItemDefinition",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "Durability": {
+      "name": "Durability",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "Level": {
+      "name": "Level",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "LoadedAmmo": {
+      "name": "LoadedAmmo",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "A": {
+      "name": "A",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "B": {
+      "name": "B",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "C": {
+      "name": "C",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "D": {
+      "name": "D",
+      "type": "uint",
+      "parseFunction": "readUInt32"
+    },
+    "bUpdateStatsOnCollection": {
+      "name": "bUpdateStatsOnCollection",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bIsDirty": {
+      "name": "bIsDirty",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "StateValues": {
+      "name": "StateValues",
+      "type": "FortItemEntryStateValue",
+      "parseFunction": "readDynamicArray"
+    },
+    "GenericAttributeValues": {
+      "name": "GenericAttributeValues",
+      "type": "float",
+      "parseFunction": "ignore"
+    },
+    "CombineTarget": {
+      "name": "CombineTarget",
+      "type": "ItemDefinition",
+      "parseFunction": "readProperty"
+    },
+    "PickupTarget": {
+      "name": "PickupTarget",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "ItemOwner": {
+      "name": "ItemOwner",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "LootInitialPosition": {
+      "name": "LootInitialPosition",
+      "type": "FVector",
+      "parseFunction": "readPackedVector10"
+    },
+    "LootFinalPosition": {
+      "name": "LootFinalPosition",
+      "type": "FVector",
+      "parseFunction": "readPackedVector10"
+    },
+    "FlyTime": {
+      "name": "FlyTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "StartDirection": {
+      "name": "StartDirection",
+      "type": "FVector",
+      "parseFunction": "readRotationShort"
+    },
+    "FinalTossRestLocation": {
+      "name": "FinalTossRestLocation",
+      "type": "FVector",
+      "parseFunction": "readPackedVector10"
+    },
+    "TossState": {
+      "name": "TossState",
+      "type": "int",
+      "parseFunction": "readBitsToInt",
+      "args": [2]
+    },
+    "bCombinePickupsWhenTossCompletes": {
+      "name": "bCombinePickupsWhenTossCompletes",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "OptionalOwnerID": {
+      "name": "OptionalOwnerID",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "bPickedUp": {
+      "name": "bPickedUp",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bTossedFromContainer": {
+      "name": "bTossedFromContainer",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "bServerStoppedSimulation": {
+      "name": "bServerStoppedSimulation",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ServerImpactSoundFlash": {
+      "name": "ServerImpactSoundFlash",
+      "type": "byte",
+      "parseFunction": "readByte"
+    },
+    "PawnWhoDroppedPickup": {
+      "name": "PawnWhoDroppedPickup",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "OrderIndex": {
+      "name": "OrderIndex",
+      "type": "ushort",
+      "parseFunction": "readUInt16"
+    }
+  }
+}

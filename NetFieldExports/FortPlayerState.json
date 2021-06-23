@@ -1,0 +1,43 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortPlayerStateAthena"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "PlayerID": {
+      "name": "PlayerID",
+      "type": "int",
+      "parseFunction": "readUInt32"
+    },
+    "UniqueId": {
+      "name": "UniqueId",
+      "type": "string",
+      "parseFunction": "readNetId"
+    },
+    "PlayerNamePrivate": {
+      "name": "PlayerNamePrivate",
+      "type": "string",
+      "parseFunction": "ignore"
+    },
+    "bOnlySpectator": {
+      "name": "bOnlySpectator",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "DeathTags": {
+      "name": "DeathTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    },
+    "VictimTags": {
+      "name": "VictimTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    },
+    "FinisherOrDownerTags": {
+      "name": "FinisherOrDownerTags",
+      "type": "FGameplayTagContainer",
+      "parseFunction": "readProperty"
+    }
+  }
+}

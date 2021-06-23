@@ -1,0 +1,68 @@
+{
+  "path": [
+    "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "RemoteRole": {
+      "name": "RemoteRole",
+      "type": "object",
+      "parseFunction": "ignore"
+    },
+    "Role": {
+      "name": "Role",
+      "type": "object",
+      "parseFunction": "ignore"
+    },
+    "LastRadius": {
+      "name": "LastRadius",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "NextRadius": {
+      "name": "NextRadius",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "LastCenter": {
+      "name": "LastCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "NextCenter": {
+      "name": "NextCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "NextNextCenter": {
+      "name": "NextNextCenter",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "SafeZoneStartShrinkTime": {
+      "name": "SafeZoneStartShrinkTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "SafeZoneFinishShrinkTime": {
+      "name": "SafeZoneFinishShrinkTime",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "bPausedForPreview": {
+      "name": "bPausedForPreview",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "MegaStormDelayTimeBeforeDestruction": {
+      "name": "MegaStormDelayTimeBeforeDestruction",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "Radius": {
+      "name": "Radius",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    }
+  }
+}

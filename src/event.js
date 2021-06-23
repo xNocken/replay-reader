@@ -8,17 +8,17 @@ const MatchTeamStatsEvent = require('./Classes/Events/MatchTeamStatsEvent');
  * @param {Replay} replay the replay
  */
 const parsePlayer = (replay) => {
-  const playerType = replay.readByte().toString('hex');
+  const playerType = replay.readByte().toString(16);
 
   switch (playerType) {
-    case '03':
+    case '3':
       return "bot";
 
     case '10':
       return replay.readString();
 
     case '11':
-      replay.skip(1);
+      replay.skipBytes(1);
       return replay.readId();
 
     default:
@@ -28,32 +28,32 @@ const parsePlayer = (replay) => {
 
 /**
  * Parse the player elim
- * @param {PlayerEliminationEvent} data the event
+ * @param {PlayerEliminationEvent} result the event
  * @param {Replay} replay the replay
  */
-const parsePlayerElim = (data, replay) => {
+const parsePlayerElim = (result, replay) => {
   if (replay.header.EngineNetworkVersion >= 11 && replay.header.Major >= 9) {
-    replay.skip(85);
+    replay.skipBytes(85);
 
-    data.Eliminated = parsePlayer(replay);
-    data.Eliminator = parsePlayer(replay);
+    result.Eliminated = parsePlayer(replay);
+    result.Eliminator = parsePlayer(replay);
   } else {
     if (replay.header.Major <= 4 && replay.header.Minor < 2) {
-      replay.skip(12);
+      replay.skipBytes(12);
     }
     else if (replay.header.Major == 4 && replay.header.Minor <= 2) {
-      replay.skip(40);
+      replay.skipBytes(40);
     }
     else {
-      replay.skip(45);
+      replay.skipBytes(45);
     }
 
-    data.Eliminated = replay.readString();
-    data.Eliminator = replay.readString();
+    result.Eliminated = replay.readString();
+    result.Eliminator = replay.readString();
   }
 
-  data.GunType = replay.readByte()[0];
-  data.Knocked = replay.readBool();
+  result.GunType = replay.readByte();
+  result.Knocked = replay.readBoolean();
 };
 
 /**
@@ -62,7 +62,7 @@ const parsePlayerElim = (data, replay) => {
  * @param {Replay} replay the replay
  */
 const parseMatchStats = (data, replay) => {
-  replay.skip(4);
+  replay.skipBytes(4);
   data.Accuracy = replay.readFloat32();
   data.Assists = replay.readUInt32();
   data.Eliminations = replay.readUInt32();
@@ -83,7 +83,7 @@ const parseMatchStats = (data, replay) => {
  * @param {Replay} replay the replay
  */
 const parseMatchTeamStats = (data, replay) => {
-  replay.skip(4);
+  replay.skipBytes(4);
   data.Position = replay.readUInt32();
   data.TotalPlayers = replay.readUInt32();
 };
@@ -100,19 +100,22 @@ const event = (replay) => {
   const endTime = replay.readUInt32();
   const length = replay.readUInt32();
 
-  let data = replay.decryptBuffer(length);
-
+  let decryptedEvent = replay.decryptBuffer(length);
   let result;
 
   if (group === 'playerElim') {
-    result = new PlayerEliminationEvent(eventId, group, metadata, startTime, endTime)
-    parsePlayerElim(result, data);
+    result = new PlayerEliminationEvent(eventId, group, metadata, startTime, endTime);
+    parsePlayerElim(result, decryptedEvent);
   } else if (metadata === 'AthenaMatchStats') {
-    result = new MatchStatsEvent(eventId, group, metadata, startTime, endTime)
-    parseMatchStats(result, data);
+    result = new MatchStatsEvent(eventId, group, metadata, startTime, endTime);
+    parseMatchStats(result, decryptedEvent);
   } else if (metadata === 'AthenaMatchTeamStats') {
-    result = new MatchTeamStatsEvent(eventId, group, metadata, startTime, endTime)
-    parseMatchTeamStats(result, data);
+    result = new MatchTeamStatsEvent(eventId, group, metadata, startTime, endTime);
+    parseMatchTeamStats(result, decryptedEvent);
+  }
+
+  if (!replay.info.IsEncrypted) {
+    replay.popOffset();
   }
 
   return result;

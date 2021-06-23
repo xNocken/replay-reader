@@ -2,6 +2,8 @@ const Info = require('./Classes/Info');
 const Replay = require('./Classes/Replay');
 const event = require('./event');
 const parseHeader = require('./header');
+const parseReplayData = require('./replayData');
+const GlobalData = require('./utils/globalData');
 
 /**
  * Parse the replays meta
@@ -18,27 +20,27 @@ const replayInfo = (replay) => {
   info.NetworkVersion = replay.readUInt32();
   info.Changelist = replay.readUInt32();
   info.FriendlyName = replay.readString();
-  info.IsLive = replay.readBool();
+  info.IsLive = replay.readBoolean();
 
   if (info.FileVersion >= 3) {
     info.Timestamp = new Date(parseInt((replay.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
   }
 
   if (info.FileVersion >= 2) {
-    info.IsCompressed = replay.readBool();
+    info.IsCompressed = replay.readBoolean();
   }
 
   if (info.FileVersion >= 6) {
-    info.IsEncrypted = replay.readBool();
+    info.IsEncrypted = replay.readBoolean();
     info.EncryptionKey = replay.readBytes(replay.readUInt32());
   }
 
   if (!info.IsLive && info.IsEncrypted && info.EncryptionKey.length === 0) {
-    throw new Error('Replay encrypted but no key was found!');
+    throw Error('Replay encrypted but no key was found!');
   }
 
   if (info.IsLive && info.IsEncrypted) {
-    throw new Error('Replay encrypted but not completed');
+    throw Error('Replay encrypted but not completed');
   }
 
   replay.info = info;
@@ -49,36 +51,51 @@ const replayInfo = (replay) => {
 /**
 * Parse the replays meta
 * @param {Replay} replay the replay
+* @param {GlobalData} globalData globals
 */
-const replayChunks = (replay) => {
-  const chunks = [];
+const replayChunks = async (replay, globalData) => {
+  const events = [];
+  let lastOffset = 0;
+  let lastTime = Date.now();
 
-  while (replay.buffer.byteLength > replay.offset) {
+  while (replay.lastBit > replay.offset) {
+    if (globalData.debug) {
+      console.log((((replay.offset - lastOffset) / ((Date.now() - lastTime) / 1000)) / 8).toFixed(0) + ' bytes/s')
+      console.log(100 - ((replay.lastBit - replay.offset) / replay.lastBit * 100));
+      lastOffset = replay.offset;
+      lastTime = Date.now();
+    }
+
     const chunkType = replay.readUInt32();
     const chunkSize = replay.readInt32();
-    const startOffset = replay.offset;
+
+    replay.addOffsetByte(chunkSize);
 
     switch (chunkType) {
       case 0:
-        const parsedHeader = parseHeader(replay);
-        chunks.push(parsedHeader);
+        globalData.header = parseHeader(replay);
+        break;
+
+      case 1:
+        await parseReplayData(replay, globalData);
         break;
 
       case 2:
-        // maybe TODO: handle this later
+        // TODO: handle checkpoints later
         break;
 
       case 3:
-        chunks.push(event(replay));
+        events.push(event(replay));
         break;
+
       default:
-        console.log('Unhandled chunkType', chunkType);
+        console.warn('Unhandled chunkType:', chunkType);
     }
 
-    replay.offset = startOffset + chunkSize;
+    replay.popOffset();
   }
 
-  return chunks;
+  return events;
 }
 
 module.exports = {

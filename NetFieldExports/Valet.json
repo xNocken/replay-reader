@@ -1,0 +1,29 @@
+{
+  "path": [
+    "/Valet/BasicCar",
+    "/Valet/BasicTruck",
+    "/Valet/BigRig/",
+    "/Valet/SportsCar",
+    "/Valet/TaxiCab"
+  ],
+  "partialPath": true,
+  "customExportName": "Valet",
+  "parseLevel": 2,
+  "properties": {
+    "Health": {
+      "name": "Health",
+      "type": "float",
+      "parseFunction": "readFloat32"
+    },
+    "Location": {
+      "name": "Location",
+      "type": "FVector",
+      "parseFunction": "readPackedVector100"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty"
+    }
+  }
+}

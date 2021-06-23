@@ -21,7 +21,7 @@ const header = (replay) => {
   }
 
   if (result.NetworkVersion >= 11) {
-    replay.skip(4);
+    replay.skipBytes(4);
     result.Patch = replay.readUInt16();
     result.Changelist = replay.readUInt32();
     result.Branch = replay.readString();
@@ -35,14 +35,16 @@ const header = (replay) => {
   }
 
   if (header.networkVersion <= 6) {
-    result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString, (a) => a.readUInt32)
+    throw Error('Not implented')
+  } else {
+    result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
   }
 
   if (result.NetworkVersion >= 9) {
     result.Flags = replay.readUInt32();
   }
 
-  header.gameSpicificData = replay.readArray((a) => a.readString);
+  result.gameSpecificData = replay.readArray((a) => a.readString());
 
   replay.header = result;
 
