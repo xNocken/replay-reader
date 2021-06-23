@@ -25,7 +25,28 @@ const recievedNextBunch = (bunch, globalData) => {
         globalData.partialBunch = null;
       }
 
-      globalData.partialBunch = new DataBunch(bunch);
+      globalData.partialBunch = {};
+
+      globalData.partialBunch.archive = bunch.archive;
+      globalData.partialBunch.packetId = bunch.packetId;
+      globalData.partialBunch.chIndex = bunch.chIndex;
+      globalData.partialBunch.chType = bunch.chType;
+      globalData.partialBunch.chName = bunch.chName;
+      globalData.partialBunch.chSequence = bunch.chSequence;
+      globalData.partialBunch.bOpen = bunch.bOpen;
+      globalData.partialBunch.bClose = bunch.bClose;
+      globalData.partialBunch.bDormant = bunch.bDormant;
+      globalData.partialBunch.bIsReplicationPaused = bunch.bIsReplicationPaused;
+      globalData.partialBunch.bReliable = bunch.bReliable;
+      globalData.partialBunch.bPartial = bunch.bPartial;
+      globalData.partialBunch.bPartialInitial = bunch.bPartialInitial;
+      globalData.partialBunch.bPartialFinal = bunch.bPartialFinal;
+      globalData.partialBunch.bHasPackageMapExports = bunch.bHasPackageMapExports;
+      globalData.partialBunch.bHasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
+      globalData.partialBunch.bIgnoreRPCs = bunch.bIgnoreRPCs;
+      globalData.partialBunch.closeReason = bunch.closeReason;
+      globalData.partialBunch.timeSeconds = bunch.timeSeconds;
+
       const bitsLeft = bunch.archive.getBitsLeft();
 
       if (!bunch.bHasPackageExportMaps) {

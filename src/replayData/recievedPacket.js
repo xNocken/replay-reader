@@ -23,7 +23,7 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
       packetArchive.skipBits(1);
     }
 
-    const bunch = new DataBunch();
+    const bunch = {};
 
     bunch.timeSeconds = timeSeconds;
 

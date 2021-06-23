@@ -5,26 +5,23 @@ const FVector = require('./FVector');
 const Header = require('./Header');
 
 class Replay {
-  /**
-   * @type {number}
-   */
-  offset;
-  /**
-   * @type {Header}
-   */
-  header;
-  info;
-  isError;
-
   constructor(input, bitCount) {
     /**
      * @type {Buffer}
      */
     this.buffer = input;
     this.lastBit = bitCount || this.buffer.length * 8;
+    /**
+     * @type {number}
+     */
     this.offset = 0;
     this.isError = false;
     this.offsets = [];
+
+    /**
+     * @type {Header}
+     */
+    this.header;
   }
 
   addOffset(offset) {
@@ -58,7 +55,7 @@ class Replay {
   }
 
   getLastByte() {
-    return this.buffer[(~~this.lastBit / 8)  - 1];
+    return this.buffer[(~~this.lastBit / 8) - 1];
   }
 
   /**
@@ -89,7 +86,7 @@ class Replay {
     for (let i = 0; i < count; i++) {
       const bitOffset = i % 8;
 
-      if (bitOffset == 0) {
+      if (bitOffset === 0) {
         byteOffset = ~~(i / 8);
         currentBit = 1;
       }
@@ -148,7 +145,7 @@ class Replay {
     let value = 0;
     let index = 0;
 
-    while(remaining) {
+    while (remaining) {
       const currentByte = this.readByte();
 
       remaining = (currentByte & 1) === 1;
@@ -164,13 +161,11 @@ class Replay {
   readBytes(byteCount) {
     if ((this.offset % 8) === 0) {
       const arr = Buffer.allocUnsafe(byteCount);
-      let index = 0;
+      const start = ~~(this.offset / 8);
 
-      while (byteCount > index) {
-        arr[index] = this.buffer[this.offset / 8];
-        index += 1;
-        this.offset += 8;
-      }
+      this.buffer.copy(arr, 0, start, start + byteCount);
+
+      this.offset += byteCount * 8;
 
       return arr;
     } else {
@@ -362,7 +357,7 @@ class Replay {
    * @param {function} fn the function for all array elements
    * @returns {array} the array
    */
-   readArray(fn) {
+  readArray(fn) {
     const length = this.readUInt32();
     const returnArray = [];
 
@@ -394,7 +389,7 @@ class Replay {
 
 
   readVector() {
-    return new FVector(this.readFloat32(), this.readFloat32(), this.readFloat32());
+    return { x: this.readFloat32(), y: this.readFloat32(), z: this.readFloat32() };
   }
 
   readPackedVector100() {
@@ -413,7 +408,7 @@ class Replay {
     const bits = this.readSerializedInt(maxBits);
 
     if (this.isError) {
-      return new FVector(0, 0, 0);
+      return { x: 0, y: 0, z: 0 };
     }
 
     const bias = 1 << (bits + 1);
@@ -424,14 +419,14 @@ class Replay {
     const dz = this.readSerializedInt(max);
 
     if (this.isError) {
-      return new FVector(0, 0, 0);
+      return { x: 0, y: 0, z: 0 };
     }
 
     const x = (dx - bias) / scaleFactor;
     const y = (dy - bias) / scaleFactor;
     const z = (dz - bias) / scaleFactor;
 
-    return new FVector(x, y, z);
+    return { x, y, z };
   }
 
   /**
@@ -478,10 +473,10 @@ class Replay {
     }
 
     if (this.isError) {
-      return new FRotator(0, 0, 0);
+      return { pitch: 0, yaw: 0, roll: 0 };
     }
 
-    return new FRotator(pitch, yaw, roll);
+    return { pitch, yaw, roll };
   }
 
   readRotationShort() {
@@ -502,10 +497,10 @@ class Replay {
     }
 
     if (this.isError) {
-      return new FRotator(0, 0, 0);
+      return { pitch: 0, yaw: 0, roll: 0 };
     }
 
-    return new FRotator(pitch, yaw, roll);
+    return { pitch, yaw, roll };
   }
 
   skipBits(bits) {

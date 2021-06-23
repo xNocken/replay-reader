@@ -1,3 +1,4 @@
+const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
 const readNetFieldExport = require('./readNetFieldExport');

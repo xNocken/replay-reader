@@ -1,11 +1,10 @@
-const PlaybackPacket = require('../Classes/PlaybackPacket');
 const Replay = require('../Classes/Replay');
 
 /**
  * @param {Replay} replay
  */
 const readPacket = (replay) => {
-  const packet = new PlaybackPacket();
+  const packet = {};
 
   const bufferSize = replay.readInt32();
   packet.size = bufferSize;

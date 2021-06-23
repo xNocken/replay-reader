@@ -1,8 +1,4 @@
 class FRotator {
-  pitch;
-  yaw;
-  roll;
-
   constructor(pitch, yaw, roll) {
     this.pitch = pitch;
     this.yaw = yaw;

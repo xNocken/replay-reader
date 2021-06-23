@@ -22,7 +22,7 @@ const processBunch = (bunch, replay, globalData) => {
       return;
     }
 
-    const inActor = new Actor();
+    const inActor = {};
 
     inActor.actorNetGUID = internalLoadObject(bunch.archive, false);
 
@@ -39,16 +39,16 @@ const processBunch = (bunch, replay, globalData) => {
         inActor.level = internalLoadObject(bunch.archive, false);
       }
 
-      inActor.location = conditionallySerializeQuantizedVector(bunch.archive, new FVector(0, 0, 0));
+      inActor.location = conditionallySerializeQuantizedVector(bunch.archive, { x: 0, y: 0, z: 0 });
 
       if (bunch.archive.readBit()) {
         inActor.rotation = bunch.archive.readRotationShort();
       } else {
-        inActor.rotation = new FRotator(0, 0, 0);
+        inActor.rotation = { pitch: 0, yaw: 0, roll: 0 };
       }
 
-      inActor.scale = conditionallySerializeQuantizedVector(bunch.archive, new FVector(1, 1, 1));
-      inActor.velocity = conditionallySerializeQuantizedVector(bunch.archive, new FVector(0, 0, 0));
+      inActor.scale = conditionallySerializeQuantizedVector(bunch.archive, { x: 1, y: 1, z: 1 });
+      inActor.velocity = conditionallySerializeQuantizedVector(bunch.archive, { x: 0, y: 0, z: 0 });
     }
 
     channel.actor = inActor;

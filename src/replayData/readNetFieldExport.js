@@ -9,7 +9,7 @@ const readNetFieldExport = (archive) => {
   const isExported = archive.readByte();
 
   if (isExported) {
-    const fieldExport = new NetFieldExport();
+    const fieldExport = {};
     fieldExport.handle = archive.readIntPacked();
     fieldExport.compatibleChecksum = archive.readUInt32();
 

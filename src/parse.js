@@ -36,11 +36,11 @@ const replayInfo = (replay) => {
   }
 
   if (!info.IsLive && info.IsEncrypted && info.EncryptionKey.length === 0) {
-    throw new Error('Replay encrypted but no key was found!');
+    throw Error('Replay encrypted but no key was found!');
   }
 
   if (info.IsLive && info.IsEncrypted) {
-    throw new Error('Replay encrypted but not completed');
+    throw Error('Replay encrypted but not completed');
   }
 
   replay.info = info;

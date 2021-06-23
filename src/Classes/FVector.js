@@ -1,19 +1,4 @@
 class FVector {
-  /**
-   * @type {number}
-   */
-  x;
-
-  /**
-   * @type {number}
-   */
-  y;
-
-  /**
-   * @type {number}
-   */
-  z;
-
   constructor (x, y, z) {
     this.x = x;
     this.y = y;

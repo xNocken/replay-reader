@@ -10,7 +10,7 @@ const hasDataInSet = (handle, value) => value[handle]
   || value[handle + 8];
 
 const createFortSet = (handle, value) => {
-  const fortset = new FortSet();
+  const fortset = {};
 
   fortset.BaseValue = value[handle]?.getValueAsFloat();
   fortset.CurrentValue = value[handle + 1]?.getValueAsFloat();

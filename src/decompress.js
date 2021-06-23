@@ -14,7 +14,7 @@ const decompress = async (replay, isCompressed) => {
   const compressedSize = replay.readInt32();
   const compressedBuffer = replay.readBytes(compressedSize);
 
-  const newReplay = new Replay(await ooz.decompressUnsafe(compressedBuffer, decompressedSize));
+  const newReplay = new Replay(Buffer.from(await ooz.decompressUnsafe(compressedBuffer, decompressedSize)));
 
   newReplay.header = replay.header;
   newReplay.info = replay.info;

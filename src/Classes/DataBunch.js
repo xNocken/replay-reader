@@ -1,29 +1,4 @@
-const Replay = require('./Replay');
-
 class DataBunch {
-  /**
-   * @type {Replay}
-   */
-  archive;
-  packetId;
-  chIndex;
-  chType;
-  chName;
-  chSequence;
-  bOpen;
-  bClose;
-  bDormant;
-  bIsReplicationPaused
-  bReliable;
-  bPartial;
-  bPartialInital;
-  bPartialFinal;
-  bHasPackageExportMaps;
-  bHasMustBeMappedGUIDs;
-  bIgnoreRPCs;
-  closeReason;
-  timeSeconds;
-
   constructor (inBunch) {
     if (!inBunch) {
       return;
