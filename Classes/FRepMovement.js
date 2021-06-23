@@ -1,13 +1,6 @@
 const Replay = require("../src/Classes/Replay");
 
 class FRepMovement {
-  linearVelocity;
-  angularVelocity;
-  location;
-  rotation;
-  bSimulatedPhysicSleep;
-  bRepPhysics;
-
   /**
    *
    * @param {Replay} reader

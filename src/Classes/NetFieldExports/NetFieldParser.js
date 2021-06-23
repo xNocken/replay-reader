@@ -1,4 +1,5 @@
 const fs = require('fs');
+const pathhhh = require('path');
 const DebugObject = require('../../../Classes/DebugObject');
 const netGuidCache = require('../../utils/netGuidCache');
 
@@ -7,6 +8,7 @@ class NetFieldParser {
   classNetCacheToNetFieldGroup = {};
   theClassCache = {};
   redirects = {};
+  classPathCache = {};
 
   constructor(globalData) {
     if (!globalData.onlyUseCustomNetFieldExports) {
@@ -63,6 +65,10 @@ class NetFieldParser {
   }
 
   getNetFieldExport(group) {
+    if (this.classPathCache[group] !== undefined) {
+      return this.classPathCache[group];
+    }
+
     const exportt = this.netFieldGroups.find(([key, { partialPath }]) => {
       if (partialPath) {
         return group.includes(key);
@@ -71,8 +77,13 @@ class NetFieldParser {
       return key === group;
     });
 
+
     if (exportt) {
+      this.classPathCache[group] = exportt[1];
+
       return exportt[1];
+    } else {
+      this.classPathCache[group] = false;
     }
   }
 
@@ -81,7 +92,7 @@ class NetFieldParser {
 
     let netExport = this.getNetFieldExport(group.pathName);
 
-    exportGroup.type = netExport.customExportName || group.pathName.split('/').pop();
+    exportGroup.type = netExport.customExportName || pathhhh.basename(group.pathName);
 
     exportGroup.pathName = group.pathName;
 

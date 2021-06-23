@@ -1,7 +1,5 @@
 const crypto = require('crypto');
-const unrealNames = require('../../Classes/UnrealNames');
-const FRotator = require('./FRotator');
-const FVector = require('./FVector');
+const unrealNames = require('./UnrealNames');
 const Header = require('./Header');
 
 class Replay {

@@ -1,6 +1,4 @@
 class NetworkGUID {
-  value;
-
   isValid() {
     return this.value > 0;
   }
