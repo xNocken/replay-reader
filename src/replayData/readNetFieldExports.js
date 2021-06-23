@@ -35,7 +35,7 @@ const readNetFieldExports = (replay, globalData) => {
 
     const netField = readNetFieldExport(replay);
 
-    if (group) {
+    if (group && netField) {
       group.netFieldExports[netField.handle] = netField;
     }
   }

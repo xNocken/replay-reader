@@ -1,12 +1,12 @@
-const NetBitReader = require("../Classes/NetBitReader");
+const Replay = require("../Classes/Replay");
 const NetFieldExport = require("../Classes/NetFieldExports/NetFieldExport");
 
 /**
  *
- * @param {NetBitReader} archive
+ * @param {Replay} archive
  */
 const readNetFieldExport = (archive) => {
-  const isExported = archive.readBoolean8();
+  const isExported = archive.readByte();
 
   if (isExported) {
     const fieldExport = new NetFieldExport();
@@ -19,7 +19,7 @@ const readNetFieldExport = (archive) => {
     } else if (archive.header.EngineNetworkVersion < 10) {
       fieldExport.name = archive.readString();
     } else {
-      fieldExport.name = archive.readFName();
+      fieldExport.name = archive.readFNameByte();
     }
 
     return fieldExport;

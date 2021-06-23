@@ -1,9 +1,9 @@
-const NetBitReader = require('../Classes/NetBitReader');
+const Replay = require('../Classes/Replay');
 const internalLoadObject = require('./internalLoadObject');
 const receiveNetFieldExportsCompat = require('./receiveNetFieldExportsCompat');
 
 /**
- * @param {NetBitReader} packet
+ * @param {Replay} packet
  */
 const recieveNetGUIDBunch = (packet, globalData) => {
   const bHasRepLayoutExport = packet.readBit();

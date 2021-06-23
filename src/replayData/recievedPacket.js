@@ -1,8 +1,8 @@
-const NetBitReader = require('../Classes/NetBitReader');
+const Replay = require('../Classes/Replay');
 const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
 const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
-const recievedRawBunch = require('./recievedRawBunch');
+const recievedNextBunch = require('./recievedNextBunch');
 
 
 let inPacketId = 0;
@@ -10,7 +10,7 @@ let bunchIndex = 0;
 
 /**
  *
- * @param {NetBitReader} packetArchive
+ * @param {Replay} packetArchive
  */
 const recievedPacket = (packetArchive, timeSeconds, globals) => {
   const { channels } = globals;
@@ -20,7 +20,7 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
 
   while (!packetArchive.atEnd()) {
     if (packetArchive.header.EngineNetworkVersion < 8) {
-      var isAckDummy = packetArchive.readBit();
+      packetArchive.skipBits(1);
     }
 
     const bunch = new DataBunch();
@@ -94,7 +94,6 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
           chType = 2
           break;
       }
-
     }
 
     bunch.chType = chType;
@@ -102,10 +101,16 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
 
     const channel = channels[bunch.chIndex] != null;
 
-    const maxPacket = 1024 * 2;
-    const bunchDataBits = packetArchive.readSerializedInt(maxPacket * 8);
-    const bits = packetArchive.readBits(bunchDataBits);
-    bunch.archive = new NetBitReader(bits, bunchDataBits);
+    const maxPacketInBits = 1024 * 2 * 8;
+    const bunchDataBits = packetArchive.readSerializedInt(maxPacketInBits);
+
+    if (bunch.bPartial) {
+      const bits = packetArchive.readBits(bunchDataBits);
+      bunch.archive = new Replay(bits, bunchDataBits);
+    } else {
+      packetArchive.addOffset(bunchDataBits);
+      bunch.archive = packetArchive;
+    }
 
     bunch.archive.header = packetArchive.header;
     bunch.archive.info = packetArchive.info;
@@ -134,13 +139,16 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
       newChannel.channelType = bunch.chType;
 
       channels[bunch.chIndex] = newChannel;
-
     }
 
     try {
-      recievedRawBunch(bunch, globals);
+      recievedNextBunch(bunch, globals);
     } catch (ex) {
       console.log(ex);
+    } finally {
+      if (!bunch.bPartial) {
+        bunch.archive.popOffset();
+      }
     }
   }
 };

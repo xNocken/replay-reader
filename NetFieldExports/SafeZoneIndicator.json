@@ -52,7 +52,7 @@
     "bPausedForPreview": {
       "name": "bPausedForPreview",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "MegaStormDelayTimeBeforeDestruction": {
       "name": "MegaStormDelayTimeBeforeDestruction",

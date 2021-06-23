@@ -13,12 +13,11 @@ const recievedReplicatorBunch = require('./recievedReplicatorBunch');
  *
  * @param {DataBunch} bunch
  */
-const processBunch = (bunch, globalData) => {
+const processBunch = (bunch, replay, globalData) => {
   const { channels, playerControllerGroups } = globalData;
   const channel = channels[bunch.chIndex];
-  const actor = channel.actor != null;
 
-  if (!actor) {
+  if (channel && !channel.actor) {
     if (!bunch.bOpen) {
       return;
     }
@@ -55,33 +54,49 @@ const processBunch = (bunch, globalData) => {
     channel.actor = inActor;
 
     onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
-
     if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
       const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);
 
-      if (playerControllerGroups[path]) {
+      if (playerControllerGroups.includes(path)) {
         bunch.archive.readByte();
       }
     }
   }
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bOutHasRepLayout, reader } = readContentBlockPayload(bunch, globalData);
+    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);
+
+    if (numPayloadBits > 0) {
+      replay.addOffset(numPayloadBits);
+    }
 
     if (bObjectDeleted) {
+      if (numPayloadBits > 0) {
+        replay.popOffset();
+      }
+
       continue;
     }
 
     if (bunch.archive.isError) {
+      if (numPayloadBits > 0) {
+        replay.popOffset();
+      }
+
       break;
     }
 
-    if (repObject === 0 || reader === null || reader.atEnd()) {
+    if (!repObject || !numPayloadBits) {
+      if (numPayloadBits > 0) {
+        replay.popOffset();
+      }
+
       continue;
     }
 
-    if (recievedReplicatorBunch(bunch, reader, repObject, bOutHasRepLayout, globalData)) {
-      continue;
+    recievedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, globalData);
+    if (numPayloadBits > 0) {
+      replay.popOffset();
     }
   }
 };

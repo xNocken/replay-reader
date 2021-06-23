@@ -17,7 +17,7 @@
     "bReplicatedHasBegunPlay": {
       "name": "bReplicatedHasBegunPlay",
       "type": "bool",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ReplicatedWorldTimeSeconds": {
       "name": "ReplicatedWorldTimeSeconds",
@@ -67,7 +67,8 @@
     "GameplayState": {
       "name": "GameplayState",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [3]
     },
     "GameSessionId": {
       "name": "GameSessionId",
@@ -107,12 +108,13 @@
     "bAllowLayoutRequirementsFeature": {
       "name": "bAllowLayoutRequirementsFeature",
       "type": "bool",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ServerStability": {
       "name": "ServerStability",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [3]
     },
     "RoundTimeAccumulated": {
       "name": "RoundTimeAccumulated",
@@ -147,7 +149,7 @@
     "bSafeZonePaused": {
       "name": "bSafeZonePaused",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "AircraftStartTime": {
       "name": "AircraftStartTime",
@@ -157,7 +159,7 @@
     "bSkyTubesShuttingDown": {
       "name": "bSkyTubesShuttingDown",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "SafeZonesStartTime": {
       "name": "SafeZonesStartTime",
@@ -167,7 +169,7 @@
     "bSkyTubesDisabled": {
       "name": "bSkyTubesDisabled",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "PlayersLeft": {
       "name": "PlayersLeft",
@@ -207,17 +209,18 @@
     "bAllowUserPickedCosmeticBattleBus": {
       "name": "bAllowUserPickedCosmeticBattleBus",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "TeamFlightPaths": {
       "name": "TeamFlightPaths",
-      "type": "int",
-      "parseFunction": "readDynamicArray"
+      "type": "readUInt32",
+      "parseFunction": "ignore"
     },
     "StormCapState": {
       "name": "StormCapState",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [3]
     },
     "FlightStartLocation": {
       "name": "FlightStartLocation",
@@ -226,7 +229,7 @@
     },
     "FlightStartRotation": {
       "name": "FlightStartRotation",
-      "type": "FVector",
+      "type": "FRotator",
       "parseFunction": "readRotationShort"
     },
     "FlightSpeed": {
@@ -257,12 +260,13 @@
     "SafeZonePhase": {
       "name": "SafeZonePhase",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "GamePhase": {
       "name": "GamePhase",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [3]
     },
     "Aircrafts": {
       "name": "Aircrafts",
@@ -272,7 +276,7 @@
     "bAircraftIsLocked": {
       "name": "bAircraftIsLocked",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "LobbyAction": {
       "name": "LobbyAction",
@@ -286,7 +290,7 @@
     },
     "WinningPlayerList": {
       "name": "WinningPlayerList",
-      "type": "int",
+      "type": "readUInt32",
       "parseFunction": "readDynamicArray"
     },
     "WinningTeam": {
@@ -312,12 +316,12 @@
     "bStormReachedFinalPosition": {
       "name": "bStormReachedFinalPosition",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "SpectateAPartyMemberAvailable": {
       "name": "SpectateAPartyMemberAvailable",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "HopRockDuration": {
       "name": "HopRockDuration",
@@ -327,12 +331,12 @@
     "bIsLargeTeamGame": {
       "name": "bIsLargeTeamGame",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ActiveTeamNums": {
       "name": "ActiveTeamNums",
       "type": "NetworkGUID",
-      "parseFunction": "readDynamicArray"
+      "parseFunction": "ignore"
     },
     "AirCraftBehavior": {
       "name": "AirCraftBehavior",
@@ -357,7 +361,8 @@
     "EventTournamentRound": {
       "name": "EventTournamentRound",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [3]
     },
     "EventId": {
       "name": "EventId",
@@ -412,12 +417,12 @@
     "bEnabled": {
       "name": "bEnabled",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bConnectedToRoot": {
       "name": "bConnectedToRoot",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "GameServerNodeType": {
       "name": "GameServerNodeType",

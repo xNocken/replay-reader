@@ -1,7 +1,6 @@
 const fs = require('fs');
 const DebugObject = require('../../../Classes/DebugObject');
 const netGuidCache = require('../../utils/netGuidCache');
-const NetBitReader = require('../NetBitReader');
 
 class NetFieldParser {
   netFieldGroups = {};
@@ -111,13 +110,17 @@ class NetFieldParser {
     return this.setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt);
   }
 
+  /**
+   * @param {Replay} netBitReader
+   */
   setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt) {
     let data;
 
     if (!netFieldInfo) {
-      data = new DebugObject(netBitReader.readBits(netBitReader.lastBit), exportt);
+      data = new DebugObject(netBitReader.readBits(netBitReader.getBitsLeft()), exportt);
 
       obj[exportt.handle] = data;
+
       return true;
     }
 
@@ -160,16 +163,12 @@ class NetFieldParser {
       case 'readDynamicArray':
         const count = netBitReader.readIntPacked();
         const arr = [];
-        const isGroupType = ['float', 'int', 'uint'].includes(netFieldInfo.type);
+        const isGroupType = ['readFloat32', 'readInt32', 'readPackedInt', 'readUInt32'].includes(netFieldInfo.type);
 
         while (true) {
           let index = netBitReader.readIntPacked();
 
           if (index === 0) {
-            if (netBitReader.readIntPacked() !== 0) {
-              console.log('rip');
-            }
-
             break;
           }
 
@@ -209,22 +208,29 @@ class NetFieldParser {
               continue;
             }
 
-            const cmdReader = new NetBitReader(netBitReader.readBits(numBits), numBits);
-            cmdReader.header = netBitReader.header;
-            cmdReader.info = netBitReader.info;
+            netBitReader.addOffset(numBits);
 
             if (isGroupType) {
-              this.readField(newData, exporttt, handle, exportGroup, cmdReader, globalData);
+              const temp = {};
+
+              this.setType(temp, exportGroup, {
+                ...netFieldInfo,
+                parseFunction: netFieldInfo.type,
+              }, netBitReader, globalData, exporttt);
+
+              newData = temp[netFieldInfo.name];
             } else {
               const temp = {};
 
               this.setType(temp, exportGroup, {
                 ...netFieldInfo,
                 parseFunction: 'readProperty',
-              }, cmdReader, globalData, exporttt);
+              }, netBitReader, globalData, exporttt);
 
               newData = temp[netFieldInfo.name];
             }
+
+            netBitReader.popOffset(numBits);
           }
 
           arr[index] = newData;
@@ -234,7 +240,7 @@ class NetFieldParser {
         break;
 
       default:
-        data = netBitReader[netFieldInfo.parseFunction]();
+        data = netBitReader[netFieldInfo.parseFunction](...(netFieldInfo.args || []));
         break;
     }
 

@@ -61,7 +61,6 @@ const recievedNextBunch = (bunch, globalData) => {
         globalData.partialBunch.chSequence = bunch.chSequence;
 
         if (bunch.bPartialFinal) {
-
           if (bunch.bHasPackageExportMaps) {
             return;
           }

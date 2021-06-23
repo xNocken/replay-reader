@@ -1,9 +1,9 @@
-const NetBitReader = require('../Classes/NetBitReader');
+const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
 const readNetFieldExport = require('./readNetFieldExport');
 
 /**
- * @param {NetBitReader} packet
+ * @param {Replay} packet
  */
 const receiveNetFieldExportsCompat = (packet, globalData) => {
 const { netFieldParser } = globalData;
@@ -37,7 +37,7 @@ const numLayoutCmdLayout = packet.readUInt32();
 
     const netField = readNetFieldExport(packet);
 
-    if (group != null && group.isValidIndex(netField.handle)) {
+    if (group != null && netField !== null && group.isValidIndex(netField.handle)) {
       group.netFieldExports[netField.handle] = netField;
     }
   }

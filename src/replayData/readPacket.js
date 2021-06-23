@@ -8,6 +8,7 @@ const readPacket = (replay) => {
   const packet = new PlaybackPacket();
 
   const bufferSize = replay.readInt32();
+  packet.size = bufferSize;
 
   if (bufferSize === 0) {
     packet.state = 1;
@@ -23,8 +24,8 @@ const readPacket = (replay) => {
     return packet;
   }
 
-  packet.data = replay.readBytes(bufferSize);
   packet.state = 0;
+
   return packet;
 }
 

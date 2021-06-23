@@ -11,10 +11,10 @@ const readExternalData = (replay) => {
       return;
     }
 
-    const netGuid = replay.readIntPacked();
+    replay.readIntPacked();
 
-    const externalDataNumBytes = (externalDataNumBits + 7) >> 3;
-    replay.skip(externalDataNumBytes);
+    const externalDataNumBytes = externalDataNumBits  / 8;
+    replay.skipBytes(externalDataNumBytes);
   }
 };
 

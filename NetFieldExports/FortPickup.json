@@ -7,7 +7,7 @@
     "bReplicateMovement": {
       "name": "bReplicateMovement",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
@@ -42,7 +42,7 @@
     "bRandomRotation": {
       "name": "bRandomRotation",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "Count": {
       "name": "Count",
@@ -92,12 +92,12 @@
     "bUpdateStatsOnCollection": {
       "name": "bUpdateStatsOnCollection",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsDirty": {
       "name": "bIsDirty",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "StateValues": {
       "name": "StateValues",
@@ -107,7 +107,7 @@
     "GenericAttributeValues": {
       "name": "GenericAttributeValues",
       "type": "float",
-      "parseFunction": "readDynamicArray"
+      "parseFunction": "ignore"
     },
     "CombineTarget": {
       "name": "CombineTarget",
@@ -152,12 +152,13 @@
     "TossState": {
       "name": "TossState",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [2]
     },
     "bCombinePickupsWhenTossCompletes": {
       "name": "bCombinePickupsWhenTossCompletes",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "OptionalOwnerID": {
       "name": "OptionalOwnerID",
@@ -167,22 +168,22 @@
     "bPickedUp": {
       "name": "bPickedUp",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bTossedFromContainer": {
       "name": "bTossedFromContainer",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bServerStoppedSimulation": {
       "name": "bServerStoppedSimulation",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ServerImpactSoundFlash": {
       "name": "ServerImpactSoundFlash",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "PawnWhoDroppedPickup": {
       "name": "PawnWhoDroppedPickup",

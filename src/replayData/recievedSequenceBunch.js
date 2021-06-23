@@ -6,7 +6,7 @@ const recievedActorBunch = require('./recievedActorBunch');
  * @param {DataBunch} bunch
  */
 const recievedSequencedBunch = (bunch, globalData) => {
-  recievedActorBunch(bunch, globalData);
+  recievedActorBunch(bunch, bunch.archive, globalData);
 
   if (bunch.bClose) {
     delete globalData.channels[bunch.chIndex];

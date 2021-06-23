@@ -1,5 +1,3 @@
-const NetBitReader = require("../Classes/NetBitReader");
-
 const readFieldHeaderAndPayload = (archive, group) => {
   if (archive.atEnd()) {
     return false;
@@ -19,17 +17,12 @@ const readFieldHeaderAndPayload = (archive, group) => {
     return false;
   }
 
-  const reader = new NetBitReader(archive.readBits(numPayloadBits), numPayloadBits);
-
-  reader.header = archive.header;
-  reader.info = archive.info;
-
   if (archive.isError) {
     return false;
   }
 
   return {
-    reader,
+    numPayloadBits,
     outField,
   };
 };

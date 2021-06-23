@@ -1,4 +1,3 @@
-const NetBitReader = require("../Classes/NetBitReader");
 const Replay = require("../Classes/Replay");
 const internalLoadObject = require("./internalLoadObject");
 
@@ -11,9 +10,12 @@ const readNetExportGuids = (replay) => {
 
   for (let i = 0; i < numGuids; i++) {
     const size = replay.readInt32();
-    const reader = new NetBitReader(replay.readBytes(size));
 
-    internalLoadObject(reader, true);
+    replay.addOffsetByte(size);
+
+    internalLoadObject(replay, true);
+
+    replay.popOffset();
   }
 }
 

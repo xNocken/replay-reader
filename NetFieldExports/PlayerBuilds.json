@@ -9,27 +9,27 @@
     "bDestroyed": {
       "name": "bDestroyed",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bPlayerPlaced": {
       "name": "bPlayerPlaced",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bCollisionBlockedByPawns": {
       "name": "bCollisionBlockedByPawns",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "TeamIndex": {
       "name": "TeamIndex",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readByte"
     },
     "Health": {
       "name": "Health",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt16"
     },
     "EditingPlayer": {
       "name": "EditingPlayer",

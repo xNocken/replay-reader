@@ -1,12 +1,39 @@
-const NetBitReader = require('./Classes/NetBitReader');
 const PlaybackPacket = require('./Classes/PlaybackPacket');
-const Replay = require('./Classes/Replay');
 const decompress = require('./decompress');
 const readExportData = require('./replayData/netExportData');
 const readExternalData = require('./replayData/readExternalData');
 const readPacket = require('./replayData/readPacket');
 const recievedPacket = require('./replayData/recievedPacket');
+const Replay = require('./Classes/Replay');
 let packetIndex = 0;
+
+/**
+ * @param {PlaybackPacket} packet
+ */
+ const recievedRawPacket = (packet, replay, globalData) => {
+  let lastByte = replay.getLastByte();
+
+  if (!lastByte) {
+    throw Error('Malformed packet: Received packet with 0\'s in last byte of packet');
+  }
+
+  let bitSize = (packet.size * 8) - 1;
+
+  while (!((lastByte & 0x80) >= 1)) {
+    lastByte *= 2;
+    bitSize--;
+  }
+
+  replay.addOffset(bitSize);
+
+  try {
+    recievedPacket(replay, packet.timeSeconds, globalData);
+  } catch (ex) {
+    console.log(ex);
+  }
+
+  replay.popOffset();
+};
 
 /**
  * Get packets from the replay
@@ -36,7 +63,7 @@ const parsePlaybackPackets = (replay, globalData) => {
   }
 
   if (replay.hasLevelStreamingFixes()) {
-    const externalOffset = replay.readUInt64();
+    replay.skipBytes(8);
   }
 
   readExternalData(replay);
@@ -45,11 +72,10 @@ const parsePlaybackPackets = (replay, globalData) => {
     const skipExternalOffset = replay.readUInt64();
 
     if (skipExternalOffset > 0) {
-      replay.skip(parseInt(skipExternalOffset, 10));
+      replay.skipBytes(parseInt(skipExternalOffset, 10));
     }
   }
 
-  const packets = [];
   let done = false;
 
   while (!done) {
@@ -61,40 +87,19 @@ const parsePlaybackPackets = (replay, globalData) => {
 
     packet.timeSeconds = timeSeconds;
 
-    packets.push(packet);
+    replay.addOffsetByte(packet.size);
 
-    done = packet.state;
-  }
+    if (packet.state === 0) {
+      packetIndex += 1;
 
-  return packets;
-};
+      recievedRawPacket(packet, replay, globalData);
+    } else {
+      replay.popOffset();
 
-/**
- * @param {PlaybackPacket} packet
- */
-const recievedRawPacket = (packet, replay, globalData) => {
-  let lastByte = packet.data[packet.data.length - 1];
+      return;
+    }
 
-  if (lastByte === 0) {
-    throw Error('Malformed packet: Received packet with 0\'s in last byte of packet');
-  }
-
-  let bitSize = (packet.data.length * 8) - 1;
-
-  while (!((lastByte & 0x80) >= 1)) {
-    lastByte *= 2;
-    bitSize--;
-  }
-
-  const packetArchive = new NetBitReader(packet.data, bitSize);
-
-  packetArchive.header = replay.header;
-  packetArchive.info = replay.info;
-
-  try {
-    recievedPacket(packetArchive, packet.timeSeconds, globalData);
-  } catch (ex) {
-    console.log(ex);
+    replay.popOffset();
   }
 };
 
@@ -115,32 +120,19 @@ const parseReplayData = async (replay, globalData) => {
     length = replay.readUInt32();
   }
 
-  let memorySizeInBytes = length;
-
   if (replay.info.FileVersion >= 6) {
-    memorySizeInBytes = replay.readInt32();
+    replay.skipBytes(4);
   }
 
   const decrypted = replay.decryptBuffer(length);
-  const decompressed = await decompress(decrypted, replay.info.IsCompressed);
+  const binaryReplay = await decompress(decrypted, replay.info.IsCompressed);
 
-  const binaryReplay = new Replay(decompressed);
+  if (!replay.info.IsEncrypted) {
+    replay.popOffset();
+  };
 
-  binaryReplay.header = replay.header;
-  binaryReplay.info = replay.info;
-
-  let index = 0;
-
-  while (binaryReplay.buffer.length > binaryReplay.offset) {
-    const playbackPackets = parsePlaybackPackets(binaryReplay, globalData);
-
-    playbackPackets.forEach((packet, index) => {
-      if (packet.state === 0) {
-        packetIndex++;
-
-        recievedRawPacket(packet, replay, globalData);
-      }
-    })
+  while (!binaryReplay.atEnd()) {
+    parsePlaybackPackets(binaryReplay, globalData);
   }
 }
 

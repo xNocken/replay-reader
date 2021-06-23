@@ -12,7 +12,7 @@ class Header {
   Branch = '';
   LevelNamesAndTimes = [];
   Flags = 0;
-  gameSpicificData = [];
+  gameSpecificData = [];
 }
 
 module.exports = Header;

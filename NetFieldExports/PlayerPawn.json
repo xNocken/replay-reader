@@ -12,7 +12,7 @@
     "bHidden": {
       "name": "bHidden",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bReplicateMovement": {
       "name": "bReplicateMovement",
@@ -27,7 +27,7 @@
     "bCanBeDamaged": {
       "name": "bCanBeDamaged",
       "type": "bool",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "RemoteRole": {
       "name": "RemoteRole",
@@ -67,7 +67,7 @@
     "ExitSocketIndex": {
       "name": "ExitSocketIndex",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "AttachComponent": {
       "name": "AttachComponent",
@@ -87,7 +87,7 @@
     "RemoteViewPitch": {
       "name": "RemoteViewPitch",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "PlayerState": {
       "name": "PlayerState",
@@ -122,17 +122,17 @@
     "bServerHasBaseComponent": {
       "name": "bServerHasBaseComponent",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bRelativeRotation": {
       "name": "bRelativeRotation",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bServerHasVelocity": {
       "name": "bServerHasVelocity",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ReplayLastTransformUpdateTimeStamp": {
       "name": "ReplayLastTransformUpdateTimeStamp",
@@ -142,22 +142,22 @@
     "ReplicatedMovementMode": {
       "name": "ReplicatedMovementMode",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "bIsCrouched": {
       "name": "bIsCrouched",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bProxyIsJumpForceApplied": {
       "name": "bProxyIsJumpForceApplied",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsActive": {
       "name": "bIsActive",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "Position": {
       "name": "Position",
@@ -177,17 +177,18 @@
     "CurrentMovementStyle": {
       "name": "CurrentMovementStyle",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [4]
     },
     "bIgnoreNextFallingDamage": {
       "name": "bIgnoreNextFallingDamage",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "TeleportCounter": {
       "name": "TeleportCounter",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "PawnUniqueID": {
       "name": "PawnUniqueID",
@@ -197,7 +198,7 @@
     "bIsDying": {
       "name": "bIsDying",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "CurrentWeapon": {
       "name": "CurrentWeapon",
@@ -207,37 +208,37 @@
     "bIsInvulnerable": {
       "name": "bIsInvulnerable",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bMovingEmote": {
       "name": "bMovingEmote",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bWeaponActivated": {
       "name": "bWeaponActivated",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsDBNO": {
       "name": "bIsDBNO",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bWasDBNOOnDeath": {
       "name": "bWasDBNOOnDeath",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "JumpFlashCount": {
       "name": "JumpFlashCount",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "bWeaponHolstered": {
       "name": "bWeaponHolstered",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "SpawnImmunityTime": {
       "name": "SpawnImmunityTime",
@@ -247,22 +248,22 @@
     "bInterruptCurrentLine": {
       "name": "bInterruptCurrentLine",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "LastReplicatedEmoteExecuted": {
       "name": "LastReplicatedEmoteExecuted",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readIntPacked"
     },
     "bCanBeInterrupted": {
       "name": "bCanBeInterrupted",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bCanQue": {
       "name": "bCanQue",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ForwardAlpha": {
       "name": "ForwardAlpha",
@@ -297,22 +298,22 @@
     "bIgnoreForwardInAir": {
       "name": "bIgnoreForwardInAir",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsHonking": {
       "name": "bIsHonking",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsJumping": {
       "name": "bIsJumping",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsSprinting": {
       "name": "bIsSprinting",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "Vehicle": {
       "name": "Vehicle",
@@ -327,32 +328,33 @@
     "SeatIndex": {
       "name": "SeatIndex",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "bIsWaterJump": {
       "name": "bIsWaterJump",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsWaterSprintBoost": {
       "name": "bIsWaterSprintBoost",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsWaterSprintBoostPending": {
       "name": "bIsWaterSprintBoostPending",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "BuildingState": {
       "name": "BuildingState",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readBitsToInt",
+      "args": [2]
     },
     "bIsTargeting": {
       "name": "bIsTargeting",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "PawnMontage": {
       "name": "PawnMontage",
@@ -362,12 +364,12 @@
     "bPlayBit": {
       "name": "bPlayBit",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsPlayingEmote": {
       "name": "bIsPlayingEmote",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "FootstepBankOverride": {
       "name": "FootstepBankOverride",
@@ -382,7 +384,7 @@
     "bStartedInteractSearch": {
       "name": "bStartedInteractSearch",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "AccelerationPack": {
       "name": "AccelerationPack",
@@ -392,7 +394,7 @@
     "bIsWaitingForEmoteInteraction": {
       "name": "bIsWaitingForEmoteInteraction",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "GroupEmoteLookTarget": {
       "name": "GroupEmoteLookTarget",
@@ -402,52 +404,52 @@
     "bIsSkydiving": {
       "name": "bIsSkydiving",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsParachuteOpen": {
       "name": "bIsParachuteOpen",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsParachuteForcedOpen": {
       "name": "bIsParachuteForcedOpen",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsSkydivingFromBus": {
       "name": "bIsSkydivingFromBus",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bReplicatedIsInSlipperyMovement": {
       "name": "bReplicatedIsInSlipperyMovement",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsInAnyStorm": {
       "name": "bIsInAnyStorm",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsSlopeSliding": {
       "name": "bIsSlopeSliding",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsProxySimulationTimedOut": {
       "name": "bIsProxySimulationTimedOut",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsInsideSafeZone": {
       "name": "bIsInsideSafeZone",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsOutsideSafeZone": {
       "name": "bIsOutsideSafeZone",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "Zipline": {
       "name": "Zipline",
@@ -462,12 +464,12 @@
     "bIsZiplining": {
       "name": "bIsZiplining",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bJumped": {
       "name": "bJumped",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ParachuteAttachment": {
       "name": "ParachuteAttachment",
@@ -482,7 +484,7 @@
     "bNetMovementPrioritized": {
       "name": "bNetMovementPrioritized",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "EntryTime": {
       "name": "EntryTime",
@@ -527,17 +529,17 @@
     "ForcePlayBit": {
       "name": "ForcePlayBit",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "IsStopped": {
       "name": "IsStopped",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "SkipPositionCorrection": {
       "name": "SkipPositionCorrection",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "RepAnimMontageStartSection": {
       "name": "RepAnimMontageStartSection",
@@ -552,12 +554,12 @@
     "WeaponActivated": {
       "name": "WeaponActivated",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bIsInWaterVolume": {
       "name": "bIsInWaterVolume",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "BannerIconId": {
       "name": "BannerIconId",
@@ -587,7 +589,7 @@
     "bIsDefaultCharacter": {
       "name": "bIsDefaultCharacter",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "Pickaxe": {
       "name": "Pickaxe",
@@ -657,7 +659,7 @@
     "DBNORevivalStacking": {
       "name": "DBNORevivalStacking",
       "type": "byte",
-      "parseFunction": "readInt8"
+      "parseFunction": "readByte"
     },
     "ServerWorldTimeRevivalTime": {
       "name": "ServerWorldTimeRevivalTime",
@@ -672,17 +674,17 @@
     "bIsSkydivingFromLaunchPad": {
       "name": "bIsSkydivingFromLaunchPad",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bInGliderRedeploy": {
       "name": "bInGliderRedeploy",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bReplicatedIsInVortex": {
       "name": "bReplicatedIsInVortex",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     }
   }
 }

@@ -1,5 +1,5 @@
 const DataBunch = require('../Classes/DataBunch');
-const NetBitReader = require('../Classes/NetBitReader');
+const Replay = require('../Classes/Replay');
 const netGuidCache = require('../utils/netGuidCache');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
@@ -9,7 +9,7 @@ const receiveProperties = require('./recieveProperties');
 
 /**
  * @param {DataBunch} bunch
- * @param {NetBitReader} archive
+ * @param {Replay} archive
  * @param {number} repObject
  * @param {boolean} bHasRepLayout
  */
@@ -48,13 +48,17 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
       break;
     }
 
-    const { outField: fieldCache, reader } = result;
+    const { outField: fieldCache, numPayloadBits } = result;
 
-    if (!fieldCache || fieldCache.incompatible || !reader || reader.isError || reader.atEnd()) {
+    if (!fieldCache || fieldCache.incompatible || !numPayloadBits) {
       continue;
     }
 
+    archive.addOffset(numPayloadBits);
+
     if (!netFieldParser.willReadType(classNetCache.pathName)) {
+      archive.popOffset();
+
       continue;
     }
 
@@ -64,27 +68,33 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
       if (classNetProperty.isFunction) {
         var functionGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
 
-        if (!receivedRPC(reader, functionGroup, bunch, globalData)) {
+        if (!receivedRPC(archive, functionGroup, bunch, globalData)) {
           return false;
         }
       } else if (classNetProperty.isCustomStruct) {
-        if (!receiveCustomProperty(reader, classNetProperty, bunch, classNetCache.pathName, globalData)) {
+        if (!receiveCustomProperty(archive, classNetProperty, bunch, classNetCache.pathName, globalData)) {
+          archive.popOffset();
+
           continue;
         }
       } else {
         const group = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
 
-        if (!netFieldParser.willReadType(group.pathName)) {
+        if (!group || !netFieldParser.willReadType(group.pathName)) {
+          archive.popOffset();
+
           continue;
         }
 
-        if (group) {
-          if (receiveCustomDeltaProperty(reader, group, bunch, classNetProperty.EnablePropertyChecksum || true, globalData)) {
-            continue;
-          }
+        if (receiveCustomDeltaProperty(archive, group, bunch, classNetProperty.EnablePropertyChecksum || true, globalData)) {
+          archive.popOffset();
+
+          continue;
         }
       }
     }
+
+    archive.popOffset();
   }
 };
 

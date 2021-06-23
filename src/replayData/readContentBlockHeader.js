@@ -33,12 +33,26 @@ const readContentBlockHeader = (bunch, globalData) => {
 
   if (classNetGUID == null || !classNetGUID.isValid()) {
     bObjectDeleted = true;
+
+    return {
+      bObjectDeleted,
+      bOutHasRepLayout,
+      repObject: netGuid.value,
+    }
+  }
+
+  if (bunch.archive.header.EngineNetworkVersion >= 18) {
+    const bActorIsOuter = bunch.archive.readBit();
+
+    if (!bActorIsOuter) {
+      internalLoadObject(bunch.archive, false);
+    }
   }
 
   return {
     bObjectDeleted,
     bOutHasRepLayout,
-    repObject: classNetGUID.Value,
+    repObject: classNetGUID.value,
   }
 };
 

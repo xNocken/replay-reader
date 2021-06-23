@@ -21,7 +21,7 @@ const header = (replay) => {
   }
 
   if (result.NetworkVersion >= 11) {
-    replay.skip(4);
+    replay.skipBytes(4);
     result.Patch = replay.readUInt16();
     result.Changelist = replay.readUInt32();
     result.Branch = replay.readString();
@@ -44,7 +44,7 @@ const header = (replay) => {
     result.Flags = replay.readUInt32();
   }
 
-  result.gameSpicificData = replay.readArray((a) => a.readString());
+  result.gameSpecificData = replay.readArray((a) => a.readString());
 
   replay.header = result;
 

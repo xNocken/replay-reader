@@ -22,17 +22,17 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, internalLoadObjectR
     return netGuid;
   }
 
-  let flags = 0;
-
   if (netGuid.isDefault() || isExportingNetGUIDBunch) {
-    flags = replay.readByte()[0];
+    const flags = replay.readByte();
 
     if ((flags & 1) === 1) {
-      const outerGuid = internalLoadObject(replay, true, internalLoadObjectRecursionCount + 1);
+      // outer guid
+      internalLoadObject(replay, true, internalLoadObjectRecursionCount + 1);
       const pathName = replay.readString();
 
       if ((flags & 4) == 4) {
-        const checksum = replay.readUInt32();
+        // checksum
+        replay.readUInt32();
       }
 
       if (isExportingNetGUIDBunch) {

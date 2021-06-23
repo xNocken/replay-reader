@@ -1,8 +1,8 @@
-const NetBitReader = require('./NetBitReader');
+const Replay = require('./Replay');
 
 class DataBunch {
   /**
-   * @type {NetBitReader}
+   * @type {Replay}
    */
   archive;
   packetId;

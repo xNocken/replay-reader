@@ -1,5 +1,5 @@
 const DataBunch = require('../Classes/DataBunch');
-const NetBitReader = require('../Classes/NetBitReader');
+const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const GlobalData = require('../utils/globalData');
 const onExportRead = require('./export/onExportRead');
@@ -7,7 +7,7 @@ const fs = require('fs');
 
 /**
  *
- * @param {NetBitReader} archive
+ * @param {Replay} archive
  * @param {NetFieldExportGroup} group
  * @param {DataBunch} bunch
  * @param {boolean} enableProperyChecksum
@@ -27,9 +27,9 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     channels[channelIndex].ignoreChannel(group.pathName);
 
     if (globalData.debug) {
-      fs.appendFileSync('notReadingGroups.txt', group.pathName +'\n');
+      fs.appendFileSync('notReadingGroups.txt', group.pathName + '\n');
 
-      group.netFieldExports.forEach((exporttt) =>  {
+      group.netFieldExports.forEach((exporttt) => {
         fs.appendFileSync('notReadingGroups.txt', '    ' + exporttt.name + '\n');
       });
     }
@@ -78,16 +78,15 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     hasData = true;
 
     try {
-      const cmdReader = new NetBitReader(archive.readBits(numbits), numbits);
+      archive.addOffset(numbits);
 
-      cmdReader.header = archive.header;
-      cmdReader.info = archive.info;
-
-      if (!netFieldParser.readField(exportGroup, exportt, handle, group, cmdReader, globalData)) {
+      if (!netFieldParser.readField(exportGroup, exportt, handle, group, archive, globalData)) {
         exportt.incompatible = true;
       }
     } catch (ex) {
       console.log(ex.message);
+    } finally {
+      archive.popOffset(numbits, true);
     }
   }
 

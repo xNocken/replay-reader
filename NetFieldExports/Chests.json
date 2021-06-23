@@ -9,12 +9,12 @@
     "bHidden": {
       "name": "bHidden",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "bAlreadySearched": {
       "name": "bAlreadySearched",
       "type": "boolean",
-      "parseFunction": "readBoolean"
+      "parseFunction": "readBit"
     },
     "ReplicatedLootTier": {
       "name": "ReplicatedLootTier",

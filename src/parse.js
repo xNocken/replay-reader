@@ -20,18 +20,18 @@ const replayInfo = (replay) => {
   info.NetworkVersion = replay.readUInt32();
   info.Changelist = replay.readUInt32();
   info.FriendlyName = replay.readString();
-  info.IsLive = replay.readBool();
+  info.IsLive = replay.readBoolean();
 
   if (info.FileVersion >= 3) {
     info.Timestamp = new Date(parseInt((replay.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
   }
 
   if (info.FileVersion >= 2) {
-    info.IsCompressed = replay.readBool();
+    info.IsCompressed = replay.readBoolean();
   }
 
   if (info.FileVersion >= 6) {
-    info.IsEncrypted = replay.readBool();
+    info.IsEncrypted = replay.readBoolean();
     info.EncryptionKey = replay.readBytes(replay.readUInt32());
   }
 
@@ -54,25 +54,26 @@ const replayInfo = (replay) => {
 * @param {GlobalData} globalData globals
 */
 const replayChunks = async (replay, globalData) => {
-  const chunks = [];
+  const events = [];
   let lastOffset = 0;
   let lastTime = Date.now();
 
-  while (replay.buffer.byteLength > replay.offset) {
+  while (replay.lastBit > replay.offset) {
     if (globalData.debug) {
-      console.log(((replay.offset - lastOffset) / ((Date.now() - lastTime) / 1000)).toFixed(0) + ' bytes/s')
-      console.log(100 - ((replay.buffer.length - replay.offset) / replay.buffer.length * 100));
+      console.log((((replay.offset - lastOffset) / ((Date.now() - lastTime) / 1000)) / 8).toFixed(0) + ' bytes/s')
+      console.log(100 - ((replay.lastBit - replay.offset) / replay.lastBit * 100));
       lastOffset = replay.offset;
       lastTime = Date.now();
     }
 
     const chunkType = replay.readUInt32();
     const chunkSize = replay.readInt32();
-    const startOffset = replay.offset;
+
+    replay.addOffsetByte(chunkSize);
 
     switch (chunkType) {
       case 0:
-        chunks.push(parseHeader(replay));
+        globalData.header = parseHeader(replay);
         break;
 
       case 1:
@@ -84,17 +85,17 @@ const replayChunks = async (replay, globalData) => {
         break;
 
       case 3:
-        chunks.push(event(replay));
+        events.push(event(replay));
         break;
 
       default:
         console.warn('Unhandled chunkType:', chunkType);
     }
 
-    replay.offset = startOffset + chunkSize;
+    replay.popOffset();
   }
 
-  return chunks;
+  return events;
 }
 
 module.exports = {

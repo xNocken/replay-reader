@@ -7,12 +7,12 @@ const onRead = () => {
 
 (async() => {
   console.time();
-  fs.writeFileSync('replay.json', JSON.stringify(await parse(fs.readFileSync('replays/server big.replay'), {
+  fs.writeFileSync('replay.json', JSON.stringify(await parse(fs.readFileSync('./test.replay'), {
     parseLevel: 10,
     // netFieldExportPath: 'NetFieldExports',
     // onlyUseCustomNetFieldExports: false,
     // customClassPath: 'Classes',
-    debug: true,
+    // debug: true,
   }), null, 2));
   console.timeEnd();
 })()

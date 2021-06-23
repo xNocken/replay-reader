@@ -1,9 +1,9 @@
 class PlaybackPacket {
-  data = [];
   timeSeconds;
   levelIndex;
   seenLevelIndex;
   state;
+  size;
 }
 
 module.exports = PlaybackPacket;
