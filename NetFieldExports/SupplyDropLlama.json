@@ -1,0 +1,23 @@
+{
+  "path": [
+    "/Game/Athena/SupplyDrops/Llama/AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "Looted": {
+      "name": "Looted",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty",
+      "config": {
+        "locationQuatLevel": 0,
+        "rotationQuatLevel": 0,
+        "velocityQuatLevel": 0
+      }
+    }
+  }
+}

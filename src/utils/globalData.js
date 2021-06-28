@@ -30,6 +30,7 @@ class GlobalData {
         safeZones: [],
         playlistInfo: null,
         activeGameplayModifiers: [],
+        gameplayCues: {},
       },
       mapData: {
         pickups: [],
@@ -40,12 +41,20 @@ class GlobalData {
           valets: [],
         },
         markers: [],
+        llamas: [],
+        labradorLlamas: [],
+        supplyDrops: [],
       },
       gameState: {},
     };
     this.onExportRead = null;
+    this.onChannelOpened = null;
+    this.onChannelClosed = null;
     this.netFieldExportPath = null;
     this.onlyUseCustomNetFieldExports = false;
+    this.llamas = {};
+    this.labradorLlamas = {};
+    this.supplyDrops = {};
 
     this.debug = false;
 

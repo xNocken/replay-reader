@@ -1,0 +1,16 @@
+{
+  "path": [
+    "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueAdded_WithParams",
+    "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_WithParams",
+    "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec"
+  ],
+  "customExportName": "gameplayCue",
+  "parseLevel": 1,
+  "properties": {
+    "GameplayCueTag": {
+      "name": "GameplayCueTag",
+      "type": "FGameplayTag",
+      "parseFunction": "readProperty"
+    }
+  }
+}

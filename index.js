@@ -21,7 +21,8 @@ const parse = async (buffer, options) => {
 
   globalData.result.players = Object.values(globalData.players);
   globalData.result.mapData.pickups = Object.values(globalData.pickups);
-  globalData.result.header = globalData.header;
+  globalData.result.mapData.llamas = Object.values(globalData.llamas);
+  globalData.result.mapData.labradorLlamas = Object.values(globalData.labradorLlamas);
 
   if (globalData.debug) {
     Object.values(netGuidCache.NetFieldExportGroupMap).forEach((value) => {
@@ -39,8 +40,9 @@ const parse = async (buffer, options) => {
   }
 
   return {
+    header: globalData.header,
     info,
-    chunks,
+    events: chunks,
     ...globalData.result,
   };
 }

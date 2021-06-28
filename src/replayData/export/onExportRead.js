@@ -3,8 +3,12 @@ const handleFortPickup = require("./FortPickup");
 const handlePlayerState = require("./FortPlayerState");
 const handleGameState = require("./GameState");
 const handleFortBroadcastRemoteClientInfoMapMarker = require("./handleFortBroadCastRemoteClientInfoMapMarker");
+const handleGameplayCues = require("./handleGameplayCues");
 const handleHealthSet = require("./handleHealthSet");
+const handleLabradorLlama = require("./handleLabradorLlama");
+const handleLootLlama = require("./handleLootLlama");
 const handlePlayerBuilds = require("./HandlePlayerBuilds");
+const handleSupplyDrop = require("./handleSupplyDrop");
 const handleValets = require("./HandleValets");
 const handlePlayerPawn = require("./PlayerPawn");
 const handlePlaylistInfo = require("./PlaylistInfo");
@@ -60,6 +64,22 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
 
     case 'FortniteGame.FortRegenHealthSet':
       handleHealthSet(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'gameplayCue':
+      handleGameplayCues(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'BP_AIPawn_Labrador.BP_AIPawn_Labrador_C':
+      handleLabradorLlama(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C':
+      handleLootLlama(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'AthenaSupplyDrop.AthenaSupplyDrop_C':
+      handleSupplyDrop(chIndex, value, timeseconds, globalData);
       break;
 
     default:

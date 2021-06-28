@@ -1,0 +1,29 @@
+{
+  "path": [
+    "PlayerPawn_Athena_C_ClassNetCache",
+    "BP_PlayerPawn_Athena_Phoebe_C_ClassNetCache",
+    "BP_AIPawn_Labrador_C_ClassNetCache"
+  ],
+  "parseLevel": 1,
+  "type": "ClassNetCache",
+  "properties": {
+    "NetMulticast_InvokeGameplayCueAdded_WithParams": {
+      "name": "NetMulticast_InvokeGameplayCueAdded_WithParams",
+      "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueAdded_WithParams",
+      "isFunction": true,
+      "isCustomStruct": false
+    },
+    "NetMulticast_InvokeGameplayCueExecuted_WithParams": {
+      "name": "NetMulticast_InvokeGameplayCueExecuted_WithParams",
+      "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_WithParams",
+      "isFunction": true,
+      "isCustomStruct": false
+    },
+    "NetMulticast_InvokeGameplayCueExecuted_FromSpec": {
+      "name": "NetMulticast_InvokeGameplayCueExecuted_FromSpec",
+      "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec",
+      "isFunction": true,
+      "isCustomStruct": false
+    }
+  }
+}

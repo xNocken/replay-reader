@@ -1,0 +1,28 @@
+{
+  "path": [
+    "/Game/Athena/SupplyDrops/AthenaSupplyDrop.AthenaSupplyDrop_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "Opened": {
+      "name": "Opened",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "BalloonPopped": {
+      "name": "BalloonPopped",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty",
+      "config": {
+        "locationQuatLevel": 0,
+        "rotationQuatLevel": 0,
+        "velocityQuatLevel": 0
+      }
+    }
+  }
+}

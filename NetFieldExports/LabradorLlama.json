@@ -1,0 +1,23 @@
+{
+  "path": [
+    "/Labrador/Pawn/BP_AIPawn_Labrador.BP_AIPawn_Labrador_C"
+  ],
+  "parseLevel": 1,
+  "properties": {
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty"
+    },
+    "bIsHiddenForDeath": {
+      "name": "bIsHiddenForDeath",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "PawnUniqueID": {
+      "name": "PawnUniqueID",
+      "type": "int",
+      "parseFunction": "readInt32"
+    }
+  }
+}
