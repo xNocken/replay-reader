@@ -2,8 +2,27 @@
   "dependencies": {
     "ooz-wasm": "^1.0.0"
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "run": "node --experimental-wasm-simd test.js"
-  }
+  },
+  "name": "fortnite-replay-parser",
+  "description": "A libary created to parser Fortnite replays in Node",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xNocken/replay-reader.git"
+  },
+  "keywords": [
+    "fortnite",
+    "replay",
+    "reader"
+  ],
+  "author": "xNocken",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xNocken/replay-reader/issues"
+  },
+  "homepage": "https://github.com/xNocken/replay-reader#readme"
 }
