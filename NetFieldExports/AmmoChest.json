@@ -1,11 +1,11 @@
 {
   "path": [
-    "/Game/Building/ActorBlueprints/Containers/Tiered_Chest_Athena.Tiered_Chest_Athena_C"
+    "/Game/Building/ActorBlueprints/Containers/Tiered_Ammo_Athena.Tiered_Ammo_Athena_C"
   ],
   "customExportName": "Chests",
   "parseLevel": 2,
   "partialPath": true,
-  "mapObjectName": "Tiered_Chest_Athena\\d+_\\d+",
+  "mapObjectName": "Tiered_Ammo_Athena\\d+_\\d+",
   "properties": {
     "bHidden": {
       "name": "bHidden",

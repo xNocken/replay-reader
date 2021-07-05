@@ -9,11 +9,18 @@ const parse = async (buffer, options) => {
 
   const globalData = new GlobalData(options || {});
 
-  if (globalData.debug && fs.existsSync('notReadingGroups.txt')) {
-    fs.unlinkSync('notReadingGroups.txt');
-  }
-  if (globalData.debug && fs.existsSync('netfieldexports.txt')) {
-    fs.unlinkSync('netfieldexports.txt');
+  if (globalData.debug) {
+    if (fs.existsSync('notReadingGroups.txt')) {
+      fs.unlinkSync('notReadingGroups.txt');
+    }
+
+    if (fs.existsSync('netfieldexports.txt')) {
+      fs.unlinkSync('netfieldexports.txt');
+    }
+
+    if (fs.existsSync('netGuidToPathName.txt')) {
+      fs.unlinkSync('netGuidToPathName.txt');
+    }
   }
 
   const info = replayInfo(replay);
@@ -27,6 +34,7 @@ const parse = async (buffer, options) => {
   if (globalData.debug) {
     Object.values(netGuidCache.NetFieldExportGroupMap).forEach((value) => {
       const filteredNetFieldExports = value.netFieldExports.filter((a) => a && a.name !== 'RemoteRole' && a.name !== 'Role');
+
       if (!filteredNetFieldExports.length) {
         return;
       }
@@ -37,6 +45,8 @@ const parse = async (buffer, options) => {
         fs.appendFileSync('netfieldexports.txt', '  ' + exportt.name + '\n');
       });
     });
+
+    fs.writeFileSync('netGuidToPathName.txt', Object.entries(netGuidCache.NetGuidToPathName).map(([a, b]) => `${a}: ${b}`).join('\n'));
   }
 
   return {

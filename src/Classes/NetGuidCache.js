@@ -76,6 +76,7 @@ class NetGuidCache {
       group = this.NetFieldExportGroupMapPathFixed[netguid];
 
       path = globalData.netFieldParser.getRedirect(path);
+      path = globalData.netFieldParser.getFromMapObjectName(path);
 
       if (group) {
         this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];

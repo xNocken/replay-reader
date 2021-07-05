@@ -34,11 +34,11 @@ class GlobalData {
       },
       mapData: {
         pickups: [],
-        playerBuilds: [],
-        speedSigns: [],
-        chests: [],
+        playerBuilds: {},
+        speedSigns: {},
+        chests: {},
         vehicles: {
-          valets: [],
+          valets: {},
         },
         markers: [],
         llamas: [],
