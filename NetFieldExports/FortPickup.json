@@ -151,9 +151,9 @@
     },
     "TossState": {
       "name": "TossState",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [2]
+      "type": "EFortPickupTossState",
+      "parseFunction": "readEnum",
+      "bits": 2
     },
     "bCombinePickupsWhenTossCompletes": {
       "name": "bCombinePickupsWhenTossCompletes",

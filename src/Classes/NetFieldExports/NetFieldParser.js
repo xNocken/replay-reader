@@ -9,6 +9,7 @@ class NetFieldParser {
   theClassCache = {};
   redirects = {};
   classPathCache = {};
+  enumCache = {};
 
   constructor(globalData) {
     if (!globalData.onlyUseCustomNetFieldExports) {
@@ -242,6 +243,38 @@ class NetFieldParser {
         }
 
         data = arr;
+        break;
+
+      case 'readEnum':
+        if (!this.enumCache[netFieldInfo.type]) {
+          let classPath;
+
+          if (globalData.customClassPath) {
+            classPath = `${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.json`;
+
+            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.json`)) {
+              classPath = null;
+            }
+          }
+
+          if (!classPath) {
+            classPath = `../../../Enums/${netFieldInfo.type}.json`;
+          }
+
+          this.enumCache[netFieldInfo.type] = require(classPath);
+        }
+
+        const enumm = this.enumCache[netFieldInfo.type];
+
+        if (!enumm) {
+          data = null;
+          break;
+        }
+
+        const value = netBitReader.readBitsToInt(netFieldInfo.bits);
+
+        data = enumm[value] || null;
+
         break;
 
       default:

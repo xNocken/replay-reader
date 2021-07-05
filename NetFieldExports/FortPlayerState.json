@@ -24,6 +24,17 @@
       "type": "boolean",
       "parseFunction": "readBit"
     },
+    "DeathCause": {
+      "name": "DeathCause",
+      "type": "EDeathCause",
+      "parseFunction": "readEnum",
+      "bits": 6
+    },
+    "bIsDisconnected": {
+      "name": "bIsDisconnected",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
     "DeathTags": {
       "name": "DeathTags",
       "type": "FGameplayTagContainer",

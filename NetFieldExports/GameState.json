@@ -66,9 +66,9 @@
     },
     "GameplayState": {
       "name": "GameplayState",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [3]
+      "type": "EFortGameplayState",
+      "parseFunction": "readEnum",
+      "bits": 3
     },
     "GameSessionId": {
       "name": "GameSessionId",
@@ -112,9 +112,9 @@
     },
     "ServerStability": {
       "name": "ServerStability",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [3]
+      "type": "EServerStability",
+      "parseFunction": "readEnum",
+      "bits": 3
     },
     "RoundTimeAccumulated": {
       "name": "RoundTimeAccumulated",
@@ -218,9 +218,9 @@
     },
     "StormCapState": {
       "name": "StormCapState",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [3]
+      "type": "EAthenaStormCapState",
+      "parseFunction": "readEnum",
+      "bits": 3
     },
     "FlightStartLocation": {
       "name": "FlightStartLocation",
@@ -264,9 +264,9 @@
     },
     "GamePhase": {
       "name": "GamePhase",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [3]
+      "type": "EAthenaGamePhase",
+      "parseFunction": "readEnum",
+      "bits": 3
     },
     "Aircrafts": {
       "name": "Aircrafts",
@@ -360,9 +360,9 @@
     },
     "EventTournamentRound": {
       "name": "EventTournamentRound",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [3]
+      "type": "EEventTournamentRound",
+      "parseFunction": "readEnum",
+      "bits": 3
     },
     "EventId": {
       "name": "EventId",

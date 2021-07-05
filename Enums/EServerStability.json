@@ -1,0 +1,7 @@
+{
+  "0": "Stable",
+  "1": "LowUnstability",
+  "2": "HighUnstability",
+  "3": "Count",
+  "4": "EServerStability_MAX"
+}

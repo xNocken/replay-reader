@@ -1,0 +1,6 @@
+{
+  "0": "NotTossed",
+  "1": "InProgress",
+  "2": "AtRest",
+  "3": "EFortPickupTossState_MAX"
+}

@@ -176,9 +176,9 @@
     },
     "CurrentMovementStyle": {
       "name": "CurrentMovementStyle",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [4]
+      "type": "EFortMovementStyle",
+      "parseFunction": "readEnum",
+      "bits": 4
     },
     "bIgnoreNextFallingDamage": {
       "name": "bIgnoreNextFallingDamage",
@@ -347,9 +347,9 @@
     },
     "BuildingState": {
       "name": "BuildingState",
-      "type": "int",
-      "parseFunction": "readBitsToInt",
-      "args": [2]
+      "type": "EFortBuildingState",
+      "parseFunction": "readEnum",
+      "bits": 2
     },
     "bIsTargeting": {
       "name": "bIsTargeting",

@@ -1,0 +1,10 @@
+{
+  "0": "Running",
+  "1": "Walking",
+  "2": "Charging",
+  "3": "Sprinting",
+  "4": "PersonalVehicle",
+  "5": "Flying",
+  "6": "Tethered",
+  "7": "EFortMovementStyle_MAX"
+}
