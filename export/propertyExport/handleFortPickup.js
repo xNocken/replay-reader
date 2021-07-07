@@ -1,5 +1,3 @@
-const netGuidCache = require("../../src/utils/netGuidCache");
-
 const handleFortPickup = (chIndex, data, globalData) => {
   const { pickups, channelToActor } = globalData;
   if (!pickups[chIndex]) {
@@ -7,7 +5,7 @@ const handleFortPickup = (chIndex, data, globalData) => {
     return;
   }
 
-  pickups[chIndex].actor = netGuidCache.tryGetActorById(channelToActor[chIndex]);
+  pickups[chIndex].actor = globalData.netGuidCache.tryGetActorById(channelToActor[chIndex]);
 
   Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {

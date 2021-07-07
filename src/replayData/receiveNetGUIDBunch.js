@@ -23,7 +23,7 @@ const receiveNetGUIDBunch = (packet, globalData) => {
   let numGUIDSRead = 0;
 
   while (numGUIDSRead < numGUIDsInBunch) {
-    internalLoadObject(packet, true);
+    internalLoadObject(packet, true, globalData);
     numGUIDSRead++;
   }
 };

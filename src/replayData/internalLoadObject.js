@@ -1,6 +1,5 @@
 const NetworkGUID = require('../../Classes/NetworkGUID');
 const Replay = require('../Classes/Replay');
-const netGuidCache = require('../utils/netGuidCache');
 const removePathPrefix = require('../utils/removePathPrefix');
 
 /**
@@ -10,7 +9,7 @@ const removePathPrefix = require('../utils/removePathPrefix');
  *
  * @returns {NetworkGUID}
  */
-const internalLoadObject = (replay, isExportingNetGUIDBunch, internalLoadObjectRecursionCount = 0) => {
+const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, internalLoadObjectRecursionCount = 0) => {
   if (internalLoadObjectRecursionCount > 16) {
     return new NetworkGUID();
   }
@@ -27,7 +26,7 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, internalLoadObjectR
 
     if ((flags & 1) === 1) {
       // outer guid
-      internalLoadObject(replay, true, internalLoadObjectRecursionCount + 1);
+      internalLoadObject(replay, true, globalData, internalLoadObjectRecursionCount + 1);
       const pathName = replay.readString();
 
       if ((flags & 4) == 4) {
@@ -36,7 +35,7 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, internalLoadObjectR
       }
 
       if (isExportingNetGUIDBunch) {
-        netGuidCache.NetGuidToPathName[netGuid.value] = removePathPrefix(pathName);
+        globalData.netGuidCache.NetGuidToPathName[netGuid.value] = removePathPrefix(pathName);
       }
 
       return netGuid;

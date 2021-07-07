@@ -5,7 +5,7 @@ const internalLoadObject = require("./internalLoadObject");
  * same as above
  * @param {Replay} replay the replay
  */
-const readNetExportGuids = (replay) => {
+const readNetExportGuids = (replay, globalData) => {
   const numGuids = replay.readIntPacked();
 
   for (let i = 0; i < numGuids; i++) {
@@ -13,7 +13,7 @@ const readNetExportGuids = (replay) => {
 
     replay.addOffsetByte(size);
 
-    internalLoadObject(replay, true);
+    internalLoadObject(replay, true, globalData);
 
     replay.popOffset();
   }

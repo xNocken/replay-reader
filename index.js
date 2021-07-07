@@ -2,12 +2,20 @@ const Replay = require('./src/Classes/Replay');
 const { replayInfo, replayChunks } = require('./src/parse');
 const GlobalData = require('./src/utils/globalData');
 const fs = require('fs');
-const netGuidCache = require('./src/utils/netGuidCache');
+let isParsing = false;
 
 const parse = async (buffer, options) => {
+  if (isParsing) {
+    throw Error('Cannot parse multiple replays at once');
+  }
+
+  isParsing = true;
+
   const replay = new Replay(buffer);
 
   const globalData = new GlobalData(options || {});
+  let info
+  let chunks
 
   if (globalData.debug) {
     if (fs.existsSync('notReadingGroups.txt')) {
@@ -23,8 +31,14 @@ const parse = async (buffer, options) => {
     }
   }
 
-  const info = replayInfo(replay);
-  const chunks = await replayChunks(replay, globalData);
+  try {
+    info = replayInfo(replay);
+    chunks = await replayChunks(replay, globalData);
+  } catch (err) {
+    isParsing = false;
+
+    throw err;
+  }
 
   globalData.result.players = Object.values(globalData.players);
   globalData.result.mapData.pickups = Object.values(globalData.pickups);
@@ -32,7 +46,7 @@ const parse = async (buffer, options) => {
   globalData.result.mapData.labradorLlamas = Object.values(globalData.labradorLlamas);
 
   if (globalData.debug) {
-    Object.values(netGuidCache.NetFieldExportGroupMap).forEach((value) => {
+    Object.values(globalData.netGuidCache.NetFieldExportGroupMap).forEach((value) => {
       const filteredNetFieldExports = value.netFieldExports.filter((a) => a && a.name !== 'RemoteRole' && a.name !== 'Role');
 
       if (!filteredNetFieldExports.length) {
@@ -46,8 +60,10 @@ const parse = async (buffer, options) => {
       });
     });
 
-    fs.writeFileSync('netGuidToPathName.txt', Object.entries(netGuidCache.NetGuidToPathName).map(([a, b]) => `${a}: ${b}`).join('\n'));
+    fs.writeFileSync('netGuidToPathName.txt', Object.entries(globalData.netGuidCache.NetGuidToPathName).map(([a, b]) => `${a}: ${b}`).join('\n'));
   }
+
+  isParsing = false;
 
   return {
     header: globalData.header,

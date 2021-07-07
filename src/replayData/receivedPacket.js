@@ -4,8 +4,6 @@ const UChannel = require('../Classes/UChannel');
 const receiveNetGUIDBunch = require('./receiveNetGUIDBunch');
 const receivedNextBunch = require('./receivedNextBunch');
 
-let inPacketId = 0;
-
 /**
  *
  * @param {Replay} packetArchive
@@ -14,7 +12,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
   const { channels } = globals;
   const OLD_MAX_ACTOR_CHANNELS = 10240;
 
-  inPacketId++;
+  globals.inPacketId++;
 
   while (!packetArchive.atEnd()) {
     if (packetArchive.header.EngineNetworkVersion < 8) {
@@ -26,7 +24,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     bunch.timeSeconds = timeSeconds;
 
     const bControl = packetArchive.readBit();
-    bunch.packetId = inPacketId;
+    bunch.packetId = globals.inPacketId;
 
     bunch.bOpen = bControl ? packetArchive.readBit() : false;
     bunch.bClose = bControl ? packetArchive.readBit() : false;
@@ -55,7 +53,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     if (bunch.bReliable) {
       bunch.chSequence = globals.inReliable + 1;
     } else if (bunch.bPartial) {
-      bunch.chSequence = inPacketId;
+      bunch.chSequence = globals.inPacketId;
     } else {
       bunch.chSequence = 0;
     }
@@ -112,8 +110,6 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
 
     bunch.archive.header = packetArchive.header;
     bunch.archive.info = packetArchive.info;
-
-    bunchIndex++;
 
     if (bunch.bHasPackageExportMaps) {
       receiveNetGUIDBunch(bunch.archive, globals);

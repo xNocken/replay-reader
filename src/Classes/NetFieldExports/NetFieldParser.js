@@ -1,7 +1,6 @@
 const fs = require('fs');
 const pathhhh = require('path');
 const DebugObject = require('../../../Classes/DebugObject');
-const netGuidCache = require('../../utils/netGuidCache');
 
 class NetFieldParser {
   netFieldGroups = [];
@@ -177,7 +176,7 @@ class NetFieldParser {
         dingens.serialize(netBitReader, globalData, netFieldInfo.config || {});
 
         if (dingens.resolve) {
-          dingens.resolve(netGuidCache, globalData);
+          dingens.resolve(globalData.netGuidCache, globalData);
         }
 
         data = dingens;

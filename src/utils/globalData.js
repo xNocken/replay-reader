@@ -1,5 +1,6 @@
 const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
+const NetGuidCache = require('../Classes/NetGuidCache');
 const UChannel = require('../Classes/UChannel');
 
 class GlobalData {
@@ -56,6 +57,8 @@ class GlobalData {
     this.llamas = {};
     this.labradorLlamas = {};
     this.supplyDrops = {};
+    this.netGuidCache = new NetGuidCache();
+    this.inPacketId = 0;
 
     this.debug = false;
 

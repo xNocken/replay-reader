@@ -1,5 +1,3 @@
-const netGuidCache = require("../../src/utils/netGuidCache");
-
 const handleGameplayCues = (chIndex, value, timeseconds, globalData) => {
   const { channelToActor, result } = globalData;
 
@@ -8,7 +6,7 @@ const handleGameplayCues = (chIndex, value, timeseconds, globalData) => {
   }
 
   result.gameData.gameplayCues[chIndex].push({
-    location: netGuidCache.tryGetActorById(channelToActor[chIndex]).location,
+    location: globalData.netGuidCache.tryGetActorById(channelToActor[chIndex]).location,
     gameplayCueTag: value.GameplayCueTag,
     timeseconds,
   });

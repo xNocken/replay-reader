@@ -17,7 +17,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     }
   }
 
-  const netGuid = internalLoadObject(bunch.archive, false);
+  const netGuid = internalLoadObject(bunch.archive, false, globalData);
 
   const bStablyNamed = bunch.archive.readBit();
 
@@ -29,7 +29,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     }
   }
 
-  const classNetGUID = internalLoadObject(bunch.archive, false);
+  const classNetGUID = internalLoadObject(bunch.archive, false, globalData);
 
   if (classNetGUID == null || !classNetGUID.isValid()) {
     bObjectDeleted = true;
@@ -45,7 +45,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     const bActorIsOuter = bunch.archive.readBit();
 
     if (!bActorIsOuter) {
-      internalLoadObject(bunch.archive, false);
+      internalLoadObject(bunch.archive, false, globalData);
     }
   }
 

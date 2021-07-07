@@ -89,8 +89,6 @@ const parsePlaybackPackets = (replay, globalData) => {
     replay.addOffsetByte(packet.size);
 
     if (packet.state === 0) {
-      packetIndex += 1;
-
       receivedRawPacket(packet, replay, globalData);
     } else {
       replay.popOffset();

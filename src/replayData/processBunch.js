@@ -2,7 +2,6 @@ const Actor = require('../Classes/Actor');
 const DataBunch = require('../Classes/DataBunch');
 const FRotator = require('../Classes/FRotator');
 const FVector = require('../Classes/FVector');
-const netGuidCache = require('../utils/netGuidCache');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
 const onChannelOpened = require('./onChannelOpened');
@@ -10,7 +9,6 @@ const readContentBlockPayload = require('./readContentBlockPayload');
 const receivedReplicatorBunch = require('./receivedReplicatorBunch');
 
 /**
- *
  * @param {DataBunch} bunch
  */
 const processBunch = (bunch, replay, globalData) => {
@@ -24,19 +22,19 @@ const processBunch = (bunch, replay, globalData) => {
 
     const inActor = {};
 
-    inActor.actorNetGUID = internalLoadObject(bunch.archive, false);
+    inActor.actorNetGUID = internalLoadObject(bunch.archive, false, globalData);
 
-    netGuidCache.addActor(inActor);
+    globalData.netGuidCache.addActor(inActor);
 
     if (bunch.archive.atEnd() && inActor.actorNetGUID.isDynamic()) {
       return;
     }
 
     if (inActor.actorNetGUID.isDynamic()) {
-      inActor.archetype = internalLoadObject(bunch.archive, false);
+      inActor.archetype = internalLoadObject(bunch.archive, false, globalData);
 
       if (bunch.archive.header.EngineNetworkVersion >= 5) {
-        inActor.level = internalLoadObject(bunch.archive, false);
+        inActor.level = internalLoadObject(bunch.archive, false, globalData);
       }
 
       inActor.location = conditionallySerializeQuantizedVector(bunch.archive, { x: 0, y: 0, z: 0 });
@@ -54,8 +52,8 @@ const processBunch = (bunch, replay, globalData) => {
     channel.actor = inActor;
 
     onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
-    if (netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
-      const path = netGuidCache.tryGetPathName(channel.archetypeId || 0);
+    if (globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
+      const path = globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0);
 
       if (playerControllerGroups.includes(path)) {
         bunch.archive.readByte();

@@ -1,3 +1,4 @@
+const { ok } = require('assert');
 const fs = require('fs');
 const parse = require('.');
 
@@ -10,7 +11,8 @@ const parse = require('.');
     // customClassPath: 'Classes',
     // onChannelOpened: console.log,
     // onChannelClosed: console.log,
-    debug: true,
+    // debug: true,
   }), null, 2));
+  console.log('replay one successfully parsed')
   console.timeEnd();
 })()

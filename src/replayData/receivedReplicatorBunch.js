@@ -1,6 +1,5 @@
 const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
-const netGuidCache = require('../utils/netGuidCache');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
@@ -14,7 +13,7 @@ const receiveProperties = require('./receiveProperties');
  * @param {boolean} bHasRepLayout
  */
 const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
-  const exportGroup = netGuidCache.GetNetFieldExportGroup(repObject, globalData);
+  const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
   const { netFieldParser } = globalData;
 
   if (exportGroup == null) {
@@ -37,7 +36,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
     return true;
   }
 
-  const classNetCache = netGuidCache.tryGetClassNetCache(netFielExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15)
+  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFielExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15)
 
   if (!classNetCache) {
     return false;
@@ -72,7 +71,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
     if (classNetProperty) {
       if (classNetProperty.isFunction) {
-        const exportGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+        const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
 
         if (!exportGroup) {
           return false;
@@ -90,7 +89,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           continue;
         }
       } else {
-        const exportGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+        const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
 
         if (!exportGroup) {
           return false;

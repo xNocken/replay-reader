@@ -1,4 +1,3 @@
-const netGuidCache = require("../utils/netGuidCache");
 const onExportRead = require("../../export/onExportRead");
 
 const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) => {
@@ -7,7 +6,7 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
   dingens.serialize(reader);
 
   if (dingens.resolve) {
-    dingens.resolve(netGuidCache);
+    dingens.resolve(globalData.netGuidCache);
   }
 
   dingens.type = fieldCache.customExportName || pathName.split('/').pop();

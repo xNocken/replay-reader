@@ -1,5 +1,3 @@
-const netGuidCache = require("../../src/utils/netGuidCache");
-
 const tryGetPlayerDataFromPawn = (pawn, globalData) => {
   const {
     players,
@@ -57,7 +55,7 @@ const handlePlayerPawn = (chIndex, pawn, globalData) => {
     }
   }
 
-  playerState.actor = netGuidCache.tryGetActorById(channelToActor[chIndex]);
+  playerState.actor = globalData.netGuidCache.tryGetActorById(channelToActor[chIndex]);
   Object.entries(pawn).forEach(([key, value]) => {
     if (value !== null) {
       playerState[key] = value;

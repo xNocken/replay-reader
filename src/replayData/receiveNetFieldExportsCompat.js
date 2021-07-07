@@ -1,6 +1,5 @@
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const Replay = require('../Classes/Replay');
-const netGuidCache = require('../utils/netGuidCache');
 const readNetFieldExport = require('./readNetFieldExport');
 
 /**
@@ -21,8 +20,8 @@ const numLayoutCmdLayout = packet.readUInt32();
       const pathName = packet.readString();
       const numExports = packet.readUInt32();
 
-      if (netGuidCache.NetFieldExportGroupMap[pathName]) {
-        group = netGuidCache.NetFieldExportGroupMap[pathName];
+      if (globalData.netGuidCache.NetFieldExportGroupMap[pathName]) {
+        group = globalData.netGuidCache.NetFieldExportGroupMap[pathName];
       } else {
         group = new NetFieldExportGroup();
         group.pathName = pathName;
@@ -30,10 +29,10 @@ const numLayoutCmdLayout = packet.readUInt32();
         group.netFieldExportsLength = numExports;
 
         group.netFieldExports = [];
-        netGuidCache.addToExportGroupMap(pathName, group, netFieldParser, globalData);
+        globalData.netGuidCache.addToExportGroupMap(pathName, group, netFieldParser, globalData);
       }
     } else {
-      group = netGuidCache.getNetFieldExportGroupFromIndex(pathNameIndex);
+      group = globalData.netGuidCache.getNetFieldExportGroupFromIndex(pathNameIndex);
     }
 
     const netField = readNetFieldExport(packet);
