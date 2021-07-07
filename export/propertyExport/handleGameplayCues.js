@@ -1,4 +1,4 @@
-const netGuidCache = require("../../utils/netGuidCache");
+const netGuidCache = require("../../src/utils/netGuidCache");
 
 const handleGameplayCues = (chIndex, value, timeseconds, globalData) => {
   const { channelToActor, result } = globalData;

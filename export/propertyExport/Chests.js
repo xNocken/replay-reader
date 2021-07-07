@@ -1,4 +1,4 @@
-const netGuidCache = require("../../utils/netGuidCache");
+const netGuidCache = require("../..//src/utils/netGuidCache");
 
 const handleChests = (chIndex, chest, timeSeconds, mapObjectName, globalData) => {
   if (!globalData.result.mapData.chests[mapObjectName]) {

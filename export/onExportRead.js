@@ -1,20 +1,20 @@
-const handleChests = require("./Chests");
-const handleFortPickup = require("./FortPickup");
-const handlePlayerState = require("./FortPlayerState");
-const handleGameState = require("./GameState");
-const handleFortBroadcastRemoteClientInfoMapMarker = require("./handleFortBroadCastRemoteClientInfoMapMarker");
-const handleGameplayCues = require("./handleGameplayCues");
-const handleHealthSet = require("./handleHealthSet");
-const handleLabradorLlama = require("./handleLabradorLlama");
-const handleLootLlama = require("./handleLootLlama");
-const handlePlayerBuilds = require("./HandlePlayerBuilds");
-const handleSoccerGame = require("./handleSoccerGame");
-const handleSupplyDrop = require("./handleSupplyDrop");
-const handleValets = require("./HandleValets");
-const handlePlayerPawn = require("./PlayerPawn");
-const handlePlaylistInfo = require("./PlaylistInfo");
-const handleSafezone = require("./SafezoneIndicator");
-const handleSpeedSign = require("./SpeedSign");
+const handleChests = require("./propertyExport/Chests");
+const handleFortPickup = require("./propertyExport/FortPickup");
+const handlePlayerState = require("./propertyExport/FortPlayerState");
+const handleGameState = require("./propertyExport/GameState");
+const handleFortBroadcastRemoteClientInfoMapMarker = require("./propertyExport/handleFortBroadCastRemoteClientInfoMapMarker");
+const handleGameplayCues = require("./propertyExport/handleGameplayCues");
+const handleHealthSet = require("./propertyExport/handleHealthSet");
+const handleLabradorLlama = require("./propertyExport/handleLabradorLlama");
+const handleLootLlama = require("./propertyExport/handleLootLlama");
+const handlePlayerBuilds = require("./propertyExport/HandlePlayerBuilds");
+const handleSoccerGame = require("./propertyExport/handleSoccerGame");
+const handleSupplyDrop = require("./propertyExport/handleSupplyDrop");
+const handleValets = require("./propertyExport/HandleValets");
+const handlePlayerPawn = require("./propertyExport/PlayerPawn");
+const handlePlaylistInfo = require("./propertyExport/PlaylistInfo");
+const handleSafezone = require("./propertyExport/SafezoneIndicator");
+const handleSpeedSign = require("./propertyExport/SpeedSign");
 
 const onExportRead = (chIndex, value, timeseconds, mapObjectName, globalData) => {
   switch (value.type) {

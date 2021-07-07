@@ -1,4 +1,4 @@
-const handleActiveGameplayModifiers = require("./handleActiveGameplayModifiers");
+const handleActiveGameplayModifiers = require("./netDeltaExport/handleActiveGameplayModifiers");
 
 const onNetDeltaRead = (chIndex, update, timeSeconds, mapObjectName, globalData) => {
   switch (update.export.type) {

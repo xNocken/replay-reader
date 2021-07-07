@@ -1,5 +1,5 @@
 const netGuidCache = require("../utils/netGuidCache");
-const onExportRead = require("./export/onExportRead");
+const onExportRead = require("../../export/onExportRead");
 
 const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) => {
   const theClass = require(`../../Classes/${fieldCache.type}.js`);

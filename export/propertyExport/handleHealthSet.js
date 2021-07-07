@@ -1,4 +1,4 @@
-const FortSet = require('../../../Classes/FortSet');
+const FortSet = require('../../Classes/FortSet');
 
 let healthStartHandle;
 let shieldStartHandle;

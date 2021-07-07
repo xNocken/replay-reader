@@ -1,4 +1,4 @@
-const onNetDeltaRead = require("./export/onNetDeltaRead");
+const onNetDeltaRead = require("../../export/onNetDeltaRead");
 const NetDeltaSerializeHeader = require("./netDeltaSerializeHeader");
 const receiveProperties = require("./recieveProperties");
 

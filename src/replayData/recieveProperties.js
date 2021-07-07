@@ -2,7 +2,7 @@ const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const GlobalData = require('../utils/globalData');
-const onExportRead = require('./export/onExportRead');
+const onExportRead = require('../../export/onExportRead');
 const fs = require('fs');
 
 /**
