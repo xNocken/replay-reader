@@ -3,11 +3,25 @@
     "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C"
   ],
   "parseLevel": 2,
+  "mapObjectName": "BP_Athena_SpeedSign_?\\d+",
   "properties": {
     "VehicleSpeed": {
       "name": "VehicleSpeed",
       "type": "float",
       "parseFunction": "readFloat32"
+    },
+    "bReplicateMovement": {
+      "name": "bReplicateMovement",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty",
+      "config": {
+        "locationQuatLevel": 0
+      }
     }
   }
 }

@@ -13,9 +13,9 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
   dingens.type = fieldCache.customExportName || pathName.split('/').pop();
 
   if (globalData.onExportRead) {
-    globalData.onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, globalData);
+    globalData.onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
   } else {
-    onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, globalData);
+    onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
   }
 }
 

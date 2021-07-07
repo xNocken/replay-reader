@@ -7,7 +7,7 @@
     "run": "node --experimental-wasm-simd test.js"
   },
   "name": "fortnite-replay-parser",
-  "description": "A libary created to parser Fortnite replays in Node",
+  "description": "A libary created to parse Fortnite replays in Node",
   "main": "index.js",
   "devDependencies": {},
   "repository": {

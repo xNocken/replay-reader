@@ -54,11 +54,6 @@
       "type": "int",
       "parseFunction": "readInt32"
     },
-    "AdditionalPlaylistLevelsStreamed": {
-      "name": "AdditionalPlaylistLevelsStreamed",
-      "type": "FName",
-      "parseFunction": "readDynamicArray"
-    },
     "WorldDaysElapsed": {
       "name": "WorldDaysElapsed",
       "type": "int",
@@ -441,18 +436,18 @@
     },
     "VariantUsageByCosmetic": {
       "name": "VariantUsageByCosmetic",
-      "type": "ItemDefinition",
-      "parseFunction": "readDynamicArray"
+      "type": "DebugObject",
+      "parseFunction": "ignore"
     },
     "PrioritizedCosmeticIndices": {
       "name": "PrioritizedCosmeticIndices",
-      "type": "ItemDefinition",
-      "parseFunction": "readDynamicArray"
+      "type": "DebugObject",
+      "parseFunction": "ignore"
     },
     "Mappings": {
       "name": "Mappings",
-      "type": "ItemDefinition",
-      "parseFunction": "readDynamicArray"
+      "type": "DebugObject",
+      "parseFunction": "ignore"
     }
   }
 }

@@ -1,7 +1,7 @@
 const receiveProperties = require("./recieveProperties");
 
-const receivedRPC = (reader, group, bunch, globalData) => {
-  receiveProperties(reader, group, bunch, true, false, globalData);
+const receivedRPC = (reader, group, bunch, globalData, mapObjectName) => {
+  receiveProperties(reader, group, bunch, true, false, globalData, mapObjectName);
 
   if (!globalData.channels[bunch.chIndex].isIgnoringChannel(group.pathName) && globalData.netFieldParser.willReadType(group.pathName) && !reader.atEnd()) {
     return false;

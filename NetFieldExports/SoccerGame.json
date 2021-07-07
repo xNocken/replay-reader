@@ -1,0 +1,38 @@
+{
+  "path": [
+    "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C"
+  ],
+  "mapObjectName": "Athena_SoccerGame_\\d+",
+  "properties": {
+    "Score_Team_A": {
+      "name": "Score_Team_A",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "Score_Team_B": {
+      "name": "Score_Team_B",
+      "type": "int",
+      "parseFunction": "readInt32"
+    },
+    "ScoreLocation": {
+      "name": "ScoreLocation",
+      "type": "fVector",
+      "parseFunction": "readVector"
+    },
+    "WinningTeam": {
+      "name": "WinningTeam",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "PlayerWhoScored": {
+      "name": "PlayerWhoScored",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "bScoredWithToy": {
+      "name": "bScoredWithToy",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    }
+  }
+}

@@ -36,6 +36,7 @@ class GlobalData {
         pickups: [],
         playerBuilds: {},
         speedSigns: {},
+        soccerGames: {},
         chests: {},
         vehicles: {
           valets: {},

@@ -1,15 +1,14 @@
 const netGuidCache = require("../../utils/netGuidCache");
 
-const handleChests = (chIndex, chest, timeSeconds, globalData) => {
-  if (!globalData.result.mapData.chests[chIndex]) {
-    chest.actor = netGuidCache.tryGetActorById(globalData.channelToActor[chIndex]);
-    globalData.result.mapData.chests[chIndex] = chest;
-    return;
+const handleChests = (chIndex, chest, timeSeconds, mapObjectName, globalData) => {
+  if (!globalData.result.mapData.chests[mapObjectName]) {
+    chest.actor = netGuidCache.tryGetActorById(globalData.channelToActor[mapObjectName]);
+    globalData.result.mapData.chests[mapObjectName] = {};
   }
 
   Object.entries(chest).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.mapData.chests[chIndex][key] = value;
+      globalData.result.mapData.chests[mapObjectName][key] = value;
     }
   });
 }

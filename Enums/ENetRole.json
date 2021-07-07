@@ -1,0 +1,7 @@
+{
+  "0": "ROLE_None",
+  "1": "ROLE_SimulatedProxy",
+  "2": "ROLE_AutonomousProxy",
+  "3": "ROLE_Authority",
+  "4": "ROLE_MAX"
+}

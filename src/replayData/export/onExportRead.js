@@ -8,6 +8,7 @@ const handleHealthSet = require("./handleHealthSet");
 const handleLabradorLlama = require("./handleLabradorLlama");
 const handleLootLlama = require("./handleLootLlama");
 const handlePlayerBuilds = require("./HandlePlayerBuilds");
+const handleSoccerGame = require("./handleSoccerGame");
 const handleSupplyDrop = require("./handleSupplyDrop");
 const handleValets = require("./HandleValets");
 const handlePlayerPawn = require("./PlayerPawn");
@@ -15,7 +16,7 @@ const handlePlaylistInfo = require("./PlaylistInfo");
 const handleSafezone = require("./SafezoneIndicator");
 const handleSpeedSign = require("./SpeedSign");
 
-const onExportRead = (chIndex, value, timeseconds, globalData) => {
+const onExportRead = (chIndex, value, timeseconds, mapObjectName, globalData) => {
   switch (value.type) {
     case 'SafeZoneIndicator.SafeZoneIndicator_C':
       handleSafezone(chIndex, value, timeseconds, globalData);
@@ -50,11 +51,11 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
       break;
 
     case 'BP_Athena_SpeedSign.BP_Athena_SpeedSign_C':
-      handleSpeedSign(chIndex, value, timeseconds, globalData)
+      handleSpeedSign(chIndex, value, timeseconds, mapObjectName, globalData)
       break;
 
     case 'Chests':
-      handleChests(chIndex, value, timeseconds, globalData);
+      handleChests(chIndex, value, timeseconds, mapObjectName, globalData);
       break;
 
     case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker':
@@ -80,6 +81,10 @@ const onExportRead = (chIndex, value, timeseconds, globalData) => {
 
     case 'AthenaSupplyDrop.AthenaSupplyDrop_C':
       handleSupplyDrop(chIndex, value, timeseconds, globalData);
+      break;
+
+    case 'Athena_SoccerGame.Athena_SoccerGame_C':
+      handleSoccerGame(mapObjectName, value, timeseconds, globalData);
       break;
 
     default:

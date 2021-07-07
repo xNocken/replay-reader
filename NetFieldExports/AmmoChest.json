@@ -26,6 +26,56 @@
       "name": "SearchingPawn",
       "type": "uint",
       "parseFunction": "readIntPacked"
+    },
+    "bReplicateMovement": {
+      "name": "bReplicateMovement",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
+    "RemoteRole": {
+      "name": "RemoteRole",
+      "type": "ENetRole",
+      "parseFunction": "readEnum",
+      "bits": 3
+    },
+    "Role": {
+      "name": "Role",
+      "type": "ENetRole",
+      "parseFunction": "readEnum",
+      "bits": 3
+    },
+    "ReplicatedMovement": {
+      "name": "ReplicatedMovement",
+      "type": "FRepMovement",
+      "parseFunction": "readProperty",
+      "config": {
+        "locationQuatLevel": 0
+      }
+    },
+    "ForceMetadataRelevant": {
+      "name": "ForceMetadataRelevant",
+      "type": "DebugObject",
+      "parseFunction": "readProperty"
+    },
+    "StaticMesh": {
+      "name": "StaticMesh",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "SearchedMesh": {
+      "name": "SearchedMesh",
+      "type": "uint",
+      "parseFunction": "readIntPacked"
+    },
+    "AltMeshIdx": {
+      "name": "AltMeshIdx",
+      "type": "DebugObject",
+      "parseFunction": "readProperty"
+    },
+    "ChosenRandomUpgrade": {
+      "name": "ChosenRandomUpgrade",
+      "type": "DebugObject",
+      "parseFunction": "readProperty"
     }
   }
 }

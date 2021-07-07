@@ -55,8 +55,12 @@ class NetGuidCache {
   }
 
   GetNetFieldExportGroup(netguid, globalData) {
+    let mapObjectName;
     if (typeof netguid === 'string')  {
-      return this.GetNetFieldExportGroupString(netguid);
+      return {
+        group: this.GetNetFieldExportGroupString(netguid),
+        mapObjectName: null,
+      };
     }
 
     if (this.netguidToNetFieldExportgroup[netguid] !== undefined) {
@@ -76,13 +80,23 @@ class NetGuidCache {
       group = this.NetFieldExportGroupMapPathFixed[netguid];
 
       path = globalData.netFieldParser.getRedirect(path);
+
+      mapObjectName = path;
+
       path = globalData.netFieldParser.getFromMapObjectName(path);
+
+      if (mapObjectName === path) {
+        mapObjectName = null;
+      }
 
       if (group) {
         this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];
-        this.netguidToNetFieldExportgroup[netguid] = group;
+        this.netguidToNetFieldExportgroup[netguid] = {
+          mapObjectName,
+          group,
+        };
 
-        return group;
+        return this.netguidToNetFieldExportgroup[netguid];
       }
 
       let returnValue;
@@ -109,8 +123,12 @@ class NetGuidCache {
       }
 
       if (returnValue) {
-        this.netguidToNetFieldExportgroup[netguid] = returnValue;
-        return returnValue;
+        this.netguidToNetFieldExportgroup[netguid] = {
+          group: returnValue,
+          mapObjectName,
+        };
+
+        return this.netguidToNetFieldExportgroup[netguid];
       }
 
       const cleanedPath = cleanPathSuffix(path);
@@ -133,7 +151,11 @@ class NetGuidCache {
       }
 
       if (returnValue) {
-        this.netguidToNetFieldExportgroup[netguid] = returnValue;
+        this.netguidToNetFieldExportgroup[netguid] = {
+          mapObjectName,
+          group: this.netguidToNetFieldExportgroup[netguid],
+        };
+
         return returnValue;
       }
 
@@ -144,7 +166,10 @@ class NetGuidCache {
 
     this.netguidToNetFieldExportgroup[netguid] = group;
 
-    return group;
+    return {
+      group,
+      mapObjectName,
+    };
   }
 
   GetNetFieldExportGroupFromIndex(index) {

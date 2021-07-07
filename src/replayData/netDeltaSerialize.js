@@ -2,7 +2,7 @@ const onNetDeltaRead = require("./export/onNetDeltaRead");
 const NetDeltaSerializeHeader = require("./netDeltaSerializeHeader");
 const receiveProperties = require("./recieveProperties");
 
-const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData) => {
+const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData, mapObjectName) => {
   const header = NetDeltaSerializeHeader(reader);
 
   if (reader.isError) {
@@ -17,20 +17,20 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
         deleted: true,
         elementIndex,
         path: group.pathName,
-      }, bunch.timeSeconds, globalData);
+      }, bunch.timeSeconds, mapObjectName, globalData);
     } else {
       onNetDeltaRead(bunch.chIndex, {
         deleted: true,
         elementIndex,
         path: group.pathName,
-      }, bunch.timeSeconds, globalData);
+      }, bunch.timeSeconds, mapObjectName, globalData);
     }
   }
 
   for (let i = 0; i < header.numChanged; i++) {
     const elementIndex = reader.readInt32();
 
-    const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData);
+    const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, mapObjectName);
 
     if (!exportGroup) {
       continue;
@@ -40,12 +40,12 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       globalData.onNetDeltaRead(bunch.chIndex, {
         elementIndex,
         export: exportGroup,
-      }, bunch.timeSeconds, globalData);
+      }, bunch.timeSeconds, mapObjectName, globalData);
     } else {
       onNetDeltaRead(bunch.chIndex, {
         elementIndex,
         export: exportGroup,
-      }, bunch.timeSeconds, globalData);
+      }, bunch.timeSeconds, mapObjectName, globalData);
     }
   }
 };

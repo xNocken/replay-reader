@@ -15,7 +15,7 @@ class FGameplayTagContainer {
     }
   }
 
-  resolve (cache) {
+  resolve(cache) {
     if (!this.tags.length) {
       return;
     }
@@ -26,7 +26,7 @@ class FGameplayTagContainer {
   }
 
   toJSON() {
-    return this.tags;
+    return this.tags || null;
   }
 }
 

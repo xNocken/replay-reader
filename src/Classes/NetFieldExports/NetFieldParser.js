@@ -138,7 +138,9 @@ class NetFieldParser {
     let data;
 
     if (!netFieldInfo) {
-      data = new DebugObject(netBitReader.readBits(netBitReader.getBitsLeft()), exportt);
+      const size = netBitReader.getBitsLeft();
+
+      data = new DebugObject(netBitReader.readBits(size), exportt, size, netBitReader.header);
 
       obj[exportt.handle] = data;
 

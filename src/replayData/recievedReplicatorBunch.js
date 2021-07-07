@@ -14,15 +14,21 @@ const receiveProperties = require('./recieveProperties');
  * @param {boolean} bHasRepLayout
  */
 const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
-  const netFielExportGroup = netGuidCache.GetNetFieldExportGroup(repObject, globalData);
+  const exportGroup = netGuidCache.GetNetFieldExportGroup(repObject, globalData);
   const { netFieldParser } = globalData;
 
-  if (netFielExportGroup == null) {
+  if (exportGroup == null) {
     return true;
   }
 
+  const { group: netFielExportGroup, mapObjectName} = exportGroup;
+
+  if (mapObjectName && bunch.timeSeconds > 60) {
+    console;
+  }
+
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData)) {
+    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData, mapObjectName)) {
       return false;
     }
   }
@@ -66,19 +72,31 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
     if (classNetProperty) {
       if (classNetProperty.isFunction) {
-        var functionGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+        const exportGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
 
-        if (!receivedRPC(archive, functionGroup, bunch, globalData)) {
+        if (!exportGroup) {
+          return false;
+        }
+
+        const { group: functionGroup, mapObjectName} = exportGroup;
+
+        if (!receivedRPC(archive, functionGroup, bunch, globalData, mapObjectName)) {
           return false;
         }
       } else if (classNetProperty.isCustomStruct) {
-        if (!receiveCustomProperty(archive, classNetProperty, bunch, classNetCache.pathName, globalData)) {
+        if (!receiveCustomProperty(archive, classNetProperty, bunch, classNetCache.pathName, globalData, mapObjectName)) {
           archive.popOffset();
 
           continue;
         }
       } else {
-        const group = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+        const exportGroup = netGuidCache.GetNetFieldExportGroup(classNetProperty.type);
+
+        if (!exportGroup) {
+          return false;
+        }
+
+        const { group, mapObjectName} = exportGroup;
 
         if (!group || !netFieldParser.willReadType(group.pathName)) {
           archive.popOffset();
@@ -86,7 +104,7 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           continue;
         }
 
-        if (receiveCustomDeltaProperty(archive, group, bunch, classNetProperty.EnablePropertyChecksum || true, globalData)) {
+        if (receiveCustomDeltaProperty(archive, group, bunch, classNetProperty.EnablePropertyChecksum || false, globalData, mapObjectName)) {
           archive.popOffset();
 
           continue;

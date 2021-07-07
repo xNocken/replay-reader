@@ -19,7 +19,7 @@ class ItemDefinition extends NetworkGUID {
   }
 
   toJSON() {
-    return this.name;
+    return this.name || null;
   }
 }
 

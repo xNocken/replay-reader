@@ -17,7 +17,7 @@ class FGameplayTag {
   }
 
   toJSON() {
-    return this.tagName;
+    return this.tagName || null;
   }
 }
 

@@ -161,6 +161,12 @@ class Replay {
       const arr = Buffer.allocUnsafe(byteCount);
       const start = ~~(this.offset / 8);
 
+      if (!this.canRead(byteCount)) {
+        this.isError = true;
+
+        return Buffer.from([]);
+      }
+
       this.buffer.copy(arr, 0, start, start + byteCount);
 
       this.offset += byteCount * 8;
@@ -194,11 +200,6 @@ class Replay {
   readString() {
     const length = this.readInt32();
 
-    if (!this.canRead(length)) {
-      this.isError = true;
-      return '';
-    }
-
     if (length === 0) {
       return '';
     }
@@ -206,8 +207,18 @@ class Replay {
     let value;
 
     if (length < 0) {
+      if (!this.canRead(length * -2)) {
+        this.isError = true;
+        return '';
+      }
+
       value = this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
     } else {
+      if (!this.canRead(length)) {
+        this.isError = true;
+        return '';
+      }
+
       value = this.readBytes(length).slice(0, -1).toString('utf-8');
     }
 
@@ -289,8 +300,15 @@ class Replay {
   }
 
   readFloat32() {
+    if (!this.canRead(32)) {
+      this.isError = true;
+
+      return 0;
+    }
+
     const hi = this.readBytes(4);
     const result = hi.readFloatLE(0);
+
     return result;
   }
 

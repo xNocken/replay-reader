@@ -14,7 +14,7 @@ const fs = require('fs');
  * @param {boolean} netDeltaUpdate
  * @param {GlobalData} globalData
  */
-const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData) => {
+const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, mapObjectName) => {
   let exportGroup;
   const { channels, netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
@@ -38,7 +38,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
   }
 
   if (enableProperyChecksum) {
-    const doChecksum = archive.readBit();
+    archive.skipBits(1);
   }
 
   exportGroup = netFieldParser.createType(group);
@@ -92,9 +92,9 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
 
   if (!netDeltaUpdate && hasData) {
     if (globalData.onExportRead) {
-      globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, globalData);
+      globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
     } else {
-      onExportRead(channelIndex, exportGroup, bunch.timeSeconds, globalData);
+      onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
     }
   }
 
