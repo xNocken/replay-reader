@@ -5,7 +5,7 @@ const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
 const receivedRPC = require('./receivedRPC');
-const receiveProperties = require('./recieveProperties');
+const receiveProperties = require('./receiveProperties');
 
 /**
  * @param {DataBunch} bunch
@@ -13,7 +13,7 @@ const receiveProperties = require('./recieveProperties');
  * @param {number} repObject
  * @param {boolean} bHasRepLayout
  */
-const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
+const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
   const exportGroup = netGuidCache.GetNetFieldExportGroup(repObject, globalData);
   const { netFieldParser } = globalData;
 
@@ -116,4 +116,4 @@ const recievedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
   }
 };
 
-module.exports = recievedReplicatorBunch;
+module.exports = receivedReplicatorBunch;

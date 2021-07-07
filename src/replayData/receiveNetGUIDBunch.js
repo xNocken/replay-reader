@@ -5,7 +5,7 @@ const receiveNetFieldExportsCompat = require('./receiveNetFieldExportsCompat');
 /**
  * @param {Replay} packet
  */
-const recieveNetGUIDBunch = (packet, globalData) => {
+const receiveNetGUIDBunch = (packet, globalData) => {
   const bHasRepLayoutExport = packet.readBit();
 
   if (bHasRepLayoutExport) {
@@ -28,4 +28,4 @@ const recieveNetGUIDBunch = (packet, globalData) => {
   }
 };
 
-module.exports = recieveNetGUIDBunch;
+module.exports = receiveNetGUIDBunch;

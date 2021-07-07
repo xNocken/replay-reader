@@ -1,4 +1,4 @@
-const handleActiveGameplayModifiers = (chIndex, state, timeSeconds, globalData) => {
+const handleActiveGameplayModifiers = (state, globalData) => {
   globalData.result.gameData.activeGameplayModifiers.push(state.export.ModifierDef?.name);
 };
 

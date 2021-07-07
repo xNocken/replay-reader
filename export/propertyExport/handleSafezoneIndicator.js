@@ -1,4 +1,4 @@
-const handleSafezone = (chIndex, info, timeSeconds, globalData) => {
+const handleSafezone = (info, globalData) => {
   if (info.SafeZoneStartShrinkTime && info.SafeZoneFinishShrinkTime) {
     globalData.result.gameData.safeZones.push(info);
   }

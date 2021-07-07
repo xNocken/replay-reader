@@ -7,7 +7,7 @@ const conditionallySerializeQuantizedVector = require('./conditionallySerializeQ
 const internalLoadObject = require('./internalLoadObject');
 const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
-const recievedReplicatorBunch = require('./recievedReplicatorBunch');
+const receivedReplicatorBunch = require('./receivedReplicatorBunch');
 
 /**
  *
@@ -94,7 +94,7 @@ const processBunch = (bunch, replay, globalData) => {
       continue;
     }
 
-    recievedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, globalData);
+    receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, globalData);
     if (numPayloadBits > 0) {
       replay.popOffset();
     }

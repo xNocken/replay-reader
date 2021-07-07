@@ -5,7 +5,7 @@ const processBunch = require("./processBunch");
  *
  * @param {DataBunch} bunch
  */
-const recievedActorBunch = (bunch, replay, globalData) => {
+const receivedActorBunch = (bunch, replay, globalData) => {
   if (bunch.bHasMustBeMappedGUIDs) {
     const numMusteBeMappedGUIDs = replay.readUInt16();
 
@@ -17,4 +17,4 @@ const recievedActorBunch = (bunch, replay, globalData) => {
   processBunch(bunch, replay, globalData);
 };
 
-module.exports = recievedActorBunch;
+module.exports = receivedActorBunch;

@@ -1,12 +1,12 @@
 const DataBunch = require('../Classes/DataBunch');
 const onChannelClosed = require('./onChannelClosed');
-const recievedActorBunch = require('./recievedActorBunch');
+const receivedActorBunch = require('./receivedActorBunch');
 
 /**
  * @param {DataBunch} bunch
  */
-const recievedSequencedBunch = (bunch, globalData) => {
-  recievedActorBunch(bunch, bunch.archive, globalData);
+const receivedSequencedBunch = (bunch, globalData) => {
+  receivedActorBunch(bunch, bunch.archive, globalData);
 
   if (bunch.bClose) {
     delete globalData.channels[bunch.chIndex];
@@ -19,4 +19,4 @@ const recievedSequencedBunch = (bunch, globalData) => {
   return false;
 };
 
-module.exports = recievedSequencedBunch;
+module.exports = receivedSequencedBunch;

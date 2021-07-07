@@ -14,7 +14,7 @@ const tryGetPlayerDataFromPawn = (pawn, globalData) => {
   return null;
 };
 
-const handlePlayerPawn = (chIndex, pawn, timeseconds, globalData) => {
+const handlePlayerPawn = (chIndex, pawn, globalData) => {
   const {
     players,
     actorToChannel,

@@ -1,18 +1,16 @@
 const Replay = require('../Classes/Replay');
 const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
-const recieveNetGUIDBunch = require('./recieveNetGUIDBunch');
-const recievedNextBunch = require('./recievedNextBunch');
-
+const receiveNetGUIDBunch = require('./receiveNetGUIDBunch');
+const receivedNextBunch = require('./receivedNextBunch');
 
 let inPacketId = 0;
-let bunchIndex = 0;
 
 /**
  *
  * @param {Replay} packetArchive
  */
-const recievedPacket = (packetArchive, timeSeconds, globals) => {
+const receivedPacket = (packetArchive, timeSeconds, globals) => {
   const { channels } = globals;
   const OLD_MAX_ACTOR_CHANNELS = 10240;
 
@@ -118,7 +116,7 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
     bunchIndex++;
 
     if (bunch.bHasPackageExportMaps) {
-      recieveNetGUIDBunch(bunch.archive, globals);
+      receiveNetGUIDBunch(bunch.archive, globals);
     }
 
     if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
@@ -142,7 +140,7 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     try {
-      recievedNextBunch(bunch, globals);
+      receivedNextBunch(bunch, globals);
     } catch (ex) {
       console.log(ex);
     } finally {
@@ -153,4 +151,4 @@ const recievedPacket = (packetArchive, timeSeconds, globals) => {
   }
 };
 
-module.exports = recievedPacket;
+module.exports = receivedPacket;

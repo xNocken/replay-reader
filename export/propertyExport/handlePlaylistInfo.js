@@ -1,4 +1,4 @@
-const handlePlaylistInfo = (chIndex, data, timeSeconds, globalData) => {
+const handlePlaylistInfo = (data, globalData) => {
   globalData.result.gameData.playlistInfo = data.name;
 }
 

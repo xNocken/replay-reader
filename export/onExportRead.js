@@ -1,70 +1,70 @@
-const handleChests = require("./propertyExport/Chests");
-const handleFortPickup = require("./propertyExport/FortPickup");
-const handlePlayerState = require("./propertyExport/FortPlayerState");
-const handleGameState = require("./propertyExport/GameState");
+const handleChests = require("./propertyExport/handleChests");
+const handleFortPickup = require("./propertyExport/handleFortPickup");
+const handlePlayerState = require("./propertyExport/handleFortPlayerState");
+const handleGameState = require("./propertyExport/handleGameState");
 const handleFortBroadcastRemoteClientInfoMapMarker = require("./propertyExport/handleFortBroadCastRemoteClientInfoMapMarker");
 const handleGameplayCues = require("./propertyExport/handleGameplayCues");
 const handleHealthSet = require("./propertyExport/handleHealthSet");
 const handleLabradorLlama = require("./propertyExport/handleLabradorLlama");
 const handleLootLlama = require("./propertyExport/handleLootLlama");
-const handlePlayerBuilds = require("./propertyExport/HandlePlayerBuilds");
+const handlePlayerBuilds = require("./propertyExport/handlePlayerBuilds");
 const handleSoccerGame = require("./propertyExport/handleSoccerGame");
 const handleSupplyDrop = require("./propertyExport/handleSupplyDrop");
-const handleValets = require("./propertyExport/HandleValets");
-const handlePlayerPawn = require("./propertyExport/PlayerPawn");
-const handlePlaylistInfo = require("./propertyExport/PlaylistInfo");
-const handleSafezone = require("./propertyExport/SafezoneIndicator");
-const handleSpeedSign = require("./propertyExport/SpeedSign");
+const handleValets = require("./propertyExport/handleValets");
+const handlePlayerPawn = require("./propertyExport/handlePlayerPawn");
+const handlePlaylistInfo = require("./propertyExport/handlePlaylistInfo");
+const handleSafezone = require("./propertyExport/handleSafezoneIndicator");
+const handleSpeedSign = require("./propertyExport/handleSpeedSign");
 
 const onExportRead = (chIndex, value, timeseconds, mapObjectName, globalData) => {
   switch (value.type) {
     case 'SafeZoneIndicator.SafeZoneIndicator_C':
-      handleSafezone(chIndex, value, timeseconds, globalData);
+      handleSafezone(value, globalData);
       break;
 
     case 'PlayerPawn_Athena.PlayerPawn_Athena_C':
-      handlePlayerPawn(chIndex, value, timeseconds, globalData);
+      handlePlayerPawn(chIndex, value, globalData);
       break;
 
     case 'FortniteGame.FortPlayerStateAthena':
-      handlePlayerState(chIndex, value, timeseconds, globalData);
+      handlePlayerState(chIndex, value, globalData);
       break;
 
     case 'Athena_GameState.Athena_GameState_C':
-      handleGameState(chIndex, value, timeseconds, globalData);
+      handleGameState(value, globalData);
       break;
 
     case 'FortniteGame.FortPickupAthena':
-      handleFortPickup(chIndex, value, timeseconds, globalData);
+      handleFortPickup(chIndex, value, globalData);
       break;
 
     case 'Athena_GameState_C_ClassNetCache':
-      handlePlaylistInfo(chIndex, value, timeseconds, globalData);
+      handlePlaylistInfo(value, globalData);
       break;
 
     case 'PlayerBuilds':
-      handlePlayerBuilds(chIndex, value, timeseconds, globalData);
+      handlePlayerBuilds(chIndex, value, globalData);
       break;
 
     case 'Valet':
-      handleValets(chIndex, value, timeseconds, globalData);
+      handleValets(chIndex, value, globalData);
       break;
 
     case 'BP_Athena_SpeedSign.BP_Athena_SpeedSign_C':
-      handleSpeedSign(chIndex, value, timeseconds, mapObjectName, globalData)
+      handleSpeedSign(mapObjectName, value, globalData)
       break;
 
     case 'Chests':
-      handleChests(chIndex, value, timeseconds, mapObjectName, globalData);
+      handleChests(mapObjectName, value, globalData);
       break;
 
     case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker':
     case 'FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker':
-      handleFortBroadcastRemoteClientInfoMapMarker(chIndex, value, timeseconds, globalData);
+      handleFortBroadcastRemoteClientInfoMapMarker(chIndex, value, globalData);
       break;
 
     case 'FortniteGame.FortRegenHealthSet':
-      handleHealthSet(chIndex, value, timeseconds, globalData);
+      handleHealthSet(chIndex, value, globalData);
       break;
 
     case 'gameplayCue':
@@ -72,19 +72,19 @@ const onExportRead = (chIndex, value, timeseconds, mapObjectName, globalData) =>
       break;
 
     case 'BP_AIPawn_Labrador.BP_AIPawn_Labrador_C':
-      handleLabradorLlama(chIndex, value, timeseconds, globalData);
+      handleLabradorLlama(chIndex, value, globalData);
       break;
 
     case 'AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C':
-      handleLootLlama(chIndex, value, timeseconds, globalData);
+      handleLootLlama(chIndex, value, globalData);
       break;
 
     case 'AthenaSupplyDrop.AthenaSupplyDrop_C':
-      handleSupplyDrop(chIndex, value, timeseconds, globalData);
+      handleSupplyDrop(chIndex, value, globalData);
       break;
 
     case 'Athena_SoccerGame.Athena_SoccerGame_C':
-      handleSoccerGame(mapObjectName, value, timeseconds, globalData);
+      handleSoccerGame(mapObjectName, value, globalData);
       break;
 
     default:

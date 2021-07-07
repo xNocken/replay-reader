@@ -3,7 +3,7 @@ const handleActiveGameplayModifiers = require("./netDeltaExport/handleActiveGame
 const onNetDeltaRead = (chIndex, update, timeSeconds, mapObjectName, globalData) => {
   switch (update.export.type) {
     case 'FortniteGame.ActiveGameplayModifier':
-      handleActiveGameplayModifiers(chIndex, update, timeSeconds, globalData);
+      handleActiveGameplayModifiers(update, globalData);
       break;
 
     default:

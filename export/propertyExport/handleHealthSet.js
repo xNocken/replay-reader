@@ -21,7 +21,7 @@ const createFortSet = (handle, value) => {
   return fortset;
 };
 
-const handleHealthSet = (chIndex, value, timeseconds, globalData) => {
+const handleHealthSet = (chIndex, value, globalData) => {
   const player = globalData.players[chIndex];
 
   if (!player) {

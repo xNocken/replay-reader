@@ -1,6 +1,6 @@
-const netGuidCache = require("../..//src/utils/netGuidCache");
+const netGuidCache = require("../../src/utils/netGuidCache");
 
-const handleChests = (chIndex, chest, timeSeconds, mapObjectName, globalData) => {
+const handleChests = (mapObjectName, chest, globalData) => {
   if (!globalData.result.mapData.chests[mapObjectName]) {
     chest.actor = netGuidCache.tryGetActorById(globalData.channelToActor[mapObjectName]);
     globalData.result.mapData.chests[mapObjectName] = {};

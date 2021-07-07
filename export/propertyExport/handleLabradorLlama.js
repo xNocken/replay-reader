@@ -1,4 +1,4 @@
-const handleLabradorLlama = (chIndex, value, timeSeconds, globalData) => {
+const handleLabradorLlama = (chIndex, value, globalData) => {
   if (!globalData.labradorLlamas[chIndex]) {
     globalData.labradorLlamas[chIndex] = value;
   }

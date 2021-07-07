@@ -1,6 +1,6 @@
-const netGuidCache = require("../..//src/utils/netGuidCache");
+const netGuidCache = require("../../src/utils/netGuidCache");
 
-const handleFortPickup = (chIndex, data, timesecodns, globalData) => {
+const handleFortPickup = (chIndex, data, globalData) => {
   const { pickups, channelToActor } = globalData;
   if (!pickups[chIndex]) {
     pickups[chIndex] = data;

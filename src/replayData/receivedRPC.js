@@ -1,4 +1,4 @@
-const receiveProperties = require("./recieveProperties");
+const receiveProperties = require("./receiveProperties");
 
 const receivedRPC = (reader, group, bunch, globalData, mapObjectName) => {
   receiveProperties(reader, group, bunch, true, false, globalData, mapObjectName);

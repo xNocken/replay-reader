@@ -1,4 +1,4 @@
-const handlePlayerPawn = require("./PlayerPawn");
+const handlePlayerPawn = require("./handlePlayerPawn");
 
 const onlySpectatingPlayers = [];
 
@@ -21,7 +21,7 @@ const handleQueuedPlayerPawns = (stateChIndex, globalData) => {
   });
 };
 
-const handlePlayerState = (chIndex, state, timeSeconds, globalData) => {
+const handlePlayerState = (chIndex, state, globalData) => {
   const { players } = globalData;
   if (state.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);

@@ -1,4 +1,4 @@
-const handleSoccerGame = (mapObjectName, value, timeSeconds, globalData) => {
+const handleSoccerGame = (mapObjectName, value, globalData) => {
   if (!globalData.result.mapData.soccerGames[mapObjectName]) {
     globalData.result.mapData.soccerGames[mapObjectName] = {};
   }

@@ -1,6 +1,6 @@
 const onNetDeltaRead = require("../../export/onNetDeltaRead");
 const NetDeltaSerializeHeader = require("./netDeltaSerializeHeader");
-const receiveProperties = require("./recieveProperties");
+const receiveProperties = require("./receiveProperties");
 
 const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData, mapObjectName) => {
   const header = NetDeltaSerializeHeader(reader);

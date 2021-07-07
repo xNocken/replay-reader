@@ -1,4 +1,4 @@
-const handleValets = (chIndex, value, timeSeconds, globalData) => {
+const handleValets = (chIndex, value, globalData) => {
   if (!globalData.result.mapData.vehicles.valets[chIndex]) {
     globalData.result.mapData.vehicles.valets[chIndex] = value;
     return;

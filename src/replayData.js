@@ -3,14 +3,13 @@ const decompress = require('./decompress');
 const readExportData = require('./replayData/netExportData');
 const readExternalData = require('./replayData/readExternalData');
 const readPacket = require('./replayData/readPacket');
-const recievedPacket = require('./replayData/recievedPacket');
+const receivedPacket = require('./replayData/receivedPacket');
 const Replay = require('./Classes/Replay');
-let packetIndex = 0;
 
 /**
  * @param {PlaybackPacket} packet
  */
- const recievedRawPacket = (packet, replay, globalData) => {
+ const receivedRawPacket = (packet, replay, globalData) => {
   let lastByte = replay.getLastByte();
 
   if (!lastByte) {
@@ -27,7 +26,7 @@ let packetIndex = 0;
   replay.addOffset(bitSize);
 
   try {
-    recievedPacket(replay, packet.timeSeconds, globalData);
+    receivedPacket(replay, packet.timeSeconds, globalData);
   } catch (ex) {
     console.log(ex);
   }
@@ -92,7 +91,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     if (packet.state === 0) {
       packetIndex += 1;
 
-      recievedRawPacket(packet, replay, globalData);
+      receivedRawPacket(packet, replay, globalData);
     } else {
       replay.popOffset();
 
