@@ -1,3 +1,11 @@
 # Fortnite Replay Parser
 
-This is a beta release. Documentation will follow soon.
+## Documentation
+
+- [Getting started](./docs/gettingStarted.md)
+- [Settings](./docs/settings.md)
+- [Add own Exports](./docs/addOwnExports.md)
+
+## Prerequisites
+
+  * [Node 14+](https://nodejs.org/)
