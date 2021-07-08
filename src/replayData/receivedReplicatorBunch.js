@@ -1,5 +1,6 @@
 const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
+const GlobalData = require('../utils/globalData');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
@@ -11,6 +12,7 @@ const receiveProperties = require('./receiveProperties');
  * @param {Replay} archive
  * @param {number} repObject
  * @param {boolean} bHasRepLayout
+ * @param {GlobalData} globalData
  */
 const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
   const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
@@ -20,7 +22,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
     return true;
   }
 
-  const { group: netFielExportGroup, mapObjectName} = exportGroup;
+  const { group: netFielExportGroup, mapObjectName } = exportGroup;
 
   if (mapObjectName && bunch.timeSeconds > 60) {
     console;
@@ -77,7 +79,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           return false;
         }
 
-        const { group: functionGroup, mapObjectName} = exportGroup;
+        const { group: functionGroup, mapObjectName } = exportGroup;
 
         if (!receivedRPC(archive, functionGroup, bunch, globalData, mapObjectName)) {
           return false;
@@ -95,7 +97,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           return false;
         }
 
-        const { group, mapObjectName} = exportGroup;
+        const { group, mapObjectName } = exportGroup;
 
         if (!group || !netFieldParser.willReadType(group.pathName)) {
           archive.popOffset();

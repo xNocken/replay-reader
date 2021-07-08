@@ -5,7 +5,7 @@
   "customExportName": "Chests",
   "parseLevel": 2,
   "partialPath": true,
-  "mapObjectName": "Tiered_Ammo_Athena\\d+_\\d+",
+  "mapObjectName": "Tiered_Ammo_Athena\\d{0,}_?\\d+",
   "properties": {
     "bHidden": {
       "name": "bHidden",

@@ -56,6 +56,7 @@ class NetGuidCache {
 
   GetNetFieldExportGroup(netguid, globalData) {
     let mapObjectName;
+
     if (typeof netguid === 'string')  {
       return {
         group: this.GetNetFieldExportGroupString(netguid),

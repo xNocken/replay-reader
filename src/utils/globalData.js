@@ -61,6 +61,7 @@ class GlobalData {
     this.inPacketId = 0;
 
     this.debug = false;
+    this.debugNetGuidToPathName = [];
 
     Object.entries(overrideConfig).forEach(([key, value]) => {
       this[key] = value;

@@ -60,7 +60,7 @@ const parse = async (buffer, options) => {
       });
     });
 
-    fs.writeFileSync('netGuidToPathName.txt', Object.entries(globalData.netGuidCache.NetGuidToPathName).map(([a, b]) => `${a}: ${b}`).join('\n'));
+    fs.writeFileSync('netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val }) => `${key}: ${val}`).join('\n'));
   }
 
   isParsing = false;

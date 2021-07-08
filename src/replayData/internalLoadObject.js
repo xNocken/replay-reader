@@ -36,6 +36,13 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, interna
 
       if (isExportingNetGUIDBunch) {
         globalData.netGuidCache.NetGuidToPathName[netGuid.value] = removePathPrefix(pathName);
+
+        if (globalData.debug) {
+          globalData.debugNetGuidToPathName.push({
+            key: netGuid.value,
+            val: globalData.netGuidCache.NetGuidToPathName[netGuid.value],
+          });
+        }
       }
 
       return netGuid;
