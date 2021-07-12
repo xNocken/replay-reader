@@ -2,7 +2,7 @@
 
 ## Documentation
 
-- [Getting started](./docs/gettingStarted.md)
+- [Introduction](./docs/introduction.md)
 - [Settings](./docs/settings.md)
 - [Add own Exports](./docs/addOwnExports.md)
 
