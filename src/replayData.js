@@ -40,6 +40,7 @@ const Replay = require('./Classes/Replay');
  */
 const parsePlaybackPackets = (replay, globalData) => {
   let currentLevelIndex;
+  let streamingFixes = [];
 
   if (replay.header.NetworkVersion >= 6) {
     currentLevelIndex = replay.readInt32()
@@ -55,14 +56,12 @@ const parsePlaybackPackets = (replay, globalData) => {
     const numStreamingLevels = replay.readIntPacked();
 
     for (let i = 0; i < numStreamingLevels; i++) {
-      const levelName = replay.readString();
+      streamingFixes.push(replay.readString());
     }
+
+    replay.skipBytes(8);
   } else {
     throw Error('FTransform deserialize not implemented');
-  }
-
-  if (replay.hasLevelStreamingFixes()) {
-    replay.skipBytes(8);
   }
 
   readExternalData(replay);
@@ -75,9 +74,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     }
   }
 
-  let done = false;
-
-  while (!done) {
+  while (true) {
     if (replay.hasLevelStreamingFixes()) {
       replay.readIntPacked();
     }
@@ -124,13 +121,13 @@ const parseReplayData = async (replay, globalData) => {
   const decrypted = replay.decryptBuffer(length);
   const binaryReplay = await decompress(decrypted, replay.info.IsCompressed);
 
-  if (!replay.info.IsEncrypted) {
-    replay.popOffset();
-  };
-
   while (!binaryReplay.atEnd()) {
     parsePlaybackPackets(binaryReplay, globalData);
   }
+
+  if (!replay.info.IsEncrypted) {
+    replay.popOffset();
+  };
 }
 
 module.exports = parseReplayData;

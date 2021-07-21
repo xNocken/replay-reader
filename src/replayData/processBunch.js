@@ -2,8 +2,10 @@ const Actor = require('../Classes/Actor');
 const DataBunch = require('../Classes/DataBunch');
 const FRotator = require('../Classes/FRotator');
 const FVector = require('../Classes/FVector');
+const Replay = require('../Classes/Replay');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
+const onChannelClosed = require('./onChannelClosed');
 const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
 const receivedReplicatorBunch = require('./receivedReplicatorBunch');
@@ -52,13 +54,54 @@ const processBunch = (bunch, replay, globalData) => {
     channel.actor = inActor;
 
     onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
+
     if (globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
       const path = globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0);
 
       if (playerControllerGroups.includes(path)) {
-        bunch.archive.readByte();
+        bunch.archive.skipBytes(1);
       }
     }
+  }
+
+  if (globalData.rebuildMode && bunch.archive.atEnd()) {
+    let exportGroup;
+
+    if (channel.actor.actorNetGUID.isDynamic()) {
+      exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.archetype.value, globalData)
+    } else {
+      exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.actorNetGUID.value, globalData)
+    }
+
+
+    if (!exportGroup) {
+      return;
+    }
+
+    const { group: netFielExportGroup, mapObjectName } = exportGroup;
+
+    if (!globalData.result.packets[bunch.timeSeconds]) {
+      globalData.result.packets[bunch.timeSeconds] = {};
+    }
+
+    if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex]) {
+      globalData.result.packets[bunch.timeSeconds][bunch.chIndex] = {};
+    }
+
+    if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence]) {
+      globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence] = {
+        exports: [],
+        actor: bunch.bOpen ? channels[bunch.chIndex].actor : null,
+        bOpen: bunch.bOpen,
+        bClose: bunch.bClose,
+      };
+    }
+
+    globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence].exports.push({
+      pathName: netFielExportGroup.pathName,
+      mapObjectName,
+      properties: [],
+    });
   }
 
   while (!bunch.archive.atEnd()) {

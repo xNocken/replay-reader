@@ -24,14 +24,17 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, interna
   if (netGuid.isDefault() || isExportingNetGUIDBunch) {
     const flags = replay.readByte();
 
+    netGuid.flags = flags;
+
     if ((flags & 1) === 1) {
       // outer guid
-      internalLoadObject(replay, true, globalData, internalLoadObjectRecursionCount + 1);
+      netGuid.outerGuid = internalLoadObject(replay, true, globalData, internalLoadObjectRecursionCount + 1);
       const pathName = replay.readString();
+      netGuid.pathName = pathName;
 
       if ((flags & 4) == 4) {
         // checksum
-        replay.readUInt32();
+        netGuid.checksum = replay.readUInt32();
       }
 
       if (isExportingNetGUIDBunch) {

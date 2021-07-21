@@ -63,6 +63,7 @@ class Replay {
   readBit() {
     if (this.atEnd() || this.isError) {
       this.isError = true;
+
       return false;
     }
 
@@ -75,8 +76,12 @@ class Replay {
     return value === 1;
   }
 
-  readBits(count) {
+  readBits(count, fillZeros = false) {
     const buffer = Buffer.allocUnsafe(Math.ceil(count / 8));
+
+    if (fillZeros) {
+      buffer.fill(0);
+    }
 
     let byteOffset;
     let currentBit = 1;
@@ -209,6 +214,7 @@ class Replay {
     if (length < 0) {
       if (!this.canRead(length * -2)) {
         this.isError = true;
+
         return '';
       }
 
@@ -216,6 +222,7 @@ class Replay {
     } else {
       if (!this.canRead(length)) {
         this.isError = true;
+
         return '';
       }
 
@@ -316,8 +323,8 @@ class Replay {
    * Read an id
    * @returns {string} the id
    */
-  readId() {
-    return this.readBytes(16).toString('hex');
+  readId(length = 16) {
+    return this.readBytes(length).toString('hex');
   }
 
   /**
@@ -392,15 +399,13 @@ class Replay {
    */
   readObjectArray(fn1, fn2) {
     const length = this.readUInt32();
-    const returnArray = [];
+    const obj = {};
 
     for (let i = 0; i < length; i += 1) {
-      const obj = {};
       obj[fn1(this)] = fn2(this);
-      returnArray.push(obj);
     }
 
-    return returnArray;
+    return obj;
   }
 
 

@@ -32,7 +32,21 @@ const parsePlayer = (replay) => {
  */
 const parsePlayerElim = (result, replay) => {
   if (replay.header.EngineNetworkVersion >= 11 && replay.header.Major >= 9) {
-    replay.skipBytes(85);
+    replay.skipBytes(9);
+
+    result.eliminatedInfo = {
+      unknown: replay.readVector(),
+      location: replay.readVector(),
+      scale: replay.readVector(),
+    };
+
+    replay.skipBytes(4);
+
+    result.eliminatorInfo = {
+      unknown: replay.readVector(),
+      location: replay.readVector(),
+      scale: replay.readVector(),
+    };
 
     result.eliminated = parsePlayer(replay);
     result.eliminator = parsePlayer(replay);
@@ -84,7 +98,7 @@ const parseMatchStats = (data, replay) => {
  * @param {Replay} replay the replay
  */
 const parseMatchTeamStats = (data, replay) => {
-  data.something = replay.readInt32();
+  replay.skipBytes(4);
   data.position = replay.readUInt32();
   data.totalPlayers = replay.readUInt32();
 };

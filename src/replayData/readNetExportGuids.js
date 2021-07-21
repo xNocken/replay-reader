@@ -13,11 +13,14 @@ const readNetExportGuids = (replay, globalData) => {
 
     replay.addOffsetByte(size);
 
-    internalLoadObject(replay, true, globalData);
+    if (globalData.rebuildMode) {
+      globalData.result.netExportGuids.push(internalLoadObject(replay, true, globalData));
+    } else {
+      internalLoadObject(replay, true, globalData);
+    }
 
     replay.popOffset();
   }
 }
-
 
 module.exports = readNetExportGuids;

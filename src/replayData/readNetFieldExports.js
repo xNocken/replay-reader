@@ -25,7 +25,7 @@ const readNetFieldExports = (replay, globalData) => {
         group.pathNameIndex = pathNameIndex;
         group.netFieldExportsLength = numExports;
 
-        group.netFieldExports = [];
+        group.netFieldExports = {};
         globalData.netGuidCache.addToExportGroupMap(pathname, group, globalData.netFieldParser, globalData);
       }
     } else {

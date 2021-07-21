@@ -2,7 +2,6 @@ const Replay = require("../Classes/Replay");
 const NetFieldExport = require("../Classes/NetFieldExports/NetFieldExport");
 
 /**
- *
  * @param {Replay} archive
  */
 const readNetFieldExport = (archive) => {

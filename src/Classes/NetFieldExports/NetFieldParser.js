@@ -9,7 +9,6 @@ class NetFieldParser {
   redirects = {};
   classPathCache = {};
   enumCache = {};
-  mapObjectNameMap = [];
 
   constructor(globalData) {
     if (!globalData.onlyUseCustomNetFieldExports) {
@@ -29,13 +28,6 @@ class NetFieldParser {
             fieldExport.redirects.forEach((path) => {
               this.redirects[path] = fieldExport.path[0];
             });
-          }
-
-          if (fieldExport.mapObjectName) {
-            this.mapObjectNameMap.push({
-              name: new RegExp(fieldExport.mapObjectName),
-              object: fieldExport.path[0],
-            })
           }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)
@@ -60,13 +52,6 @@ class NetFieldParser {
             fieldExport.redirects.forEach((path) => {
               this.redirects[path] = fieldExport.path[0];
             });
-          }
-
-          if (fieldExport.mapObjectName) {
-            this.mapObjectNameMap.push({
-              name: new RegExp(fieldExport.mapObjectName),
-              object: fieldExport.path[0],
-            })
           }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)
@@ -226,7 +211,9 @@ class NetFieldParser {
             }
 
             if (!exporttt) {
-              netBitReader.skip(numBits);
+              netBitReader.skipBits(numBits);
+
+              console.warn('could not find property with handle', handle, 'in', exportGroup.pathName);
               continue;
             }
 
@@ -314,18 +301,6 @@ class NetFieldParser {
 
   getRedirect(path) {
     return this.redirects[path] || path;
-  }
-
-  getFromMapObjectName(path) {
-    for (let i = 0; i < this.mapObjectNameMap.length; i++) {
-      const { name, object } = this.mapObjectNameMap[i];
-
-      if (name.test(path)) {
-        return object;
-      }
-    }
-
-    return path;
   }
 }
 

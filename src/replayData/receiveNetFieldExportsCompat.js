@@ -28,7 +28,7 @@ const numLayoutCmdLayout = packet.readUInt32();
         group.pathNameIndex = pathNameIndex;
         group.netFieldExportsLength = numExports;
 
-        group.netFieldExports = [];
+        group.netFieldExports = {};
         globalData.netGuidCache.addToExportGroupMap(pathName, group, netFieldParser, globalData);
       }
     } else {

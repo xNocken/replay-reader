@@ -36,15 +36,15 @@ const header = (replay) => {
 
   if (header.networkVersion <= 6) {
     throw Error('Not implented')
-  } else {
-    result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
   }
+
+  result.LevelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
 
   if (result.NetworkVersion >= 9) {
     result.Flags = replay.readUInt32();
   }
 
-  result.gameSpecificData = replay.readArray((a) => a.readString());
+  result.GameSpecificData = replay.readArray((a) => a.readString());
 
   replay.header = result;
 

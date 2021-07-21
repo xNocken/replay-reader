@@ -10,7 +10,6 @@ const receivedNextBunch = require('./receivedNextBunch');
  */
 const receivedPacket = (packetArchive, timeSeconds, globals) => {
   const { channels } = globals;
-  const OLD_MAX_ACTOR_CHANNELS = 10240;
 
   globals.inPacketId++;
 
@@ -116,11 +115,19 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
+      if (!bunch.bPartial) {
+        bunch.archive.popOffset();
+      }
+
       continue;
     }
 
     if (!channel && !bunch.bReliable) {
       if (!(bunch.bOpen && (bunch.bClose || bunch.bPartial))) {
+        if (!bunch.bPartial) {
+          bunch.archive.popOffset();
+        }
+
         continue;
       }
     }
@@ -131,6 +138,10 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
       newChannel.channelIndex = bunch.chIndex;
       newChannel.channelName = bunch.chName;
       newChannel.channelType = bunch.chType;
+
+      if (channels[bunch.chIndex] && globals.debug) {
+        console.log('opened already open channel', bunch.chIndex);
+      }
 
       channels[bunch.chIndex] = newChannel;
     }

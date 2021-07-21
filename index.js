@@ -47,7 +47,7 @@ const parse = async (buffer, options) => {
 
   if (globalData.debug) {
     Object.values(globalData.netGuidCache.NetFieldExportGroupMap).forEach((value) => {
-      const filteredNetFieldExports = value.netFieldExports.filter((a) => a && a.name !== 'RemoteRole' && a.name !== 'Role');
+      const filteredNetFieldExports = Object.values(value.netFieldExports).filter((a) => a && a.name !== 'RemoteRole' && a.name !== 'Role');
 
       if (!filteredNetFieldExports.length) {
         return;
@@ -61,6 +61,10 @@ const parse = async (buffer, options) => {
     });
 
     fs.writeFileSync('netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val }) => `${key}: ${val}`).join('\n'));
+  }
+
+  if (globalData.rebuildMode) {
+    globalData.result.networkGameplayTagNode = globalData.netGuidCache.NetworkGameplayTagNodeIndex;
   }
 
   isParsing = false;

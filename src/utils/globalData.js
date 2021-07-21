@@ -48,6 +48,9 @@ class GlobalData {
         supplyDrops: [],
       },
       gameState: {},
+      packets: {},
+      netExportGuids: [],
+      networkGameplayTagNode: {},
     };
     this.onExportRead = null;
     this.onChannelOpened = null;

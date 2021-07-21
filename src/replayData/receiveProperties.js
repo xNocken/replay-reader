@@ -4,6 +4,7 @@ const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGr
 const GlobalData = require('../utils/globalData');
 const onExportRead = require('../../export/onExportRead');
 const fs = require('fs');
+const receivePropertiesForRebuild = require('./receivePropertiesForRebuild');
 
 /**
  *
@@ -15,21 +16,20 @@ const fs = require('fs');
  * @param {GlobalData} globalData
  */
 const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, mapObjectName) => {
-  let exportGroup;
   const { channels, netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
 
-  if (channels[channelIndex].isIgnoringChannel(group.pathName)) {
+  if (channels[channelIndex].isIgnoringChannel(group.pathName) && !globalData.rebuildMode) {
     return false;
   }
 
-  if (!netFieldParser.willReadType(group.pathName)) {
+  if (!netFieldParser.willReadType(group.pathName) && !globalData.rebuildMode) {
     channels[channelIndex].ignoreChannel(group.pathName);
 
     if (globalData.debug) {
       fs.appendFileSync('notReadingGroups.txt', group.pathName + '\n');
 
-      group.netFieldExports.forEach((exporttt) => {
+      Object.values(group.netFieldExports).forEach((exporttt) => {
         fs.appendFileSync('notReadingGroups.txt', '    ' + exporttt.name + '\n');
       });
     }
@@ -41,7 +41,13 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     archive.skipBits(1);
   }
 
-  exportGroup = netFieldParser.createType(group);
+  if (globalData.rebuildMode) {
+    receivePropertiesForRebuild(archive, group, mapObjectName, bunch, globalData);
+
+    return true;
+  }
+
+  const exportGroup = netFieldParser.createType(group);
 
   let hasData = false;
 
