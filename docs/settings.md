@@ -1,6 +1,6 @@
 # Settings
 
-## parseLevel: `number`
+## parseLevel
 The parseLevel setting decides what data you want to parse. Which level corresponds to what data can be set in [NetFieldExports](./addOwnExports.md#create-netfieldexports).
 
 ## debug: `boolean`
