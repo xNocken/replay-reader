@@ -1,53 +1,47 @@
 # Settings
 
-## parseLevel
-Type: Number
+## parseLevel: `number`
+The parseLevel setting decides what data you want to parse. Which level corresponds to what data can be set in [NetFieldExports](./addOwnExports.md#create-netfieldexports).
 
-The parseLevel setting decides what data you want to parse. Which level corresponds to what data can be set in [NetFieldExports](./addOwnExports.md#create-netfieldexports)
+## debug: `boolean`
+Debug mode has two features currently. It tells you how fast it parses and how far it is and it creates 3 files. 'netfieldexports.txt', 'netGuidToPathName.txt' and 'notReadingGroups.txt'. More about this and how to create custom exports can be found [here](./addOwnExports.md).
 
-## debug
-Type: boolean
+Notice: Enabling this option can reduce the speed of the parser by ~50%.
 
-Debug mode has two features currently. It tells you how fast it parses and how far it is and it creates 3 files. 'netfieldexports.txt', 'netGuidToPathName.txt' and 'notReadingGroups.txt'. More about this and how to create custom exports can be found [here](./addOwnExports.md)
+## netFieldExportPath: `string`
+The netFieldExportPath setting can be used to include your own netFieldExports.
 
-Notice: The debug mode reduces the speed by about 50%
+More about netFieldExports and creating your own exports can be found [here](./addOwnExports.md#create-netfieldexports).
 
-## netFieldExportPath
-Type: path
+## customClassPath: `string`
+The customClassPath setting can be used to include your own classes.
 
-The netFieldExportPath setting is used to include your own netfieldexports. The path is relative to where you start node. More to netFieldExports and creating your own exports can be found [here](./addOwnExports.md#create-netfieldexports)
+More about classes and creating your own exports can be found [here](./addOwnExports.md#create-classes).
 
-## customClassPath
-Type: path
+## customEnumPath: `string`
+The customEnumPath setting cane be used to include your own enums.
 
-The customClassPath setting is used to include your own classes. The path is relative to where you start node. More to classes and creating your own exports can be found [here](./addOwnExports.md#create-classes)
+More about enums and creating your own exports can be found [here](./addOwnExports.md#create-enums).
 
-## customEnumPath
-Type: path
+## onlyUseCustomNetFieldExports: `boolean`
+This option decides whether or not the parser will use netFieldExports (imported via [netFieldExportPath](#netFieldExportPath)). If set to `false`, the default netFieldExports will be used (those can be overwritten by custom ones).
 
-The customEnumPath setting is used to include your own enums. The path is relative to where you start node. More to enums and creating your own exports can be found [here](./addOwnExports.md#create-enums)
+## onExportRead: `function`
+This setting overwrites the default export function and is required if you add custom netFieldExports. 
 
-## onlyUseCustomNetFieldExports
-Type: boolean
+More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read).
 
-The onlyUseCustomNetFieldExpots setting decides whether or not it uses the default netFieldExports. If true only netFieldExports imported via the [netFieldExportPath](#netFieldExportPath) setting will be used. If false default ones will be used but can be overwritten by custom ones.
+## onNetDeltaRead: `function`
+This setting overwrites the default netDeltaExport function and may be required if you add custom netFieldExports. 
 
-## onExportRead
-Type: function
+More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read).
 
-This setting overwrites the default export function and is required if you add custom netFieldExports. More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read)
+## onChannelOpened: `function`
+This function is called when a new channel is opened. 
 
-## onNetDeltaRead
-Type: function
+More about this function and how to parse custom data can be found [here](./addOwnExports.md).
 
-This setting overwrites the default netDeltaExport function and may be required if you add custom netFieldExports. More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read)
+## onChannelClosed: `function`
+This function is called when a channel gets closed. 
 
-## onChannelOpened
-Type: function
-
-This function is called when a new channel gets opened. More about this function and how to parse custom data can be found [here](./addOwnExports.md)
-
-## onChannelClosed
-Type: function
-
-This function is called when a channel gets closed. More about this function and how to parse custom data can be found [here](./addOwnExports.md)
+More about this function and how to parse custom data can be found [here](./addOwnExports.md).
