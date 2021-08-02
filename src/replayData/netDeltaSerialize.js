@@ -12,19 +12,11 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
   for (let i = 0; i < header.numDeletes; i++) {
     const elementIndex = reader.readInt32();
 
-    if (globalData.onNetDeltaRead) {
-      globalData.onNetDeltaRead(bunch.chIndex, {
-        deleted: true,
-        elementIndex,
-        path: group.pathName,
-      }, bunch.timeSeconds, mapObjectName, globalData);
-    } else {
-      onNetDeltaRead(bunch.chIndex, {
-        deleted: true,
-        elementIndex,
-        path: group.pathName,
-      }, bunch.timeSeconds, mapObjectName, globalData);
-    }
+    globalData.onNetDeltaRead(bunch.chIndex, {
+      deleted: true,
+      elementIndex,
+      path: group.pathName,
+    }, bunch.timeSeconds, mapObjectName, globalData);
   }
 
   for (let i = 0; i < header.numChanged; i++) {
@@ -36,17 +28,10 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       continue;
     }
 
-    if (globalData.onNetDeltaRead) {
-      globalData.onNetDeltaRead(bunch.chIndex, {
-        elementIndex,
-        export: exportGroup,
-      }, bunch.timeSeconds, mapObjectName, globalData);
-    } else {
-      onNetDeltaRead(bunch.chIndex, {
-        elementIndex,
-        export: exportGroup,
-      }, bunch.timeSeconds, mapObjectName, globalData);
-    }
+    globalData.onNetDeltaRead(bunch.chIndex, {
+      elementIndex,
+      export: exportGroup,
+    }, bunch.timeSeconds, mapObjectName, globalData);
   }
 };
 

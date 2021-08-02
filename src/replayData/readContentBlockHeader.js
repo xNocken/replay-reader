@@ -8,12 +8,13 @@ const readContentBlockHeader = (bunch, globalData) => {
   let bObjectDeleted = false;
   const bOutHasRepLayout = bunch.archive.readBit();
   const bIsActor = bunch.archive.readBit();
+  const actor = globalData.channels[bunch.chIndex].actor;
 
   if (bIsActor) {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
-      repObject: globalData.channels[bunch.chIndex].actor.archetype?.value || globalData.channels[bunch.chIndex].actor.actorNetGUID.value,
+      repObject: actor.archetype?.value || actor.actorNetGUID.value,
     }
   }
 

@@ -65,7 +65,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     replay.skipBytes(8);
   }
 
-  readExternalData(replay);
+  readExternalData(replay, globalData);
 
   if (replay.hasLevelStreamingFixes()) {
     const skipExternalOffset = replay.readUInt64();

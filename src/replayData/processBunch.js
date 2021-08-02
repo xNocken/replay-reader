@@ -61,6 +61,26 @@ const processBunch = (bunch, replay, globalData) => {
     }
   }
 
+  if (bunch.archive.atEnd() && bunch.bClose) {
+    const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+      channel.actor.archetype?.value || channel.actor.actorNetGUID.value,
+      globalData
+    );
+
+    if (!exportGroup) {
+      return;
+    }
+
+    globalData.onActorDespawn(
+      bunch.bOpen,
+      bunch.chIndex,
+      bunch.timeSeconds,
+      exportGroup.group,
+      exportGroup.mapObjectName,
+      globalData
+    );
+  }
+
   while (!bunch.archive.atEnd()) {
     const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);
 

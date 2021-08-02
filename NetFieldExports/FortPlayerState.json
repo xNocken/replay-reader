@@ -17,7 +17,7 @@
     "PlayerNamePrivate": {
       "name": "PlayerNamePrivate",
       "type": "string",
-      "parseFunction": "ignore"
+      "parseFunction": "readString"
     },
     "bOnlySpectator": {
       "name": "bOnlySpectator",
