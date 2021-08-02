@@ -64,7 +64,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     throw Error('FTransform deserialize not implemented');
   }
 
-  readExternalData(replay);
+  readExternalData(replay, globalData);
 
   if (replay.hasLevelStreamingFixes()) {
     const skipExternalOffset = replay.readUInt64();

@@ -104,6 +104,17 @@ const processBunch = (bunch, replay, globalData) => {
     });
   }
 
+  if (bunch.archive.atEnd()) {
+    globalData.onActorDespawn(
+      bunch.bOpen,
+      bunch.chIndex,
+      bunch.timeSeconds,
+      exportGroup.group,
+      exportGroup.mapObjectName,
+      globalData
+    );
+  }
+
   while (!bunch.archive.atEnd()) {
     const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);
 

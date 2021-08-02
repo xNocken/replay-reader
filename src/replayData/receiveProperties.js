@@ -97,11 +97,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
   }
 
   if (!netDeltaUpdate && hasData) {
-    if (globalData.onExportRead) {
-      globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
-    } else {
-      onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
-    }
+    globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
   }
 
   return exportGroup;

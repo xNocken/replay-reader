@@ -1,3 +1,6 @@
+const onActorDespawn = require('../../export/onActorDespawn');
+const onExportRead = require('../../export/onExportRead');
+const onNetDeltaRead = require('../../export/onNetDeltaRead');
 const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
 const NetGuidCache = require('../Classes/NetGuidCache');
@@ -51,8 +54,11 @@ class GlobalData {
       packets: {},
       netExportGuids: [],
       networkGameplayTagNode: {},
+      notSpawnedChests: {},
     };
-    this.onExportRead = null;
+    this.onExportRead = onExportRead;
+    this.onActorDespawn = onActorDespawn,
+    this.onNetDeltaRead = onNetDeltaRead,
     this.onChannelOpened = null;
     this.onChannelClosed = null;
     this.netFieldExportPath = null;
@@ -62,6 +68,8 @@ class GlobalData {
     this.supplyDrops = {};
     this.netGuidCache = new NetGuidCache();
     this.inPacketId = 0;
+
+    this.externalData = [];
 
     this.debug = false;
     this.debugNetGuidToPathName = [];
