@@ -132,16 +132,16 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
       }
     }
 
+    if (bunch.bOpen && channel) {
+      console.log('tried to open already open channel', bunch.chIndex);
+    }
+
     if (!channel) {
       const newChannel = new UChannel();
 
       newChannel.channelIndex = bunch.chIndex;
       newChannel.channelName = bunch.chName;
       newChannel.channelType = bunch.chType;
-
-      if (channels[bunch.chIndex] && globals.debug) {
-        console.log('opened already open channel', bunch.chIndex);
-      }
 
       channels[bunch.chIndex] = newChannel;
     }

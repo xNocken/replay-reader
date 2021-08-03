@@ -35,7 +35,7 @@ class NetGuidCache {
    * @param {NetFieldExportGroup} exportGroup
    */
   addToExportGroupMap(group, exportGroup, netFieldParser, globalData) {
-    if (group.endsWith('ClassNetCache')) {
+    if (!globalData.rebuildMode && group.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
 
@@ -106,7 +106,7 @@ class NetGuidCache {
           this.CleanedPaths[value.pathNameIndex] = groupPathFixed;
         }
 
-        if (path.includes(groupPathFixed)) {
+        if (groupPathFixed.includes(path)) {
           this.NetFieldExportGroupMapPathFixed[netguid] = this.NetFieldExportGroupMap[groupPath];
           this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMap[groupPath];
 
@@ -230,7 +230,7 @@ class NetGuidCache {
       return this.mapObjectNameMap[cleanedPath];
     }
 
-    const thePath = Object.keys(this.NetFieldExportGroupMap).find((exportPath) => exportPath.includes(fullPath));
+    const thePath = Object.keys(this.NetFieldExportGroupMap).find((exportPath) => exportPath.includes(cleanedPath));
 
     this.mapObjectNameMap[cleanedPath] = thePath || null;
 

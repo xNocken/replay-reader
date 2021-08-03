@@ -1,6 +1,8 @@
 const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
 const GlobalData = require('../utils/globalData');
+const addClassNetCacheToExport = require('./addClassNetCacheToExport');
+const createRebuidExport = require('./createRebuildExport');
 const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
 const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
 const receiveCustomProperty = require('./receiveCustomProperty');
@@ -14,11 +16,24 @@ const receiveProperties = require('./receiveProperties');
  * @param {boolean} bHasRepLayout
  * @param {GlobalData} globalData
  */
-const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
+const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, subObjectInfo, globalData) => {
   const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
   const { netFieldParser } = globalData;
 
   if (exportGroup == null) {
+    if (globalData.rebuildMode) {
+      createRebuidExport(bunch, [{
+        isUnresolvedExport: true,
+        subObjectInfo,
+        properties: [
+          {
+            size: archive.getBitsLeft(),
+            data: Array.from(archive.readBits(archive.getBitsLeft(), true)),
+          },
+        ]
+      }], globalData);
+    }
+
     return true;
   }
 
@@ -40,20 +55,46 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
     return false;
   }
 
-  let finished = false;
+  const properties = [];
 
-  while (!finished) {
+  if (globalData.rebuildMode) {
+    addClassNetCacheToExport(bunch, properties, [{
+      pathName: netFielExportGroup.pathName,
+      mapObjectName: null,
+      isClassNetCache: true,
+      properties: [],
+      subObjectInfo,
+    }], classNetCache.pathName, globalData);
+  }
+
+  while (!archive.atEnd()) {
     const result = readFieldHeaderAndPayload(archive, classNetCache);
 
     if (!result) {
-      finished = true;
-
       break;
     }
 
     const { outField: fieldCache, numPayloadBits } = result;
 
     if (!fieldCache || fieldCache.incompatible || !numPayloadBits) {
+      if (!numPayloadBits) {
+        break;
+      }
+
+      archive.skipBits(numPayloadBits);
+
+      continue;
+    }
+
+    if (globalData.rebuildMode) {
+      properties.push({
+        compatibleChecksum: fieldCache?.compatibleChecksum,
+        handle: fieldCache?.handle,
+        name: fieldCache?.name,
+        data: Array.from(archive.readBits(numPayloadBits, true)),
+        size: numPayloadBits,
+      });
+
       continue;
     }
 
@@ -77,7 +118,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
         const { group: functionGroup, mapObjectName } = exportGroup;
 
-        if (!receivedRPC(archive, functionGroup, bunch, globalData, mapObjectName)) {
+        if (!receivedRPC(archive, functionGroup, bunch, globalData, subObjectInfo, mapObjectName)) {
           return false;
         }
       } else if (classNetProperty.isCustomStruct) {

@@ -4,6 +4,7 @@ const FRotator = require('../Classes/FRotator');
 const FVector = require('../Classes/FVector');
 const Replay = require('../Classes/Replay');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
+const createRebuidExport = require('./createRebuildExport');
 const internalLoadObject = require('./internalLoadObject');
 const onChannelClosed = require('./onChannelClosed');
 const onChannelOpened = require('./onChannelOpened');
@@ -64,45 +65,22 @@ const processBunch = (bunch, replay, globalData) => {
     }
   }
 
-  if (globalData.rebuildMode && bunch.archive.atEnd()) {
-    let exportGroup;
-
-    if (channel.actor.actorNetGUID.isDynamic()) {
-      exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.archetype.value, globalData)
-    } else {
-      exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.actorNetGUID.value, globalData)
-    }
-
-    if (!exportGroup) {
-      return;
-    }
-
-    const { group: netFielExportGroup, mapObjectName } = exportGroup;
-
+  if (bunch.archive.atEnd()) {
     if (globalData.rebuildMode) {
-      if (!globalData.result.packets[bunch.timeSeconds]) {
-        globalData.result.packets[bunch.timeSeconds] = {};
-      }
-
-      if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex]) {
-        globalData.result.packets[bunch.timeSeconds][bunch.chIndex] = {};
-      }
-
-      if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence]) {
-        globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence] = {
-          exports: [],
-          actor: bunch.bOpen ? channels[bunch.chIndex].actor : null,
-          bOpen: bunch.bOpen,
-          bClose: bunch.bClose,
-        };
-      }
-
-      globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence].exports.push({
-        pathName: netFielExportGroup.pathName,
-        mapObjectName,
-        properties: [],
-      });
+      createRebuidExport(bunch, [], globalData);
     } else {
+      let exportGroup;
+
+      if (channel.actor.actorNetGUID.isDynamic()) {
+        exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.archetype.value, globalData)
+      } else {
+        exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.actorNetGUID.value, globalData)
+      }
+
+      if (!exportGroup) {
+        return;
+      }
+
       globalData.onActorDespawn(
         bunch.bOpen,
         bunch.chIndex,
@@ -115,7 +93,7 @@ const processBunch = (bunch, replay, globalData) => {
   }
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);
+    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits, subObjectInfo } = readContentBlockPayload(bunch, globalData);
 
     if (numPayloadBits > 0) {
       replay.addOffset(numPayloadBits);
@@ -124,6 +102,17 @@ const processBunch = (bunch, replay, globalData) => {
     if (bObjectDeleted) {
       if (numPayloadBits > 0) {
         replay.popOffset();
+      }
+
+      if (globalData.rebuildMode) {
+        const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
+
+        createRebuidExport(bunch, [{
+          pathName: exportGroup?.group.pathName || null,
+          mapObjectName: exportGroup?.mapObjectName || null,
+          subObjectInfo,
+          properties: [],
+        }], globalData);
       }
 
       continue;
@@ -145,9 +134,9 @@ const processBunch = (bunch, replay, globalData) => {
       continue;
     }
 
-    receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, globalData);
+    receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, subObjectInfo, globalData);
     if (numPayloadBits > 0) {
-      replay.popOffset();
+      replay.popOffset(numPayloadBits);
     }
   }
 };

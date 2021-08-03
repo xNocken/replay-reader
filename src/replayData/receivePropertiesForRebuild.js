@@ -1,33 +1,22 @@
-const receivePropertiesForRebuild = (archive, group, mapObjectName, bunch, globalData) => {
-  const channel = globalData.channels[bunch.chIndex];
-  const channelIndex = bunch.chIndex;
+const createRebuidExport = require("./createRebuildExport");
+
+const receivePropertiesForRebuild = (archive, group, mapObjectName, bunch, globalData, subObjectInfo) => {
   const properties = [];
-
-  if (!globalData.result.packets[bunch.timeSeconds]) {
-    globalData.result.packets[bunch.timeSeconds] = {};
-  }
-
-  if (!globalData.result.packets[bunch.timeSeconds][channelIndex]) {
-    globalData.result.packets[bunch.timeSeconds][channelIndex] = {};
-  }
-
-  if (!globalData.result.packets[bunch.timeSeconds][channelIndex][bunch.chSequence]) {
-    globalData.result.packets[bunch.timeSeconds][channelIndex][bunch.chSequence] = {
-      exports: [],
-      actor: bunch.bOpen ? channel.actor : null,
-      bOpen: bunch.bOpen,
-      bClose: bunch.bClose,
-    };
-  }
 
   const externalData = globalData.externalData[globalData.channels[bunch.chIndex].actor.actorNetGUID.value];
 
-  globalData.result.packets[bunch.timeSeconds][channelIndex][bunch.chSequence].exports.push({
+  delete globalData.externalData[globalData.channels[bunch.chIndex].actor.actorNetGUID.value];
+
+  createRebuidExport(bunch, [{
     pathName: group.pathName,
     mapObjectName,
     properties,
-    externalData,
-  });
+    subObjectInfo,
+    externalData: externalData ? {
+      ...externalData,
+      payload: Array.from(externalData.payload),
+    } : undefined,
+  }], globalData);
 
   while (true) {
     let handle = archive.readIntPacked();
@@ -38,27 +27,19 @@ const receivePropertiesForRebuild = (archive, group, mapObjectName, bunch, globa
 
     handle--;
 
-    if (!group.isValidIndex(handle)) {
-      continue;
-    }
-
-    const exportt = group?.netFieldExports[handle];
+    const exportt = group.netFieldExports[handle];
     const numbits = archive.readIntPacked();
-
-    if (!exportt) {
-      archive.skipBits(numbits);
-      continue;
-    }
 
     try {
       archive.addOffset(numbits);
 
       if (globalData.rebuildMode) {
         properties.push({
-          name: exportt.name,
+          name: exportt?.name,
           data: Array.from(archive.readBits(numbits, true)),
           size: numbits,
-          compatibleChecksum: exportt.compatibleChecksum,
+          compatibleChecksum: exportt?.compatibleChecksum,
+          handle,
         });
       }
     } catch (ex) {

@@ -64,14 +64,17 @@ const parse = async (buffer, options) => {
   }
 
   if (globalData.rebuildMode) {
-    globalData.result.networkGameplayTagNode = globalData.netGuidCache.NetworkGameplayTagNodeIndex;
+    globalData.result.netFieldExports = globalData.netGuidCache.NetFieldExportGroupMap;
   }
 
   isParsing = false;
 
   return {
     header: globalData.header,
-    info,
+    info: {
+      ...info,
+      EncryptionKey: Array.from(info.EncryptionKey),
+    },
     events: chunks,
     ...globalData.result,
   };

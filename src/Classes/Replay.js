@@ -555,6 +555,14 @@ class Replay {
   hasGameSpecificFrameData() {
     return (this.header.Flags & 8) === 8;
   }
+
+  readDebugString(string) {
+    const read = this.readString();
+
+    if (string !== read) {
+      throw Error('string is not what was expected');
+    }
+  }
 }
 
 module.exports = Replay;

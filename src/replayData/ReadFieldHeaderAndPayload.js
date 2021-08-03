@@ -1,8 +1,4 @@
 const readFieldHeaderAndPayload = (archive, group) => {
-  if (archive.atEnd()) {
-    return false;
-  }
-
   const netFieldExportHandle = archive.readSerializedInt(Math.max(group.netFieldExportsLength, 2))
 
   if (archive.isError) {
@@ -14,10 +10,6 @@ const readFieldHeaderAndPayload = (archive, group) => {
   const numPayloadBits = archive.readIntPacked();
 
   if (archive.isError || !archive.canRead(numPayloadBits)) {
-    return false;
-  }
-
-  if (archive.isError) {
     return false;
   }
 

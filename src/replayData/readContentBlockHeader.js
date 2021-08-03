@@ -9,12 +9,18 @@ const readContentBlockHeader = (bunch, globalData) => {
   const bOutHasRepLayout = bunch.archive.readBit();
   const bIsActor = bunch.archive.readBit();
   const actor = globalData.channels[bunch.chIndex].actor;
+  const subObjectInfo = {
+    bHasRepLayout: bOutHasRepLayout,
+    bIsActor,
+  };
 
   if (bIsActor) {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: actor.archetype?.value || actor.actorNetGUID.value,
+      bIsActor,
+      subObjectInfo,
     }
   }
 
@@ -22,15 +28,21 @@ const readContentBlockHeader = (bunch, globalData) => {
 
   const bStablyNamed = bunch.archive.readBit();
 
+  subObjectInfo.netGuid = netGuid;
+  subObjectInfo.bStablyNamed = bStablyNamed;
+
   if (bStablyNamed) {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: netGuid.value,
+      subObjectInfo,
     }
   }
 
   const classNetGUID = internalLoadObject(bunch.archive, false, globalData);
+
+  subObjectInfo.classNetGUID = classNetGUID;
 
   if (classNetGUID == null || !classNetGUID.isValid()) {
     bObjectDeleted = true;
@@ -39,14 +51,16 @@ const readContentBlockHeader = (bunch, globalData) => {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: netGuid.value,
+      subObjectInfo,
     }
   }
 
   if (bunch.archive.header.EngineNetworkVersion >= 18) {
     const bActorIsOuter = bunch.archive.readBit();
+    subObjectInfo.bActorIsOuter = bActorIsOuter;
 
     if (!bActorIsOuter) {
-      internalLoadObject(bunch.archive, false, globalData);
+      subObjectInfo.innerActor = internalLoadObject(bunch.archive, false, globalData);
     }
   }
 
@@ -54,6 +68,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     bObjectDeleted,
     bOutHasRepLayout,
     repObject: classNetGUID.value,
+    subObjectInfo,
   }
 };
 

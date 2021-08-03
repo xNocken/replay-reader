@@ -130,6 +130,8 @@ const event = (replay) => {
     parseMatchStats(result, decryptedEvent);
   } else if (metadata === 'AthenaMatchTeamStats') {
     parseMatchTeamStats(result, decryptedEvent);
+  } else if (group === 'PlayerStateEncryptionKey') {
+    result.data = Array.from(decryptedEvent.readBytes(decryptedEvent.getBitsLeft() / 8));
   }
 
   if (!replay.info.IsEncrypted) {

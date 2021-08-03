@@ -55,6 +55,7 @@ class GlobalData {
       netExportGuids: [],
       networkGameplayTagNode: {},
       notSpawnedChests: {},
+      netFieldExports: {},
     };
     this.onExportRead = onExportRead;
     this.onActorDespawn = onActorDespawn,
@@ -71,6 +72,7 @@ class GlobalData {
 
     this.externalData = {};
 
+    this.rebuildMode = false;
     this.debug = false;
     this.debugNetGuidToPathName = [];
 

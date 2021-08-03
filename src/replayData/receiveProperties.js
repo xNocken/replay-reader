@@ -6,7 +6,6 @@ const fs = require('fs');
 const receivePropertiesForRebuild = require('./receivePropertiesForRebuild');
 
 /**
- *
  * @param {Replay} archive
  * @param {NetFieldExportGroup} group
  * @param {DataBunch} bunch
@@ -14,7 +13,7 @@ const receivePropertiesForRebuild = require('./receivePropertiesForRebuild');
  * @param {boolean} netDeltaUpdate
  * @param {GlobalData} globalData
  */
-const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, mapObjectName) => {
+const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, subObjectInfo, mapObjectName) => {
   const { channels, netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
 
@@ -40,8 +39,8 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     archive.skipBits(1);
   }
 
-  if (globalData.rebuildMode) {
-    receivePropertiesForRebuild(archive, group, mapObjectName, bunch, globalData);
+  if (globalData.rebuildMode && !netDeltaUpdate) {
+    receivePropertiesForRebuild(archive, group, mapObjectName, bunch, globalData, subObjectInfo);
 
     return true;
   }
@@ -89,7 +88,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
         exportt.incompatible = true;
       }
     } catch (ex) {
-      console.log(ex.message);
+      console.log(ex.stack);
     } finally {
       archive.popOffset(numbits, true);
     }
