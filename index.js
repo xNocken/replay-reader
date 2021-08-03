@@ -53,10 +53,10 @@ const parse = async (buffer, options) => {
         return;
       }
 
-      fs.appendFileSync('netfieldexports.txt', value.pathName + '\n');
+      fs.appendFileSync('netfieldexports.txt', value.pathName + ' - ' + value.netFieldExportsLength+ ' - ' + value.pathNameIndex + '\n');
 
       filteredNetFieldExports.forEach((exportt) => {
-        fs.appendFileSync('netfieldexports.txt', '  ' + exportt.name + '\n');
+        fs.appendFileSync('netfieldexports.txt', '  ' + exportt.handle + ': ' + exportt.name + '\n');
       });
     });
 

@@ -2,7 +2,6 @@ const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const GlobalData = require('../utils/globalData');
-const onExportRead = require('../../export/onExportRead');
 const fs = require('fs');
 const receivePropertiesForRebuild = require('./receivePropertiesForRebuild');
 
@@ -97,6 +96,16 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
   }
 
   if (!netDeltaUpdate && hasData) {
+    const actor = globalData.channels[bunch.chIndex].actor;
+    const externalData = globalData.externalData[actor.actorNetGUID.value];
+
+    if (externalData) {
+      delete globalData.externalData[actor.actorNetGUID.value];
+      const exportt = group?.netFieldExports[externalData.handle];
+
+      globalData.netFieldParser.readField(exportGroup, exportt, 0, group, new Replay(externalData.payload), globalData);
+    }
+
     globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
   }
 

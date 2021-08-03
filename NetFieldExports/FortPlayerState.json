@@ -35,6 +35,11 @@
       "type": "boolean",
       "parseFunction": "readBit"
     },
+    "bIsABot": {
+      "name": "bIsABot",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
     "DeathTags": {
       "name": "DeathTags",
       "type": "FGameplayTagContainer",
@@ -53,6 +58,11 @@
     "KillScore": {
       "name": "KillScore",
       "parseFunction": "readInt32"
+    },
+    "Platform": {
+      "name": "Platform",
+      "type": "string",
+      "parseFunction": "readString"
     }
   }
 }

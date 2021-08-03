@@ -20,10 +20,13 @@ const receivePropertiesForRebuild = (archive, group, mapObjectName, bunch, globa
     };
   }
 
+  const externalData = globalData.externalData[globalData.channels[bunch.chIndex].actor.actorNetGUID.value];
+
   globalData.result.packets[bunch.timeSeconds][channelIndex][bunch.chSequence].exports.push({
     pathName: group.pathName,
     mapObjectName,
     properties,
+    externalData,
   });
 
   while (true) {

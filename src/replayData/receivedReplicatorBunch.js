@@ -24,10 +24,6 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
 
   const { group: netFielExportGroup, mapObjectName } = exportGroup;
 
-  if (mapObjectName && bunch.timeSeconds > 60) {
-    console;
-  }
-
   if (bHasRepLayout) {
     if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData, mapObjectName)) {
       return false;

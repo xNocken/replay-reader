@@ -73,46 +73,45 @@ const processBunch = (bunch, replay, globalData) => {
       exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.actorNetGUID.value, globalData)
     }
 
-
     if (!exportGroup) {
       return;
     }
 
     const { group: netFielExportGroup, mapObjectName } = exportGroup;
 
-    if (!globalData.result.packets[bunch.timeSeconds]) {
-      globalData.result.packets[bunch.timeSeconds] = {};
+    if (globalData.rebuildMode) {
+      if (!globalData.result.packets[bunch.timeSeconds]) {
+        globalData.result.packets[bunch.timeSeconds] = {};
+      }
+
+      if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex]) {
+        globalData.result.packets[bunch.timeSeconds][bunch.chIndex] = {};
+      }
+
+      if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence]) {
+        globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence] = {
+          exports: [],
+          actor: bunch.bOpen ? channels[bunch.chIndex].actor : null,
+          bOpen: bunch.bOpen,
+          bClose: bunch.bClose,
+        };
+      }
+
+      globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence].exports.push({
+        pathName: netFielExportGroup.pathName,
+        mapObjectName,
+        properties: [],
+      });
+    } else {
+      globalData.onActorDespawn(
+        bunch.bOpen,
+        bunch.chIndex,
+        bunch.timeSeconds,
+        exportGroup.group,
+        exportGroup.mapObjectName,
+        globalData
+      );
     }
-
-    if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex]) {
-      globalData.result.packets[bunch.timeSeconds][bunch.chIndex] = {};
-    }
-
-    if (!globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence]) {
-      globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence] = {
-        exports: [],
-        actor: bunch.bOpen ? channels[bunch.chIndex].actor : null,
-        bOpen: bunch.bOpen,
-        bClose: bunch.bClose,
-      };
-    }
-
-    globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence].exports.push({
-      pathName: netFielExportGroup.pathName,
-      mapObjectName,
-      properties: [],
-    });
-  }
-
-  if (bunch.archive.atEnd()) {
-    globalData.onActorDespawn(
-      bunch.bOpen,
-      bunch.chIndex,
-      bunch.timeSeconds,
-      exportGroup.group,
-      exportGroup.mapObjectName,
-      globalData
-    );
   }
 
   while (!bunch.archive.atEnd()) {

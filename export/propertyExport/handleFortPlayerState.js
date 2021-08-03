@@ -48,6 +48,10 @@ const handlePlayerState = (chIndex, state, globalData) => {
     }
   });
 
+  if (!playerData.bIsABot && state.PlayerNamePrivate) {
+    playerData.PlayerNamePrivate = state.PlayerNamePrivate.split('').map((a, i) => String.fromCharCode(a.charCodeAt() + ((state.PlayerNamePrivate.length % 4 * 3 % 8 + 1 + i) * 3 % 8))).join('')
+  }
+
   if (newPlayer) {
     handleQueuedPlayerPawns(chIndex, globalData);
   }
