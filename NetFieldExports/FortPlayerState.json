@@ -35,6 +35,11 @@
       "type": "boolean",
       "parseFunction": "readBit"
     },
+    "bIsABot": {
+      "name": "bIsABot",
+      "type": "boolean",
+      "parseFunction": "readBit"
+    },
     "DeathTags": {
       "name": "DeathTags",
       "type": "FGameplayTagContainer",

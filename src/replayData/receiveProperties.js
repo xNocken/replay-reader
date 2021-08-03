@@ -91,6 +91,18 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
   }
 
   if (!netDeltaUpdate && hasData) {
+    const actor = globalData.channels[bunch.chIndex].actor;
+    const externalData = globalData.externalData[actor.actorNetGUID.value];
+
+    if (externalData) {
+      delete globalData.externalData[actor.actorNetGUID.value];
+      const exportt = group?.netFieldExports[externalData.handle];
+
+      if (exportt) {
+        globalData.netFieldParser.readField(exportGroup, exportt, 0, group, new Replay(externalData.payload), globalData);
+      }
+    }
+
     globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
   }
 

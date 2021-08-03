@@ -66,7 +66,7 @@ class GlobalData {
     this.netGuidCache = new NetGuidCache();
     this.inPacketId = 0;
 
-    this.externalData = [];
+    this.externalData = {};
 
     this.debug = false;
     this.debugNetGuidToPathName = [];

@@ -9,7 +9,7 @@ const Replay = require('./Classes/Replay');
 /**
  * @param {PlaybackPacket} packet
  */
- const receivedRawPacket = (packet, replay, globalData) => {
+const receivedRawPacket = (packet, replay, globalData) => {
   let lastByte = replay.getLastByte();
 
   if (!lastByte) {
@@ -67,7 +67,7 @@ const parsePlaybackPackets = (replay, globalData) => {
 
   readExternalData(replay, globalData);
 
-  if (replay.hasLevelStreamingFixes()) {
+  if (replay.hasGameSpecificFrameData()) {
     const skipExternalOffset = replay.readUInt64();
 
     if (skipExternalOffset > 0) {
@@ -78,10 +78,6 @@ const parsePlaybackPackets = (replay, globalData) => {
   let done = false;
 
   while (!done) {
-    if (replay.hasLevelStreamingFixes()) {
-      replay.readIntPacked();
-    }
-
     const packet = readPacket(replay);
 
     packet.timeSeconds = timeSeconds;
