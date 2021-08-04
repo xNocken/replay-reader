@@ -11,6 +11,10 @@ const addClassNetCacheToExport = (bunch, properties, exports, pathName, globalDa
 
   currentExport.classNetCacheProperties = properties;
   currentExport.classNetCachePathName = pathName;
+
+  if (!pathName) {
+    currentExport.classNetCacheIsUnresolved = true;
+  }
 };
 
 module.exports = addClassNetCacheToExport;

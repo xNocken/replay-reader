@@ -91,7 +91,7 @@ const receivedNextBunch = (bunch, globalData) => {
           globalData.partialBunch.bDormant = bunch.bDormant;
           globalData.partialBunch.closeReason = bunch.closeReason;
           globalData.partialBunch.bIsReplicationPaused = bunch.bIsReplicationPaused;
-          globalData.partialBunch.bhasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
+          globalData.partialBunch.bHasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
 
           receivedSequencedBunch(globalData.partialBunch, globalData);
           return

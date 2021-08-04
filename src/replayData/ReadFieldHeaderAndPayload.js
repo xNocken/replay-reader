@@ -14,6 +14,7 @@ const readFieldHeaderAndPayload = (archive, group) => {
   }
 
   return {
+    netFieldExportHandle,
     numPayloadBits,
     outField,
   };

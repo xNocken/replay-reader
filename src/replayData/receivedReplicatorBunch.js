@@ -40,7 +40,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, subOb
   const { group: netFielExportGroup, mapObjectName } = exportGroup;
 
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData, mapObjectName)) {
+    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData, subObjectInfo, mapObjectName)) {
       return false;
     }
   }
@@ -52,6 +52,20 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, subOb
   const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFielExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15)
 
   if (!classNetCache) {
+    if (globalData.rebuildMode) {
+      addClassNetCacheToExport(bunch, [{
+        size: archive.getBitsLeft(),
+        data: Array.from(archive.readBits(archive.getBitsLeft(), true)),
+      }],
+      [{
+        pathName: netFielExportGroup.pathName,
+        mapObjectName: null,
+        isClassNetCache: true,
+        properties: [],
+        subObjectInfo,
+      }], classNetCache?.pathName, globalData);
+    }
+
     return false;
   }
 
@@ -74,7 +88,19 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, subOb
       break;
     }
 
-    const { outField: fieldCache, numPayloadBits } = result;
+    const { outField: fieldCache, numPayloadBits, netFieldExportHandle } = result;
+
+    if (globalData.rebuildMode) {
+      properties.push({
+        compatibleChecksum: fieldCache?.compatibleChecksum,
+        handle: netFieldExportHandle,
+        name: fieldCache?.name,
+        data: Array.from(archive.readBits(numPayloadBits, true)),
+        size: numPayloadBits,
+      });
+
+      continue;
+    }
 
     if (!fieldCache || fieldCache.incompatible || !numPayloadBits) {
       if (!numPayloadBits) {
@@ -82,18 +108,6 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, subOb
       }
 
       archive.skipBits(numPayloadBits);
-
-      continue;
-    }
-
-    if (globalData.rebuildMode) {
-      properties.push({
-        compatibleChecksum: fieldCache?.compatibleChecksum,
-        handle: fieldCache?.handle,
-        name: fieldCache?.name,
-        data: Array.from(archive.readBits(numPayloadBits, true)),
-        size: numPayloadBits,
-      });
 
       continue;
     }

@@ -9,8 +9,10 @@ const receivedActorBunch = (bunch, replay, globalData) => {
   if (bunch.bHasMustBeMappedGUIDs) {
     const numMusteBeMappedGUIDs = replay.readUInt16();
 
+    bunch.mustBeMappedGUIDs = [];
+
     for (let i = 0; i < numMusteBeMappedGUIDs; i++) {
-      replay.readIntPacked();
+      bunch.mustBeMappedGUIDs.push(replay.readIntPacked());
     }
   }
 
