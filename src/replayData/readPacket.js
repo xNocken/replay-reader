@@ -6,6 +6,10 @@ const Replay = require('../Classes/Replay');
 const readPacket = (replay) => {
   const packet = {};
 
+  if (replay.hasLevelStreamingFixes()) {
+    packet.streamingFix = replay.readIntPacked();
+  }
+
   const bufferSize = replay.readInt32();
   packet.size = bufferSize;
 

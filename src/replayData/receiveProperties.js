@@ -102,7 +102,9 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       delete globalData.externalData[actor.actorNetGUID.value];
       const exportt = group?.netFieldExports[externalData.handle];
 
-      globalData.netFieldParser.readField(exportGroup, exportt, 0, group, new Replay(externalData.payload), globalData);
+      if (exportt) {
+        globalData.netFieldParser.readField(exportGroup, exportt, 0, group, new Replay(externalData.payload), globalData);
+      }
     }
 
     globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
