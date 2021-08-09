@@ -8,7 +8,7 @@ const receivedNextBunch = require('./receivedNextBunch');
  *
  * @param {Replay} packetArchive
  */
-const receivedPacket = (packetArchive, timeSeconds, globals) => {
+const receivedPacket = (packetArchive, timeSeconds, levelStreamingIndex, globals) => {
   const { channels } = globals;
 
   globals.inPacketId++;
@@ -20,6 +20,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
 
     const bunch = {};
 
+    bunch.levelStreamingIndex = levelStreamingIndex;
     bunch.timeSeconds = timeSeconds;
 
     const bControl = packetArchive.readBit();

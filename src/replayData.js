@@ -26,7 +26,7 @@ const receivedRawPacket = (packet, replay, globalData) => {
   replay.addOffset(bitSize);
 
   try {
-    receivedPacket(replay, packet.timeSeconds, globalData);
+    receivedPacket(replay, packet.timeSeconds, packet.levelStreamingIndex, globalData);
   } catch (ex) {
     console.log(ex);
   }
@@ -40,10 +40,9 @@ const receivedRawPacket = (packet, replay, globalData) => {
  */
 const parsePlaybackPackets = (replay, globalData) => {
   let currentLevelIndex;
-  let streamingFixes = [];
 
   if (replay.header.NetworkVersion >= 6) {
-    currentLevelIndex = replay.readInt32()
+    currentLevelIndex = replay.readInt32();
   }
 
   const timeSeconds = replay.readFloat32();
@@ -56,7 +55,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     const numStreamingLevels = replay.readIntPacked();
 
     for (let i = 0; i < numStreamingLevels; i++) {
-      streamingFixes.push(replay.readString());
+      globalData.streamingLevels.push(replay.readString());
     }
 
     replay.skipBytes(8);

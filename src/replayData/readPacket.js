@@ -7,7 +7,7 @@ const readPacket = (replay) => {
   const packet = {};
 
   if (replay.hasLevelStreamingFixes()) {
-    packet.streamingFix = replay.readIntPacked();
+    packet.levelStreamingIndex = replay.readIntPacked();
   }
 
   const bufferSize = replay.readInt32();

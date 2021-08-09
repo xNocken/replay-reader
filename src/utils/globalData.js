@@ -56,6 +56,7 @@ class GlobalData {
       networkGameplayTagNode: {},
       notSpawnedChests: {},
       netFieldExports: {},
+      streamingLevels: [],
     };
     this.onExportRead = onExportRead;
     this.onActorDespawn = onActorDespawn,
@@ -71,6 +72,7 @@ class GlobalData {
     this.inPacketId = 0;
 
     this.externalData = {};
+    this.streamingLevels = [];
 
     this.rebuildMode = false;
     this.debug = false;

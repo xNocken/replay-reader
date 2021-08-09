@@ -65,6 +65,7 @@ const parse = async (buffer, options) => {
 
   if (globalData.rebuildMode) {
     globalData.result.netFieldExports = globalData.netGuidCache.NetFieldExportGroupMap;
+    globalData.result.streamingLevels = globalData.streamingLevels;
   }
 
   isParsing = false;

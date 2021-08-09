@@ -18,6 +18,7 @@ const createRebuidExport = (bunch, exports, globalData) => {
       bReliable: bunch.bReliable,
       bIsReplicationPaused: bunch.bIsReplicationPaused,
       mustBeMappedGuids: bunch.mustBeMappedGUIDs,
+      levelStreamingIndex: bunch.levelStreamingIndex,
     };
   } else {
     globalData.result.packets[bunch.timeSeconds][bunch.chIndex][bunch.chSequence].exports.push(...exports);
