@@ -1,4 +1,4 @@
-const handleChests = (mapObjectName, chest, globalData) => {
+const handleChests = (chIndex, chest, timeseconds, mapObjectName, globalData) => {
   if (!globalData.result.mapData.chests[mapObjectName]) {
     chest.actor = globalData.netGuidCache.tryGetActorById(globalData.channelToActor[mapObjectName]);
     globalData.result.mapData.chests[mapObjectName] = {};

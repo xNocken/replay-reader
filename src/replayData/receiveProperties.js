@@ -2,7 +2,6 @@ const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const GlobalData = require('../utils/globalData');
-const onExportRead = require('../../export/onExportRead');
 const fs = require('fs');
 
 /**
@@ -103,7 +102,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       }
     }
 
-    globalData.onExportRead(channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
+    globalData.exportEmitter.emit(exportGroup.type, channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
   }
 
   return exportGroup;

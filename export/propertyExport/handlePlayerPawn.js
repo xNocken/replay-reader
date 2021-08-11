@@ -12,7 +12,7 @@ const tryGetPlayerDataFromPawn = (pawn, globalData) => {
   return null;
 };
 
-const handlePlayerPawn = (chIndex, pawn, globalData) => {
+const handlePlayerPawn = (chIndex, pawn, timeseconds, mapObjectName, globalData) => {
   const {
     players,
     actorToChannel,

@@ -1,5 +1,5 @@
-const handleActiveGameplayModifiers = (state, globalData) => {
-  globalData.result.gameData.activeGameplayModifiers.push(state.export.ModifierDef?.name);
+const handleActiveGameplayModifiers = (hIndex, update, timeSeconds, mapObjectName, globalData) => {
+  globalData.result.gameData.activeGameplayModifiers.push(update.export.ModifierDef?.name);
 };
 
 module.exports = handleActiveGameplayModifiers;

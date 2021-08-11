@@ -1,5 +1,3 @@
-const onExportRead = require("../../export/onExportRead");
-
 const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) => {
   const theClass = require(`../../Classes/${fieldCache.type}.js`);
   const dingens = new theClass();
@@ -11,11 +9,7 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
 
   dingens.type = fieldCache.customExportName || pathName.split('/').pop();
 
-  if (globalData.onExportRead) {
-    globalData.onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
-  } else {
-    onExportRead(bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
-  }
+  globalData.exportEmitter.emit(dingens.type, bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
 }
 
 module.exports = receiveCustomProperty;

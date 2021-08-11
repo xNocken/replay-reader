@@ -1,4 +1,4 @@
-const handleGameplayCues = (chIndex, value, timeseconds, globalData) => {
+const handleGameplayCues = (chIndex, value, timeseconds, mapObjectName, globalData) => {
   const { channelToActor, result } = globalData;
 
   if (!result.gameData.gameplayCues[chIndex]) {

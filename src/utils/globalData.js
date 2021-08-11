@@ -1,10 +1,9 @@
-const onActorDespawn = require('../../export/onActorDespawn');
-const onExportRead = require('../../export/onExportRead');
-const onNetDeltaRead = require('../../export/onNetDeltaRead');
 const DataBunch = require('../Classes/DataBunch');
 const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
 const NetGuidCache = require('../Classes/NetGuidCache');
 const UChannel = require('../Classes/UChannel');
+const EventEmitter = require('events');
+const handleEventEmitter = require('../../export/handleEventEmitter');
 
 class GlobalData {
   constructor(overrideConfig = {}) {
@@ -53,9 +52,7 @@ class GlobalData {
       gameState: {},
       notSpawnedChests: {},
     };
-    this.onExportRead = onExportRead;
-    this.onActorDespawn = onActorDespawn,
-    this.onNetDeltaRead = onNetDeltaRead,
+    this.handleEventEmitter = handleEventEmitter;
     this.onChannelOpened = null;
     this.onChannelClosed = null;
     this.netFieldExportPath = null;
@@ -67,6 +64,10 @@ class GlobalData {
     this.inPacketId = 0;
 
     this.externalData = {};
+
+    this.exportEmitter = new EventEmitter();
+    this.netDeltaEmitter = new EventEmitter();
+    this.actorDespawnEmitter = new EventEmitter();
 
     this.debug = false;
     this.debugNetGuidToPathName = [];

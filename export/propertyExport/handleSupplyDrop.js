@@ -1,4 +1,4 @@
-const handleSupplyDrop = (chIndex, supplyDrop, globalData) => {
+const handleSupplyDrop = (chIndex, supplyDrop, timeseconds, mapObjectName, globalData) => {
   const gd = globalData;
 
   if (!gd.supplyDrops[chIndex]) {

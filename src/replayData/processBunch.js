@@ -1,12 +1,10 @@
-const Actor = require('../Classes/Actor');
 const DataBunch = require('../Classes/DataBunch');
-const FRotator = require('../Classes/FRotator');
-const FVector = require('../Classes/FVector');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
 const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
 const receivedReplicatorBunch = require('./receivedReplicatorBunch');
+const pathhhh = require('path');
 
 /**
  * @param {DataBunch} bunch
@@ -67,17 +65,18 @@ const processBunch = (bunch, replay, globalData) => {
       globalData
     );
 
-    if (!exportGroup) {
+    if (!exportGroup || bunch.closeReason !== 0) { // close reason 0 === destroyed
       return;
     }
 
-    globalData.onActorDespawn(
+    globalData.actorDespawnEmitter.emit(
+      pathhhh.basename(exportGroup.group.pathName),
       bunch.bOpen,
       bunch.chIndex,
       bunch.timeSeconds,
       exportGroup.group,
       exportGroup.mapObjectName,
-      globalData
+      globalData,
     );
   }
 

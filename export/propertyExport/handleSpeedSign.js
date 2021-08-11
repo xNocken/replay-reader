@@ -1,4 +1,4 @@
-const handleSpeedSign = (mapObjectName, sign, globalData) => {
+const handleSpeedSign = (chIndex, sign, timeseconds, mapObjectName, globalData) => {
   if (!globalData.result.mapData.speedSigns[mapObjectName]) {
     globalData.result.mapData.speedSigns[mapObjectName] = { history: [] };
   }

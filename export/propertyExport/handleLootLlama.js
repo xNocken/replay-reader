@@ -1,4 +1,4 @@
-const handleLootLlama = (chIndex, llama, globalData) => {
+const handleLootLlama = (chIndex, llama, timeseconds, mapObjectName, globalData) => {
   // TODO: handle labrador llama
   const gd = globalData;
 

@@ -31,6 +31,12 @@ const parse = async (buffer, options) => {
     }
   }
 
+  globalData.handleEventEmitter({
+    propertyExportEmitter: globalData.exportEmitter,
+    actorDespawnEmitter: globalData.actorDespawnEmitter,
+    netDeltaReadEmitter: globalData.netDeltaEmitter,
+  });
+
   try {
     info = replayInfo(replay);
     chunks = await replayChunks(replay, globalData);

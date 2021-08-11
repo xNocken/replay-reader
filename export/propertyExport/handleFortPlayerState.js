@@ -17,11 +17,11 @@ const handleQueuedPlayerPawns = (stateChIndex, globalData) => {
   }
 
   playerPawns.forEach((playerPawn) => {
-    handlePlayerPawn(playerPawn.chIndex, playerPawn.playerPawn, globalData)
+    handlePlayerPawn(playerPawn.chIndex, playerPawn.playerPawn, 0, '', globalData)
   });
 };
 
-const handlePlayerState = (chIndex, state, globalData) => {
+const handlePlayerState = (chIndex, state, timeseconds, mapObjectName, globalData) => {
   const { players } = globalData;
   if (state.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);
