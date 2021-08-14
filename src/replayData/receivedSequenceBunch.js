@@ -10,24 +10,35 @@ const receivedSequencedBunch = (bunch, globalData) => {
   receivedActorBunch(bunch, bunch.archive, globalData);
 
   if (bunch.bClose) {
-    const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
-      globalData.channels[bunch.chIndex].actor?.archetype?.value || globalData.channels[bunch.chIndex].actor?.actorNetGUID.value,
-      globalData,
-    );
+    const channel = globalData.channels[bunch.chIndex];
 
-    if (exportGroup && bunch.closeReason === 0) {
-      globalData.actorDespawnEmitter.emit(
-        pathhhh.basename(exportGroup.group.pathName),
-        bunch.bOpen,
-        bunch.chIndex,
-        bunch.timeSeconds,
-        exportGroup.group,
-        exportGroup.mapObjectName,
-        globalData,
-      );
+    if (bunch.closeReason === 0) { // close reason 0 === destroyed
+      let netFieldExportGroup;
+      let staticActorId;
+
+      if (channel.actor?.actorNetGUID.isDynamic()) {
+        netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.archetype.value, globalData);
+      } else if (channel.actor) {
+        const result = globalData.netGuidCache.getStaticActorExportGroup(channel.actor.actorNetGUID.value, globalData);
+
+        netFieldExportGroup = result.group;
+        staticActorId = result.staticActorId;
+      }
+
+      if (netFieldExportGroup) {
+        globalData.actorDespawnEmitter.emit(
+          pathhhh.basename(netFieldExportGroup.pathName),
+          bunch.bOpen,
+          bunch.chIndex,
+          bunch.timeSeconds,
+          netFieldExportGroup,
+          staticActorId,
+          globalData,
+        );
+      }
     }
 
-    onChannelClosed(bunch.chIndex, globalData.channels[bunch.chIndex]?.actor?.actorNetGUID, globalData);
+    onChannelClosed(bunch.chIndex, channel.actor, globalData);
 
     return true;
   }

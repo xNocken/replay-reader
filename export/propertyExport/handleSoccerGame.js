@@ -1,9 +1,9 @@
-const handleSoccerGame = (chIndex, value, timeseconds, mapObjectName, globalData) => {
-  if (!globalData.result.mapData.soccerGames[mapObjectName]) {
-    globalData.result.mapData.soccerGames[mapObjectName] = {};
+const handleSoccerGame = (chIndex, value, timeseconds, staticActorId, globalData) => {
+  if (!globalData.result.mapData.soccerGames[staticActorId]) {
+    globalData.result.mapData.soccerGames[staticActorId] = {};
   }
 
-  const current = globalData.result.mapData.soccerGames[mapObjectName];
+  const current = globalData.result.mapData.soccerGames[staticActorId];
 
   Object.entries(value).forEach(([key, value]) => {
     if (value !== null) {

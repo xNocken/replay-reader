@@ -2,7 +2,6 @@
   "path": [
     "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C"
   ],
-  "mapObjectName": "Athena_SoccerGame_\\d+",
   "properties": {
     "Score_Team_A": {
       "name": "Score_Team_A",

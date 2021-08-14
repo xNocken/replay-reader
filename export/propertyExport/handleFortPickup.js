@@ -1,4 +1,4 @@
-const handleFortPickup = (chIndex, data, timeseconds, mapObjectName, globalData) => {
+const handleFortPickup = (chIndex, data, timeseconds, staticActorId, globalData) => {
   const { pickups, channelToActor } = globalData;
   if (!pickups[chIndex]) {
     pickups[chIndex] = data;

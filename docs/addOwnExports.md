@@ -25,7 +25,7 @@ The next step is to handle the exported data.
 ## Create a custom export function 
 First step: Create a function like [this](#export-function) and add it to the ```onExportRead``` setting. The easiest way to structure this is to add a switch in this file and call the functions as seen here:
 ```js
-const onExportRead = (chIndex, value, timeseconds, mapObjectName, globalData) => {
+const onExportRead = (chIndex, value, timeseconds, staticActorId, globalData) => {
   switch (value.type) {
     case 'SafeZoneIndicator.SafeZoneIndicator_C':
       handleSafezone(value, globalData);
@@ -80,9 +80,9 @@ You've gone through all this effort and nothing works. This can have multiple re
 TODO
 
 ## Parse MapObject<a name="map-object-parsing"></a>
-A mapObject is every object thats not created by the server. This includes chests, walls of buildings, minigames like soccer and much more. To make them parsable all you need to do is find thier map name. Just take the export path for example ```/Game/Building/ActorBlueprints/Containers/Tiered_Chest_Athena.Tiered_Chest_Athena_C``` and search for the name in ```netGuidToPathName.txt```. In this case the name is ```Tiered_Chest_Athena``` and the mapObjectName is ```Tiered_Chest_Athena66```, ```Tiered_Chest_Athena64_1``` and ```Tiered_Chest_Athena_1```. Now go to your netFieldExport and add the setting ```mapObjectName``` and add a regex that matches that. 
+A mapObject is every object thats not created by the server. This includes chests, walls of buildings, minigames like soccer and much more. To make them parsable all you need to do is find thier map name. Just take the export path for example ```/Game/Building/ActorBlueprints/Containers/Tiered_Chest_Athena.Tiered_Chest_Athena_C``` and search for the name in ```netGuidToPathName.txt```. In this case the name is ```Tiered_Chest_Athena``` and the staticActorId is ```Tiered_Chest_Athena66```, ```Tiered_Chest_Athena64_1``` and ```Tiered_Chest_Athena_1```. Now go to your netFieldExport and add the setting ```staticActorId``` and add a regex that matches that. 
 
-I reccomend switching from chIndex to store them to using the mapObjectName. chIndex seems to be inconsistent with mapObjects and the mapObjectName is the same accross all replays in one version.
+I reccomend switching from chIndex to store them to using the staticActorId. chIndex seems to be inconsistent with mapObjects and the staticActorId is the same accross all replays in one version.
 
 ## NetFieldExport structure <a name="netfieldexport-structure"></a>
 ```json
@@ -91,7 +91,6 @@ I reccomend switching from chIndex to store them to using the mapObjectName. chI
   "parseLevel": number,
   "type": ?string,
   "parseUnknownHandles": ?boolean,
-  "mapObjectName": ?regex,
   "redirects": ?Array<string>,
   "customExportName": ?string, // this overrides the type property on the export
   "properties": {
@@ -202,7 +201,7 @@ const onExportRead = (
   chIndex, // This can be seen as the unique identifier for a object
   value, // The value contains the changed values. It has two consistant properties. Type: this is the type of the export. Path: this is the full exportPath of the object
   timeseconds, // This is the time in seconds since the replay started recording
-  mapObjectName, // This is the name of a object thats placed on the map. Its unique across replays
+  staticActorId, // This is the name of an actor thats placed on the map. Its unique across replays
   globalData, // this is a class with all data. The most important is the result object. This is what gets returned after the parsing is done
 ) => {
   switch (value.type) {

@@ -1,4 +1,4 @@
-const handlePlayerBuilds = (chIndex, value, timeseconds, mapObjectName, globalData) => {
+const handlePlayerBuilds = (chIndex, value, timeseconds, staticActorId, globalData) => {
   if (!globalData.result.mapData.playerBuilds[chIndex]) {
     globalData.result.mapData.playerBuilds[chIndex] = value;
     return;

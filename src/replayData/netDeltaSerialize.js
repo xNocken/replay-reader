@@ -2,7 +2,7 @@ const NetDeltaSerializeHeader = require("./netDeltaSerializeHeader");
 const receiveProperties = require("./receiveProperties");
 const pathhhh = require('path');
 
-const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData, mapObjectName) => {
+const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData, staticActorId) => {
   const header = NetDeltaSerializeHeader(reader);
 
   if (reader.isError) {
@@ -19,13 +19,13 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       export: {
         type: pathhhh.basename(group.pathName),
       },
-    }, bunch.timeSeconds, mapObjectName, globalData);
+    }, bunch.timeSeconds, staticActorId, globalData);
   }
 
   for (let i = 0; i < header.numChanged; i++) {
     const elementIndex = reader.readInt32();
 
-    const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, mapObjectName);
+    const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, staticActorId);
 
     if (!exportGroup) {
       continue;
@@ -34,7 +34,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
     globalData.netDeltaEmitter.emit(exportGroup.type, bunch.chIndex, {
       elementIndex,
       export: exportGroup,
-    }, bunch.timeSeconds, mapObjectName, globalData)
+    }, bunch.timeSeconds, staticActorId, globalData)
   }
 };
 

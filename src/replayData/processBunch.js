@@ -4,7 +4,6 @@ const internalLoadObject = require('./internalLoadObject');
 const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
 const receivedReplicatorBunch = require('./receivedReplicatorBunch');
-const pathhhh = require('path');
 
 /**
  * @param {DataBunch} bunch
@@ -59,26 +58,7 @@ const processBunch = (bunch, replay, globalData) => {
     }
   }
 
-  if (bunch.archive.atEnd() && bunch.bClose) {
-    const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
-      channel.actor.archetype?.value || channel.actor.actorNetGUID.value,
-      globalData
-    );
-
-    if (!exportGroup || bunch.closeReason !== 0) { // close reason 0 === destroyed
-      return;
-    }
-
-    globalData.actorDespawnEmitter.emit(
-      pathhhh.basename(exportGroup.group.pathName),
-      bunch.bOpen,
-      bunch.chIndex,
-      bunch.timeSeconds,
-      exportGroup.group,
-      exportGroup.mapObjectName,
-      globalData,
-    );
-  }
+  bunch.actor = channel.actor;
 
   while (!bunch.archive.atEnd()) {
     const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);

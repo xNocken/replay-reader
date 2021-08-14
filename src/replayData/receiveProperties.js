@@ -13,7 +13,7 @@ const fs = require('fs');
  * @param {boolean} netDeltaUpdate
  * @param {GlobalData} globalData
  */
-const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, mapObjectName) => {
+const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, staticActorId) => {
   let exportGroup;
   const { channels, netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
@@ -102,7 +102,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       }
     }
 
-    globalData.exportEmitter.emit(exportGroup.type, channelIndex, exportGroup, bunch.timeSeconds, mapObjectName, globalData);
+    globalData.exportEmitter.emit(exportGroup.type, channelIndex, exportGroup, bunch.timeSeconds, staticActorId, globalData);
   }
 
   return exportGroup;

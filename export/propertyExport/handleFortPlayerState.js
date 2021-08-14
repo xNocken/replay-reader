@@ -21,7 +21,7 @@ const handleQueuedPlayerPawns = (stateChIndex, globalData) => {
   });
 };
 
-const handlePlayerState = (chIndex, state, timeseconds, mapObjectName, globalData) => {
+const handlePlayerState = (chIndex, state, timeseconds, staticActorId, globalData) => {
   const { players } = globalData;
   if (state.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);

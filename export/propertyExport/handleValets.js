@@ -1,4 +1,4 @@
-const handleValets = (chIndex, value, timeseconds, mapObjectName, globalData) => {
+const handleValets = (chIndex, value, timeseconds, staticActorId, globalData) => {
   if (!globalData.result.mapData.vehicles.valets[chIndex]) {
     globalData.result.mapData.vehicles.valets[chIndex] = value;
     return;

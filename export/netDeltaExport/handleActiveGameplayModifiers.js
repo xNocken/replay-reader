@@ -1,4 +1,4 @@
-const handleActiveGameplayModifiers = (hIndex, update, timeSeconds, mapObjectName, globalData) => {
+const handleActiveGameplayModifiers = (hIndex, update, timeSeconds, staticActorId, globalData) => {
   globalData.result.gameData.activeGameplayModifiers.push(update.export.ModifierDef?.name);
 };
 

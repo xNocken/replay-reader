@@ -1,12 +1,12 @@
-const handleChests = (chIndex, chest, timeseconds, mapObjectName, globalData) => {
-  if (!globalData.result.mapData.chests[mapObjectName]) {
-    chest.actor = globalData.netGuidCache.tryGetActorById(globalData.channelToActor[mapObjectName]);
-    globalData.result.mapData.chests[mapObjectName] = {};
+const handleChests = (chIndex, chest, timeseconds, staticActorId, globalData) => {
+  if (!globalData.result.mapData.chests[staticActorId]) {
+    chest.actor = globalData.netGuidCache.tryGetActorById(globalData.channelToActor[staticActorId]);
+    globalData.result.mapData.chests[staticActorId] = {};
   }
 
   Object.entries(chest).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.mapData.chests[mapObjectName][key] = value;
+      globalData.result.mapData.chests[staticActorId][key] = value;
     }
   });
 }

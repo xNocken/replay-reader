@@ -1,5 +1,5 @@
-const handleChest = (isOpenPacket, chIndex, timeSeconds, exportGroup, mapObjectName, globalData) => {
-  globalData.result.notSpawnedChests[mapObjectName] = true;
+const handleChest = (isOpenPacket, chIndex, timeSeconds, exportGroup, staticActorId, globalData) => {
+  globalData.result.notSpawnedChests[staticActorId] = true;
 };
 
 module.exports = handleChest;

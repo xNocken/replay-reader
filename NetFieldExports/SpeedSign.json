@@ -3,7 +3,6 @@
     "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C"
   ],
   "parseLevel": 2,
-  "mapObjectName": "BP_Athena_SpeedSign_?\\d+",
   "properties": {
     "VehicleSpeed": {
       "name": "VehicleSpeed",

@@ -1,4 +1,4 @@
-const handleLabradorLlama = (chIndex, value, timeseconds, mapObjectName, globalData) => {
+const handleLabradorLlama = (chIndex, value, timeseconds, staticActorId, globalData) => {
   if (!globalData.labradorLlamas[chIndex]) {
     globalData.labradorLlamas[chIndex] = value;
   }

@@ -15,21 +15,26 @@ const receiveProperties = require('./receiveProperties');
  * @param {GlobalData} globalData
  */
 const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
-  const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
-  const { netFieldParser } = globalData;
+  let netFieldExportGroup;
+  let staticActorId;
 
-  if (exportGroup == null) {
+  if (bunch.actor.actorNetGUID.isDynamic()) {
+    netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
+  } else {
+    const result = globalData.netGuidCache.getStaticActorExportGroup(repObject, globalData);
+
+    netFieldExportGroup = result.group;
+    staticActorId = result.staticActorId;
+  }
+
+  if (!netFieldExportGroup) {
     return true;
   }
 
-  const { group: netFielExportGroup, mapObjectName } = exportGroup;
-
-  if (mapObjectName && bunch.timeSeconds > 60) {
-    console;
-  }
+  const { netFieldParser } = globalData;
 
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFielExportGroup, bunch, true, false, globalData, mapObjectName)) {
+    if (!receiveProperties(archive, netFieldExportGroup, bunch, true, false, globalData, staticActorId)) {
       return false;
     }
   }
@@ -38,7 +43,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
     return true;
   }
 
-  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFielExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15)
+  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFieldExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15)
 
   if (!classNetCache) {
     return false;
@@ -79,13 +84,11 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           return false;
         }
 
-        const { group: functionGroup, mapObjectName } = exportGroup;
-
-        if (!receivedRPC(archive, functionGroup, bunch, globalData, mapObjectName)) {
+        if (!receivedRPC(archive, exportGroup, bunch, globalData, staticActorId)) {
           return false;
         }
       } else if (classNetProperty.isCustomStruct) {
-        if (!receiveCustomProperty(archive, classNetProperty, bunch, classNetCache.pathName, globalData, mapObjectName)) {
+        if (!receiveCustomProperty(archive, classNetProperty, bunch, classNetCache.pathName, globalData, staticActorId)) {
           archive.popOffset();
 
           continue;
@@ -97,15 +100,13 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
           return false;
         }
 
-        const { group, mapObjectName } = exportGroup;
-
-        if (!group || !netFieldParser.willReadType(group.pathName)) {
+        if (!exportGroup || !netFieldParser.willReadType(exportGroup.pathName)) {
           archive.popOffset();
 
           continue;
         }
 
-        if (receiveCustomDeltaProperty(archive, group, bunch, classNetProperty.EnablePropertyChecksum || false, globalData, mapObjectName)) {
+        if (receiveCustomDeltaProperty(archive, exportGroup, bunch, classNetProperty.EnablePropertyChecksum || false, globalData, staticActorId)) {
           archive.popOffset();
 
           continue;
