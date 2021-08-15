@@ -77,11 +77,19 @@ class Replay {
 
   readBits(count) {
     const buffer = Buffer.allocUnsafe(Math.ceil(count / 8));
+    let readBytes = 0;
+
+    if ((this.offset % 8) === 0) {
+      readBytes = ~~(count / 8);
+      const bytes = this.readBytes(readBytes);
+
+      bytes.copy(buffer);
+    }
 
     let byteOffset;
     let currentBit = 1;
 
-    for (let i = 0; i < count; i++) {
+    for (let i = readBytes * 8; i < count; i++) {
       const bitOffset = i % 8;
 
       if (bitOffset === 0) {
@@ -178,7 +186,34 @@ class Replay {
   }
 
   readByte() {
-    return this.readBytes(1)[0];
+    if ((this.offset % 8) === 0) {
+      const val = this.buffer[this.offset / 8];
+
+      this.offset += 8;
+
+      return val;
+    }
+
+    let val = 0;
+    let currentBit = 1;
+
+    for (let i = 0; i < 8; i++) {
+      const bitOffset = i % 8;
+
+      if (bitOffset === 0) {
+        currentBit = 1;
+      }
+
+      if (this.readBit()) {
+        val |= (currentBit);
+      } else {
+        val &= ~(currentBit);
+      }
+
+      currentBit *= 2;
+    }
+
+    return val;
   }
 
   readInt16() {

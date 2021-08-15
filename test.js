@@ -1,18 +1,20 @@
-const { ok } = require('assert');
 const fs = require('fs');
 const parse = require('.');
 
 (async() => {
+  const replayBuffer = fs.readFileSync('replays/server-17.21.replay');
+
   console.time();
-  fs.writeFileSync('replay.json', JSON.stringify(await parse(fs.readFileSync('replays/mothership.replay'), {
+   const parsedReplay = await parse(replayBuffer, {
     parseLevel: 10,
     // netFieldExportPath: 'NetFieldExports',
     // onlyUseCustomNetFieldExports: true,
     // customClassPath: 'Classes',
     // onChannelOpened: console.log,
     // onChannelClosed: console.log,
-    debug: true,
-  }), null, 2));
-  console.log('replay one successfully parsed')
+    // debug: true,
+  });
   console.timeEnd();
+
+  fs.writeFileSync('replay.json', JSON.stringify(parsedReplay), null, 2);
 })()

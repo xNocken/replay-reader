@@ -203,7 +203,7 @@ class NetGuidCache {
 
     const cleanedPath = path.replace(/(?<=[a-z])\d*_?\d*$/i, '');
 
-    if (this.staticActorIdMap[cleanedPath]) {
+    if (this.staticActorIdMap[cleanedPath] !== undefined) {
       return this.staticActorIdMap[cleanedPath];
     }
 

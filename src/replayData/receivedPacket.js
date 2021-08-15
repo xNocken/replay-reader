@@ -95,7 +95,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     bunch.chType = chType;
     bunch.chName = chName;
 
-    const channel = channels[bunch.chIndex] != null;
+    const channel = channels[bunch.chIndex];
 
     const maxPacketInBits = 1024 * 2 * 8;
     const bunchDataBits = packetArchive.readSerializedInt(maxPacketInBits);
