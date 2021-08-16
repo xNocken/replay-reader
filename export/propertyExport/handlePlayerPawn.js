@@ -1,8 +1,8 @@
-const tryGetPlayerDataFromPawn = (pawn, globalData) => {
+const tryGetPlayerDataFromPawn = (pawn, states) => {
   const {
     players,
     pawnChannelToStateChannel,
-  } = globalData;
+  } = states;
   const stateChannel = pawnChannelToStateChannel[pawn];
 
   if (stateChannel) {
@@ -12,18 +12,13 @@ const tryGetPlayerDataFromPawn = (pawn, globalData) => {
   return null;
 };
 
-const handlePlayerPawn = (chIndex, pawn, timeseconds, staticActorId, globalData) => {
-  const {
-    players,
-    actorToChannel,
-    pawnChannelToStateChannel,
-    queuedPlayerPawns,
-    channelToActor,
-  } = globalData;
+const handlePlayerPawn = ({ chIndex, data, globalData, states }) => {
+  const { actorToChannel } = globalData;
+  const { pawnChannelToStateChannel, queuedPlayerPawns, players } = states;
   let playerState;
 
-  if (pawn.PlayerState) {
-    const actorId = pawn.PlayerState;
+  if (data.PlayerState) {
+    const actorId = data.PlayerState;
 
     let stateChannelIndex = actorToChannel[actorId];
 
@@ -39,7 +34,7 @@ const handlePlayerPawn = (chIndex, pawn, timeseconds, staticActorId, globalData)
 
       playerPawns.push({
         chIndex,
-        playerPawn: pawn,
+        playerPawn: data,
       });
 
       return;
@@ -48,15 +43,14 @@ const handlePlayerPawn = (chIndex, pawn, timeseconds, staticActorId, globalData)
     playerState = players[stateChannelIndex];
 
   } else {
-    playerState = tryGetPlayerDataFromPawn(chIndex, globalData);
+    playerState = tryGetPlayerDataFromPawn(chIndex, states);
 
     if (!playerState) {
       return;
     }
   }
 
-  playerState.actor = globalData.netGuidCache.tryGetActorById(channelToActor[chIndex]);
-  Object.entries(pawn).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
       playerState[key] = value;
     }

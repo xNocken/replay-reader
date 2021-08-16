@@ -1,5 +1,13 @@
-const handleChest = (isOpenPacket, chIndex, timeSeconds, exportGroup, staticActorId, globalData) => {
-  globalData.result.notSpawnedChests[staticActorId] = true;
+const handleChest = ({ staticActorId, states }) => {
+  if (!states.chests[staticActorId]) {
+    states.chests[staticActorId] = {
+      destroyed: true,
+    };
+
+    return;
+  }
+
+  states.chests[staticActorId].destroyed = true;
 };
 
 module.exports = handleChest;

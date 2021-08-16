@@ -3,6 +3,9 @@
     "/Script/FortniteGame.FortPlayerStateAthena"
   ],
   "parseLevel": 1,
+  "exportGroup": "gameData",
+  "exportName": "players",
+  "exportType": "array",
   "properties": {
     "PlayerID": {
       "name": "PlayerID",

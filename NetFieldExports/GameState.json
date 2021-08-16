@@ -3,6 +3,9 @@
     "/Game/Athena/Athena_GameState.Athena_GameState_C"
   ],
   "parseLevel": 1,
+  "exportGroup": "gameData",
+  "exportName": "gameState",
+  "exportType": "object",
   "properties": {
     "GoldenPoiLocationTags": {
       "name": "GoldenPoiLocationTags",

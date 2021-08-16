@@ -3,6 +3,9 @@
     "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C"
   ],
   "parseLevel": 2,
+  "exportGroup": "mapData",
+  "exportName": "speedSigns",
+  "exportType": "array",
   "properties": {
     "VehicleSpeed": {
       "name": "VehicleSpeed",

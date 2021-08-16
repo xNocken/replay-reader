@@ -1,16 +1,21 @@
-const handleSpeedSign = (chIndex, sign, timeseconds, staticActorId, globalData) => {
-  if (!globalData.result.mapData.speedSigns[staticActorId]) {
-    globalData.result.mapData.speedSigns[staticActorId] = { history: [] };
+const handleSpeedSign = ({ data, staticActorId, result, states }) => {
+  if (!states.speedSigns[staticActorId]) {
+    const newState = {
+      history: [],
+    };
+
+    states.speedSigns[staticActorId] = newState;
+    result.mapData.speedSigns.push(newState);
   }
 
-  Object.entries(sign).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.mapData.speedSigns[staticActorId][key] = value;
+      states.speedSigns[staticActorId][key] = value;
     }
   });
 
-  if (sign.VehicleSpeed !== undefined) {
-    globalData.result.mapData.speedSigns[staticActorId].history.push(sign.VehicleSpeed);
+  if (data.VehicleSpeed !== undefined) {
+    states.speedSigns[staticActorId].history.push(data.VehicleSpeed);
   }
 };
 

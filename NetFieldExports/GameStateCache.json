@@ -4,6 +4,9 @@
   ],
   "parseLevel": 1,
   "type": "ClassNetCache",
+  "exportGroup": "gameData",
+  "exportName": "playlistInfo",
+  "exportType": "null",
   "properties": {
     "CurrentPlaylistInfo": {
       "name": "CurrentPlaylistInfo",

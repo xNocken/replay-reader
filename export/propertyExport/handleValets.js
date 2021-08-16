@@ -1,12 +1,14 @@
-const handleValets = (chIndex, value, timeseconds, staticActorId, globalData) => {
-  if (!globalData.result.mapData.vehicles.valets[chIndex]) {
-    globalData.result.mapData.vehicles.valets[chIndex] = value;
+const handleValets = ({ chIndex, data, states, result }) => {
+  if (!states.valets[chIndex]) {
+    states.valets[chIndex] = data;
+    result.mapData.valets.push(data);
+
     return;
   }
 
-  Object.entries(value).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.mapData.vehicles.valets[chIndex][key] = value;
+      states.valets[chIndex][key] = value;
     }
   });
 }

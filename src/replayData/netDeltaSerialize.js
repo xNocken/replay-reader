@@ -12,14 +12,25 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
   for (let i = 0; i < header.numDeletes; i++) {
     const elementIndex = reader.readInt32();
 
-    globalData.netDeltaEmitter.emit(exportGroup.type, bunch.chIndex, {
-      deleted: true,
-      elementIndex,
-      path: group.pathName,
-      export: {
-        type: pathhhh.basename(group.pathName),
+    globalData.netDeltaEmitter.emit(
+      exportGroup.type,
+      {
+        chIndex: bunch.chIndex,
+        data: {
+          deleted: true,
+          elementIndex,
+          path: group.pathName,
+          export: {
+            type: pathhhh.basename(group.pathName),
+          },
+        },
+        timeSeconds: bunch.timeSeconds,
+        staticActorId,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
       },
-    }, bunch.timeSeconds, staticActorId, globalData);
+    );
   }
 
   for (let i = 0; i < header.numChanged; i++) {
@@ -31,10 +42,21 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       continue;
     }
 
-    globalData.netDeltaEmitter.emit(exportGroup.type, bunch.chIndex, {
-      elementIndex,
-      export: exportGroup,
-    }, bunch.timeSeconds, staticActorId, globalData)
+    globalData.netDeltaEmitter.emit(
+      exportGroup.type,
+      {
+        chIndex: bunch.chIndex,
+        data: {
+          elementIndex,
+          export: exportGroup,
+        },
+        timeSeconds: bunch.timeSeconds,
+        staticActorId,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
+      },
+    );
   }
 };
 

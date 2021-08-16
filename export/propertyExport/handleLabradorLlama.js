@@ -1,17 +1,18 @@
-const handleLabradorLlama = (chIndex, value, timeseconds, staticActorId, globalData) => {
-  if (!globalData.labradorLlamas[chIndex]) {
-    globalData.labradorLlamas[chIndex] = value;
+const handleLabradorLlama = ({ chIndex, data, states, result }) => {
+  if (!states.labradorLlamas[chIndex]) {
+    states.labradorLlamas[chIndex] = data;
+    result.mapData.labradorLlamas.push(data);
   }
 
-  const currentLlama = globalData.labradorLlamas[chIndex];
+  const currentLlama = states.labradorLlamas[chIndex];
 
-  Object.entries(value).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
       currentLlama[key] = value;
     }
   });
 
-  const gameplayCues = globalData.result.gameData.gameplayCues[chIndex];
+  const gameplayCues = states.gameplayCues[chIndex];
 
   if (!gameplayCues) {
     return;

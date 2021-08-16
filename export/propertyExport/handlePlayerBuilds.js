@@ -1,12 +1,13 @@
-const handlePlayerBuilds = (chIndex, value, timeseconds, staticActorId, globalData) => {
+const handlePlayerBuilds = ({ chIndex, data, globalData, states, result }) => {
   if (!globalData.result.mapData.playerBuilds[chIndex]) {
-    globalData.result.mapData.playerBuilds[chIndex] = value;
+    states.playerBuilds[chIndex] = data;
+    result.mapData.playerBuilds.push(data);
     return;
   }
 
-  Object.entries(value).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.mapData.playerBuilds[chIndex][key] = value;
+      result.mapData.playerBuilds[chIndex][key] = value;
     }
   });
 }

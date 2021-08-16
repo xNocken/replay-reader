@@ -3,6 +3,9 @@
     "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker"
   ],
   "parseLevel": 1,
+  "exportGroup": "gameData",
+  "exportName": "markers",
+  "exportType": "array",
   "properties": {
     "PlayerID": {
       "name": "PlayerID",

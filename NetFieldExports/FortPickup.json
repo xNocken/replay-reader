@@ -3,6 +3,9 @@
     "/Script/FortniteGame.FortPickupAthena"
   ],
   "parseLevel": 2,
+  "exportGroup": "mapData",
+  "exportName": "pickups",
+  "exportType": "array",
   "properties": {
     "bReplicateMovement": {
       "name": "bReplicateMovement",

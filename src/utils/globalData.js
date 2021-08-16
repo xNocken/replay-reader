@@ -21,49 +21,23 @@ class GlobalData {
     this.partialBunch = null;
     this.parseLevel = 1;
     this.inReliable = 0;
-    this.players = {};
     this.actorToChannel = [];
     this.channelToActor = [];
-    this.pawnChannelToStateChannel = [];
-    this.queuedPlayerPawns = [];
-    this.pickups = {};
-    this.result = {
-      players: [],
-      gameData: {
-        safeZones: [],
-        playlistInfo: null,
-        activeGameplayModifiers: [],
-        gameplayCues: {},
-      },
-      mapData: {
-        pickups: [],
-        playerBuilds: {},
-        speedSigns: {},
-        soccerGames: {},
-        chests: {},
-        vehicles: {
-          valets: {},
-        },
-        markers: [],
-        llamas: [],
-        labradorLlamas: [],
-        supplyDrops: [],
-      },
-      gameState: {},
-      notSpawnedChests: {},
-    };
+    this.result = {};
+    this.states = {};
     this.handleEventEmitter = handleEventEmitter;
     this.onChannelOpened = null;
     this.onChannelClosed = null;
     this.netFieldExportPath = null;
     this.onlyUseCustomNetFieldExports = false;
-    this.llamas = {};
-    this.labradorLlamas = {};
-    this.supplyDrops = {};
     this.netGuidCache = new NetGuidCache();
     this.inPacketId = 0;
 
     this.externalData = {};
+    this.additionalStates = [
+      'pawnChannelToStateChannel',
+      'queuedPlayerPawns',
+    ];
 
     this.exportEmitter = new EventEmitter();
     this.netDeltaEmitter = new EventEmitter();

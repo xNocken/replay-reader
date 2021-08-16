@@ -2,6 +2,20 @@ const fs = require('fs');
 const pathhhh = require('path');
 const DebugObject = require('../../../Classes/DebugObject');
 
+const getExportByType = (type) => {
+  switch (type) {
+    case 'null':
+      return null;
+
+    case 'object':
+      return {};
+
+    case 'array':
+    default:
+      return [];
+  }
+}
+
 class NetFieldParser {
   netFieldGroups = [];
   classNetCacheToNetFieldGroup = {};
@@ -29,6 +43,19 @@ class NetFieldParser {
               this.redirects[path] = fieldExport.path[0];
             });
           }
+
+          if (fieldExport.exportGroup) {
+            if (!globalData.result[fieldExport.exportGroup]) {
+              globalData.result[fieldExport.exportGroup] = {};
+            }
+
+            if (fieldExport.exportName) {
+              if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
+                globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
+                globalData.states[fieldExport.exportName] = {};
+              }
+            }
+          }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)
         }
@@ -52,6 +79,19 @@ class NetFieldParser {
             fieldExport.redirects.forEach((path) => {
               this.redirects[path] = fieldExport.path[0];
             });
+          }
+
+          if (fieldExport.exportGroup) {
+            if (!globalData.result[fieldExport.exportGroup]) {
+              globalData.result[fieldExport.exportGroup] = {};
+            }
+
+            if (fieldExport.exportName) {
+              if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
+                globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
+                globalData.states[fieldExport.exportName] = {};
+              }
+            }
           }
         } catch (err) {
           console.log(`Error while loading ${path}: "${err.message}"`)

@@ -5,6 +5,9 @@
   "customExportName": "PlayerBuilds",
   "parseLevel": 2,
   "partialPath": true,
+  "exportGroup": "mapData",
+  "exportName": "playerBuilds",
+  "exportType": "array",
   "properties": {
     "bDestroyed": {
       "name": "bDestroyed",

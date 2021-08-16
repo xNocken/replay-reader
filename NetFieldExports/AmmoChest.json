@@ -4,7 +4,9 @@
   ],
   "customExportName": "Chests",
   "parseLevel": 2,
-  "partialPath": true,
+  "exportGroup": "mapData",
+  "exportName": "chests",
+  "exportType": "array",
   "properties": {
     "bHidden": {
       "name": "bHidden",

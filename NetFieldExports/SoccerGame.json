@@ -2,6 +2,9 @@
   "path": [
     "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C"
   ],
+  "exportGroup": "mapData",
+  "exportName": "soccerGames",
+  "exportType": "array",
   "properties": {
     "Score_Team_A": {
       "name": "Score_Team_A",

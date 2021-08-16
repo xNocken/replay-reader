@@ -3,6 +3,9 @@
     "/Labrador/Pawn/BP_AIPawn_Labrador.BP_AIPawn_Labrador_C"
   ],
   "parseLevel": 1,
+  "exportGroup": "mapData",
+  "exportName": "labradorLlamas",
+  "exportType": "array",
   "properties": {
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",

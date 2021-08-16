@@ -1,20 +1,14 @@
-const handleSupplyDrop = (chIndex, supplyDrop, timeseconds, staticActorId, globalData) => {
-  const gd = globalData;
-
-  if (!gd.supplyDrops[chIndex]) {
-    if (!gd.result.mapData.supplyDrops) {
-      gd.result.mapData.supplyDrops = [];
-    }
-
-    gd.supplyDrops[chIndex] = supplyDrop;
-    gd.result.mapData.supplyDrops.push(supplyDrop);
+const handleSupplyDrop = ({ chIndex, data, states, result }) => {
+  if (!states.supplyDrops[chIndex]) {
+    states.supplyDrops[chIndex] = data;
+    result.mapData.supplyDrops.push(data);
 
     return;
   }
 
-  Object.entries(supplyDrop).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      gd.supplyDrops[chIndex][key] = value;
+      states.supplyDrops[chIndex][key] = value;
     }
   });
 };

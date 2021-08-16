@@ -1,7 +1,13 @@
-const handleGameState = (chIndex, gameState, timeseconds, staticActorId, globalData) => {
-  Object.entries(gameState).forEach(([key, value]) => {
+const handleGameState = ({ data, result, states }) => {
+  if (!states.gameState.inited) {
+    result.gameData.gameState = states.gameState;
+
+    states.gameState.inited = true;
+  }
+
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      globalData.result.gameState[key] = value;
+      result.gameData.gameState[key] = value;
     }
   });
 };

@@ -1,21 +1,22 @@
-const handleSoccerGame = (chIndex, value, timeseconds, staticActorId, globalData) => {
-  if (!globalData.result.mapData.soccerGames[staticActorId]) {
-    globalData.result.mapData.soccerGames[staticActorId] = {};
+const handleSoccerGame = ({ data, staticActorId, result, states }) => {
+  if (!states.soccerGames[staticActorId]) {
+    const newState = {
+      scoreHistory: [],
+    };
+
+    states.soccerGames[staticActorId] = newState;
+    result.mapData.soccerGames.push(newState);
   }
 
-  const current = globalData.result.mapData.soccerGames[staticActorId];
+  const current = states.soccerGames[staticActorId];
 
-  Object.entries(value).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
       current[key] = value;
     }
   });
 
-  if (value.Score_Team_A !== undefined || value.Score_Team_B !== undefined) {
-    if (!current.scoreHistory) {
-      current.scoreHistory = [];
-    }
-
+  if (data.Score_Team_A !== undefined || data.Score_Team_B !== undefined) {
     current.scoreHistory.push({
       Score_Team_A: current.Score_Team_A,
       Score_Team_B: current.Score_Team_B,

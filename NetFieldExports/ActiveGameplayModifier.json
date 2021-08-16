@@ -3,6 +3,9 @@
     "/Script/FortniteGame.ActiveGameplayModifier"
   ],
   "parseLevel": 1,
+  "exportGroup": "gameData",
+  "exportName": "activeGameplayModifiers",
+  "exportType": "array",
   "properties": {
     "ModifierDef": {
       "name": "ModifierDef",

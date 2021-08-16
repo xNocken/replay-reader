@@ -3,6 +3,9 @@
     "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C"
   ],
   "parseLevel": 1,
+  "exportGroup": "gameData",
+  "exportName": "safeZones",
+  "exportType": "array",
   "properties": {
     "RemoteRole": {
       "name": "RemoteRole",

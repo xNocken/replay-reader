@@ -8,6 +8,9 @@
   ],
   "partialPath": true,
   "customExportName": "Valet",
+  "exportGroup": "mapData",
+  "exportName": "valets",
+  "exportType": "array",
   "parseLevel": 2,
   "properties": {
     "Health": {

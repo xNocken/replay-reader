@@ -1,6 +1,6 @@
-const handleSafezone = (chIndex, info, timeseconds, staticActorId, globalData) => {
-  if (info.SafeZoneStartShrinkTime && info.SafeZoneFinishShrinkTime) {
-    globalData.result.gameData.safeZones.push(info);
+const handleSafezone = ({ data, result }) => {
+  if (data.SafeZoneStartShrinkTime && data.SafeZoneFinishShrinkTime) {
+    result.gameData.safeZones.push(data);
   }
 };
 

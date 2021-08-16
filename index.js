@@ -14,8 +14,8 @@ const parse = async (buffer, options) => {
   const replay = new Replay(buffer);
 
   const globalData = new GlobalData(options || {});
-  let info
-  let chunks
+  let info;
+  let chunks;
 
   if (globalData.debug) {
     if (fs.existsSync('notReadingGroups.txt')) {
@@ -31,6 +31,10 @@ const parse = async (buffer, options) => {
     }
   }
 
+  globalData.additionalStates.forEach((stateName) => {
+    globalData.states[stateName] = {};
+  });
+
   globalData.handleEventEmitter({
     propertyExportEmitter: globalData.exportEmitter,
     actorDespawnEmitter: globalData.actorDespawnEmitter,
@@ -45,11 +49,6 @@ const parse = async (buffer, options) => {
 
     throw err;
   }
-
-  globalData.result.players = Object.values(globalData.players);
-  globalData.result.mapData.pickups = Object.values(globalData.pickups);
-  globalData.result.mapData.llamas = Object.values(globalData.llamas);
-  globalData.result.mapData.labradorLlamas = Object.values(globalData.labradorLlamas);
 
   if (globalData.debug) {
     Object.values(globalData.netGuidCache.NetFieldExportGroupMap).forEach((value) => {

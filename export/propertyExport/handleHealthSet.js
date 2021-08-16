@@ -21,26 +21,26 @@ const createFortSet = (handle, value) => {
   return fortset;
 };
 
-const handleHealthSet = (chIndex, value, timeseconds, staticActorId, globalData) => {
-  const player = globalData.players[chIndex];
+const handleHealthSet = ({ chIndex, data, states }) => {
+  const player = states.players[chIndex];
 
   if (!player) {
     return;
   }
 
   if (healthStartHandle === undefined) {
-    const startingHandles = Object.entries(value).filter(([, a]) => a.name === 'Maximum');
+    const startingHandles = Object.entries(data).filter(([, a]) => a.name === 'Maximum');
 
     healthStartHandle = parseInt(startingHandles[0][0], 10) - 3;
     shieldStartHandle = parseInt(startingHandles[1][0], 10) - 3;
   }
 
-  if (hasDataInSet(healthStartHandle, value)) {
-    player.health = createFortSet(healthStartHandle, value);
+  if (hasDataInSet(healthStartHandle, data)) {
+    player.health = createFortSet(healthStartHandle, data);
   }
 
-  if (hasDataInSet(shieldStartHandle, value)) {
-    player.shield = createFortSet(shieldStartHandle, value);
+  if (hasDataInSet(shieldStartHandle, data)) {
+    player.shield = createFortSet(shieldStartHandle, data);
   }
 };
 

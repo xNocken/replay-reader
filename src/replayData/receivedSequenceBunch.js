@@ -28,12 +28,16 @@ const receivedSequencedBunch = (bunch, globalData) => {
       if (netFieldExportGroup) {
         globalData.actorDespawnEmitter.emit(
           pathhhh.basename(netFieldExportGroup.pathName),
-          bunch.bOpen,
-          bunch.chIndex,
-          bunch.timeSeconds,
-          netFieldExportGroup,
-          staticActorId,
-          globalData,
+          {
+            openPacket: bunch.bOpen,
+            chIndex: bunch.chIndex,
+            timeSeconds: bunch.timeSeconds,
+            netFieldExportGroup,
+            staticActorId,
+            globalData,
+            result: globalData.result,
+            states: globalData.states,
+          }
         );
       }
     }

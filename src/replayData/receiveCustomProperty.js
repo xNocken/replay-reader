@@ -1,15 +1,26 @@
 const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) => {
   const theClass = require(`../../Classes/${fieldCache.type}.js`);
-  const dingens = new theClass();
-  dingens.serialize(reader);
+  const instance = new theClass();
+  instance.serialize(reader);
 
-  if (dingens.resolve) {
-    dingens.resolve(globalData.netGuidCache);
+  if (instance.resolve) {
+    instance.resolve(globalData.netGuidCache);
   }
 
-  dingens.type = fieldCache.customExportName || pathName.split('/').pop();
+  instance.type = fieldCache.customExportName || pathName.split('/').pop();
 
-  globalData.exportEmitter.emit(dingens.type, bunch.chIndex, dingens, bunch.timeSeconds, '', globalData);
+  globalData.exportEmitter.emit(
+    instance.type,
+    {
+      chIndex: bunch.chIndex,
+      data: instance,
+      timeSeconds: bunch.timeSeconds,
+      staticActorId: null,
+      globalData,
+      result: globalData.result,
+      states: globalData.states,
+    },
+  );
 }
 
 module.exports = receiveCustomProperty;

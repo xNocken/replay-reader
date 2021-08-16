@@ -3,6 +3,9 @@
     "/Game/Athena/SupplyDrops/AthenaSupplyDrop.AthenaSupplyDrop_C"
   ],
   "parseLevel": 1,
+  "exportGroup": "mapData",
+  "exportName": "supplyDrops",
+  "exportType": "array",
   "properties": {
     "Opened": {
       "name": "Opened",

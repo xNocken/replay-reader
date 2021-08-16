@@ -1,34 +1,27 @@
-const handleLootLlama = (chIndex, llama, timeseconds, staticActorId, globalData) => {
-  // TODO: handle labrador llama
-  const gd = globalData;
+const handleLootLlama = ({ chIndex, data, result, states }) => {
+  if (!states.llamas[chIndex]) {
+    const { x, y, z } = data.ReplicatedMovement.location;
 
-  if (!gd.llamas[chIndex]) {
-    const { x, y, z } = llama.ReplicatedMovement.location;
-
-    const targetLlama = Object.entries(gd.llamas)
+    const targetLlama = Object.entries(states.llamas)
       .find(([, val]) => val.ReplicatedMovement.location.x === x
         && val.ReplicatedMovement.location.y === y
         && val.ReplicatedMovement.location.z === z);
 
     if (targetLlama) {
       // TODO: try to use closed channels to detect that
-      gd.llamas[chIndex] = gd.llamas[targetLlama[0]];
+      states.llamas[chIndex] = states.llamas[targetLlama[0]];
     } else {
-      if (!gd.result.mapData.llamas) {
-        gd.result.mapData.llamas = [];
-      }
+      result.mapData.llamas.push(data);
 
-      gd.result.mapData.llamas.push(llama);
-
-      gd.llamas[chIndex] = llama;
+      states.llamas[chIndex] = data;
 
       return;
     }
   }
 
-  Object.entries(llama).forEach(([key, value]) => {
+  Object.entries(data).forEach(([key, value]) => {
     if (value !== null) {
-      gd.llamas[chIndex][key] = value;
+      states.llamas[chIndex][key] = value;
     }
   });
 };

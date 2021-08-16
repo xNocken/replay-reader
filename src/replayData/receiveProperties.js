@@ -102,7 +102,22 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       }
     }
 
-    globalData.exportEmitter.emit(exportGroup.type, channelIndex, exportGroup, bunch.timeSeconds, staticActorId, globalData);
+    if (globalData.debug && !globalData.exportEmitter.eventNames().includes(exportGroup.type)) {
+      console.log('Unhandled export', exportGroup.type)
+    }
+
+    globalData.exportEmitter.emit(
+      exportGroup.type,
+      {
+        chIndex: channelIndex,
+        data: exportGroup,
+        timeSeconds: bunch.timeSeconds,
+        staticActorId,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
+      },
+    );
   }
 
   return exportGroup;

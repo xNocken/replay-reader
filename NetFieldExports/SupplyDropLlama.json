@@ -3,6 +3,9 @@
     "/Game/Athena/SupplyDrops/Llama/AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C"
   ],
   "parseLevel": 1,
+  "exportGroup": "mapData",
+  "exportName": "llamas",
+  "exportType": "array",
   "properties": {
     "Looted": {
       "name": "Looted",
