@@ -1,6 +1,7 @@
 const fs = require('fs');
 const pathhhh = require('path');
 const DebugObject = require('../../../Classes/DebugObject');
+const netFieldExports = require('../../../NetFieldExports');
 
 const getExportByType = (type) => {
   switch (type) {
@@ -25,78 +26,47 @@ class NetFieldParser {
   enumCache = {};
 
   constructor(globalData) {
-    if (!globalData.onlyUseCustomNetFieldExports) {
-      fs.readdirSync(`${module.path}/../../../NetFieldExports`).forEach((path) => {
-        try {
-          const fieldExport = JSON.parse(fs.readFileSync(`${module.path}/../../../NetFieldExports/${path}`));
+    const handleExport = (fieldExport) => {
+      if (fieldExport.parseLevel > globalData.parseLevel) {
+        return;
+      }
 
-          if (fieldExport.parseLevel > globalData.parseLevel) {
-            return;
-          }
+      fieldExport.path.forEach((path) => {
+        const index = this.netFieldGroups.findIndex(([thePath]) => thePath === path);
 
-          fieldExport.path.forEach((path) => {
-            this.netFieldGroups.push([path, fieldExport]);
-          })
-
-          if (fieldExport.redirects) {
-            fieldExport.redirects.forEach((path) => {
-              this.redirects[path] = fieldExport.path[0];
-            });
-          }
-
-          if (fieldExport.exportGroup) {
-            if (!globalData.result[fieldExport.exportGroup]) {
-              globalData.result[fieldExport.exportGroup] = {};
-            }
-
-            if (fieldExport.exportName) {
-              if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
-                globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
-                globalData.states[fieldExport.exportName] = {};
-              }
-            }
-          }
-        } catch (err) {
-          console.log(`Error while loading ${path}: "${err.message}"`)
+        if (index !== -1) {
+          this.netFieldGroups.splice(index, 1);
         }
-      });
+
+        this.netFieldGroups.push([path, fieldExport]);
+      })
+
+      if (fieldExport.redirects) {
+        fieldExport.redirects.forEach((path) => {
+          this.redirects[path] = fieldExport.path[0];
+        });
+      }
+
+      if (fieldExport.exportGroup) {
+        if (!globalData.result[fieldExport.exportGroup]) {
+          globalData.result[fieldExport.exportGroup] = {};
+        }
+
+        if (fieldExport.exportName) {
+          if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
+            globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
+            globalData.states[fieldExport.exportName] = {};
+          }
+        }
+      }
+    };
+
+    if (!globalData.onlyUseCustomNetFieldExports) {
+      netFieldExports.forEach(handleExport);
     }
 
-    if (globalData.netFieldExportPath) {
-      fs.readdirSync(globalData.netFieldExportPath).forEach((path) => {
-        try {
-          const fieldExport = JSON.parse(fs.readFileSync(`${globalData.netFieldExportPath}/${path}`));
-
-          if (fieldExport.parseLevel > globalData.parseLevel) {
-            return;
-          }
-
-          fieldExport.path.forEach((path) => {
-            this.netFieldGroups.push([path, fieldExport]);
-          })
-
-          if (fieldExport.redirects) {
-            fieldExport.redirects.forEach((path) => {
-              this.redirects[path] = fieldExport.path[0];
-            });
-          }
-
-          if (fieldExport.exportGroup) {
-            if (!globalData.result[fieldExport.exportGroup]) {
-              globalData.result[fieldExport.exportGroup] = {};
-            }
-
-            if (fieldExport.exportName) {
-              if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
-                globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
-                globalData.states[fieldExport.exportName] = {};
-              }
-            }
-          }
-        } catch (err) {
-          console.log(`Error while loading ${path}: "${err.message}"`)
-        }
-      });
+    if (globalData.customNetFieldExports) {
+      globalData.customNetFieldExports.forEach(handleExport);
     }
   }
 
