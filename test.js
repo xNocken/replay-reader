@@ -10,8 +10,6 @@ const parse = require('.');
     // netFieldExportPath: 'NetFieldExports',
     // onlyUseCustomNetFieldExports: true,
     // customClassPath: 'Classes',
-    // onChannelOpened: console.log,
-    // onChannelClosed: console.log,
     // debug: true,
   });
   console.timeEnd();

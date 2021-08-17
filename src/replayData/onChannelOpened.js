@@ -4,9 +4,13 @@ const onChannelOpened = (chIndex, actor, globalData) => {
     globalData.channelToActor[chIndex] = actor.value;
   }
 
-  if (globalData.onChannelOpened) {
-    globalData.onChannelOpened(chIndex, actor, globalData);
-  }
+  globalData.parsingEmitter.emit('channelOpened', {
+    chIndex,
+    actor,
+    globalData,
+    result: globalData.result,
+    states: globalData.states,
+  });
 }
 
 module.exports = onChannelOpened;

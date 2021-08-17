@@ -18,7 +18,7 @@ const handleSpeedSign = require('./propertyExport/handleSpeedSign');
 const handleSupplyDrop = require('./propertyExport/handleSupplyDrop');
 const handleValets = require('./propertyExport/handleValets');
 
-const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter }) => {
+const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
 
   propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone);
@@ -41,6 +41,10 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('Athena_SoccerGame.Athena_SoccerGame_C', handleSoccerGame);
 
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
+
+  // parsingEmitter.on('channelOpened', console.log);
+  // parsingEmitter.on('channelClosed', console.log);
+  // parsingEmitter.on('nextChunk', console.log);
 };
 
 module.exports = handleEventEmitter;

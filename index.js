@@ -39,6 +39,7 @@ const parse = async (buffer, options) => {
     propertyExportEmitter: globalData.exportEmitter,
     actorDespawnEmitter: globalData.actorDespawnEmitter,
     netDeltaReadEmitter: globalData.netDeltaEmitter,
+    parsingEmitter: globalData.parsingEmitter,
   });
 
   try {

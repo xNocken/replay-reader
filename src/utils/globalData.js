@@ -26,8 +26,6 @@ class GlobalData {
     this.result = {};
     this.states = {};
     this.handleEventEmitter = handleEventEmitter;
-    this.onChannelOpened = null;
-    this.onChannelClosed = null;
     this.netFieldExportPath = null;
     this.onlyUseCustomNetFieldExports = false;
     this.netGuidCache = new NetGuidCache();
@@ -42,6 +40,7 @@ class GlobalData {
     this.exportEmitter = new EventEmitter();
     this.netDeltaEmitter = new EventEmitter();
     this.actorDespawnEmitter = new EventEmitter();
+    this.parsingEmitter = new EventEmitter();
 
     this.debug = false;
     this.debugNetGuidToPathName = [];

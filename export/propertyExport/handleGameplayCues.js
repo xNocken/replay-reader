@@ -1,4 +1,4 @@
-const handleGameplayCues = ({ chIndex, data, timeseconds, result, states }) => {
+const handleGameplayCues = ({ chIndex, data, timeSeconds, result, states }) => {
   if (!result.gameData.gameplayCues[chIndex]) {
     result.gameData.gameplayCues[chIndex] = [];
     states.gameplayCues[chIndex] = result.gameData.gameplayCues[chIndex];
@@ -7,7 +7,7 @@ const handleGameplayCues = ({ chIndex, data, timeseconds, result, states }) => {
   result.gameData.gameplayCues[chIndex].push({
     location: states.players[states.pawnChannelToStateChannel[chIndex]]?.ReplicatedMovement?.location || null,
     gameplayCueTag: data.GameplayCueTag,
-    timeseconds,
+    timeSeconds,
   });
 };
 
