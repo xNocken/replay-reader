@@ -3,6 +3,7 @@ const DataBunch = require('../Classes/DataBunch');
 const UChannel = require('../Classes/UChannel');
 const receiveNetGUIDBunch = require('./receiveNetGUIDBunch');
 const receivedNextBunch = require('./receivedNextBunch');
+const onChannelClosed = require('./onChannelClosed');
 
 /**
  *
@@ -100,16 +101,22 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     const maxPacketInBits = 1024 * 2 * 8;
     const bunchDataBits = packetArchive.readSerializedInt(maxPacketInBits);
 
-    if (bunch.bPartial) {
-      const bits = packetArchive.readBits(bunchDataBits);
-      bunch.archive = new Replay(bits, bunchDataBits);
-    } else {
-      packetArchive.addOffset(bunchDataBits);
-      bunch.archive = packetArchive;
-    }
+    const ignoreChannel = globals.ignoredChannels[bunch.chIndex];
 
-    bunch.archive.header = packetArchive.header;
-    bunch.archive.info = packetArchive.info;
+    if (ignoreChannel) {
+      packetArchive.skipBits(bunchDataBits)
+    } else {
+      if (bunch.bPartial) {
+        const bits = packetArchive.readBits(bunchDataBits);
+        bunch.archive = new Replay(bits, bunchDataBits);
+      } else {
+        packetArchive.addOffset(bunchDataBits);
+        bunch.archive = packetArchive;
+      }
+
+      bunch.archive.header = packetArchive.header;
+      bunch.archive.info = packetArchive.info;
+    }
 
     if (bunch.bHasPackageExportMaps) {
       receiveNetGUIDBunch(bunch.archive, globals);
@@ -126,7 +133,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     if (!channel) {
-      const newChannel = new UChannel();
+      const newChannel = {};
 
       newChannel.channelIndex = bunch.chIndex;
       newChannel.channelName = bunch.chName;
@@ -136,11 +143,15 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     try {
-      receivedNextBunch(bunch, globals);
+      if (!ignoreChannel) {
+        receivedNextBunch(bunch, globals);
+      } else if (bunch.bClose) {
+        onChannelClosed(bunch.chIndex, channel.actor, globals);
+      }
     } catch (ex) {
       console.log(ex);
     } finally {
-      if (!bunch.bPartial) {
+      if (!bunch.bPartial && !ignoreChannel) {
         bunch.archive.popOffset();
       }
     }

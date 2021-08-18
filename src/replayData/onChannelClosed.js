@@ -7,6 +7,7 @@ const onChannelClosed = (chIndex, actor, globalData) => {
     states: globalData.states,
   });
 
+  delete globalData.ignoredChannels[chIndex];
   delete globalData.channels[chIndex];
 
   if (actor) {

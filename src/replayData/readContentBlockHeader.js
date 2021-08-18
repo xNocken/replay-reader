@@ -15,6 +15,7 @@ const readContentBlockHeader = (bunch, globalData) => {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: actor.archetype?.value || actor.actorNetGUID.value,
+      bIsActor,
     }
   }
 

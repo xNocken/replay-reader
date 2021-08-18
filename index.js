@@ -18,10 +18,6 @@ const parse = async (buffer, options) => {
   let chunks;
 
   if (globalData.debug) {
-    if (fs.existsSync('notReadingGroups.txt')) {
-      fs.unlinkSync('notReadingGroups.txt');
-    }
-
     if (fs.existsSync('netfieldexports.txt')) {
       fs.unlinkSync('netfieldexports.txt');
     }

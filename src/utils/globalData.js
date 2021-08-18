@@ -44,6 +44,7 @@ class GlobalData {
 
     this.debug = false;
     this.debugNetGuidToPathName = [];
+    this.ignoredChannels = {};
 
     Object.entries(overrideConfig).forEach(([key, value]) => {
       this[key] = value;

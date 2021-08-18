@@ -15,25 +15,13 @@ const fs = require('fs');
  */
 const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, staticActorId) => {
   let exportGroup;
-  const { channels, netFieldParser } = globalData;
+  const { netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
 
-  if (channels[channelIndex].isIgnoringChannel(group.pathName)) {
-    return false;
-  }
-
-  if (!netFieldParser.willReadType(group.pathName)) {
-    channels[channelIndex].ignoreChannel(group.pathName);
-
-    if (globalData.debug) {
-      fs.appendFileSync('notReadingGroups.txt', group.pathName + '\n');
-
-      group.netFieldExports.forEach((exporttt) => {
-        fs.appendFileSync('notReadingGroups.txt', '    ' + exporttt.name + '\n');
-      });
+  if (globalData.debug) {
+    if (!netFieldParser.willReadType(group.pathName)) {
+      return false;
     }
-
-    return false;
   }
 
   if (enableProperyChecksum) {

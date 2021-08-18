@@ -49,8 +49,8 @@ const processBunch = (bunch, replay, globalData) => {
     channel.actor = inActor;
 
     onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
-    if (globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0)) {
-      const path = globalData.netGuidCache.tryGetPathName(channel.archetypeId || 0);
+    if (globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0)) {
+      const path = globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0);
 
       if (playerControllerGroups.includes(path)) {
         bunch.archive.readByte();
@@ -61,7 +61,7 @@ const processBunch = (bunch, replay, globalData) => {
   bunch.actor = channel.actor;
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits } = readContentBlockPayload(bunch, globalData);
+    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits, bIsActor } = readContentBlockPayload(bunch, globalData);
 
     if (numPayloadBits > 0) {
       replay.addOffset(numPayloadBits);
@@ -91,7 +91,7 @@ const processBunch = (bunch, replay, globalData) => {
       continue;
     }
 
-    receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, globalData);
+    receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, bIsActor, globalData);
     if (numPayloadBits > 0) {
       replay.popOffset();
     }

@@ -68,20 +68,38 @@ class NetFieldParser {
     if (globalData.customNetFieldExports) {
       globalData.customNetFieldExports.forEach(handleExport);
     }
+
+    this.netFieldGroups.filter(([, { type }]) => type === 'ClassNetCache').forEach(([, { properties }]) => {
+      Object.values(properties).forEach(({ type }) => {
+        const theGroup = this.netFieldGroups.find(([path]) => path.includes(type));
+
+        if (theGroup) {
+          theGroup[1].isClassNetCacheProperty = true;
+        }
+      })
+    });
   }
 
   willReadType(group) {
     return !!this.getNetFieldExport(group);
   }
 
-  getNetFieldExport(group) {
+  shouldBeImported(group) {
+    return !!this.getNetFieldExport(group, true);
+  }
+
+  getNetFieldExport(group, allowClassNetCacheOwner = false) {
     if (this.classPathCache[group] !== undefined) {
       return this.classPathCache[group];
     }
 
-    const exportt = this.netFieldGroups.find(([key, { partialPath }]) => {
+    const exportt = this.netFieldGroups.find(([key, { partialPath, isClassNetCacheProperty }]) => {
       if (partialPath) {
         return group.includes(key);
+      }
+
+      if (allowClassNetCacheOwner && isClassNetCacheProperty) {
+        return key.includes(group);
       }
 
       return key === group;

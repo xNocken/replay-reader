@@ -14,7 +14,7 @@ const receiveProperties = require('./receiveProperties');
  * @param {boolean} bHasRepLayout
  * @param {GlobalData} globalData
  */
-const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globalData) => {
+const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsActor, globalData) => {
   let netFieldExportGroup;
   let staticActorId;
 
@@ -28,6 +28,10 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, globa
   }
 
   if (!netFieldExportGroup) {
+    if (bIsActor) {
+      globalData.ignoredChannels[bunch.chIndex] = true;
+    }
+
     return true;
   }
 
