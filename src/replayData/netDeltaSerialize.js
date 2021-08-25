@@ -48,6 +48,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
         chIndex: bunch.chIndex,
         data: {
           elementIndex,
+          path: group.pathName,
           export: exportGroup,
         },
         timeSeconds: bunch.timeSeconds,

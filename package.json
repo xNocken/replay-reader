@@ -21,6 +21,7 @@
   ],
   "author": "xNocken",
   "license": "MIT",
+  "types": "./index.d.ts",
   "bugs": {
     "url": "https://github.com/xNocken/replay-reader/issues"
   },

@@ -26,7 +26,7 @@ class GlobalData {
     this.result = {};
     this.states = {};
     this.handleEventEmitter = handleEventEmitter;
-    this.netFieldExportPath = null;
+    this.customNetFieldExports = [];
     this.onlyUseCustomNetFieldExports = false;
     this.netGuidCache = new NetGuidCache();
     this.inPacketId = 0;

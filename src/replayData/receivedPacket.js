@@ -11,7 +11,6 @@ const onChannelClosed = require('./onChannelClosed');
  */
 const receivedPacket = (packetArchive, timeSeconds, globals) => {
   const { channels } = globals;
-  const OLD_MAX_ACTOR_CHANNELS = 10240;
 
   globals.inPacketId++;
 
