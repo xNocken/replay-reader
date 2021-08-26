@@ -10,7 +10,8 @@
     "PlayerID": {
       "name": "PlayerID",
       "type": "int",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     }
   }
 }

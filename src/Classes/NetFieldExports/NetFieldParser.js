@@ -17,6 +17,46 @@ const getExportByType = (type) => {
   }
 }
 
+const validateNetFieldExportProperty = (property, pathName) => {
+  if (!property.name) {
+    throw Error(`Invalid export: ${pathName} -> unknown has no name`);
+  }
+
+  switch (property.parseType) {
+    case 'default':
+      if (!property.parseFunction) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'default' requires a parseFunction`);
+      }
+
+      break;
+
+    case 'readDynamicArray':
+    case 'readClass':
+      if (!property.type) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType '${property.parseType}' requires a type`);
+      }
+
+      break;
+
+    case 'readEnum':
+      if (!property.type) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'readEnum' requires a type`);
+      }
+
+      if (!property.bits) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'readEnum' requires the amount of bits`);
+      }
+
+      break;
+
+    case 'ignore':
+      break;
+
+    default:
+      throw Error(`Invalid export: ${pathName} -> ${property.name} has no parsetype`);
+  }
+};
+
 class NetFieldParser {
   netFieldGroups = [];
   classNetCacheToNetFieldGroup = {};
@@ -46,6 +86,16 @@ class NetFieldParser {
           this.redirects[path] = fieldExport.path[0];
         });
       }
+
+      switch (fieldExport.type) {
+        case 'ClassNetCache':
+          break;
+
+        default:
+          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, fieldExport.path[0]))
+          break;
+      }
+
 
       if (fieldExport.exportGroup) {
         if (!globalData.result[fieldExport.exportGroup]) {
@@ -159,12 +209,12 @@ class NetFieldParser {
       return true;
     }
 
-    theSwitch: switch (netFieldInfo.parseFunction) {
+    theSwitch: switch (netFieldInfo.parseType) {
       case 'ignore':
         data = undefined;
         return false;
 
-      case 'readProperty':
+      case 'readClass':
         if (!this.theClassCache[netFieldInfo.type]) {
           let classPath;
 
@@ -250,6 +300,7 @@ class NetFieldParser {
               this.setType(temp, exportGroup, {
                 ...netFieldInfo,
                 parseFunction: netFieldInfo.type,
+                parseType: 'default',
               }, netBitReader, globalData, exporttt);
 
               newData = temp[netFieldInfo.name];
@@ -258,7 +309,7 @@ class NetFieldParser {
 
               this.setType(temp, exportGroup, {
                 ...netFieldInfo,
-                parseFunction: 'readProperty',
+                parseType: 'readClass',
               }, netBitReader, globalData, exporttt);
 
               newData = temp[netFieldInfo.name];
@@ -305,7 +356,7 @@ class NetFieldParser {
 
         break;
 
-      default:
+      case 'default':
         data = netBitReader[netFieldInfo.parseFunction](...(netFieldInfo.args || []));
         break;
     }

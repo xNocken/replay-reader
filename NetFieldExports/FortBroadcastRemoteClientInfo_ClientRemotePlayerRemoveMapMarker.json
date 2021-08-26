@@ -10,12 +10,14 @@
     "PlayerID": {
       "name": "PlayerID",
       "type": "int",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "BasePosition": {
       "name": "BasePosition",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     }
   }
 }

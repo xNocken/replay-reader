@@ -11,44 +11,49 @@
     "bHidden": {
       "name": "bHidden",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "bAlreadySearched": {
       "name": "bAlreadySearched",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "ReplicatedLootTier": {
       "name": "ReplicatedLootTier",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "SearchingPawn": {
       "name": "SearchingPawn",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "bReplicateMovement": {
       "name": "bReplicateMovement",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "RemoteRole": {
       "name": "RemoteRole",
       "type": "ENetRole",
-      "parseFunction": "readEnum",
+      "parseType": "readEnum",
       "bits": 3
     },
     "Role": {
       "name": "Role",
       "type": "ENetRole",
-      "parseFunction": "readEnum",
+      "parseType": "readEnum",
       "bits": 3
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty",
+      "parseType": "readClass",
       "config": {
         "locationQuatLevel": 0
       }
@@ -56,27 +61,29 @@
     "ForceMetadataRelevant": {
       "name": "ForceMetadataRelevant",
       "type": "DebugObject",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "StaticMesh": {
       "name": "StaticMesh",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "SearchedMesh": {
       "name": "SearchedMesh",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "AltMeshIdx": {
       "name": "AltMeshIdx",
       "type": "DebugObject",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "ChosenRandomUpgrade": {
       "name": "ChosenRandomUpgrade",
       "type": "DebugObject",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     }
   }
 }

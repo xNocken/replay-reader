@@ -10,53 +10,59 @@
     "PlayerID": {
       "name": "PlayerID",
       "type": "int",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "UniqueId": {
       "name": "UniqueId",
       "type": "string",
-      "parseFunction": "readNetId"
+      "parseFunction": "readNetId",
+      "parseType": "default"
     },
     "PlayerNamePrivate": {
       "name": "PlayerNamePrivate",
       "type": "string",
-      "parseFunction": "readString"
+      "parseFunction": "readString",
+      "parseType": "default"
     },
     "bOnlySpectator": {
       "name": "bOnlySpectator",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "DeathCause": {
       "name": "DeathCause",
       "type": "EDeathCause",
-      "parseFunction": "readEnum",
+      "parseType": "readEnum",
       "bits": 6
     },
     "bIsDisconnected": {
       "name": "bIsDisconnected",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "bIsABot": {
       "name": "bIsABot",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "DeathTags": {
       "name": "DeathTags",
       "type": "FGameplayTagContainer",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "VictimTags": {
       "name": "VictimTags",
       "type": "FGameplayTagContainer",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "FinisherOrDownerTags": {
       "name": "FinisherOrDownerTags",
       "type": "FGameplayTagContainer",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     }
   }
 }

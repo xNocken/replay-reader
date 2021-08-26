@@ -16,17 +16,19 @@
     "Health": {
       "name": "Health",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "Location": {
       "name": "Location",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     }
   }
 }

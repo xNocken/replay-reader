@@ -10,7 +10,7 @@
     "ModifierDef": {
       "name": "ModifierDef",
       "type": "ItemDefinition",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     }
   }
 }

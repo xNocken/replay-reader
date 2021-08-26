@@ -10,193 +10,225 @@
     "bReplicateMovement": {
       "name": "bReplicateMovement",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "LocationOffset": {
       "name": "LocationOffset",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "RelativeScale3D": {
       "name": "RelativeScale3D",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "RotationOffset": {
       "name": "RotationOffset",
       "type": "FVector",
-      "parseFunction": "readRotationShort"
+      "parseFunction": "readRotationShort",
+      "parseType": "default"
     },
     "AttachComponent": {
       "name": "AttachComponent",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "Owner": {
       "name": "Owner",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "bRandomRotation": {
       "name": "bRandomRotation",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "Count": {
       "name": "Count",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "ItemDefinition": {
       "name": "ItemDefinition",
       "type": "ItemDefinition",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "Durability": {
       "name": "Durability",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "Level": {
       "name": "Level",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "LoadedAmmo": {
       "name": "LoadedAmmo",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "A": {
       "name": "A",
       "type": "uint",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "B": {
       "name": "B",
       "type": "uint",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "C": {
       "name": "C",
       "type": "uint",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "D": {
       "name": "D",
       "type": "uint",
-      "parseFunction": "readUInt32"
+      "parseFunction": "readUInt32",
+      "parseType": "default"
     },
     "bUpdateStatsOnCollection": {
       "name": "bUpdateStatsOnCollection",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "bIsDirty": {
       "name": "bIsDirty",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "StateValues": {
       "name": "StateValues",
       "type": "FortItemEntryStateValue",
-      "parseFunction": "readDynamicArray"
+      "parseType": "readDynamicArray"
     },
     "GenericAttributeValues": {
       "name": "GenericAttributeValues",
       "type": "float",
-      "parseFunction": "ignore"
+      "parseType": "ignore"
     },
     "CombineTarget": {
       "name": "CombineTarget",
       "type": "ItemDefinition",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "PickupTarget": {
       "name": "PickupTarget",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "ItemOwner": {
       "name": "ItemOwner",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "LootInitialPosition": {
       "name": "LootInitialPosition",
       "type": "FVector",
-      "parseFunction": "readPackedVector10"
+      "parseFunction": "readPackedVector10",
+      "parseType": "default"
     },
     "LootFinalPosition": {
       "name": "LootFinalPosition",
       "type": "FVector",
-      "parseFunction": "readPackedVector10"
+      "parseFunction": "readPackedVector10",
+      "parseType": "default"
     },
     "FlyTime": {
       "name": "FlyTime",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "StartDirection": {
       "name": "StartDirection",
       "type": "FVector",
-      "parseFunction": "readRotationShort"
+      "parseFunction": "readRotationShort",
+      "parseType": "default"
     },
     "FinalTossRestLocation": {
       "name": "FinalTossRestLocation",
       "type": "FVector",
-      "parseFunction": "readPackedVector10"
+      "parseFunction": "readPackedVector10",
+      "parseType": "default"
     },
     "TossState": {
       "name": "TossState",
       "type": "EFortPickupTossState",
-      "parseFunction": "readEnum",
+      "parseType": "readEnum",
       "bits": 2
     },
     "bCombinePickupsWhenTossCompletes": {
       "name": "bCombinePickupsWhenTossCompletes",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "OptionalOwnerID": {
       "name": "OptionalOwnerID",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "bPickedUp": {
       "name": "bPickedUp",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "bTossedFromContainer": {
       "name": "bTossedFromContainer",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "bServerStoppedSimulation": {
       "name": "bServerStoppedSimulation",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "ServerImpactSoundFlash": {
       "name": "ServerImpactSoundFlash",
       "type": "byte",
-      "parseFunction": "readByte"
+      "parseFunction": "readByte",
+      "parseType": "default"
     },
     "PawnWhoDroppedPickup": {
       "name": "PawnWhoDroppedPickup",
       "type": "uint",
-      "parseFunction": "readIntPacked"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "OrderIndex": {
       "name": "OrderIndex",
       "type": "ushort",
-      "parseFunction": "readUInt16"
+      "parseFunction": "readUInt16",
+      "parseType": "default"
     }
   }
 }

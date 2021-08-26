@@ -10,22 +10,24 @@
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty"
+      "parseType": "readClass"
     },
     "bIsHiddenForDeath": {
       "name": "bIsHiddenForDeath",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "PawnUniqueID": {
       "name": "PawnUniqueID",
       "type": "int",
-      "parseFunction": "readInt32"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "NPC_AlertLevel": {
       "name": "NPC_AlertLevel",
       "type": "EAlertLevel",
-      "parseFunction": "readEnum",
+      "parseType": "readEnum",
       "bits": 3
     }
   }

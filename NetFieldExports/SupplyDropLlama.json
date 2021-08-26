@@ -10,12 +10,13 @@
     "Looted": {
       "name": "Looted",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty",
+      "parseType": "readClass",
       "config": {
         "locationQuatLevel": 0,
         "rotationQuatLevel": 0,

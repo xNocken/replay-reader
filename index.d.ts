@@ -3,7 +3,7 @@ declare module 'fortnite-replay-parser';
 import EventEmitter from 'events';
 
 type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16';
-type ParseTypes = 'readProperty' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default';
+type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default';
 type NetFieldExportTypes = 'ClassNetCache' | 'Default';
 type NetFieldExportExportTypes = 'array' | 'object' | 'null';
 
@@ -197,4 +197,6 @@ interface parseOptions {
   handleEventEmitter: handleEventEmitter,
 }
 
-export function parse(buffer: Buffer, options?: parseOptions): Promise<object>;
+declare function parse(buffer: Buffer, options?: parseOptions): Promise<object>;
+
+export = parse;

@@ -10,62 +10,72 @@
     "RemoteRole": {
       "name": "RemoteRole",
       "type": "object",
-      "parseFunction": "ignore"
+      "parseType": "ignore"
     },
     "Role": {
       "name": "Role",
       "type": "object",
-      "parseFunction": "ignore"
+      "parseType": "ignore"
     },
     "LastRadius": {
       "name": "LastRadius",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "NextRadius": {
       "name": "NextRadius",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "LastCenter": {
       "name": "LastCenter",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "NextCenter": {
       "name": "NextCenter",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "NextNextCenter": {
       "name": "NextNextCenter",
       "type": "FVector",
-      "parseFunction": "readPackedVector100"
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
     },
     "SafeZoneStartShrinkTime": {
       "name": "SafeZoneStartShrinkTime",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "SafeZoneFinishShrinkTime": {
       "name": "SafeZoneFinishShrinkTime",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "bPausedForPreview": {
       "name": "bPausedForPreview",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "MegaStormDelayTimeBeforeDestruction": {
       "name": "MegaStormDelayTimeBeforeDestruction",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     },
     "Radius": {
       "name": "Radius",
       "type": "float",
-      "parseFunction": "readFloat32"
+      "parseFunction": "readFloat32",
+      "parseType": "default"
     }
   }
 }

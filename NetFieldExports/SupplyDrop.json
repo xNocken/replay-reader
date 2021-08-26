@@ -10,17 +10,19 @@
     "Opened": {
       "name": "Opened",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "BalloonPopped": {
       "name": "BalloonPopped",
       "type": "boolean",
-      "parseFunction": "readBit"
+      "parseFunction": "readBit",
+      "parseType": "default"
     },
     "ReplicatedMovement": {
       "name": "ReplicatedMovement",
       "type": "FRepMovement",
-      "parseFunction": "readProperty",
+      "parseType": "readClass",
       "config": {
         "locationQuatLevel": 0,
         "rotationQuatLevel": 0,

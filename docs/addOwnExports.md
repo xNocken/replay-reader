@@ -152,11 +152,11 @@ this function ignores the property
 - size: 1 byte
 - options required: none
 
-### readProperty
+### readClass
 This function parses the data as a class. 
 
 The ```type``` option needs to be the exact class filename without extention
-- name: readProperty
+- name: readClass
 - returns: Class
 - size: unknown
 - options required: type
