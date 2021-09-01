@@ -229,6 +229,21 @@
       "type": "ushort",
       "parseFunction": "readUInt16",
       "parseType": "default"
+    },
+    "IntValue": {
+      "name": "IntValue",
+      "parseType": "readClass",
+      "type": "DebugObject"
+    },
+    "NameValue": {
+      "name": "NameValue",
+      "parseType": "readClass",
+      "type": "DebugObject"
+    },
+    "StateType": {
+      "name": "StateType",
+      "parseType": "readClass",
+      "type": "DebugObject"
     }
   }
 }

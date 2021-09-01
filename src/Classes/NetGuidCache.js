@@ -2,6 +2,7 @@ const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const removePathPrefix = require('../utils/removePathPrefix');
 const Actor = require('./Actor');
 const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
+const NetFieldParser = require('./NetFieldExports/NetFieldParser');
 
 class NetGuidCache {
   NetFieldExportGroupMap = {};
@@ -12,39 +13,66 @@ class NetGuidCache {
   failedPaths = [];
   CleanedPaths = {};
   CleanedClassNetCache = {};
-  _networkGameplayTagNodeIndex = null;
+  networkGameplayTagNodeIndex = null;
   actorIdToActorMap = [];
   netguidToNetFieldExportgroup = [];
   staticActorIdMap = {};
 
-  get NetworkGameplayTagNodeIndex() {
-    if (!this._networkGameplayTagNodeIndex) {
-      const nodeIndex = this.NetFieldExportGroupMap["NetworkGameplayTagNodeIndex"];
-
-      if (nodeIndex !== undefined) {
-        this._networkGameplayTagNodeIndex = nodeIndex;
-      }
-    }
-
-    return this._networkGameplayTagNodeIndex;
-  };
-
   /**
    *
-   * @param {string} group
+   * @param {string} pathName
    * @param {NetFieldExportGroup} exportGroup
+   * @param {NetFieldParser} netFieldParser
    */
-  addToExportGroupMap(group, exportGroup, netFieldParser, globalData) {
-    if (group.endsWith('ClassNetCache')) {
+  addToExportGroupMap(pathName, exportGroup, netFieldParser) {
+    if (pathName.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
 
-    if (!globalData.debug && group !== 'NetworkGameplayTagNodeIndex' && !netFieldParser.shouldBeImported(exportGroup.pathName)) {
+    const netFieldExport = netFieldParser.getNetFieldExport(exportGroup.pathName);
+
+    if (pathName === 'NetworkGameplayTagNodeIndex') {
+      this.NetworkGameplayTagNodeIndex = exportGroup;
+      this.NetFieldExportGroupMap[pathName] = exportGroup;
+      this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
+
       return;
     }
 
-    this.NetFieldExportGroupMap[group] = exportGroup;
-    this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = group;
+    if (!netFieldExport) {
+      return;
+    }
+
+    if (netFieldExport.type === 'ClassNetCache') {
+      const baseName = pathName.split('_ClassNetCache')[0];
+
+      if (!this.NetFieldExportGroupMap[baseName]) {
+        const baseGroup = new NetFieldExportGroup();
+        baseGroup.pathName = baseName;
+        baseGroup.pathNameIndex = 0;
+        baseGroup.netFieldExportsLength = 0;
+        baseGroup.netFieldExports = [];
+
+        this.NetFieldExportGroupMap[baseName] = baseGroup;
+
+        const failedIndex = this.failedPaths.indexOf(baseName.split('.')[1]);
+
+        if (failedIndex !== -1)  {
+          this.failedPaths.splice(this.failedPaths.indexOf(baseName.split('.')[1]), 1);
+          delete this.netguidToNetFieldExportgroup[failedIndex];
+        }
+      }
+    }
+
+    exportGroup.parseUnknownHandles = netFieldExport.parseUnknownHandles;
+    exportGroup.customExportName = netFieldExport.customExportName;
+    exportGroup.exportGroup = netFieldExport.exportGroup;
+    exportGroup.exportName = netFieldExport.exportName;
+    exportGroup.exportType = netFieldExport.exportType;
+    exportGroup.type = netFieldExport.type;
+
+    this.NetFieldExportGroupMap[pathName] = exportGroup;
+    this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
   }
 
   tryGetPathName(netGuid) {
@@ -139,7 +167,7 @@ class NetGuidCache {
         return returnValue;
       }
 
-      this.failedPaths.push(path);
+      this.failedPaths[netguid] = path;
       this.netguidToNetFieldExportgroup[netguid] = null;
       return null;
     }

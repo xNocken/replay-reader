@@ -63,6 +63,7 @@ const parse = async (buffer, options) => {
     });
 
     fs.writeFileSync('netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val }) => `${key}: ${val}`).join('\n'));
+    fs.writeFileSync('notReadingGroups.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
   }
 
   isParsing = false;

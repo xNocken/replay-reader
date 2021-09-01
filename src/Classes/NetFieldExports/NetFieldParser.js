@@ -30,7 +30,6 @@ const validateNetFieldExportProperty = (property, pathName) => {
 
       break;
 
-    case 'readDynamicArray':
     case 'readClass':
       if (!property.type) {
         throw Error(`Invalid export: ${pathName} -> ${property.name} parseType '${property.parseType}' requires a type`);
@@ -49,6 +48,7 @@ const validateNetFieldExportProperty = (property, pathName) => {
 
       break;
 
+    case 'readDynamicArray':
     case 'ignore':
       break;
 
@@ -64,6 +64,7 @@ class NetFieldParser {
   redirects = {};
   classPathCache = {};
   enumCache = {};
+  informedError = {};
 
   constructor(globalData) {
     const handleExport = (fieldExport) => {
@@ -168,38 +169,20 @@ class NetFieldParser {
   createType(group) {
     const exportGroup = {};
 
-    let netExport = this.getNetFieldExport(group.pathName);
-
-    exportGroup.type = netExport.customExportName || pathhhh.basename(group.pathName);
+    exportGroup.type = group.customExportName || pathhhh.basename(group.pathName);
 
     exportGroup.pathName = group.pathName;
 
     return exportGroup;
   }
 
-  readField(obj, exportt, handle, exportGroup, netBitReader, globalData) {
-    const netGroupInfo = this.getNetFieldExport(exportGroup.pathName);
-
-    if (!netGroupInfo) {
-      return false;
-    }
-
-    const netFieldInfo = netGroupInfo.properties[exportt.name];
-
-    if (!netFieldInfo && !netGroupInfo.parseUnknownHandles) {
-      return false;
-    }
-
-    return this.setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt);
-  }
-
   /**
    * @param {Replay} netBitReader
    */
-  setType(obj, exportGroup, netFieldInfo, netBitReader, globalData, exportt) {
+  setType(obj, exportt, exportGroup, netBitReader, globalData) {
     let data;
 
-    if (!netFieldInfo) {
+    if (exportGroup.parseUnknownHandles) {
       const size = netBitReader.getBitsLeft();
 
       data = new DebugObject(netBitReader.readBits(size), exportt, size, netBitReader.header);
@@ -209,34 +192,38 @@ class NetFieldParser {
       return true;
     }
 
-    theSwitch: switch (netFieldInfo.parseType) {
+    if (exportt.name === 'WinningPlayerList') {
+      console
+    }
+
+    theSwitch: switch (exportt.parseType) {
       case 'ignore':
         data = undefined;
         return false;
 
       case 'readClass':
-        if (!this.theClassCache[netFieldInfo.type]) {
+        if (!this.theClassCache[exportt.type]) {
           let classPath;
 
           if (globalData.customClassPath) {
-            classPath = `${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.js`;
+            classPath = `${process.cwd()}/${globalData.customClassPath}/${exportt.type}.js`;
 
-            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.js`)) {
+            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${exportt.type}.js`)) {
               classPath = null;
             }
           }
 
           if (!classPath) {
-            classPath = `../../../Classes/${netFieldInfo.type}.js`;
+            classPath = `../../../Classes/${exportt.type}.js`;
           }
 
-          this.theClassCache[netFieldInfo.type] = require(classPath);
+          this.theClassCache[exportt.type] = require(classPath);
         }
 
-        const theClass = this.theClassCache[netFieldInfo.type];
+        const theClass = this.theClassCache[exportt.type];
 
         const dingens = new theClass();
-        dingens.serialize(netBitReader, globalData, netFieldInfo.config || {});
+        dingens.serialize(netBitReader, globalData, exportt.config || {});
 
         if (dingens.resolve) {
           dingens.resolve(globalData.netGuidCache, globalData);
@@ -248,7 +235,7 @@ class NetFieldParser {
       case 'readDynamicArray':
         const count = netBitReader.readIntPacked();
         const arr = [];
-        const isGroupType = ['readFloat32', 'readInt32', 'readPackedInt', 'readUInt32'].includes(netFieldInfo.type);
+        const isGroupType = netBitReader[exportt.type];
 
         while (true) {
           let index = netBitReader.readIntPacked();
@@ -267,8 +254,8 @@ class NetFieldParser {
 
           let newData = [];
 
-          if (isGroupType) {
-            newData = this.createType(exportGroup);
+          if (!isGroupType) {
+            newData = {};
           }
 
           while (true) {
@@ -288,7 +275,13 @@ class NetFieldParser {
             }
 
             if (!exporttt) {
-              netBitReader.skip(numBits);
+              if (!this.informedError[`${exportGroup.pathName}:${exportt.name}:${handle}`]) {
+                console.warn(`${exportGroup.pathName}'s property ${exportt.name} requires another property with handle ${handle}`);
+
+                this.informedError[`${exportGroup.pathName}:${exportt.name}:${handle}`] = true;
+              }
+
+              netBitReader.skipBits(numBits);
               continue;
             }
 
@@ -297,22 +290,24 @@ class NetFieldParser {
             if (isGroupType) {
               const temp = {};
 
-              this.setType(temp, exportGroup, {
-                ...netFieldInfo,
-                parseFunction: netFieldInfo.type,
-                parseType: 'default',
-              }, netBitReader, globalData, exporttt);
+              this.setType(temp, exporttt, exportGroup, netBitReader, globalData);
 
-              newData = temp[netFieldInfo.name];
+              newData = temp[exporttt.name];
             } else {
               const temp = {};
 
-              this.setType(temp, exportGroup, {
-                ...netFieldInfo,
-                parseType: 'readClass',
-              }, netBitReader, globalData, exporttt);
+              if (exporttt.name === exportt.name) {
+                this.setType(temp, {
+                  ...exporttt,
+                  parseType: 'readClass'
+                }, exportGroup, netBitReader, globalData);
 
-              newData = temp[netFieldInfo.name];
+                newData = temp[exporttt.name];
+              } else {
+                this.setType(temp, exporttt, exportGroup, netBitReader, globalData);
+
+                newData[exporttt.name] = temp[exporttt.name];
+              }
             }
 
             netBitReader.popOffset(numBits);
@@ -325,43 +320,43 @@ class NetFieldParser {
         break;
 
       case 'readEnum':
-        if (!this.enumCache[netFieldInfo.type]) {
+        if (!this.enumCache[exportt.type]) {
           let classPath;
 
           if (globalData.customClassPath) {
-            classPath = `${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.json`;
+            classPath = `${process.cwd()}/${globalData.customClassPath}/${exportt.type}.json`;
 
-            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${netFieldInfo.type}.json`)) {
+            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${exportt.type}.json`)) {
               classPath = null;
             }
           }
 
           if (!classPath) {
-            classPath = `../../../Enums/${netFieldInfo.type}.json`;
+            classPath = `../../../Enums/${exportt.type}.json`;
           }
 
-          this.enumCache[netFieldInfo.type] = require(classPath);
+          this.enumCache[exportt.type] = require(classPath);
         }
 
-        const enumm = this.enumCache[netFieldInfo.type];
+        const enumm = this.enumCache[exportt.type];
 
         if (!enumm) {
           data = null;
           break;
         }
 
-        const value = netBitReader.readBitsToInt(netFieldInfo.bits);
+        const value = netBitReader.readBitsToInt(exportt.bits);
 
         data = enumm[value] || null;
 
         break;
 
       case 'default':
-        data = netBitReader[netFieldInfo.parseFunction](...(netFieldInfo.args || []));
+        data = netBitReader[exportt.parseFunction](...(exportt.args || []));
         break;
     }
 
-    obj[netFieldInfo.name] = data;
+    obj[exportt.name] = data;
     return true;
   }
 

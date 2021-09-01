@@ -2,10 +2,8 @@ const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
 const GlobalData = require('../utils/globalData');
-const fs = require('fs');
 
 /**
- *
  * @param {Replay} archive
  * @param {NetFieldExportGroup} group
  * @param {DataBunch} bunch
@@ -67,7 +65,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     try {
       archive.addOffset(numbits);
 
-      if (!netFieldParser.readField(exportGroup, exportt, handle, group, archive, globalData)) {
+      if (!netFieldParser.setType(exportGroup, exportt, group, archive, globalData)) {
         exportt.incompatible = true;
       }
     } catch (ex) {
@@ -86,7 +84,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       const exportt = group?.netFieldExports[externalData.handle];
 
       if (exportt) {
-        globalData.netFieldParser.readField(exportGroup, exportt, 0, group, new Replay(externalData.payload), globalData);
+        globalData.netFieldParser.setType(exportGroup, exportt, group, new Replay(externalData.payload), globalData);
       }
     }
 

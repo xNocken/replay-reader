@@ -466,8 +466,7 @@
     "GroupEmoteLookTarget": {
       "name": "GroupEmoteLookTarget",
       "type": "ItemDefinition",
-      "parseFunction": "readClass",
-      "parseType": "default"
+      "parseType": "readClass"
     },
     "bIsSkydiving": {
       "name": "bIsSkydiving",

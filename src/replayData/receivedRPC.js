@@ -3,7 +3,7 @@ const receiveProperties = require("./receiveProperties");
 const receivedRPC = (reader, group, bunch, globalData, staticActorId) => {
   receiveProperties(reader, group, bunch, true, false, globalData, staticActorId);
 
-  if (globalData.netFieldParser.willReadType(group.pathName) && !reader.atEnd()) {
+  if (!reader.atEnd()) {
     return false;
   }
 

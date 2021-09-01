@@ -120,13 +120,13 @@ const parseReplayData = async (replay, globalData) => {
   const decrypted = replay.decryptBuffer(length);
   const binaryReplay = await decompress(decrypted, replay.info.IsCompressed);
 
-  if (!replay.info.IsEncrypted) {
-    replay.popOffset();
-  };
-
   while (!binaryReplay.atEnd()) {
     parsePlaybackPackets(binaryReplay, globalData);
   }
+
+  if (!replay.info.IsEncrypted) {
+    replay.popOffset();
+  };
 }
 
 module.exports = parseReplayData;

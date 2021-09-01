@@ -17,4 +17,6 @@ const parse = require('.');
   console.timeEnd();
 
   fs.writeFileSync('replay.json', JSON.stringify(parsedReplay, null, 2));
-})()
+})().catch((err) => {
+  console.error(err.stack);
+});

@@ -427,15 +427,13 @@ class Replay {
    */
   readObjectArray(fn1, fn2) {
     const length = this.readUInt32();
-    const returnArray = [];
+    const obj = {};
 
     for (let i = 0; i < length; i += 1) {
-      const obj = {};
       obj[fn1(this)] = fn2(this);
-      returnArray.push(obj);
     }
 
-    return returnArray;
+    return obj;
   }
 
 
