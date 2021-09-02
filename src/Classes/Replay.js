@@ -86,23 +86,34 @@ class Replay {
       bytes.copy(buffer);
     }
 
-    let byteOffset;
-    let currentBit = 1;
+    let currentBit;
+    let currentResultOffset;
+    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByteBit = 1 << (this.offset % 8);
 
     for (let i = readBytes * 8; i < count; i++) {
-      const bitOffset = i % 8;
+      const bitOffset = this.offset % 8;
+      const resultBitOffset = i % 8;
 
-      if (bitOffset === 0) {
-        byteOffset = ~~(i / 8);
+      if (resultBitOffset === 0) {
+        currentResultOffset = i / 8;
         currentBit = 1;
       }
 
-      if (this.readBit()) {
-        buffer[byteOffset] |= (currentBit);
-      } else {
-        buffer[byteOffset] &= ~(currentBit);
+      if (bitOffset === 0) {
+        currentByteBit = 1;
+        currentByte = this.buffer[~~(this.offset / 8)];
       }
 
+      if (currentByte & currentByteBit) {
+        buffer[currentResultOffset] |= (currentBit);
+      } else {
+        buffer[currentResultOffset] &= ~(currentBit);
+      }
+
+      this.offset += 1;
+
+      currentByteBit *= 2;
       currentBit *= 2;
     }
 
@@ -110,18 +121,47 @@ class Replay {
   }
 
   readBitsToInt(count) {
-    let result = 0;
-    let val = 1;
+    let val = 0;
 
-    for (let i = 0; i < count; i++) {
-      if (this.readBit()) {
-        result |= (val);
+    if ((this.offset % 8) === 0) {
+      let index = 0;
+
+      while (count >= 8) {
+        val |= this.buffer[this.offset / 8] << (index * 8);
+
+        index += 1;
+        count -= 8;
+        this.offset += 8;
       }
 
-      val *= 2;
+      if (count === 0) {
+        return val;
+      }
     }
 
-    return result;
+    let currentBit = 1;
+    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByteBit = 1 << (this.offset % 8);
+
+    for (let i = 0; i < count; i++) {
+      const bitOffset = this.offset % 8;
+
+      if (bitOffset === 0) {
+        currentByteBit = 1;
+        currentByte = this.buffer[~~(this.offset / 8)];
+      }
+
+      if (currentByte & currentByteBit) {
+        val |= (currentBit);
+      }
+
+      this.offset += 1;
+
+      currentByteBit *= 2;
+      currentBit *= 2;
+    }
+
+    return val;
   }
 
   /**
@@ -133,10 +173,24 @@ class Replay {
   readSerializedInt(maxValue) {
     let value = 0;
 
+    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByteBit = 1 << (this.offset % 8);
+
     for (let mask = 1; (value + mask) < maxValue; mask *= 2) {
-      if (this.readBit()) {
+      const bitOffset = this.offset % 8;
+
+      if (bitOffset === 0) {
+        currentByteBit = 1;
+        currentByte = this.buffer[~~(this.offset / 8)];
+      }
+
+      if (currentByte & currentByteBit) {
         value |= mask;
       }
+
+      this.offset += 1;
+
+      currentByteBit *= 2;
     }
 
     return value;
@@ -181,51 +235,34 @@ class Replay {
 
       return arr;
     } else {
-      return this.readBits(byteCount * 8);
+      const result = Buffer.allocUnsafe(byteCount);
+
+      for (let i = 0; i < byteCount; i++) {
+        result[i] = this.readByte();
+      }
+
+      return result;
     }
   }
 
   readByte() {
-    if ((this.offset % 8) === 0) {
-      const val = this.buffer[this.offset / 8];
-
-      this.offset += 8;
-
-      return val;
-    }
-
-    let val = 0;
-    let currentBit = 1;
-
-    for (let i = 0; i < 8; i++) {
-      const bitOffset = i % 8;
-
-      if (bitOffset === 0) {
-        currentBit = 1;
-      }
-
-      if (this.readBit()) {
-        val |= (currentBit);
-      } else {
-        val &= ~(currentBit);
-      }
-
-      currentBit *= 2;
-    }
-
-    return val;
+    return this.readBitsToInt(8);
   }
 
   readInt16() {
-    return this.readBytes(2).readInt16LE()
+    return this.readBitsToInt(16);
+  }
+
+  readUInt16() {
+    return this.readBitsToInt(16);
   }
 
   readUInt32() {
-    return this.readBytes(4).readUInt32LE()
+    return this.readBitsToInt(32);
   }
 
   readInt32() {
-    return this.readBytes(4).readInt32LE()
+    return this.readBitsToInt(32);
   }
 
   readUInt64() {
@@ -239,25 +276,21 @@ class Replay {
       return '';
     }
 
-    let value;
-
     if (length < 0) {
       if (!this.canRead(length * -2)) {
         this.isError = true;
         return '';
       }
 
-      value = this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
+      return this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
     } else {
       if (!this.canRead(length)) {
         this.isError = true;
         return '';
       }
 
-      value = this.readBytes(length).slice(0, -1).toString('utf-8');
+      return this.readBytes(length).slice(0, -1).toString('utf-8');
     }
-
-    return value;
   }
 
   readFName() {
@@ -303,7 +336,11 @@ class Replay {
   }
 
   readBoolean() {
-    return this.readInt32() === 1;
+    const val = this.readBit();
+
+    this.offset += 31;
+
+    return val;
   }
 
   getBitsLeft() {
@@ -326,10 +363,6 @@ class Replay {
     this.lastBit += bitCount;
   }
 
-  readUInt16() {
-    return this.readBytes(2).readUInt16LE(0);
-  }
-
   atEnd() {
     return this.lastBit <= this.offset;
   }
@@ -341,8 +374,7 @@ class Replay {
       return 0;
     }
 
-    const hi = this.readBytes(4);
-    const result = hi.readFloatLE(0);
+    const result = this.readBytes(4).readFloatLE(0);
 
     return result;
   }
