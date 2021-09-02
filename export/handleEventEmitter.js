@@ -17,6 +17,8 @@ const handleSoccerGame = require('./propertyExport/handleSoccerGame');
 const handleSpeedSign = require('./propertyExport/handleSpeedSign');
 const handleSupplyDrop = require('./propertyExport/handleSupplyDrop');
 const handleValets = require('./propertyExport/handleValets');
+const handleInventory = require('./netDeltaExport/handleInventory');
+const handleInventoryProperty = require('./propertyExport/handleInventory');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
@@ -39,8 +41,10 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C', handleLootLlama);
   propertyExportEmitter.on('AthenaSupplyDrop.AthenaSupplyDrop_C', handleSupplyDrop);
   propertyExportEmitter.on('Athena_SoccerGame.Athena_SoccerGame_C', handleSoccerGame);
+  propertyExportEmitter.on('FortniteGame.FortInventory', handleInventoryProperty)
 
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
+  netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);
 
   // parsingEmitter.on('channelOpened', console.log);
   // parsingEmitter.on('channelClosed', console.log);

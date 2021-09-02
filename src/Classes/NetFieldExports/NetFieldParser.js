@@ -53,7 +53,7 @@ const validateNetFieldExportProperty = (property, pathName) => {
       break;
 
     default:
-      throw Error(`Invalid export: ${pathName} -> ${property.name} has no parsetype`);
+      throw Error(`Invalid export: ${pathName} -> ${property.name} has no/invalid parsetype`);
   }
 };
 

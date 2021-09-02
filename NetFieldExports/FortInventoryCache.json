@@ -1,0 +1,16 @@
+{
+  "path": [
+    "FortInventory_ClassNetCache"
+  ],
+  "type": "ClassNetCache",
+  "parseLevel": 1,
+  "properties": {
+    "Inventory": {
+      "name": "Inventory",
+      "type": "/Script/FortniteGame.FortInventory",
+      "isFunction": false,
+      "isCustomStruct": false,
+      "EnablePropertyChecksum": true
+    }
+  }
+}

@@ -5,6 +5,8 @@ module.exports = [
   require('./FortBroadcastRemoteClientInfo_ClientRemotePlayerAddMapMarker.json'),
   require('./FortBroadcastRemoteClientInfo_ClientRemotePlayerRemoveMapMarker.json'),
   require('./FortBroadcastRemoteClientInfoCache.json'),
+  require('./FortInventory.json'),
+  require('./FortInventoryCache.json'),
   require('./FortPickup.json'),
   require('./FortPlayerState.json'),
   require('./FortSet.json'),
