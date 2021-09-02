@@ -194,6 +194,7 @@ interface parseOptions {
   onlyUseCustomNetFieldExports?: boolean,
   customClassPath?: string,
   customEnumPath?: string,
+  additionalStates?: string[],
   handleEventEmitter: handleEventEmitter,
 }
 
