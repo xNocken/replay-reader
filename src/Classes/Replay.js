@@ -120,7 +120,59 @@ class Replay {
     return buffer;
   }
 
-  readBitsToInt(count) {
+  readBitsToInt(count, maxVal = 2147483647) {
+    let val = 0;
+    let readBytes = 0;
+
+    if ((this.offset % 8) === 0) {
+
+      while (count - (readBytes * 8) > 8) {
+        val |= this.buffer[this.offset / 8] << (readBytes * 8);
+
+        readBytes += 1;
+        this.offset += 8;
+      }
+
+      if (count === 0) {
+        return val;
+      }
+    }
+
+    let currentBit = 1 << (readBytes * 8);
+    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByteBit = 1 << (this.offset % 8);
+
+    for (let i = readBytes * 8; i < count; i++) {
+      const bitOffset = this.offset % 8;
+
+      if (bitOffset === 0) {
+        currentByteBit = 1;
+        currentByte = this.buffer[~~(this.offset / 8)];
+      }
+
+      if (i === count - 1) {
+        if (currentByte & currentByteBit) {
+          val = -1 * ((maxVal / 2) - val);
+        }
+
+        this.offset += 1;
+        break;
+      }
+
+      if (currentByte & currentByteBit) {
+        val |= (currentBit);
+      }
+
+      this.offset += 1;
+
+      currentByteBit *= 2;
+      currentBit *= 2;
+    }
+
+    return val;
+  }
+
+  readBitsToUnsignedInt(count) {
     let val = 0;
 
     if ((this.offset % 8) === 0) {
@@ -135,7 +187,7 @@ class Replay {
       }
 
       if (count === 0) {
-        return val;
+        return val >>> 0;
       }
     }
 
@@ -161,7 +213,7 @@ class Replay {
       currentBit *= 2;
     }
 
-    return val;
+    return val >>> 0;
   }
 
   /**
@@ -246,23 +298,23 @@ class Replay {
   }
 
   readByte() {
-    return this.readBitsToInt(8);
+    return this.readBitsToUnsignedInt(8);
   }
 
   readInt16() {
-    return this.readBitsToInt(16);
+    return this.readBitsToInt(16, 65536);
   }
 
   readUInt16() {
-    return this.readBitsToInt(16);
+    return this.readBitsToUnsignedInt(16);
   }
 
   readUInt32() {
-    return this.readBitsToInt(32);
+    return this.readBitsToUnsignedInt(32);
   }
 
   readInt32() {
-    return this.readBitsToInt(32);
+    return this.readBitsToInt(32, 2147483647);
   }
 
   readUInt64() {
