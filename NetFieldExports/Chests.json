@@ -7,6 +7,9 @@
   "exportGroup": "mapData",
   "exportName": "chests",
   "exportType": "array",
+  "staticActorIds": [
+    "Tiered_Chest_Athena"
+  ],
   "properties": {
     "bHidden": {
       "name": "bHidden",

@@ -7,6 +7,9 @@
   "exportGroup": "mapData",
   "exportName": "chests",
   "exportType": "array",
+  "staticActorIds": [
+    "Tiered_Ammo_Athena"
+  ],
   "properties": {
     "bHidden": {
       "name": "bHidden",

@@ -71,6 +71,12 @@ class NetGuidCache {
     exportGroup.exportType = netFieldExport.exportType;
     exportGroup.type = netFieldExport.type;
 
+    if (netFieldExport.staticActorIds) {
+      netFieldExport.staticActorIds.forEach((staticActorId) => {
+        this.staticActorIdMap[staticActorId] = exportGroup;
+      });
+    }
+
     this.NetFieldExportGroupMap[pathName] = exportGroup;
     this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
   }
@@ -228,26 +234,20 @@ class NetGuidCache {
     if (!path) {
       return null;
     }
-
-    const cleanedPath = path.replace(/(?<=[a-z])\d*_?\d*$/i, '');
-
-    if (this.staticActorIdMap[cleanedPath]) {
-      return this.staticActorIdMap[cleanedPath];
-    }
-
-    const thePath = Object.keys(this.NetFieldExportGroupMap).find((exportPath) => exportPath.includes(cleanedPath));
-
-    this.staticActorIdMap[cleanedPath] = thePath || null;
-
-    return thePath || null;
   }
 
   getStaticActorExportGroup(netGuid) {
     let staticActorId = this.NetGuidToPathName[netGuid];
 
-    const exportGroupPath = this.getFromStaticActorId(staticActorId);
+    if (!staticActorId) {
+      return { staticActorId: null, group: null };
+    }
 
-    return { staticActorId, group: this.NetFieldExportGroupMap[exportGroupPath] || null };
+    const cleanedPath = staticActorId.replace(/(?<=[a-z])\d*_?\d*$/i, '');
+
+    const exportGroup = this.staticActorIdMap[cleanedPath];
+
+    return { staticActorId, group: exportGroup || null };
   }
 }
 

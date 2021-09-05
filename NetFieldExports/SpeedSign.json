@@ -6,6 +6,9 @@
   "exportGroup": "mapData",
   "exportName": "speedSigns",
   "exportType": "array",
+  "staticActorIds": [
+    "BP_Athena_SpeedSign"
+  ],
   "properties": {
     "VehicleSpeed": {
       "name": "VehicleSpeed",

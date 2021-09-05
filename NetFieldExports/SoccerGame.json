@@ -5,6 +5,9 @@
   "exportGroup": "mapData",
   "exportName": "soccerGames",
   "exportType": "array",
+  "staticActorIds": [
+    "Athena_SoccerGame"
+  ],
   "properties": {
     "Score_Team_A": {
       "name": "Score_Team_A",

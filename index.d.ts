@@ -175,6 +175,7 @@ interface NetFieldExport {
   exportName: string,
   exportGroup: string,
   exportType: NetFieldExportExportTypes,
+  staticActorIds?: string[],
   customExportName?: string,
   parseLevel: number,
   parseUnkownHandles?: boolean,
