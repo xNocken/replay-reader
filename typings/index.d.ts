@@ -7,19 +7,19 @@ type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'de
 type NetFieldExportTypes = 'ClassNetCache' | 'Default';
 type NetFieldExportExportTypes = 'array' | 'object' | 'null';
 
-interface FVector {
+export interface FVector {
   x: number;
   y: number;
   z: number;
 }
 
-interface FRotator {
+export interface FRotator {
   pitch: number;
   yaw: number;
   roll: number;
 }
 
-interface NetworkGUID {
+export interface NetworkGUID {
   value: number;
 
   isValid(): boolean;
@@ -27,7 +27,7 @@ interface NetworkGUID {
   isDefault(): boolean;
 }
 
-interface Actor {
+export interface Actor {
   actorNetGUID: NetworkGUID;
   archetype: NetworkGUID;
   level: NetworkGUID;
@@ -37,14 +37,14 @@ interface Actor {
   velocity: FVector;
 }
 
-interface Channel {
+export interface Channel {
   channelName: string;
   channelIndex: number;
   channelType: number;
   actor: Actor;
 }
 
-interface ExternalData {
+export interface ExternalData {
   netGuid: number,
   externalDataNumBits: number,
   handle: number,
@@ -53,7 +53,7 @@ interface ExternalData {
   payload: Buffer,
 }
 
-interface GlobalData {
+export interface GlobalData {
   channels: Channel[];
 
   actorToChannel: {
@@ -77,20 +77,20 @@ interface GlobalData {
   netFieldParser: any; // TODO
 }
 
-interface Export {
+export interface Export {
   path: string,
   type: string,
   [properyName: string]: any,
 }
 
-interface NetDeltaExportData {
+export interface NetDeltaExportData {
   deleted?: boolean,
   elementIndex: number,
   path: string,
   export: Export,
 }
 
-interface NetDeltaExport {
+export interface NetDeltaExport {
   chIndex: number,
   data: NetDeltaExportData,
   timeSeconds: number,
@@ -100,7 +100,7 @@ interface NetDeltaExport {
   states: Object,
 }
 
-interface PropertyExport {
+export interface PropertyExport {
   chIndex: number,
   data: Export,
   timeSeconds: number,
@@ -110,7 +110,7 @@ interface PropertyExport {
   states: Object,
 }
 
-interface ActorDespawnExport {
+export interface ActorDespawnExport {
   chIndex: number,
   openPacket: boolean,
   timeSeconds: number,
@@ -121,7 +121,7 @@ interface ActorDespawnExport {
   netFieldExportGroup: any,
 }
 
-interface ChannelOpenedClosed {
+export interface ChannelOpenedClosed {
   chIndex: number,
   actor: any,
   globalData: GlobalData,
@@ -129,37 +129,37 @@ interface ChannelOpenedClosed {
   states: Object,
 }
 
-interface NextChunk {
+export interface NextChunk {
   size: number,
   type: number,
 }
 
-interface NetDeltaExportEmitter extends EventEmitter {
+export interface NetDeltaExportEmitter extends EventEmitter {
   on(event: string, listener: (exportt: NetDeltaExport) => void): this,
 }
 
-interface PropertyExportEmitter extends EventEmitter {
+export interface PropertyExportEmitter extends EventEmitter {
   on(event: string, listener: (exportt: PropertyExport) => void): this,
 }
 
-interface ActorDespawnEmitter extends EventEmitter {
+export interface ActorDespawnEmitter extends EventEmitter {
   on(event: string, listener: (exportt: ActorDespawnExport) => void): this,
 }
 
-interface ParsingEmitter extends EventEmitter {
+export interface ParsingEmitter extends EventEmitter {
   on(event: 'channelOpened', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'channelClosed', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'nextChunk', listener: (exportt: NextChunk) => void): this,
 }
 
-interface EventEmittersObject {
+export interface EventEmittersObject {
   propertyExportEmitter: PropertyExportEmitter,
   actorDespawnEmitter: ActorDespawnEmitter,
   netDeltaReadEmitter: NetDeltaExportEmitter,
   parsingEmitter: ParsingEmitter,
 }
 
-interface NetFieldExportProperty {
+export interface NetFieldExportProperty {
   name: string,
   parseFunction: ParseFunctions,
   parseType: ParseTypes,
@@ -170,7 +170,7 @@ interface NetFieldExportProperty {
   config?: object,
 }
 
-interface NetFieldExport {
+export interface NetFieldExport {
   path: string[],
   exportName: string,
   exportGroup: string,
@@ -188,7 +188,7 @@ interface NetFieldExport {
 
 type handleEventEmitter = (emitters: EventEmittersObject) => void;
 
-interface parseOptions {
+export interface parseOptions {
   parseLevel?: number,
   debug?: boolean,
   customNetFieldExports?: NetFieldExport[],
