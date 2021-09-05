@@ -1,4 +1,5 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
+const GlobalData = require('../utils/globalData');
 const removePathPrefix = require('../utils/removePathPrefix');
 const Actor = require('./Actor');
 const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
@@ -22,14 +23,14 @@ class NetGuidCache {
    *
    * @param {string} pathName
    * @param {NetFieldExportGroup} exportGroup
-   * @param {NetFieldParser} netFieldParser
+   * @param {GlobalData} globalData
    */
-  addToExportGroupMap(pathName, exportGroup, netFieldParser) {
+  addToExportGroupMap(pathName, exportGroup, globalData) {
     if (pathName.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
 
-    const netFieldExport = netFieldParser.getNetFieldExport(exportGroup.pathName);
+    const netFieldExport = globalData.netFieldParser.getNetFieldExport(exportGroup.pathName);
 
     if (pathName === 'NetworkGameplayTagNodeIndex') {
       this.NetworkGameplayTagNodeIndex = exportGroup;
@@ -40,6 +41,11 @@ class NetGuidCache {
     }
 
     if (!netFieldExport) {
+      if (globalData.debug) {
+        this.NetFieldExportGroupMap[pathName] = exportGroup;
+        this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
+      }
+
       return;
     }
 
@@ -57,7 +63,7 @@ class NetGuidCache {
 
         const failedIndex = this.failedPaths.indexOf(baseName.split('.')[1]);
 
-        if (failedIndex !== -1)  {
+        if (failedIndex !== -1) {
           this.failedPaths.splice(this.failedPaths.indexOf(baseName.split('.')[1]), 1);
           delete this.netguidToNetFieldExportgroup[failedIndex];
         }
