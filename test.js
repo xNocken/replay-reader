@@ -11,7 +11,6 @@ const parse = require('.');
     //   require('./NetFieldExports/SafeZoneIndicator.json'),
     // ],
     // onlyUseCustomNetFieldExports: true,
-    // customClassPath: 'Classes',
     // debug: true,
   });
   console.timeEnd();

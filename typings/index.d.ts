@@ -188,13 +188,22 @@ export interface NetFieldExport {
 
 type handleEventEmitter = (emitters: EventEmittersObject) => void;
 
+export interface CustomClass {
+  serialize(reader: Replay): void,
+  resolve?(netGuidCache: NetGuidCache): void,
+}
+
 export interface parseOptions {
   parseLevel?: number,
   debug?: boolean,
   customNetFieldExports?: NetFieldExport[],
   onlyUseCustomNetFieldExports?: boolean,
-  customClassPath?: string,
-  customEnumPath?: string,
+  customClasses?: {
+    [name: string]: CustomClass,
+  },
+  customEnums?: {
+    [name: string]: Object,
+  },
   additionalStates?: string[],
   handleEventEmitter: handleEventEmitter,
 }

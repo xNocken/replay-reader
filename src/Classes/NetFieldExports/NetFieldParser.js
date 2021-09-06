@@ -2,6 +2,8 @@ const fs = require('fs');
 const pathhhh = require('path');
 const DebugObject = require('../../../Classes/DebugObject');
 const netFieldExports = require('../../../NetFieldExports');
+const enums = require('../../../Enums');
+const classes = require('../../../Classes');
 
 const getExportByType = (type) => {
   switch (type) {
@@ -17,7 +19,7 @@ const getExportByType = (type) => {
   }
 }
 
-const validateNetFieldExportProperty = (property, pathName) => {
+const validateNetFieldExportProperty = (property, pathName, customClasses, customEnums) => {
   if (!property.name) {
     throw Error(`Invalid export: ${pathName} -> unknown has no name`);
   }
@@ -35,11 +37,20 @@ const validateNetFieldExportProperty = (property, pathName) => {
         throw Error(`Invalid export: ${pathName} -> ${property.name} parseType '${property.parseType}' requires a type`);
       }
 
+      if (!classes[property.type] && !customClasses[property.type]) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
+      }
+
       break;
 
     case 'readEnum':
       if (!property.type) {
         throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'readEnum' requires a type`);
+      }
+
+      if (!enums[property.type] && !customEnums[property.type]) {
+        property.parseType = 'ignore';
+        // throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
       }
 
       if (!property.bits) {
@@ -93,7 +104,7 @@ class NetFieldParser {
           break;
 
         default:
-          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, fieldExport.path[0]))
+          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, fieldExport.path[0], globalData.customClasses, globalData.customEnums))
           break;
       }
 
@@ -192,35 +203,13 @@ class NetFieldParser {
       return true;
     }
 
-    if (exportt.name === 'WinningPlayerList') {
-      console
-    }
-
     theSwitch: switch (exportt.parseType) {
       case 'ignore':
         data = undefined;
         return false;
 
       case 'readClass':
-        if (!this.theClassCache[exportt.type]) {
-          let classPath;
-
-          if (globalData.customClassPath) {
-            classPath = `${process.cwd()}/${globalData.customClassPath}/${exportt.type}.js`;
-
-            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${exportt.type}.js`)) {
-              classPath = null;
-            }
-          }
-
-          if (!classPath) {
-            classPath = `../../../Classes/${exportt.type}.js`;
-          }
-
-          this.theClassCache[exportt.type] = require(classPath);
-        }
-
-        const theClass = this.theClassCache[exportt.type];
+        const theClass = globalData.customClasses[exportt.type] || classes[exportt.type];
 
         const dingens = new theClass();
         dingens.serialize(netBitReader, globalData, exportt.config || {});
@@ -320,25 +309,7 @@ class NetFieldParser {
         break;
 
       case 'readEnum':
-        if (!this.enumCache[exportt.type]) {
-          let classPath;
-
-          if (globalData.customClassPath) {
-            classPath = `${process.cwd()}/${globalData.customClassPath}/${exportt.type}.json`;
-
-            if (!fs.existsSync(`${process.cwd()}/${globalData.customClassPath}/${exportt.type}.json`)) {
-              classPath = null;
-            }
-          }
-
-          if (!classPath) {
-            classPath = `../../../Enums/${exportt.type}.json`;
-          }
-
-          this.enumCache[exportt.type] = require(classPath);
-        }
-
-        const enumm = this.enumCache[exportt.type];
+        const enumm = globalData.customEnums[exportt.type] || enums[exportt.type];
 
         if (!enumm) {
           data = null;
