@@ -120,12 +120,12 @@ class Replay {
     return buffer;
   }
 
-  readBitsToInt(count, maxVal = 2147483647) {
+  readBitsToInt(count) {
+    const maxVal = count === 32 ? 2147483648 : 1 << (count - 1);
     let val = 0;
     let readBytes = 0;
 
     if ((this.offset % 8) === 0) {
-
       while (count - (readBytes * 8) > 8) {
         val |= this.buffer[this.offset / 8] << (readBytes * 8);
 
@@ -152,7 +152,7 @@ class Replay {
 
       if (i === count - 1) {
         if (currentByte & currentByteBit) {
-          val = -1 * ((maxVal / 2) - val);
+          val = -(maxVal - val);
         }
 
         this.offset += 1;
@@ -302,7 +302,7 @@ class Replay {
   }
 
   readInt16() {
-    return this.readBitsToInt(16, 65536);
+    return this.readBitsToInt(16);
   }
 
   readUInt16() {
@@ -314,7 +314,7 @@ class Replay {
   }
 
   readInt32() {
-    return this.readBitsToInt(32, 2147483647);
+    return this.readBitsToInt(32);
   }
 
   readUInt64() {

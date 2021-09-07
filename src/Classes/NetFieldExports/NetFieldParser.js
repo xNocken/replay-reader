@@ -49,8 +49,7 @@ const validateNetFieldExportProperty = (property, pathName, customClasses, custo
       }
 
       if (!enums[property.type] && !customEnums[property.type]) {
-        property.parseType = 'ignore';
-        // throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
+        throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
       }
 
       if (!property.bits) {
@@ -316,7 +315,7 @@ class NetFieldParser {
           break;
         }
 
-        const value = netBitReader.readBitsToInt(exportt.bits);
+        const value = netBitReader.readBitsToUnsignedInt(exportt.bits);
 
         data = enumm[value] || null;
 
