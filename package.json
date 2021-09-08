@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "ooz-wasm": "^1.0.0"
+    "ooz-wasm": "1.0.0"
   },
   "version": "0.1.0",
   "scripts": {
