@@ -49,6 +49,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   // parsingEmitter.on('channelOpened', console.log);
   // parsingEmitter.on('channelClosed', console.log);
   // parsingEmitter.on('nextChunk', console.log);
+  // parsingEmitter.on('nextFrame', console.log);
 };
 
 module.exports = handleEventEmitter;

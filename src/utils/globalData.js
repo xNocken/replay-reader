@@ -32,6 +32,7 @@ class GlobalData {
     this.onlyUseCustomNetFieldExports = false;
     this.netGuidCache = new NetGuidCache();
     this.inPacketId = 0;
+    this.lastFrameTime = 0;
 
     this.externalData = {};
     this.additionalStates = [

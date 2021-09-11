@@ -134,6 +134,13 @@ export interface NextChunk {
   type: number,
 }
 
+export interface NextFrame {
+  timeSeconds: number,
+  globalData: GlobalData,
+  result: Object,
+  states: Object,
+}
+
 export interface NetDeltaExportEmitter extends EventEmitter {
   on(event: string, listener: (exportt: NetDeltaExport) => void): this,
 }
@@ -150,6 +157,7 @@ export interface ParsingEmitter extends EventEmitter {
   on(event: 'channelOpened', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'channelClosed', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'nextChunk', listener: (exportt: NextChunk) => void): this,
+  on(event: 'nextFrame', listener: (exportt: NextFrame) => void): this,
 }
 
 export interface EventEmittersObject {

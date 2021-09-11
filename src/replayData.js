@@ -47,6 +47,18 @@ const parsePlaybackPackets = (replay, globalData) => {
 
   const timeSeconds = replay.readFloat32();
 
+  if (globalData.lastFrameTime !== timeSeconds) {
+    globalData.parsingEmitter.emit('nextFrame', {
+      timeSeconds,
+      sinceLastFrame: globalData.lastFrameTime - timeSeconds,
+      globalData,
+      result: globalData.result,
+      states: globalData.states,
+    });
+
+    globalData.lastFrameTime = timeSeconds;
+  }
+
   if (replay.header.NetworkVersion >= 10) {
     readExportData(replay, globalData);
   }
