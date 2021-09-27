@@ -7,6 +7,7 @@ The only libary that can parse 100% of fortnite replays.
 
 - [Settings](./docs/settings.md)
 - [Add own Exports](./docs/addOwnExports.md)
+- [Example project](https://github.com/xNocken/replay-reader-demo-project)
 
 ## Prerequisites
 
@@ -27,7 +28,7 @@ Writing code with this library is pretty straight-forward as there is only one f
 
 The function takes two arguments:
 1. The buffer of the replay file, which can easily be obtained by using [fs](https://nodejs.org/api/fs.html).
-2. (optional) A [config](./settings.md) that allows you to customize some things (e.g. `parseLevel`).
+2. (optional) A [config](./docs/settings.md) that allows you to customize some things (e.g. `parseLevel`).
 
 ```js
 const fs = require('fs');

@@ -1,5 +1,10 @@
 # Add own exports
 
+## Example project
+I have made an example project where you can see everything. There are also examples for typings.
+
+The link can be found [here](https://github.com/xNocken/replay-reader-demo-project).
+
 ## What should I know about replays?
 Replays use so called netFieldExports to parse their packets. The replays provide the information about which part of the replay has which property, and we provide the information about how to parse them. There are 2 types of netFieldExports. The first one has only the properties. The other is the ClassNetCache and is used to get extended data (custom structure), call functions, and add or remove items from lists. Packets contain only the data that has changed.
 
