@@ -273,7 +273,7 @@ class NetFieldParser {
               continue;
             }
 
-            netBitReader.addOffset(numBits);
+            netBitReader.addOffset(7, numBits);
 
             if (isGroupType) {
               const temp = {};
@@ -298,7 +298,7 @@ class NetFieldParser {
               }
             }
 
-            netBitReader.popOffset(numBits);
+            netBitReader.popOffset(7, numBits);
           }
 
           arr[index] = newData;

@@ -22,21 +22,21 @@ class Replay {
     this.header;
   }
 
-  addOffset(offset) {
+  addOffset(index, offset) {
     if (!this.canRead(offset)) {
       throw Error('offset is larger than buffer');
     }
 
-    this.offsets.push(this.lastBit);
+    this.offsets[index] = this.lastBit;
 
     this.lastBit = this.offset + offset;
   }
 
-  addOffsetByte(offset) {
-    this.addOffset(offset * 8)
+  addOffsetByte(index, offset) {
+    this.addOffset(index, offset * 8)
   }
 
-  popOffset(numBits, ignoreError) {
+  popOffset(index, numBits, ignoreError) {
     if (!this.offsets.length) {
       throw Error('no offsets available');
     }
@@ -49,7 +49,9 @@ class Replay {
 
     this.offset = this.lastBit;
 
-    this.lastBit = this.offsets.pop();
+    this.lastBit = this.offsets[index];
+
+    this.offsets.splice(index, this.offsets.length);
   }
 
   getLastByte() {
@@ -571,7 +573,7 @@ class Replay {
    */
   decryptBuffer(length) {
     if (!this.info.IsEncrypted) {
-      this.addOffsetByte(length);
+      this.addOffsetByte(1, length);
 
       return this;
     };

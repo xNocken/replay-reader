@@ -64,12 +64,12 @@ const processBunch = (bunch, replay, globalData) => {
     const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits, bIsActor } = readContentBlockPayload(bunch, globalData);
 
     if (numPayloadBits > 0) {
-      replay.addOffset(numPayloadBits);
+      replay.addOffset(4, numPayloadBits);
     }
 
     if (bObjectDeleted) {
       if (numPayloadBits > 0) {
-        replay.popOffset();
+        replay.popOffset(4);
       }
 
       continue;
@@ -77,7 +77,7 @@ const processBunch = (bunch, replay, globalData) => {
 
     if (bunch.archive.isError) {
       if (numPayloadBits > 0) {
-        replay.popOffset();
+        replay.popOffset(4);
       }
 
       break;
@@ -85,7 +85,7 @@ const processBunch = (bunch, replay, globalData) => {
 
     if (!repObject || !numPayloadBits) {
       if (numPayloadBits > 0) {
-        replay.popOffset();
+        replay.popOffset(4);
       }
 
       continue;
@@ -93,7 +93,7 @@ const processBunch = (bunch, replay, globalData) => {
 
     receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, bIsActor, globalData);
     if (numPayloadBits > 0) {
-      replay.popOffset();
+      replay.popOffset(4);
     }
   }
 };

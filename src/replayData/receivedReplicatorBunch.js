@@ -76,7 +76,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
       continue;
     }
 
-    archive.addOffset(numPayloadBits);
+    archive.addOffset(5, numPayloadBits);
 
     if (fieldCache.isFunction) {
       const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(fieldCache.type);
@@ -90,7 +90,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
       }
     } else if (fieldCache.isCustomStruct) {
       if (!receiveCustomProperty(archive, fieldCache, bunch, classNetCache.pathName, globalData, staticActorId)) {
-        archive.popOffset();
+        archive.popOffset(5);
 
         continue;
       }
@@ -102,19 +102,19 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
       }
 
       if (!exportGroup || !netFieldParser.willReadType(exportGroup.pathName)) {
-        archive.popOffset();
+        archive.popOffset(5);
 
         continue;
       }
 
       if (receiveCustomDeltaProperty(archive, exportGroup, bunch, fieldCache.EnablePropertyChecksum || false, globalData, staticActorId)) {
-        archive.popOffset();
+        archive.popOffset(5);
 
         continue;
       }
     }
 
-    archive.popOffset();
+    archive.popOffset(5);
   }
 };
 

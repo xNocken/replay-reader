@@ -11,11 +11,11 @@ const readNetExportGuids = (replay, globalData) => {
   for (let i = 0; i < numGuids; i++) {
     const size = replay.readInt32();
 
-    replay.addOffsetByte(size);
+    replay.addOffsetByte(2, size);
 
     internalLoadObject(replay, true, globalData);
 
-    replay.popOffset();
+    replay.popOffset(2);
   }
 }
 

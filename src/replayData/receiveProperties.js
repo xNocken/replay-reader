@@ -63,7 +63,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     hasData = true;
 
     try {
-      archive.addOffset(numbits);
+      archive.addOffset(6, numbits);
 
       if (!netFieldParser.setType(exportGroup, exportt, group, archive, globalData)) {
         exportt.incompatible = true;
@@ -71,7 +71,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     } catch (ex) {
       console.log(ex.message);
     } finally {
-      archive.popOffset(numbits, true);
+      archive.popOffset(6, numbits, true);
     }
   }
 

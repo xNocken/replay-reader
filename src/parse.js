@@ -69,7 +69,7 @@ const replayChunks = async (replay, globalData) => {
     const chunkType = replay.readUInt32();
     const chunkSize = replay.readInt32();
 
-    replay.addOffsetByte(chunkSize);
+    replay.addOffsetByte(0, chunkSize);
 
     globalData.parsingEmitter.emit('nextChunk', {
       size: chunkSize,
@@ -97,7 +97,7 @@ const replayChunks = async (replay, globalData) => {
         console.warn('Unhandled chunkType:', chunkType);
     }
 
-    replay.popOffset();
+    replay.popOffset(0);
   }
 
   return events;

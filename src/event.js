@@ -119,7 +119,7 @@ const event = (replay) => {
   }
 
   if (!replay.info.IsEncrypted) {
-    replay.popOffset(length * 8);
+    replay.popOffset(1, length * 8);
   }
 
   return result;

@@ -23,7 +23,7 @@ const receivedRawPacket = (packet, replay, globalData) => {
     bitSize--;
   }
 
-  replay.addOffset(bitSize);
+  replay.addOffset(2, bitSize);
 
   try {
     receivedPacket(replay, packet.timeSeconds, globalData);
@@ -31,7 +31,7 @@ const receivedRawPacket = (packet, replay, globalData) => {
     console.log(ex);
   }
 
-  replay.popOffset();
+  replay.popOffset(2);
 };
 
 /**
@@ -94,17 +94,17 @@ const parsePlaybackPackets = (replay, globalData) => {
 
     packet.timeSeconds = timeSeconds;
 
-    replay.addOffsetByte(packet.size);
+    replay.addOffsetByte(1, packet.size);
 
     if (packet.state === 0) {
       receivedRawPacket(packet, replay, globalData);
     } else {
-      replay.popOffset();
+      replay.popOffset(1);
 
       return;
     }
 
-    replay.popOffset();
+    replay.popOffset(1);
   }
 };
 
@@ -137,7 +137,7 @@ const parseReplayData = async (replay, globalData) => {
   }
 
   if (!replay.info.IsEncrypted) {
-    replay.popOffset();
+    replay.popOffset(1);
   };
 }
 

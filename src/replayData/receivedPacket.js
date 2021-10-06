@@ -109,7 +109,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
         const bits = packetArchive.readBits(bunchDataBits);
         bunch.archive = new Replay(bits, bunchDataBits);
       } else {
-        packetArchive.addOffset(bunchDataBits);
+        packetArchive.addOffset(3, bunchDataBits);
         bunch.archive = packetArchive;
       }
 
@@ -151,7 +151,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
       console.log(ex);
     } finally {
       if (!bunch.bPartial && !ignoreChannel) {
-        bunch.archive.popOffset();
+        bunch.archive.popOffset(3);
       }
     }
   }
