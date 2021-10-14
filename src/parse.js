@@ -61,17 +61,7 @@ const replayChunks = (replay, globalData) => {
     events: [],
   };
 
-  let lastOffset = 0;
-  let lastTime = Date.now();
-
   while (replay.lastBit > replay.offset) {
-    if (globalData.debug) {
-      console.log((((replay.offset - lastOffset) / ((Date.now() - lastTime) / 1000)) / 8).toFixed(0) + ' bytes/s')
-      console.log(100 - ((replay.lastBit - replay.offset) / replay.lastBit * 100));
-      lastOffset = replay.offset;
-      lastTime = Date.now();
-    }
-
     const chunkType = replay.readUInt32();
     const chunkSize = replay.readInt32();
 
