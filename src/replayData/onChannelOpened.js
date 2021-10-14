@@ -10,6 +10,7 @@ const onChannelOpened = (chIndex, actor, globalData) => {
     globalData,
     result: globalData.result,
     states: globalData.states,
+    setFastForward: globalData.setFastForward,
   });
 }
 

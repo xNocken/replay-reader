@@ -29,6 +29,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
         globalData,
         result: globalData.result,
         states: globalData.states,
+        setFastForward: globalData.setFastForward,
       },
     );
   }
@@ -56,6 +57,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
         globalData,
         result: globalData.result,
         states: globalData.states,
+        setFastForward: globalData.setFastForward,
       },
     );
   }
