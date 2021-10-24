@@ -343,6 +343,11 @@ class NetFieldParser {
   getRedirect(path) {
     return this.redirects[path] || path;
   }
+
+  cleanForCheckpoint() {
+    this.classNetCacheToNetFieldGroup = {};
+    this.classPathCache = {};
+  }
 }
 
 module.exports = NetFieldParser;

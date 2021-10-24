@@ -93,33 +93,23 @@ const parseMatchTeamStats = (data, replay) => {
  * Parse the replays meta
  * @param {Replay} replay the replay
  */
-const event = (replay) => {
-  const eventId = replay.readString();
-  const group = replay.readString();
-  const metadata = replay.readString();
-  const startTime = replay.readUInt32();
-  const endTime = replay.readUInt32();
-  const length = replay.readUInt32();
-
-  let decryptedEvent = replay.decryptBuffer(length);
+const event = (replay, info) => {
+  replay.goTo(info.startPos);
+  let decryptedEvent = replay.decryptBuffer(info.length);
   const result = {
-    eventId,
-    group,
-    metadata,
-    startTime,
-    endTime,
+    ...info,
   };
 
-  if (group === 'playerElim') {
+  if (info.group === 'playerElim') {
     parsePlayerElim(result, decryptedEvent);
-  } else if (metadata === 'AthenaMatchStats') {
+  } else if (info.metadata === 'AthenaMatchStats') {
     parseMatchStats(result, decryptedEvent);
-  } else if (metadata === 'AthenaMatchTeamStats') {
+  } else if (info.metadata === 'AthenaMatchTeamStats') {
     parseMatchTeamStats(result, decryptedEvent);
   }
 
   if (!replay.info.IsEncrypted) {
-    replay.popOffset(1, length * 8);
+    replay.popOffset(1, info.length * 8);
   }
 
   return result;

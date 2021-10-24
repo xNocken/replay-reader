@@ -69,7 +69,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
         exportt.incompatible = true;
       }
     } catch (ex) {
-      console.log(ex.message);
+      console.log(ex.stack);
     } finally {
       archive.popOffset(6, numbits, true);
     }
@@ -102,6 +102,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
         globalData,
         result: globalData.result,
         states: globalData.states,
+        setFastForward: globalData.setFastForward,
       },
     );
   }

@@ -37,10 +37,6 @@ class Replay {
   }
 
   popOffset(index, numBits, ignoreError) {
-    if (!this.offsets.length) {
-      throw Error('no offsets available');
-    }
-
     if (this.isError && !ignoreError) {
       throw Error(`Too much was read expected ${numBits}`);
     }
@@ -587,7 +583,6 @@ class Replay {
 
     newReplay.header = this.header;
     newReplay.info = this.info;
-    newReplay.playerList = this.playerList;
 
     return newReplay;
   }
@@ -652,6 +647,10 @@ class Replay {
     return this.offset / 8;
   }
 
+  goTo(offset) {
+    this.offset = offset;
+  }
+
   goToByte(offset) {
     this.offset = offset * 8;
   }
@@ -662,6 +661,14 @@ class Replay {
    */
   hasLevelStreamingFixes() {
     return (this.header.Flags & 2) === 2;
+  }
+
+  /**
+   * Checks the flag for HasDeltaCheckpoints
+   * @returns {Boolean}
+   */
+  hasDeltaCheckpoints() {
+    return (this.header.Flags & 4) === 4;
   }
 
   /**

@@ -2,6 +2,7 @@ const Replay = require('./src/Classes/Replay');
 const { replayInfo, replayChunks } = require('./src/parse');
 const GlobalData = require('./src/utils/globalData');
 const fs = require('fs');
+const parseChunks = require('./src/parseChunks');
 let isParsing = false;
 
 const parse = async (buffer, options) => {
@@ -16,6 +17,7 @@ const parse = async (buffer, options) => {
   const globalData = new GlobalData(options || {});
   let info;
   let chunks;
+  let events = [];
 
   if (globalData.debug) {
     if (fs.existsSync('netfieldexports.txt')) {
@@ -40,7 +42,8 @@ const parse = async (buffer, options) => {
 
   try {
     info = replayInfo(replay);
-    chunks = await replayChunks(replay, globalData);
+    chunks = replayChunks(replay, globalData);
+    events  = await parseChunks(replay, chunks, globalData);
   } catch (err) {
     isParsing = false;
 
@@ -71,7 +74,8 @@ const parse = async (buffer, options) => {
   return {
     header: globalData.header,
     info,
-    events: chunks,
+    chunks,
+    events,
     ...globalData.result,
   };
 }

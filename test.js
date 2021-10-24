@@ -12,6 +12,7 @@ const parse = require('.');
     // ],
     // onlyUseCustomNetFieldExports: true,
     // debug: true,
+    // useCheckpoints: true,
   });
   console.timeEnd();
 

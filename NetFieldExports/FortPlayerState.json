@@ -63,6 +63,11 @@
       "name": "FinisherOrDownerTags",
       "type": "FGameplayTagContainer",
       "parseType": "readClass"
+    },
+    "KillScore": {
+      "name": "KillScore",
+      "parseFunction": "readInt32",
+      "parseType": "default"
     }
   }
 }

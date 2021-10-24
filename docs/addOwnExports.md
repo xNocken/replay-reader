@@ -119,6 +119,28 @@ const handleChests = ({ data, staticActorId, result, states }) => {
 }
 ```
 
+## Use fast forwarding
+With the export functions a function named `setFastForward` is given. With this you can jump through the replay if you know where the data is. This can be used for example with safezones.
+
+```js
+const handleSafezone = ({ data, result, states, setFastForward, timeSeconds }) => {
+  if (data.SafeZoneFinishShrinkTime && states.safeZones.lastShrinkTime != data.SafeZoneFinishShrinkTime) {
+    // save current safezone
+    result.gameData.safeZones.push(data);
+
+    // the `SafeZoneFinishShrinkTime` is in time since the match started
+    // We need to calculate it into time since the replay started
+    const nextShrinkTime = data.SafeZoneFinishShrinkTime - (states.gameState.ReplicatedWorldTimeSeconds - timeSeconds);
+
+    // safe the last shrink time so that we can see when a new zone arrived
+    states.safeZones.lastShrinkTime = data.SafeZoneFinishShrinkTime;
+
+    // now we call the function to set the fast forward target
+    setFastForward(nextShrinkTime);
+  }
+};
+```
+
 ## Troubleshooting
 You've gone through all this effort and nothing works. This can have multiple reasons. 
 - [The data you're trying to parse is Part of a classNetCache](#class-net-cache-parsing)
@@ -419,6 +441,7 @@ const handleEventEmitter = ({
       globalData: GlobalData, // this is a class with all data
       result: Object, // This object contains objects which were built from the exportgroups and exportnames. this object will be returned at the end as the result when the parsing is finished.
       states: Object, // this object contains objects specified by the exportName and the additionalStates setting and is used to store the state of objects temporarily
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
     }) => void)
 
     actorDespawnEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
@@ -430,6 +453,7 @@ const handleEventEmitter = ({
       states: Object,
       openPacket: boolean, // Tells if the package that was closed was also opened
       netFieldExportGroup: any, // This property shows what type the actor had
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
     }) => void)
 
     netDeltaReadEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
@@ -440,6 +464,7 @@ const handleEventEmitter = ({
       globalData: GlobalData,
       result: Object,
       states: Object,
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
     }) => void)
 
     parsingEmitter.on('channelClosed|channelOpened', ({
@@ -448,11 +473,13 @@ const handleEventEmitter = ({
       globalData: GlobalData,
       result: Object,
       states: Object,
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
     }) => void)
 
     parsingEmitter.on('nextChunk', ({
       size: number, // size of the next chunk
       type: number, // type of the next chunk
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
     }) => void)
   }
 };

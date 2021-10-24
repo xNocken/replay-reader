@@ -18,6 +18,7 @@ class NetGuidCache {
   actorIdToActorMap = [];
   netguidToNetFieldExportgroup = [];
   staticActorIdMap = {};
+  notReadGroup = {};
 
   /**
    *
@@ -42,8 +43,7 @@ class NetGuidCache {
 
     if (!netFieldExport) {
       if (globalData.debug) {
-        this.NetFieldExportGroupMap[pathName] = exportGroup;
-        this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
+        this.notReadGroup[exportGroup.pathNameIndex] = exportGroup;
       }
 
       return;
@@ -85,6 +85,8 @@ class NetGuidCache {
 
     this.NetFieldExportGroupMap[pathName] = exportGroup;
     this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
+
+    return exportGroup;
   }
 
   tryGetPathName(netGuid) {
@@ -193,6 +195,10 @@ class NetGuidCache {
     const group = this.NetFieldExportGroupIndexToGroup[index];
 
     if (!group) {
+      if (this.notReadGroup[index]) {
+        return this.notReadGroup[index];
+      }
+
       return null;
     }
 
@@ -254,6 +260,21 @@ class NetGuidCache {
     const exportGroup = this.staticActorIdMap[cleanedPath];
 
     return { staticActorId, group: exportGroup || null };
+  }
+
+  cleanForCheckpoint() {
+    this.NetFieldExportGroupMap = {};
+    this.NetFieldExportGroupIndexToGroup = {};
+    this.NetGuidToPathName = {};
+    this.NetFieldExportGroupMapPathFixed = {};
+    this.ArchTypeToExportGroup = {};
+    this.failedPaths = [];
+    this.CleanedPaths = {};
+    this.CleanedClassNetCache = {};
+    this.networkGameplayTagNodeIndex = null;
+    this.actorIdToActorMap = [];
+    this.netguidToNetFieldExportgroup = [];
+    this.staticActorIdMap = {};
   }
 }
 

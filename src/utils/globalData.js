@@ -34,6 +34,16 @@ class GlobalData {
     this.inPacketId = 0;
     this.lastFrameTime = 0;
 
+    this.parseEvents = true;
+    this.useCheckpoints = false;
+
+    this.fastForwardTo = 0;
+    this.fastForwardThreshold = 60;
+
+    this.setFastForward = (time) => {
+      this.fastForwardTo = time;
+    }
+
     this.externalData = {};
     this.additionalStates = [
       'pawnChannelToStateChannel',
@@ -55,6 +65,21 @@ class GlobalData {
     });
 
     this.netFieldParser = new NetFieldParser(this);
+  }
+
+  resetForCheckpoint() {
+    this.channels = [];
+    this.inPacketId = 0;
+    this.actorToChannel = [];
+    this.channelToActor = [];
+    this.externalData = {};
+    this.inReliable = 0;
+    this.partialBunch = null;
+    this.ignoredChannels = {};
+    this.debugNetGuidToPathName = [];
+    this.debugNotReadingGroups = {};
+    this.netGuidCache = new NetGuidCache();
+    this.netFieldParser.cleanForCheckpoint();
   }
 }
 

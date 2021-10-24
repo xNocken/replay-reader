@@ -489,7 +489,7 @@
       "name": "GameServerNodeType",
       "type": "int",
       "parseFunction": "readInt32",
-      "parseType": "default"
+      "parseType": "ignore"
     },
     "VolumeManager": {
       "name": "VolumeManager",
