@@ -77,6 +77,8 @@ export interface GlobalData {
   netFieldParser: any; // TODO
 }
 
+type setFastForward = (time: number) => void;
+
 export interface Export {
   path: string,
   type: string,
@@ -88,6 +90,7 @@ export interface NetDeltaExportData {
   elementIndex: number,
   path: string,
   export: Export,
+  setFastForward: setFastForward,
 }
 
 export interface NetDeltaExport {
@@ -98,6 +101,7 @@ export interface NetDeltaExport {
   globalData: GlobalData,
   result: Object,
   states: Object,
+  setFastForward: setFastForward,
 }
 
 export interface PropertyExport {
@@ -108,6 +112,7 @@ export interface PropertyExport {
   globalData: GlobalData,
   result: Object,
   states: Object,
+  setFastForward: setFastForward,
 }
 
 export interface ActorDespawnExport {
@@ -119,6 +124,7 @@ export interface ActorDespawnExport {
   result: Object,
   states: Object,
   netFieldExportGroup: any,
+  setFastForward: setFastForward,
 }
 
 export interface ChannelOpenedClosed {
@@ -127,11 +133,13 @@ export interface ChannelOpenedClosed {
   globalData: GlobalData,
   result: Object,
   states: Object,
+  setFastForward: setFastForward,
 }
 
 export interface NextChunk {
   size: number,
   type: number,
+  setFastForward: setFastForward,
 }
 
 export interface NextFrame {
@@ -139,6 +147,7 @@ export interface NextFrame {
   globalData: GlobalData,
   result: Object,
   states: Object,
+  setFastForward: setFastForward,
 }
 
 export interface NetDeltaExportEmitter extends EventEmitter {
@@ -213,7 +222,9 @@ export interface parseOptions {
     [name: string]: Object,
   },
   additionalStates?: string[],
-  handleEventEmitter: handleEventEmitter,
+  handleEventEmitter?: handleEventEmitter,
+  useCheckpoints?: boolean,
+  fastForwardThreshold?: number,
 }
 
 declare function parse(buffer: Buffer, options?: parseOptions): Promise<object>;

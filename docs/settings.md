@@ -30,3 +30,9 @@ This option decides whether or not the parser will use the default netFieldExpor
 This setting overwrites the export for the parsed data. This function takes as argument an object where 4 event emitters are sent 'propertyExportEmitter', 'actorDespawnEmitter', 'netDeltaReadEmitter' and 'parsingEmitter'.
 
 More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read).
+
+## fastForwardThreshold `number`
+This setting sets the threshhold for the setFastForward feature. If the next checkpoint is less than `fastForwardThreshold` far away the checkpoint is not taken to save time.
+
+## useCheckpoints `boolean`
+This setting decides if the last checkpoint should be taken directly. this option increases the parsing speed considerably but it comes with the disadvantage that not all infos are available and the history of the match is not available. An alternative to this option would be the [fastForward](./addOwnExports.md#use-fast-forwarding) option.
