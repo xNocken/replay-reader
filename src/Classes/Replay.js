@@ -272,7 +272,6 @@ class Replay {
 
   readBytes(byteCount) {
     if ((this.offset % 8) === 0) {
-      const arr = Buffer.allocUnsafe(byteCount);
       const start = ~~(this.offset / 8);
 
       if (!this.canRead(byteCount)) {
@@ -281,7 +280,7 @@ class Replay {
         return Buffer.from([]);
       }
 
-      this.buffer.copy(arr, 0, start, start + byteCount);
+      const arr = this.buffer.slice(start, start + byteCount);
 
       this.offset += byteCount * 8;
 
