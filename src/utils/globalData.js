@@ -4,6 +4,7 @@ const NetGuidCache = require('../Classes/NetGuidCache');
 const UChannel = require('../Classes/UChannel');
 const EventEmitter = require('events');
 const handleEventEmitter = require('../../export/handleEventEmitter');
+const Info = require('../Classes/Info');
 
 class GlobalData {
   constructor(overrideConfig = {}) {
@@ -11,6 +12,10 @@ class GlobalData {
      * @type {Array<UChannel>}
      */
     this.channels = [];
+    /**
+     * @type {Info}
+     */
+    this.info = null;
     this.playerControllerGroups = [
       "BP_ReplayPC_Athena_C"
     ];
