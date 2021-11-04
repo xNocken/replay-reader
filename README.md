@@ -7,6 +7,7 @@ The only libary that can parse 100% of fortnite replays.
 
 - [Settings](./docs/settings.md)
 - [Add own Exports](./docs/addOwnExports.md)
+- [Streaming](./docs/streaming.md)
 - [Example project](https://github.com/xNocken/replay-reader-demo-project)
 
 ## Prerequisites

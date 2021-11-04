@@ -27,6 +27,52 @@ export interface NetworkGUID {
   isDefault(): boolean;
 }
 
+interface Checkpoint {
+  Id: string,
+  Group: string,
+  Metadata: string,
+  Time1: number,
+  Time2: number,
+  DownloadLink: string,
+  FileSize: number,
+}
+
+interface Event {
+  Id: string,
+  Group: string,
+  Metadata: string,
+  Time1: number,
+  Time2: number,
+  DownloadLink: string,
+  FileSize: number,
+}
+
+interface DataChunk {
+  Id: string,
+  Time1: number,
+  Time2: number,
+  SizeInBytes: number,
+  DownloadLink: string,
+  FileSize: number,
+}
+
+interface MetaDataResult {
+  ReplayName: string,
+  LengthInMS: number,
+  NetworkVersion: number,
+  Changelist: number,
+  FriendlyName: string,
+  Timestamp: string,
+  bIsLive: boolean,
+  bCompressed: boolean,
+  DesiredDelayInSeconds: number,
+  DownloadLink: string,
+  FileSize: number,
+  Checkpoints: Checkpoint[],
+  Events: Event[],
+  DataChunks: DataChunk[],
+}
+
 export interface Actor {
   actorNetGUID: NetworkGUID;
   archetype: NetworkGUID;
@@ -227,6 +273,6 @@ export interface parseOptions {
   fastForwardThreshold?: number,
 }
 
-declare function parse(buffer: Buffer, options?: parseOptions): Promise<object>;
+declare function parse(buffer: Buffer|MetaDataResult, options?: parseOptions): Promise<object>;
 
 export = parse;

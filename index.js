@@ -3,16 +3,19 @@ const { replayInfo, replayChunks } = require('./src/parse');
 const GlobalData = require('./src/utils/globalData');
 const fs = require('fs');
 const parseChunks = require('./src/parseChunks');
+const { replayInfoStreaming, replayChunksStreaming } = require('./src/parseStreaming');
+const parseChunksStreaming = require('./src/parseChunksStreaming');
+const verifyMetadata = require('./src/utils/verifyMetadata');
 let isParsing = false;
 
-const parse = async (buffer, options) => {
+const parse = async (data, options) => {
   if (isParsing) {
     throw Error('Cannot parse multiple replays at once');
   }
 
-  isParsing = true;
+  const isBinaryFile = data instanceof Buffer;
 
-  const replay = new Replay(buffer);
+  isParsing = true;
 
   const globalData = new GlobalData(options || {});
   let info;
@@ -41,9 +44,21 @@ const parse = async (buffer, options) => {
   });
 
   try {
-    info = replayInfo(replay);
-    chunks = replayChunks(replay, globalData);
-    events  = await parseChunks(replay, chunks, globalData);
+    if (isBinaryFile) {
+      const replay = new Replay(data);
+
+      info = replayInfo(replay,  globalData);
+      chunks = replayChunks(replay, globalData);
+      events = await parseChunks(replay, chunks, globalData);
+    } else {
+      if (!verifyMetadata(data)) {
+        throw new Error('The data provided is neither a Buffer or a valid metadata file')
+      }
+
+      info = replayInfoStreaming(data, globalData);
+      chunks = await replayChunksStreaming(data, globalData);
+      events = await parseChunksStreaming(chunks, globalData);
+    }
   } catch (err) {
     isParsing = false;
 

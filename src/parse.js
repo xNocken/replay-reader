@@ -1,9 +1,6 @@
 const Info = require('./Classes/Info');
 const Replay = require('./Classes/Replay');
-const event = require('./event');
 const parseHeader = require('./header');
-const parseReplayData = require('./replayData');
-const parseCheckpoint = require('./checkpoint');
 const GlobalData = require('./utils/globalData');
 
 /**
@@ -12,7 +9,7 @@ const GlobalData = require('./utils/globalData');
  *
  * @returns {Info} Informations about the replay
  */
-const replayInfo = (replay) => {
+const replayInfo = (replay, globalData) => {
   const info = new Info();
 
   info.Magic = replay.readUInt32();
@@ -45,6 +42,7 @@ const replayInfo = (replay) => {
   }
 
   replay.info = info;
+  globalData.info = info;
 
   return info;
 };
