@@ -35,7 +35,7 @@ const parseChunks = async (replay, chunks, globalData) => {
     return events;
   }
 
-  if (globalData.useCheckpoints) {
+  if (globalData.useCheckpoints && chunks.checkpoints.length) {
     const checkpoint = chunks.checkpoints.splice(-1)[0];
 
     let debugTime;
