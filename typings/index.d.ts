@@ -292,6 +292,8 @@ export interface ChannelOpenedClosed {
 export interface NextChunk {
   size: number,
   type: number,
+  chunk: PlayerElemEvent|MatchStatsEvent|MatchTeamStatsEvent|Event,
+  chunks: Chunks,
   setFastForward: setFastForward,
   stopParsing: setFastForward,
 }
@@ -382,6 +384,8 @@ export interface parseOptions {
   fastForwardThreshold?: number,
   maxConcurrentDownloads?: number,
   maxConcurrentEventDownloads?: number,
+  parseEvents?: boolean,
+  parsePackets?: boolean,
 }
 
 interface Result {

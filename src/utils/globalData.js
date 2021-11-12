@@ -40,6 +40,7 @@ class GlobalData {
     this.lastFrameTime = 0;
 
     this.parseEvents = true;
+    this.parsePackets = true;
     this.useCheckpoints = false;
     this.maxConcurrentDownloads = 3;
     this.maxConcurrentEventDownloads = 10;

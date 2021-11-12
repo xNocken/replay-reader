@@ -127,6 +127,10 @@ const parseChunksStreaming = async (chunks, globalData) => {
     };
   }
 
+  if (!globalData.parsePackets) {
+    return events;
+  }
+
   if (globalData.useCheckpoints) {
     const newTime = await findAndParseCheckpoint(chunks, time, Infinity, globalData);
 

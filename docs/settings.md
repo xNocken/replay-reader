@@ -45,3 +45,9 @@ But too many at once can overwhelm your internet.
 ## maxConcurrentEventDownloads `number`
 This is the same as `maxConcurrentDownloads` but for events.
 The same applier here but events are much smaller and therefore can handle more at once.
+
+## parseEvents `boolean` 
+This settings decides whether or not events should be parsed. They contain data about player elims and simple match stats
+
+## parsePackets `boolean`
+This settings decides whether or not data chunks should be parsed. They contain everything. But maybe parsing events is enough data

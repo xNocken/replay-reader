@@ -31,6 +31,10 @@ const parseChunks = async (replay, chunks, globalData) => {
     });
   }
 
+  if (!globalData.parsePackets) {
+    return events;
+  }
+
   if (globalData.useCheckpoints) {
     const checkpoint = chunks.checkpoints.splice(-1)[0];
 
