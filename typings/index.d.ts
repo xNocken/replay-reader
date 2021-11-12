@@ -27,17 +27,76 @@ export interface NetworkGUID {
   isDefault(): boolean;
 }
 
+interface Header {
+  Magic: number,
+  NetworkVersion: number,
+  NetworkChecksum: number,
+  EngineNetworkVersion: number,
+  GameNetworkProtocolVersion: number,
+  Guid: string,
+  Major: number,
+  Minor: number,
+  Patch: number,
+  Changelist: number,
+  Branch: string,
+  LevelNamesAndTimes: {
+    [world: string]: number
+  },
+  Flags: number,
+  gameSpecificData: string[],
+}
+
+interface Info {
+  LengthInMs: number,
+  NetworkVersion: number,
+  Changelist: number,
+  FriendlyName: string,
+  Timestamp: Date,
+  TotalDataSizeInBytes: number,
+  IsLive: boolean,
+  IsCompressed: boolean,
+  IsEncrypted: boolean,
+  EncryptionKey: number[],
+  FileVersion: number,
+}
+
 interface Checkpoint {
-  Id: string,
-  Group: string,
-  Metadata: string,
-  Time1: number,
-  Time2: number,
-  DownloadLink: string,
-  FileSize: number,
+  id: string,
+  group: string,
+  metadata: string,
+  start: number,
+  end: number,
+  sizeInBytes: number,
+  startpos: number,
+  link?: string,
 }
 
 interface Event {
+  id: string,
+  group: string,
+  metadata: string,
+  start: number,
+  end: number,
+  length: number,
+  startpos: number,
+  link?: string,
+}
+
+interface DataChunk {
+  start: number,
+  end: number,
+  length: number,
+  startpos: number,
+  link?: string,
+}
+
+interface Chunks {
+  replayData: DataChunk[],
+  checkpoints: Checkpoint[],
+  events: Event[],
+}
+
+interface MetadataCheckpoint {
   Id: string,
   Group: string,
   Metadata: string,
@@ -47,7 +106,49 @@ interface Event {
   FileSize: number,
 }
 
-interface DataChunk {
+interface PlayerElemEvent extends Event {
+  eliminated: string,
+  eliminator: string,
+  gunType: string|number,
+  knocked: boolean,
+}
+
+interface MatchStatsEvent extends Event {
+  eliminated: string,
+  eliminator: string,
+  gunType: string|number,
+  knocked: boolean
+  accuracy: number,
+  assists: number,
+  eliminations: number,
+  weaponDamage: number,
+  otherDamage: number,
+  revives: number,
+  damageTaken: number,
+  damageToStructures: number,
+  materialsGathered: number,
+  materialsUsed: number,
+  totalTraveled: number,
+  damageToPlayers: number,
+}
+
+interface MatchTeamStatsEvent extends Event {
+  something: number,
+  position: number,
+  totalPlayers: number,
+}
+
+interface MetadataEvent {
+  Id: string,
+  Group: string,
+  Metadata: string,
+  Time1: number,
+  Time2: number,
+  DownloadLink: string,
+  FileSize: number,
+}
+
+interface MetadataDataChunk {
   Id: string,
   Time1: number,
   Time2: number,
@@ -68,9 +169,9 @@ interface MetaDataResult {
   DesiredDelayInSeconds: number,
   DownloadLink: string,
   FileSize: number,
-  Checkpoints: Checkpoint[],
-  Events: Event[],
-  DataChunks: DataChunk[],
+  Checkpoints: MetadataCheckpoint[],
+  Events: MetadataEvent[],
+  DataChunks: MetadataDataChunk[],
 }
 
 export interface Actor {
@@ -124,6 +225,7 @@ export interface GlobalData {
 }
 
 type setFastForward = (time: number) => void;
+type stopParsing = () => void;
 
 export interface Export {
   path: string,
@@ -137,6 +239,7 @@ export interface NetDeltaExportData {
   path: string,
   export: Export,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface NetDeltaExport {
@@ -148,6 +251,7 @@ export interface NetDeltaExport {
   result: Object,
   states: Object,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface PropertyExport {
@@ -159,6 +263,7 @@ export interface PropertyExport {
   result: Object,
   states: Object,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface ActorDespawnExport {
@@ -171,6 +276,7 @@ export interface ActorDespawnExport {
   states: Object,
   netFieldExportGroup: any,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface ChannelOpenedClosed {
@@ -180,12 +286,14 @@ export interface ChannelOpenedClosed {
   result: Object,
   states: Object,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface NextChunk {
   size: number,
   type: number,
   setFastForward: setFastForward,
+  stopParsing: setFastForward,
 }
 
 export interface NextFrame {
@@ -194,6 +302,7 @@ export interface NextFrame {
   result: Object,
   states: Object,
   setFastForward: setFastForward,
+  stopParsing: stopParsing,
 }
 
 export interface NetDeltaExportEmitter extends EventEmitter {
@@ -275,6 +384,16 @@ export interface parseOptions {
   maxConcurrentEventDownloads?: number,
 }
 
-declare function parse(buffer: Buffer|MetaDataResult, options?: parseOptions): Promise<object>;
+interface Result {
+  header: Header,
+  info: Info,
+  chunks: Chunks,
+  events: (PlayerElemEvent|MatchStatsEvent|MatchTeamStatsEvent|Event)[],
+  [exportGroup: string]: {
+    [chIndex: number|string]: object,
+  }
+}
+
+declare function parse(buffer: Buffer|MetaDataResult, options?: parseOptions): Promise<Result>;
 
 export = parse;

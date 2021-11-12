@@ -20,6 +20,7 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
       result: globalData.result,
       states: globalData.states,
       setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
     },
   );
 }

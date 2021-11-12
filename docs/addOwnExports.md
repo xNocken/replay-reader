@@ -442,6 +442,7 @@ const handleEventEmitter = ({
       result: Object, // This object contains objects which were built from the exportgroups and exportnames. this object will be returned at the end as the result when the parsing is finished.
       states: Object, // this object contains objects specified by the exportName and the additionalStates setting and is used to store the state of objects temporarily
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
     actorDespawnEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
@@ -454,6 +455,7 @@ const handleEventEmitter = ({
       openPacket: boolean, // Tells if the package that was closed was also opened
       netFieldExportGroup: any, // This property shows what type the actor had
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
     netDeltaReadEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
@@ -465,6 +467,7 @@ const handleEventEmitter = ({
       result: Object,
       states: Object,
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
     parsingEmitter.on('channelClosed|channelOpened', ({
@@ -474,12 +477,14 @@ const handleEventEmitter = ({
       result: Object,
       states: Object,
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
     parsingEmitter.on('nextChunk', ({
       size: number, // size of the next chunk
       type: number, // type of the next chunk
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
   }
 };

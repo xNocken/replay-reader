@@ -54,6 +54,7 @@ const receivedPacket = require("./receivedPacket");
       result: globalData.result,
       states: globalData.states,
       setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
     });
 
     globalData.lastFrameTime = timeSeconds;

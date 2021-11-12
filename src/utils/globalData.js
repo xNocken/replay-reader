@@ -46,9 +46,14 @@ class GlobalData {
 
     this.fastForwardTo = 0;
     this.fastForwardThreshold = 60;
+    this.stopParsing = false;
 
     this.setFastForward = (time) => {
       this.fastForwardTo = time;
+    }
+
+    this.stopParsingFunc = () => {
+      this.stopParsing = true;
     }
 
     this.externalData = {};

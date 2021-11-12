@@ -19,7 +19,8 @@ const getChunk = async (url, globalData) => {
   return replay;
 }
 
-const findAndParseCheckpoint = async (checkpoints, currentTime, targetTime, globalData) => {
+const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalData) => {
+  const { checkpoints } = chunks;
   let checkpoint;
   let index = 0;
 
@@ -47,6 +48,15 @@ const findAndParseCheckpoint = async (checkpoints, currentTime, targetTime, glob
     debugTime = Date.now();
   }
 
+  globalData.parsingEmitter.emit('nextChunk', {
+    size: checkpoint.sizeInBytes,
+    type: 2,
+    chunks,
+    chunk: checkpoint,
+    setFastForward: globalData.setFastForward,
+    stopParsing: globalData.stopParsingFunc,
+  });
+
   await parseCheckpoint(replay, checkpoint, globalData);
 
   if (globalData.debug) {
@@ -58,8 +68,8 @@ const findAndParseCheckpoint = async (checkpoints, currentTime, targetTime, glob
 
 const parseChunksStreaming = async (chunks, globalData) => {
   const events = [];
-  let time = 0;
   const canBeParsed = [];
+  let time = 0;
   let isParsing = false;
   let isFastForwarding = false;
   let downloadIndex = 0;
@@ -96,6 +106,15 @@ const parseChunksStreaming = async (chunks, globalData) => {
           debugTime = Date.now();
         }
 
+        globalData.parsingEmitter.emit('nextChunk', {
+          size: event.length,
+          type: 3,
+          chunks,
+          chunk: event,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+        });
+
         events.push(parseEvent(replay, event));
         eventDownloadCount -= 1;
 
@@ -109,7 +128,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
   }
 
   if (globalData.useCheckpoints) {
-    const newTime = await findAndParseCheckpoint(chunks.checkpoints, time, Infinity, globalData);
+    const newTime = await findAndParseCheckpoint(chunks, time, Infinity, globalData);
 
     if (newTime) {
       time = newTime;
@@ -128,6 +147,10 @@ const parseChunksStreaming = async (chunks, globalData) => {
   const downloadNextChunk = async () => {
     let wasFastForwarded = false;
     if (isFastForwarding) {
+      if (globalData.stopParsing) {
+        exitFunction();
+      }
+
       return;
     }
 
@@ -147,7 +170,16 @@ const parseChunksStreaming = async (chunks, globalData) => {
 
         parseIndex += 1;
         isParsing = true;
-        chunk.parsed = true;
+
+        globalData.parsingEmitter.emit('nextChunk', {
+          size: chunk.chunk.length,
+          type: 3,
+          chunks,
+          chunk: chunk.chunk,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+        });
+
         await parseReplayData(chunk.replay, chunk.chunk, globalData);
         time = chunk.chunk.end;
 
@@ -159,7 +191,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
           const fastForwardTarget = globalData.fastForwardTo;
 
           isFastForwarding = true;
-          const newTime = await findAndParseCheckpoint(chunks.checkpoints, time, globalData.fastForwardTo * 1000, globalData);
+          const newTime = await findAndParseCheckpoint(chunks, time, globalData.fastForwardTo * 1000, globalData);
           isFastForwarding = false;
 
           if (newTime) {

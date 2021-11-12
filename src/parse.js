@@ -65,11 +65,6 @@ const replayChunks = (replay, globalData) => {
 
     replay.addOffsetByte(0, chunkSize);
 
-    globalData.parsingEmitter.emit('nextChunk', {
-      size: chunkSize,
-      type: chunkType,
-    });
-
     switch (chunkType) {
       case 0:
         globalData.header = parseHeader(replay);

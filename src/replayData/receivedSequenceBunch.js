@@ -38,6 +38,7 @@ const receivedSequencedBunch = (bunch, globalData) => {
             result: globalData.result,
             states: globalData.states,
             setFastForward: globalData.setFastForward,
+            stopParsing: globalData.stopParsingFunc,
           }
         );
       }

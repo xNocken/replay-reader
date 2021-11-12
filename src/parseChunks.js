@@ -14,6 +14,15 @@ const parseChunks = async (replay, chunks, globalData) => {
         debugTime = Date.now();
       }
 
+      globalData.parsingEmitter.emit('nextChunk', {
+        size: event.sizeInBytes,
+        type: 3,
+        chunks,
+        chunk: event,
+        setFastForward: globalData.setFastForward,
+        stopParsing: globalData.stopParsingFunc,
+      });
+
       events.push(parseEvent(replay, event));
 
       if (globalData.debug) {
@@ -41,7 +50,11 @@ const parseChunks = async (replay, chunks, globalData) => {
   }
 
   for (let i = 0; i < chunks.replayData.length; i++) {
-    const { fastForwardTo } = globalData;
+    const { fastForwardTo, stopParsing } = globalData;
+
+    if (stopParsing) {
+      break;
+    }
 
     if ((fastForwardTo * 1000) > time) {
       const checkpoint = chunks.checkpoints.reduce((prev, curr) => curr.start < (fastForwardTo * 1000) ? curr : prev, null);
@@ -56,6 +69,15 @@ const parseChunks = async (replay, chunks, globalData) => {
         if (globalData.debug) {
           console.log(`fast forwarding from ${(time / 1000).toFixed(2)} to ${fastForwardTo.toFixed(2)} with checkpoint at ${(checkpoint.start / 1000).toFixed(2)}`);
         }
+
+        globalData.parsingEmitter.emit('nextChunk', {
+          size: checkpoint.sizeInBytes,
+          type: 2,
+          chunks,
+          chunk: checkpoint,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+        });
 
         await parseCheckpoint(replay, checkpoint, globalData)
 
@@ -75,6 +97,15 @@ const parseChunks = async (replay, chunks, globalData) => {
       if (globalData.debug) {
         debugTime = Date.now();
       }
+
+      globalData.parsingEmitter.emit('nextChunk', {
+        size: chunks.replayData[i].length,
+        type: 1,
+        chunks,
+        chunk: chunks.replayData[i].length,
+        setFastForward: globalData.setFastForward,
+        stopParsing: globalData.stopParsingFunc,
+      });
 
       await parseReplayData(replay, chunks.replayData[i], globalData);
       time = chunks.replayData[i].end;
