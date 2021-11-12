@@ -41,6 +41,8 @@ class GlobalData {
 
     this.parseEvents = true;
     this.useCheckpoints = false;
+    this.maxConcurrentDownloads = 3;
+    this.maxConcurrentEventDownloads = 10;
 
     this.fastForwardTo = 0;
     this.fastForwardThreshold = 60;

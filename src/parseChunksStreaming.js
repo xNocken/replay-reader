@@ -19,11 +19,58 @@ const getChunk = async (url, globalData) => {
   return replay;
 }
 
+const findAndParseCheckpoint = async (checkpoints, currentTime, targetTime, globalData) => {
+  let checkpoint;
+  let index = 0;
+
+  while (checkpoints[index] && checkpoints[index].start <= targetTime) {
+    checkpoint = checkpoints[index];
+    index += 1;
+  }
+
+  if (!checkpoint || (currentTime + (globalData.fastForwardThreshold * 1000)) > checkpoint.start) {
+    return false;
+  }
+
+  let debugTime;
+  let debugTimeDownload;
+  let debugTimeDownloadFinish;
+
+  if (globalData.debug) {
+    debugTimeDownload = Date.now();
+  }
+
+  const replay = await getChunk(checkpoint.link, globalData);
+
+  if (globalData.debug) {
+    debugTimeDownloadFinish = Date.now();
+    debugTime = Date.now();
+  }
+
+  await parseCheckpoint(replay, checkpoint, globalData);
+
+  if (globalData.debug) {
+    console.log(`downloaded checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
+  }
+
+  return checkpoint.end;
+}
+
 const parseChunksStreaming = async (chunks, globalData) => {
   const events = [];
   let time = 0;
+  const canBeParsed = [];
+  let isParsing = false;
+  let isFastForwarding = false;
+  let downloadIndex = 0;
+  let parseIndex = 0;
+  let downloadAmount = 0;
+  let exitFunction;
 
   if (globalData.parseEvents) {
+    let continueParsing;
+    let eventDownloadCount = 0;
+
     for (let i = 0; i < chunks.events.length; i++) {
       const event = chunks.events[i];
       let debugTime;
@@ -34,109 +81,155 @@ const parseChunksStreaming = async (chunks, globalData) => {
         debugTimeDownload = Date.now();
       }
 
-      const replay = await getChunk(event.link, globalData);
+      await new Promise((resolve, reject) => {
+        continueParsing = resolve;
 
-      if (globalData.debug) {
-        debugTimeDownloadFinish = Date.now();
-        debugTime = Date.now();
-      }
-
-      events.push(parseEvent(replay, event));
-
-      if (globalData.debug) {
-        console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
-      }
-    };
-  }
-
-  if (globalData.useCheckpoints) {
-    const checkpoint = chunks.checkpoints.splice(-1)[0];
-    let debugTime;
-    let debugTimeDownload;
-    let debugTimeDownloadFinish;
-
-    if (globalData.debug) {
-      debugTimeDownload = Date.now();
-    }
-
-    const replay = await getChunk(checkpoint.link, globalData);
-
-    if (globalData.debug) {
-      debugTimeDownloadFinish = Date.now();
-      debugTime = Date.now();
-    }
-
-    await parseCheckpoint(replay, checkpoint, globalData);
-
-    if (globalData.debug) {
-      console.log(`downloaded checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
-    }
-
-    time = checkpoint.end;
-  }
-
-  for (let i = 0; i < chunks.replayData.length; i++) {
-    const { fastForwardTo } = globalData;
-
-    if ((fastForwardTo * 1000) > time) {
-      const checkpoint = chunks.checkpoints.reduce((prev, curr) => curr.start < (fastForwardTo * 1000) ? curr : prev, null);
-
-      if (checkpoint && (time + (globalData.fastForwardThreshold * 1000)) < checkpoint.start) {
-        let debugTime;
-        let debugTimeDownload;
-        let debugTimeDownloadFinish;
-
-        if (globalData.debug) {
-          debugTimeDownload = Date.now();
+        if (eventDownloadCount < globalData.maxConcurrentEventDownloads) {
+          resolve();
         }
+      });
 
-        if (globalData.debug) {
-          console.log(`fast forwarding from ${(time / 1000).toFixed(2)} to ${fastForwardTo.toFixed(2)} with checkpoint at ${(checkpoint.start / 1000).toFixed(2)}`);
-        }
-
-        const replay = await getChunk(checkpoint.link, globalData);
-
+      eventDownloadCount += 1;
+      getChunk(event.link, globalData).then((replay) => {
         if (globalData.debug) {
           debugTimeDownloadFinish = Date.now();
           debugTime = Date.now();
         }
 
-        await parseCheckpoint(replay, checkpoint, globalData)
+        events.push(parseEvent(replay, event));
+        eventDownloadCount -= 1;
 
-        globalData.fastForwardTo = 0;
-
-        time = checkpoint.start;
+        continueParsing();
 
         if (globalData.debug) {
-          console.log(`downloaded checkpointChunk with ${checkpoints.sizeInBytes} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed in ${Date.now() - debugTime}ms`)
+          console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
         }
-      }
-    }
+      })
+    };
+  }
 
-    if (time <= chunks.replayData[i].start) {
-      let debugTime;
-      let debugTimeDownload;
-      let debugTimeDownloadFinish;
+  if (globalData.useCheckpoints) {
+    const newTime = await findAndParseCheckpoint(chunks.checkpoints, time, Infinity, globalData);
 
-      if (globalData.debug) {
-        debugTimeDownload = Date.now();
-      }
+    if (newTime) {
+      time = newTime;
 
-      const replay = await getChunk(chunks.replayData[i].link, globalData);
+      let index = 0;
 
-      if (globalData.debug) {
-        debugTimeDownloadFinish = Date.now();
-        debugTime = Date.now();
+      while (chunks.replayData[index + 1].start <= time) {
+        index += 1;
       }
 
-      await parseReplayData(replay, chunks.replayData[i], globalData);
-      time = chunks.replayData[i].end;
-
-      if (globalData.debug) {
-        console.log(`downloaded replayDataChunk with ${chunks.replayData[i].length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed in ${Date.now() - debugTime}ms`)
-      }
+      parseIndex = index;
+      downloadIndex = index;
     }
   }
+
+  const downloadNextChunk = async () => {
+    let wasFastForwarded = false;
+    if (isFastForwarding) {
+      return;
+    }
+
+    if (!isParsing) {
+      while (canBeParsed[parseIndex]) {
+        const chunk = canBeParsed[parseIndex];
+
+        if (time > chunk.start) {
+          parseIndex += 1;
+        }
+
+        let parseStartTime;
+
+        if (globalData.debug) {
+          parseStartTime = Date.now();
+        }
+
+        parseIndex += 1;
+        isParsing = true;
+        chunk.parsed = true;
+        await parseReplayData(chunk.replay, chunk.chunk, globalData);
+        time = chunk.chunk.end;
+
+        if (globalData.debug) {
+          console.log(`downloaded dataChunk at ${chunk.chunk.start / 1000}s with ${chunk.chunk.length} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`)
+        }
+
+        if (time < globalData.fastForwardTo * 1000) {
+          const fastForwardTarget = globalData.fastForwardTo;
+
+          isFastForwarding = true;
+          const newTime = await findAndParseCheckpoint(chunks.checkpoints, time, globalData.fastForwardTo * 1000, globalData);
+          isFastForwarding = false;
+
+          if (newTime) {
+            if (globalData.debug) {
+              console.log(`fastForwarded from ${time / 1000}s to ${fastForwardTarget}s using checkpoint at ${newTime / 1000}s`);
+            }
+
+            time = newTime;
+
+            let index = 0;
+
+            while (chunks.replayData[index + 1].start <= time) {
+              index += 1;
+            }
+
+            parseIndex = index;
+            downloadIndex = index;
+            wasFastForwarded = true;
+          }
+        }
+
+        isParsing = false;
+      }
+    }
+
+    if (chunks.replayData.length <= downloadIndex) {
+      if (!isParsing && downloadAmount === 0) {
+        exitFunction();
+      }
+
+      return;
+    }
+
+    if (downloadAmount >= globalData.maxConcurrentDownloads) {
+      return;
+    }
+
+    const currentIndex = downloadIndex;
+    downloadIndex += 1;
+
+    const chunk = chunks.replayData[currentIndex];
+
+    downloadAmount += 1;
+
+    let downloadStartTime;
+
+    if (globalData.debug) {
+      downloadStartTime = Date.now();
+    }
+
+    getChunk(chunk.link, globalData).then((replay) => {
+      canBeParsed[currentIndex] = {
+        chunk,
+        replay,
+        downloadTime: Date.now() - downloadStartTime,
+      };
+
+      downloadAmount -= 1;
+
+      downloadNextChunk();
+    });
+
+    downloadNextChunk();
+  }
+
+  downloadNextChunk();
+
+  await new Promise((resolve) => {
+    exitFunction = resolve;
+  });
 
   return events;
 };
