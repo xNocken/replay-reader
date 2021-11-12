@@ -22,6 +22,17 @@ const metadata = await replayDownloader.downloadMetadata({
 });
 
 const replay = await parser(metadata, {
-  parseEvents: false, // only download dataChunks
+  parseEvents: false, // not required but speeds up parsing
 });
 ```
+
+## Settings
+
+### maxConcurrentDownloads
+This setting sets the limit on how many data chunks can be downloaded at once. 
+The more chunks you download at once the faster it will finish parsing. 
+But too many at once can overwhelm your internet.
+
+### maxConcurrentEventDownloads
+This is the same as `maxConcurrentDownloads` but for events.
+The same applier here but events are much smaller and therefore can handle more at once.

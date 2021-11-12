@@ -36,3 +36,12 @@ This setting sets the threshhold for the setFastForward feature. If the next che
 
 ## useCheckpoints `boolean`
 This setting decides if the last checkpoint should be taken directly. this option increases the parsing speed considerably but it comes with the disadvantage that not all infos are available and the history of the match is not available. An alternative to this option would be the [fastForward](./addOwnExports.md#use-fast-forwarding) option.
+
+## maxConcurrentDownloads `number`
+This setting is used for the streaming feature and sets the limit on how many data chunks can be downloaded at once. 
+The more chunks you download at once the faster it will finish parsing. 
+But too many at once can overwhelm your internet.
+
+## maxConcurrentEventDownloads `number`
+This is the same as `maxConcurrentDownloads` but for events.
+The same applier here but events are much smaller and therefore can handle more at once.

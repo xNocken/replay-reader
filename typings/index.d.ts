@@ -271,6 +271,8 @@ export interface parseOptions {
   handleEventEmitter?: handleEventEmitter,
   useCheckpoints?: boolean,
   fastForwardThreshold?: number,
+  maxConcurrentDownloads?: number,
+  maxConcurrentEventDownloads?: number,
 }
 
 declare function parse(buffer: Buffer|MetaDataResult, options?: parseOptions): Promise<object>;
