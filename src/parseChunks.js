@@ -90,7 +90,7 @@ const parseChunks = async (replay, chunks, globalData) => {
         time = checkpoint.start;
 
         if (globalData.debug) {
-          console.log(`read checkpointChunk with ${checkpoints.sizeInBytes} bytes in ${Date.now() - debugTime}ms`)
+          console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`)
         }
       }
     }

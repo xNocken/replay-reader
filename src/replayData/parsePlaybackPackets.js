@@ -30,7 +30,7 @@ const receivedPacket = require("./receivedPacket");
     console.log(ex);
   }
 
-  replay.popOffset(2);
+  replay.popOffset(2, bitSize);
 };
 
 /**

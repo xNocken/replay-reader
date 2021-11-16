@@ -122,11 +122,15 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     if (bunch.bReliable && bunch.chSequence <= globals.inReliable) {
+      bunch.archive.popOffset(3);
+
       continue;
     }
 
     if (!channel && !bunch.bReliable) {
       if (!(bunch.bOpen && (bunch.bClose || bunch.bPartial))) {
+        bunch.archive.popOffset(3);
+
         continue;
       }
     }
