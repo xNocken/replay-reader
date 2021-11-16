@@ -66,7 +66,7 @@ class Replay {
 
     const byteOffset = ~~(this.offset / 8); // ~~ = math.trunc
 
-    let value = this.buffer[byteOffset] >> (this.offset % 8) & 1;
+    let value = this.buffer[byteOffset] >> (this.offset & 7) & 1;
 
     this.offset += 1;
 
@@ -77,7 +77,7 @@ class Replay {
     const buffer = Buffer.allocUnsafe(Math.ceil(count / 8));
     let readBytes = 0;
 
-    if ((this.offset % 8) === 0) {
+    if ((this.offset & 7) === 0) {
       readBytes = ~~(count / 8);
       const bytes = this.readBytes(readBytes);
 
@@ -87,11 +87,11 @@ class Replay {
     let currentBit;
     let currentResultOffset;
     let currentByte = this.buffer[~~(this.offset / 8)];
-    let currentByteBit = 1 << (this.offset % 8);
+    let currentByteBit = 1 << (this.offset & 7);
 
     for (let i = readBytes * 8; i < count; i++) {
-      const bitOffset = this.offset % 8;
-      const resultBitOffset = i % 8;
+      const bitOffset = this.offset & 7;
+      const resultBitOffset = i & 7;
 
       if (resultBitOffset === 0) {
         currentResultOffset = i / 8;
@@ -123,7 +123,7 @@ class Replay {
     let val = 0;
     let readBits = 0;
 
-    if ((this.offset % 8) === 0) {
+    if ((this.offset & 7) === 0) {
       let bytesToRead = ~~((count - 1) / 8)
 
       for (let i = 0; i < bytesToRead; i++) {
@@ -140,10 +140,10 @@ class Replay {
 
     let currentBit = 1 << readBits;
     let currentByte = this.buffer[~~(this.offset / 8)];
-    let currentByteBit = 1 << (this.offset % 8);
+    let currentByteBit = 1 << (this.offset & 7);
 
     for (let i = readBits; i < count; i++) {
-      const bitOffset = this.offset % 8;
+      const bitOffset = this.offset & 7;
 
       if (bitOffset === 0) {
         currentByteBit = 1;
@@ -175,7 +175,7 @@ class Replay {
   readBitsToUnsignedInt(count) {
     let val = 0;
 
-    if ((this.offset % 8) === 0) {
+    if ((this.offset & 7) === 0) {
       let index = 0;
 
       while (count >= 8) {
@@ -193,10 +193,10 @@ class Replay {
 
     let currentBit = 1;
     let currentByte = this.buffer[~~(this.offset / 8)];
-    let currentByteBit = 1 << (this.offset % 8);
+    let currentByteBit = 1 << (this.offset & 7);
 
     for (let i = 0; i < count; i++) {
-      const bitOffset = this.offset % 8;
+      const bitOffset = this.offset & 7;
 
       if (bitOffset === 0) {
         currentByteBit = 1;
@@ -226,10 +226,10 @@ class Replay {
     let value = 0;
 
     let currentByte = this.buffer[~~(this.offset / 8)];
-    let currentByteBit = 1 << (this.offset % 8);
+    let currentByteBit = 1 << (this.offset & 7);
 
     for (let mask = 1; (value + mask) < maxValue; mask *= 2) {
-      const bitOffset = this.offset % 8;
+      const bitOffset = this.offset & 7;
 
       if (bitOffset === 0) {
         currentByteBit = 1;
@@ -271,7 +271,7 @@ class Replay {
   }
 
   readBytes(byteCount) {
-    if ((this.offset % 8) === 0) {
+    if ((this.offset & 7) === 0) {
       const start = ~~(this.offset / 8);
 
       if (!this.canRead(byteCount)) {

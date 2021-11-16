@@ -50,11 +50,9 @@ const receivedNextBunch = (bunch, globalData) => {
       const bitsLeft = bunch.archive.getBitsLeft();
 
       if (!bunch.bHasPackageExportMaps) {
-        if (bitsLeft % 8 != 0) {
+        if ((bitsLeft & 7) != 0) {
           return;
         }
-      } else {
-
       }
 
       return;
@@ -75,7 +73,7 @@ const receivedNextBunch = (bunch, globalData) => {
           globalData.partialBunch.archive.appendDataFromChecked(bunch.archive.readBits(bitsLeft), bitsLeft);
         }
 
-        if (!bunch.bHasPackageExportMaps && !bunch.bPartialFinal && (bitsLeft % 8 != 0)) {
+        if (!bunch.bHasPackageExportMaps && !bunch.bPartialFinal && ((bitsLeft & 7) != 0)) {
           return;
         }
 
