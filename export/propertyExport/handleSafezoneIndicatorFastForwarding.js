@@ -1,6 +1,7 @@
 const handleSafezoneFastForwarding = ({ data, result, states, timeSeconds, setFastForward }) => {
-  if (data.SafeZoneStartShrinkTime && data.SafeZoneFinishShrinkTime) {
+  if (data.SafeZoneFinishShrinkTime && states.safeZones.SafeZoneFinishShrinkTime !== data.SafeZoneFinishShrinkTime) {
     result.gameData.safeZones.push(data);
+    states.safeZones.SafeZoneFinishShrinkTime = data.SafeZoneFinishShrinkTime;
 
     const realTime = data.SafeZoneFinishShrinkTime - (states.gameState.ReplicatedWorldTimeSeconds - timeSeconds)
 
