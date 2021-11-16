@@ -207,7 +207,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
 
             let index = 0;
 
-            while (chunks.replayData[index + 1].start <= time) {
+            while (chunks.replayData[index + 1] && chunks.replayData[index + 1].start <= time) {
               index += 1;
             }
 
