@@ -5,6 +5,12 @@ const handleInventory = ({ chIndex, data, states }) => {
       replayPawn: data.ReplayPawn,
       items: [],
     };
+
+    return;
+  }
+
+  if (data.ReplayPawn) {
+    states.inventories[chIndex].replayPawn = data.ReplayPawn;
   }
 };
 
