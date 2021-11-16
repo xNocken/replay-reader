@@ -1,4 +1,5 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
+const cleanStaticIdSuffix = require('../utils/cleanStaticIdSuffix');
 const GlobalData = require('../utils/globalData');
 const removePathPrefix = require('../utils/removePathPrefix');
 const Actor = require('./Actor');
@@ -255,7 +256,7 @@ class NetGuidCache {
       return { staticActorId: null, group: null };
     }
 
-    const cleanedPath = staticActorId.replace(/(?<=[a-z])\d*_?\d*$/i, '');
+    const cleanedPath = cleanStaticIdSuffix(staticActorId);
 
     const exportGroup = this.staticActorIdMap[cleanedPath];
 
