@@ -26,21 +26,25 @@ const receivedSequencedBunch = (bunch, globalData) => {
       }
 
       if (netFieldExportGroup) {
-        globalData.actorDespawnEmitter.emit(
-          pathhhh.basename(netFieldExportGroup.pathName),
-          {
-            openPacket: bunch.bOpen,
-            chIndex: bunch.chIndex,
-            timeSeconds: bunch.timeSeconds,
-            netFieldExportGroup,
-            staticActorId,
-            globalData,
-            result: globalData.result,
-            states: globalData.states,
-            setFastForward: globalData.setFastForward,
-            stopParsing: globalData.stopParsingFunc,
-          }
-        );
+        try {
+          globalData.actorDespawnEmitter.emit(
+            pathhhh.basename(netFieldExportGroup.pathName),
+            {
+              openPacket: bunch.bOpen,
+              chIndex: bunch.chIndex,
+              timeSeconds: bunch.timeSeconds,
+              netFieldExportGroup,
+              staticActorId,
+              globalData,
+              result: globalData.result,
+              states: globalData.states,
+              setFastForward: globalData.setFastForward,
+              stopParsing: globalData.stopParsingFunc,
+            }
+          );
+        } catch (err) {
+          console.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);
+        }
       }
     }
 

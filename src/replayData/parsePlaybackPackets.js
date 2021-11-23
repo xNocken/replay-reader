@@ -8,7 +8,7 @@ const receivedPacket = require("./receivedPacket");
 /**
  * @param {PlaybackPacket} packet
  */
- const receivedRawPacket = (packet, replay, globalData) => {
+const receivedRawPacket = (packet, replay, globalData) => {
   let lastByte = replay.getLastByte();
 
   if (!lastByte) {
@@ -37,7 +37,7 @@ const receivedPacket = require("./receivedPacket");
  * Get packets from the replay
  * @param {Replay} replay the replay
  */
- const parsePlaybackPackets = (replay, globalData) => {
+const parsePlaybackPackets = (replay, globalData) => {
   let currentLevelIndex;
 
   if (replay.header.NetworkVersion >= 6) {
@@ -47,15 +47,19 @@ const receivedPacket = require("./receivedPacket");
   const timeSeconds = replay.readFloat32();
 
   if (globalData.lastFrameTime !== timeSeconds) {
-    globalData.parsingEmitter.emit('nextFrame', {
-      timeSeconds,
-      sinceLastFrame: globalData.lastFrameTime - timeSeconds,
-      globalData,
-      result: globalData.result,
-      states: globalData.states,
-      setFastForward: globalData.setFastForward,
-      stopParsing: globalData.stopParsingFunc,
-    });
+    try {
+      globalData.parsingEmitter.emit('nextFrame', {
+        timeSeconds,
+        sinceLastFrame: globalData.lastFrameTime - timeSeconds,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
+        setFastForward: globalData.setFastForward,
+        stopParsing: globalData.stopParsingFunc,
+      });
+    } catch (err) {
+      console.error(`Error while exporting "nextFrame": ${err.stack}`);
+    }
 
     globalData.lastFrameTime = timeSeconds;
   }

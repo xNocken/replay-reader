@@ -92,21 +92,25 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       console.log('Unhandled export', exportGroup.type)
     }
 
-    globalData.exportEmitter.emit(
-      exportGroup.type,
-      {
-        chIndex: channelIndex,
-        data: exportGroup,
-        timeSeconds: bunch.timeSeconds,
-        staticActorId,
-        globalData,
-        result: globalData.result,
-        states: globalData.states,
-        setFastForward: globalData.setFastForward,
-        stopParsing: globalData.stopParsingFunc,
-        changedProperties,
-      },
-    );
+    try {
+      globalData.exportEmitter.emit(
+        exportGroup.type,
+        {
+          chIndex: channelIndex,
+          data: exportGroup,
+          timeSeconds: bunch.timeSeconds,
+          staticActorId,
+          globalData,
+          result: globalData.result,
+          states: globalData.states,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+          changedProperties,
+        },
+      );
+    } catch (err) {
+      console.error(`Error while exporting propertyExport "${exportGroup.type}": ${err.stack}`);
+    }
   }
 
   return { exportGroup, changedProperties };

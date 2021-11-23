@@ -11,28 +11,31 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
 
   for (let i = 0; i < header.numDeletes; i++) {
     const elementIndex = reader.readInt32();
-
-    globalData.netDeltaEmitter.emit(
-      group.customExportName || pathhhh.basename(group.pathName),
-      {
-        chIndex: bunch.chIndex,
-        data: {
-          deleted: true,
-          elementIndex,
-          path: group.pathName,
-          export: {
-            type: pathhhh.basename(group.pathName),
+    try {
+      globalData.netDeltaEmitter.emit(
+        group.customExportName || pathhhh.basename(group.pathName),
+        {
+          chIndex: bunch.chIndex,
+          data: {
+            deleted: true,
+            elementIndex,
+            path: group.pathName,
+            export: {
+              type: pathhhh.basename(group.pathName),
+            },
           },
+          timeSeconds: bunch.timeSeconds,
+          staticActorId,
+          globalData,
+          result: globalData.result,
+          states: globalData.states,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
         },
-        timeSeconds: bunch.timeSeconds,
-        staticActorId,
-        globalData,
-        result: globalData.result,
-        states: globalData.states,
-        setFastForward: globalData.setFastForward,
-        stopParsing: globalData.stopParsingFunc,
-      },
-    );
+      );
+    } catch (err) {
+      console.error(`Error while exporting netDelta "${group.customExportName || pathhhh.basename(group.pathName)}": ${err.stack}`);
+    }
   }
 
   for (let i = 0; i < header.numChanged; i++) {
@@ -44,25 +47,29 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
       continue;
     }
 
-    globalData.netDeltaEmitter.emit(
-      properties.type,
-      {
-        chIndex: bunch.chIndex,
-        data: {
-          elementIndex,
-          path: group.pathName,
-          export: properties.exportGroup,
+    try {
+      globalData.netDeltaEmitter.emit(
+        properties.type,
+        {
+          chIndex: bunch.chIndex,
+          data: {
+            elementIndex,
+            path: group.pathName,
+            export: properties.exportGroup,
+          },
+          timeSeconds: bunch.timeSeconds,
+          staticActorId,
+          globalData,
+          result: globalData.result,
+          states: globalData.states,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+          changedProperties: properties.changedProperties,
         },
-        timeSeconds: bunch.timeSeconds,
-        staticActorId,
-        globalData,
-        result: globalData.result,
-        states: globalData.states,
-        setFastForward: globalData.setFastForward,
-        stopParsing: globalData.stopParsingFunc,
-        changedProperties: properties.changedProperties,
-      },
-    );
+      );
+    } catch (err) {
+      console.error(`Error while exporting netDelta "${group.customExportName || pathhhh.basename(group.pathName)}": ${err.stack}`);
+    }
   }
 };
 

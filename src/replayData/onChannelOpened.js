@@ -4,15 +4,18 @@ const onChannelOpened = (chIndex, actor, globalData) => {
     globalData.channelToActor[chIndex] = actor.value;
   }
 
-  globalData.parsingEmitter.emit('channelOpened', {
-    chIndex,
-    actor,
-    globalData,
-    result: globalData.result,
-    states: globalData.states,
-    setFastForward: globalData.setFastForward,
-    stopParsing: globalData.stopParsingFunc,
-  });
+  try {
+    globalData.parsingEmitter.emit('channelOpened', {
+      chIndex,
+      actor,
+      globalData,
+      result: globalData.result,
+      states: globalData.states,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+    });
+  } catch (err) {
+    console.error(`Error while exporting "channelOpened": ${err.stack}`);
+  }
 }
-
 module.exports = onChannelOpened;

@@ -48,14 +48,18 @@ const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalDat
     debugTime = Date.now();
   }
 
-  globalData.parsingEmitter.emit('nextChunk', {
-    size: checkpoint.sizeInBytes,
-    type: 2,
-    chunks,
-    chunk: checkpoint,
-    setFastForward: globalData.setFastForward,
-    stopParsing: globalData.stopParsingFunc,
-  });
+  try {
+    globalData.parsingEmitter.emit('nextChunk', {
+      size: checkpoint.sizeInBytes,
+      type: 2,
+      chunks,
+      chunk: checkpoint,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+    });
+  } catch (err) {
+    console.error(`Error while exporting "nextChunk": ${err.stack}`);
+  }
 
   await parseCheckpoint(replay, checkpoint, globalData);
 
@@ -106,14 +110,18 @@ const parseChunksStreaming = async (chunks, globalData) => {
           debugTime = Date.now();
         }
 
-        globalData.parsingEmitter.emit('nextChunk', {
-          size: event.length,
-          type: 3,
-          chunks,
-          chunk: event,
-          setFastForward: globalData.setFastForward,
-          stopParsing: globalData.stopParsingFunc,
-        });
+        try {
+          globalData.parsingEmitter.emit('nextChunk', {
+            size: event.length,
+            type: 3,
+            chunks,
+            chunk: event,
+            setFastForward: globalData.setFastForward,
+            stopParsing: globalData.stopParsingFunc,
+          });
+        } catch (err) {
+          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+        }
 
         events.push(parseEvent(replay, event));
         eventDownloadCount -= 1;
@@ -175,14 +183,18 @@ const parseChunksStreaming = async (chunks, globalData) => {
         parseIndex += 1;
         isParsing = true;
 
-        globalData.parsingEmitter.emit('nextChunk', {
-          size: chunk.chunk.length,
-          type: 3,
-          chunks,
-          chunk: chunk.chunk,
-          setFastForward: globalData.setFastForward,
-          stopParsing: globalData.stopParsingFunc,
-        });
+        try {
+          globalData.parsingEmitter.emit('nextChunk', {
+            size: chunk.chunk.length,
+            type: 3,
+            chunks,
+            chunk: chunk.chunk,
+            setFastForward: globalData.setFastForward,
+            stopParsing: globalData.stopParsingFunc,
+          });
+        } catch (err) {
+          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+        }
 
         await parseReplayData(chunk.replay, chunk.chunk, globalData);
         time = chunk.chunk.end;

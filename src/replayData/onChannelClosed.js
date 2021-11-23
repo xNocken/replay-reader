@@ -1,13 +1,17 @@
 const onChannelClosed = (chIndex, actor, globalData) => {
-  globalData.parsingEmitter.emit('channelClosed', {
-    chIndex,
-    actor,
-    globalData,
-    result: globalData.result,
-    states: globalData.states,
-    setFastForward: globalData.setFastForward,
-    stopParsing: globalData.stopParsingFunc,
-  });
+  try {
+    globalData.parsingEmitter.emit('channelClosed', {
+      chIndex,
+      actor,
+      globalData,
+      result: globalData.result,
+      states: globalData.states,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+    });
+  } catch (err) {
+    console.error(`Error while exporting "channelClosed": ${err.stack}`);
+  }
 
   delete globalData.ignoredChannels[chIndex];
   delete globalData.channels[chIndex];
