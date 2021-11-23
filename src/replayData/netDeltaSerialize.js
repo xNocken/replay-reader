@@ -49,7 +49,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
 
     try {
       globalData.netDeltaEmitter.emit(
-        properties.type,
+        properties.exportGroup.type,
         {
           chIndex: bunch.chIndex,
           data: {
