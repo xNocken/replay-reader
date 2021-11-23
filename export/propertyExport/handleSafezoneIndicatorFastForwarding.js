@@ -3,7 +3,7 @@ const handleSafezoneFastForwarding = ({ data, result, states, timeSeconds, setFa
     result.gameData.safeZones.push(data);
     states.safeZones.SafeZoneFinishShrinkTime = data.SafeZoneFinishShrinkTime;
 
-    const realTime = data.SafeZoneFinishShrinkTime - (states.gameState.ReplicatedWorldTimeSeconds - timeSeconds)
+    const realTime = data.SafeZoneFinishShrinkTime - states.gameState.ingameToReplayTimeDiff;
 
     setFastForward(realTime);
   }
