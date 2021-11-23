@@ -1,6 +1,8 @@
 const Header = require('./Classes/Header');
 const Replay = require('./Classes/Replay');
 
+const headerMagic = 0x2CF5A13D;
+
 /**
  * Parse the replays meta
  * @param {Replay} replay the replay
@@ -11,6 +13,11 @@ const header = (replay) => {
   const result = new Header();
 
   result.Magic = replay.readUInt32();
+
+  if (result.Magic !== headerMagic) {
+    throw new Error('Not a valid replay');
+  }
+
   result.NetworkVersion = replay.readUInt32();
   result.NetworkChecksum = replay.readUInt32();
   result.EngineNetworkVersion = replay.readUInt32();

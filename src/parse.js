@@ -3,6 +3,8 @@ const Replay = require('./Classes/Replay');
 const parseHeader = require('./header');
 const GlobalData = require('./utils/globalData');
 
+const replayMagic = 0x1CA2E27F;
+
 /**
  * Parse the replays meta
  * @param {Replay} replay the replay
@@ -13,6 +15,11 @@ const replayInfo = (replay, globalData) => {
   const info = new Info();
 
   info.Magic = replay.readUInt32();
+
+  if (info.Magic !== replayMagic) {
+    throw new Error('Not a valid replay');
+  }
+
   info.FileVersion = replay.readUInt32();
   info.LengthInMs = replay.readUInt32();
   info.NetworkVersion = replay.readUInt32();
