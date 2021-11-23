@@ -1,4 +1,4 @@
-const handleSpeedSign = ({ data, staticActorId, result, states }) => {
+const handleSpeedSign = ({ data, staticActorId, result, states, changedProperties }) => {
   if (!states.speedSigns[staticActorId]) {
     const newState = {
       history: [],
@@ -8,11 +8,11 @@ const handleSpeedSign = ({ data, staticActorId, result, states }) => {
     result.mapData.speedSigns.push(newState);
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.speedSigns[staticActorId][key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.speedSigns[staticActorId][key] = data[key];
+  }
 
   if (data.VehicleSpeed !== undefined) {
     states.speedSigns[staticActorId].history.push(data.VehicleSpeed);

@@ -1,4 +1,4 @@
-const handleSupplyDrop = ({ chIndex, data, states, result }) => {
+const handleSupplyDrop = ({ chIndex, data, states, result, changedProperties }) => {
   if (!states.supplyDrops[chIndex]) {
     states.supplyDrops[chIndex] = data;
     result.mapData.supplyDrops.push(data);
@@ -6,11 +6,11 @@ const handleSupplyDrop = ({ chIndex, data, states, result }) => {
     return;
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.supplyDrops[chIndex][key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.supplyDrops[chIndex][key] = data[key];
+  }
 };
 
 module.exports = handleSupplyDrop;

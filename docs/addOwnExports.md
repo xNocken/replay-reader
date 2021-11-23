@@ -14,9 +14,9 @@ You can use the debug mode to create a list of all objects included in the repla
 ## Create a custom netFieldExport
 The first thing you need to decide is what kind of data you want to evaluate. Most likely you want to evaluate a normal property like the kills of a player. The others are rather rare and will be explained later.
 
-The next step is to find out where this property is stored. For example, if you want to find out the radius of the current storm, you have to look in ``netfieldexports.txt``. If you search for safezone, you will find the export ``/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C``. The string is the path for this object and the object has the property ``Radius``. 
+The next step is to find out where this property is stored. For example, if you want to find out the radius of the current storm, you have to look in ``netfieldexports.txt``. If you search for safezone, you will find the export ``/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C``. The string is the path for this object and the object has the property ``Radius``.
 
-Now that you know the object and property you want to parse, we can start creating the netFieldExport. It is best to create a folder for your exports and save each export in json files. So you can then put an index.js in the folder which requires all json files and then exports them in an array. All netfieldexports will be specified as an array in the option ``customNetFieldExports``. The structure can be found [here](#netfieldexport-structure). 
+Now that you know the object and property you want to parse, we can start creating the netFieldExport. It is best to create a folder for your exports and save each export in json files. So you can then put an index.js in the folder which requires all json files and then exports them in an array. All netfieldexports will be specified as an array in the option ``customNetFieldExports``. The structure can be found [here](#netfieldexport-structure).
 
 Now follow these steps:
 - Add the path to the path array
@@ -51,11 +51,11 @@ In the end it should look something like this:
 }
 ```
 
-The next step is the processing of the exported data. 
+The next step is the processing of the exported data.
 
 If you don't know what type the property is, just use 'readClass' as 'parsetype' and 'DebugObject' as 'type'.
 
-## Create a custom export function 
+## Create a custom export function
 First step: create a function like [this](#export-function) and add it to the ``handleEventEmitters`` setting:
 ```js
 const onExportRead = ({ propertyExportEmitter }) => {
@@ -63,7 +63,7 @@ const onExportRead = ({ propertyExportEmitter }) => {
 };
 ```
 
-the 2 most important properties are ``result`` and ``data``. ```data``` contains the updates and ```result``` is returned when the parsing of the replay is done. so our goal is to get the data that is in ```data``` into ```result```. One way could look like this: 
+the 2 most important properties are ``result`` and ``data``. ```data``` contains the updates and ```result``` is returned when the parsing of the replay is done. so our goal is to get the data that is in ```data``` into ```result```. One way could look like this:
 
 ```js
 const handleSafezone = ({ data, result }) => {
@@ -75,10 +75,10 @@ const handleSafezone = ({ data, result }) => {
 };
 ```
 
-Most of the time, however, we also need properties that do not update constantly. So we need another way to store the data. this is where the property ``states`` comes into play. This property contains an object for each netfieldexport you have created. The name of the object can be defined by the ``exportName`` in the netfieldexport. There you have the possibility to save the properties after the chIndex to be able to access them quickly. Here is an example: 
+Most of the time, however, we also need properties that do not update constantly. So we need another way to store the data. this is where the property ``states`` comes into play. This property contains an object for each netfieldexport you have created. The name of the object can be defined by the ``exportName`` in the netfieldexport. There you have the possibility to save the properties after the chIndex to be able to access them quickly. Here is an example:
 
 ```js
-const handleSupplyDrop = ({ chIndex, data, states, result }) => {
+const handleSupplyDrop = ({ chIndex, data, states, result, changedProperties }) => {
   // does this object already exist or is it new?
   if (!states.supplyDrops[chIndex]) {
     // if it is new save it in states
@@ -90,12 +90,11 @@ const handleSupplyDrop = ({ chIndex, data, states, result }) => {
   }
 
   // if it already exists look through all properties and overwrite the old data
-  // keep in mind that this is a very slow way to overwrite all properties. the fastest way would be to overwrite all properties by hand.
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.supplyDrops[chIndex][key] = value;
-    }
-  });
+  for (let i = i; i < changedProperties.length; i++) {
+    const key = changedProperties[i];
+
+    states.supplyDrops[chIndex][key] = data[key];
+  }
 };
 ```
 
@@ -142,12 +141,12 @@ const handleSafezone = ({ data, result, states, setFastForward, timeSeconds }) =
 ```
 
 ## Troubleshooting
-You've gone through all this effort and nothing works. This can have multiple reasons. 
+You've gone through all this effort and nothing works. This can have multiple reasons.
 - [The data you're trying to parse is Part of a classNetCache](#class-net-cache-parsing)
 - The object is something extremly special and needs needs to be parsed in a weird way
 
 ## Parse classNetCache <a name="class-net-cache-parsing"></a>
-There are 3 different types of ClassNetCache properties. Functions, custom struct and netDeltaProperty. 
+There are 3 different types of ClassNetCache properties. Functions, custom struct and netDeltaProperty.
 
 All classnetcache have '_ClassNetCache' as suffix. The netFieldExport for a ClassNetCache must have the property "type" with the value "ClassNetCache".
 
@@ -198,7 +197,7 @@ That's all there is to it. now we just have to create an export function that ha
 ### Custom struct
 Custom struct is a type that loads a class for parsing and calls the serialize and resolve functions.
 
-In this example we use the playlistinfo. 
+In this example we use the playlistinfo.
 
 For this we need a netfieldexport for the classnetcache which should look like this:
 ```json
@@ -224,7 +223,7 @@ For this we need a netfieldexport for the classnetcache which should look like t
 ```
 The ```type``` must be the filename of the class which is used for parsing.
 
-The class has a 'serialize' function. The argument is a reader on which all functions can be called to read the property. 
+The class has a 'serialize' function. The argument is a reader on which all functions can be called to read the property.
 
 Optionally a 'resolve' function can be implemented which takes the netguid cache as argument.
 
@@ -255,9 +254,9 @@ The class is then sent to the propertyExport as ``data``. The key is the path of
 ## NetDeltaExport
 NetDeltaExports are used to transfer arrays. An update can add items but also remove them. Each item that is added or deleted gets its own export call. Implementing NetDeltaExports is a bit more complex than the other ways but also straight forward.
 
-In data there are 4 properties. ``deleted``, ``elementIndex``, ``path`` and ``export``. 
+In data there are 4 properties. ``deleted``, ``elementIndex``, ``path`` and ``export``.
 
-``elementIndex`` is the index in the array which gets an update. 
+``elementIndex`` is the index in the array which gets an update.
 
 ``deleted`` determines if the item was deleted at the location.
 
@@ -342,7 +341,7 @@ this function ignores the property
 - options required: none
 
 ### readClass
-This parses the data as a class. 
+This parses the data as a class.
 
 The ```type``` option needs to be the exact class filename without extention
 - name: readClass
@@ -351,7 +350,7 @@ The ```type``` option needs to be the exact class filename without extention
 - options required: type
 
 ### readDynamicArray
-This parses the data as a class in an array. 
+This parses the data as a class in an array.
 
 The ```type``` option needs to be the exact class filename without extention or a parseFunction
 - name: readDynamicArray
@@ -360,7 +359,7 @@ The ```type``` option needs to be the exact class filename without extention or 
 - options required: type
 
 ### readEnum
-This parses the data as a enum. 
+This parses the data as a enum.
 
 The ```type``` option needs to be the exact enum filename without extention.
 
@@ -371,7 +370,7 @@ The ```bits``` option is the size of the enum in bits.
 - options required: type, bits
 
 ### default
-Calls a function to parse the data. Can be used for simple values like ints and strings. 
+Calls a function to parse the data. Can be used for simple values like ints and strings.
 
 The ```exportFunction``` option is the size of the enum in bits.
 - name: default
@@ -431,7 +430,7 @@ const handleEventEmitter = ({
   propertyExportEmitter,
   actorDespawnEmitter,
   netDeltaReadEmitter,
-  parsingEmitter,  
+  parsingEmitter,
 }) => {
     propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
       chIndex: number, // This can be seen as the unique identifier for an object
@@ -441,8 +440,9 @@ const handleEventEmitter = ({
       globalData: GlobalData, // this is a class with all data
       result: Object, // This object contains objects which were built from the exportgroups and exportnames. this object will be returned at the end as the result when the parsing is finished.
       states: Object, // this object contains objects specified by the exportName and the additionalStates setting and is used to store the state of objects temporarily
-      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
+      changedProperties: string[], // This array contains all property names that changed in this export
     }) => void)
 
     actorDespawnEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
@@ -454,7 +454,7 @@ const handleEventEmitter = ({
       states: Object,
       openPacket: boolean, // Tells if the package that was closed was also opened
       netFieldExportGroup: any, // This property shows what type the actor had
-      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
@@ -466,8 +466,9 @@ const handleEventEmitter = ({
       globalData: GlobalData,
       result: Object,
       states: Object,
-      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
+      changedProperties: string[], // This array contains all property names that changed in this export
     }) => void)
 
     parsingEmitter.on('channelClosed|channelOpened', ({
@@ -476,14 +477,14 @@ const handleEventEmitter = ({
       globalData: GlobalData,
       result: Object,
       states: Object,
-      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
     parsingEmitter.on('nextChunk', ({
       size: number, // size of the next chunk
       type: number, // type of the next chunk
-      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay 
+      setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
   }

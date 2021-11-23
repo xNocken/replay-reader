@@ -1,4 +1,4 @@
-const handleLabradorLlama = ({ chIndex, data, states, result }) => {
+const handleLabradorLlama = ({ chIndex, data, states, result, changedProperties }) => {
   if (!states.labradorLlamas[chIndex]) {
     states.labradorLlamas[chIndex] = data;
     result.mapData.labradorLlamas.push(data);
@@ -6,11 +6,11 @@ const handleLabradorLlama = ({ chIndex, data, states, result }) => {
 
   const currentLlama = states.labradorLlamas[chIndex];
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      currentLlama[key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    currentLlama[key] = data[key];
+  }
 
   const gameplayCues = states.gameplayCues[chIndex];
 

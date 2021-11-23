@@ -1,4 +1,4 @@
-const handleLootLlama = ({ chIndex, data, result, states }) => {
+const handleLootLlama = ({ chIndex, data, result, states, changedProperties }) => {
   if (!states.llamas[chIndex]) {
     const { x, y, z } = data.ReplicatedMovement.location;
 
@@ -19,11 +19,11 @@ const handleLootLlama = ({ chIndex, data, result, states }) => {
     }
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.llamas[chIndex][key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.llamas[chIndex][key] = data[key];
+  }
 };
 
 module.exports = handleLootLlama;

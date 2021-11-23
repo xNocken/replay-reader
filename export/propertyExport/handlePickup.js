@@ -1,4 +1,4 @@
-const handleFortPickup = ({ chIndex, data, result, states }) => {
+const handleFortPickup = ({ chIndex, data, result, states, changedProperties }) => {
   if (!states.pickups[chIndex]) {
     states.pickups[chIndex] = data;
     result.mapData.pickups.push(data);
@@ -6,11 +6,11 @@ const handleFortPickup = ({ chIndex, data, result, states }) => {
     return;
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.pickups[chIndex][key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.pickups[chIndex][key] = data[key];
+  }
 };
 
 module.exports = handleFortPickup;

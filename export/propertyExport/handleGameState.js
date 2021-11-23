@@ -1,4 +1,4 @@
-const handleGameState = ({ data, result, states, timeSeconds }) => {
+const handleGameState = ({ data, result, states, timeSeconds, changedProperties }) => {
   if (!states.gameState.inited) {
     result.gameData.gameState = states.gameState;
 
@@ -6,11 +6,11 @@ const handleGameState = ({ data, result, states, timeSeconds }) => {
     states.gameState.ingameToReplayTimeDiff = states.gameState.ReplicatedWorldTimeSeconds - timeSeconds;
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      result.gameData.gameState[key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.gameState[key] = data[key];
+  }
 };
 
 module.exports = handleGameState;

@@ -38,20 +38,20 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
   for (let i = 0; i < header.numChanged; i++) {
     const elementIndex = reader.readInt32();
 
-    const exportGroup = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, staticActorId);
+    const properties = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, staticActorId);
 
-    if (!exportGroup) {
+    if (!properties) {
       continue;
     }
 
     globalData.netDeltaEmitter.emit(
-      exportGroup.type,
+      properties.type,
       {
         chIndex: bunch.chIndex,
         data: {
           elementIndex,
           path: group.pathName,
-          export: exportGroup,
+          export: properties.exportGroup,
         },
         timeSeconds: bunch.timeSeconds,
         staticActorId,
@@ -60,6 +60,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
         states: globalData.states,
         setFastForward: globalData.setFastForward,
         stopParsing: globalData.stopParsingFunc,
+        changedProperties: properties.changedProperties,
       },
     );
   }

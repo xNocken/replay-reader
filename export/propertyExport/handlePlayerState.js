@@ -19,13 +19,14 @@ const handleQueuedPlayerPawns = (stateChIndex, states, globalData) => {
     handlePlayerPawn({
       chIndex: playerPawn.chIndex,
       data: playerPawn.playerPawn,
+      changedProperties: playerPawn.changedProperties,
       states,
       globalData,
     })
   });
 };
 
-const handlePlayerState = ({ chIndex, data, states, result, globalData }) => {
+const handlePlayerState = ({ chIndex, data, states, result, globalData, changedProperties }) => {
   if (data.bOnlySpectator == true) {
     onlySpectatingPlayers.push(chIndex);
     return;
@@ -46,11 +47,11 @@ const handlePlayerState = ({ chIndex, data, states, result, globalData }) => {
     newPlayer = true;
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      playerData[key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    playerData[key] = data[key];
+  }
 
   if (!playerData.bIsABot && data.PlayerNamePrivate) {
     const name = data.PlayerNamePrivate;

@@ -12,23 +12,21 @@ const GlobalData = require('../utils/globalData');
  * @param {GlobalData} globalData
  */
 const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, staticActorId) => {
-  let exportGroup;
   const { netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
 
-  if (globalData.debug) {
-    if (!netFieldParser.willReadType(group.pathName)) {
-      return false;
-    }
+  if (globalData.debug && !netFieldParser.willReadType(group.pathName)) {
+    return false;
   }
 
   if (enableProperyChecksum) {
     archive.skipBits(1);
   }
 
-  exportGroup = netFieldParser.createType(group);
+  const exportGroup = netFieldParser.createType(group);
 
   let hasData = false;
+  let changedProperties = [];
 
   while (true) {
     let handle = archive.readIntPacked();
@@ -52,11 +50,13 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
 
     if (!exportt) {
       archive.skipBits(numbits);
+
       continue;
     }
 
     if (exportt.incompatible) {
       archive.skipBits(numbits);
+
       continue;
     }
 
@@ -64,7 +64,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
 
     try {
       archive.addOffset(6, numbits);
-
+      changedProperties.push(exportt.name);
       if (!netFieldParser.setType(exportGroup, exportt, group, archive, globalData)) {
         exportt.incompatible = true;
       }
@@ -104,11 +104,12 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
         states: globalData.states,
         setFastForward: globalData.setFastForward,
         stopParsing: globalData.stopParsingFunc,
+        changedProperties,
       },
     );
   }
 
-  return exportGroup;
+  return { exportGroup, changedProperties };
 };
 
 module.exports = receiveProperties;

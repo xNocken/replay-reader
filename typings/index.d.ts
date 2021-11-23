@@ -238,8 +238,7 @@ export interface NetDeltaExportData {
   elementIndex: number,
   path: string,
   export: Export,
-  setFastForward: setFastForward,
-  stopParsing: setFastForward,
+  changedProperties: string[],
 }
 
 export interface NetDeltaExport {
@@ -252,6 +251,7 @@ export interface NetDeltaExport {
   states: Object,
   setFastForward: setFastForward,
   stopParsing: setFastForward,
+  changedProperties?: string[],
 }
 
 export interface PropertyExport {
@@ -264,6 +264,7 @@ export interface PropertyExport {
   states: Object,
   setFastForward: setFastForward,
   stopParsing: setFastForward,
+  changedProperties: string[],
 }
 
 export interface ActorDespawnExport {

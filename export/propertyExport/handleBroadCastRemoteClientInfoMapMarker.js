@@ -1,4 +1,4 @@
-const handleFortBroadcastRemoteClientInfoMapMarker = ({ chIndex, data, result, states }) => {
+const handleFortBroadcastRemoteClientInfoMapMarker = ({ chIndex, data, result, states, changedProperties }) => {
   if (data.type.match('Remove')) {
     if (states.markers[chIndex]) {
       states.markers[chIndex].removed = true;
@@ -14,11 +14,11 @@ const handleFortBroadcastRemoteClientInfoMapMarker = ({ chIndex, data, result, s
     return;
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      states.markers[chIndex][key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    states.markers[chIndex][key] = data[key];
+  }
 };
 
 module.exports = handleFortBroadcastRemoteClientInfoMapMarker;

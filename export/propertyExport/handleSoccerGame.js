@@ -1,4 +1,4 @@
-const handleSoccerGame = ({ data, staticActorId, result, states }) => {
+const handleSoccerGame = ({ data, staticActorId, result, states, changedProperties }) => {
   if (!states.soccerGames[staticActorId]) {
     const newState = {
       scoreHistory: [],
@@ -10,11 +10,11 @@ const handleSoccerGame = ({ data, staticActorId, result, states }) => {
 
   const current = states.soccerGames[staticActorId];
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      current[key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    current[key] = data[key];
+  }
 
   if (data.Score_Team_A !== undefined || data.Score_Team_B !== undefined) {
     current.scoreHistory.push({

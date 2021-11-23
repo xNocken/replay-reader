@@ -12,7 +12,7 @@ const tryGetPlayerDataFromPawn = (pawn, states) => {
   return null;
 };
 
-const handlePlayerPawn = ({ chIndex, data, globalData, states }) => {
+const handlePlayerPawn = ({ chIndex, data, globalData, states, changedProperties }) => {
   const { actorToChannel } = globalData;
   const { pawnChannelToStateChannel, queuedPlayerPawns, players } = states;
   let playerState;
@@ -35,6 +35,7 @@ const handlePlayerPawn = ({ chIndex, data, globalData, states }) => {
       playerPawns.push({
         chIndex,
         playerPawn: data,
+        changedProperties,
       });
 
       return;
@@ -50,11 +51,11 @@ const handlePlayerPawn = ({ chIndex, data, globalData, states }) => {
     }
   }
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value !== null) {
-      playerState[key] = value;
-    }
-  });
+  for (let i = 0; i < changedProperties.length; i += 1) {
+    const key = changedProperties[i];
+
+    playerState[key] = data[key];
+  }
 };
 
 module.exports = handlePlayerPawn;
