@@ -2,7 +2,7 @@ const fs = require('fs');
 const parse = require('.');
 
 (async () => {
-  const replayBuffer = fs.readFileSync('replays/mothership.replay');
+  const replayBuffer = fs.readFileSync('replays/server-17.21.replay');
 
   console.time();
   const parsedReplay = await parse(replayBuffer, {

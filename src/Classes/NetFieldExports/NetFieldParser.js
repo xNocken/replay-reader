@@ -4,6 +4,7 @@ const DebugObject = require('../../../Classes/DebugObject');
 const netFieldExports = require('../../../NetFieldExports');
 const enums = require('../../../Enums');
 const classes = require('../../../Classes');
+const Replay = require('../../Classes/Replay');
 
 const getExportByType = (type) => {
   switch (type) {
@@ -223,7 +224,7 @@ class NetFieldParser {
       case 'readDynamicArray':
         const count = netBitReader.readIntPacked();
         const arr = [];
-        const isGroupType = netBitReader[exportt.type];
+        const isGroupType = netBitReader[exportt.parseFunction];
 
         while (true) {
           let index = netBitReader.readIntPacked();
@@ -273,12 +274,18 @@ class NetFieldParser {
               continue;
             }
 
-            netBitReader.addOffset(7, numBits);
+            const archive = new Replay(netBitReader.readBits(numBits), numBits);
+
+            archive.info = netBitReader.info;
+            archive.header = netBitReader.header;
 
             if (isGroupType) {
               const temp = {};
 
-              this.setType(temp, exporttt, exportGroup, netBitReader, globalData);
+              this.setType(temp, {
+                ...exporttt,
+                parseType: 'default'
+              }, exportGroup, archive, globalData);
 
               newData = temp[exporttt.name];
             } else {
@@ -288,17 +295,15 @@ class NetFieldParser {
                 this.setType(temp, {
                   ...exporttt,
                   parseType: 'readClass'
-                }, exportGroup, netBitReader, globalData);
+                }, exportGroup, archive, globalData);
 
                 newData = temp[exporttt.name];
               } else {
-                this.setType(temp, exporttt, exportGroup, netBitReader, globalData);
+                this.setType(temp, exporttt, exportGroup, archive, globalData);
 
                 newData[exporttt.name] = temp[exporttt.name];
               }
             }
-
-            netBitReader.popOffset(7, numBits);
           }
 
           arr[index] = newData;
