@@ -49,7 +49,7 @@ parseReplay(replayBuffer, config).then((parsedReplay) => {
 ```
 
 ## Optimizing Runtime
-You (very) often don't need all of the data that is parsed, which is why there is an option that lets you specify which data you want to parse. It will also greatly improve the parser's speed. The tutorial on how to do that is [here](./addOwnExports.md).
+You (very) often don't need all of the data that is parsed, which is why there is an option that lets you specify which data you want to parse. It will also greatly improve the parser's speed. The tutorial on how to do that is [here](./docs/addOwnExports.md).
 
 ## Tip
 If you're using Node v14 or v15 you have to start process with ```--experimental-wasm-simd```
