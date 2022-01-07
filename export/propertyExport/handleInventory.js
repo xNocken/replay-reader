@@ -1,7 +1,9 @@
-const handleInventory = ({ chIndex, data, states }) => {
-  if (!states.inventories[chIndex]) {
-    states.inventories[chIndex] = {
-      id: chIndex,
+const handleInventory = ({ actor, data, states }) => {
+  const actorId = actor.actorNetGUID.value;
+
+  if (!states.inventories[actorId]) {
+    states.inventories[actorId] = {
+      id: actorId,
       replayPawn: data.ReplayPawn,
       items: [],
     };
@@ -10,7 +12,7 @@ const handleInventory = ({ chIndex, data, states }) => {
   }
 
   if (data.ReplayPawn) {
-    states.inventories[chIndex].replayPawn = data.ReplayPawn;
+    states.inventories[actorId].replayPawn = data.ReplayPawn;
   }
 };
 

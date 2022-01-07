@@ -63,30 +63,28 @@
     },
     "ForceMetadataRelevant": {
       "name": "ForceMetadataRelevant",
-      "type": "DebugObject",
-      "parseType": "readClass"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "StaticMesh": {
       "name": "StaticMesh",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "SearchedMesh": {
       "name": "SearchedMesh",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "AltMeshIdx": {
       "name": "AltMeshIdx",
-      "type": "DebugObject",
-      "parseType": "readClass"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     },
     "ChosenRandomUpgrade": {
       "name": "ChosenRandomUpgrade",
-      "type": "DebugObject",
-      "parseType": "readClass"
+      "parseFunction": "readInt32",
+      "parseType": "default"
     }
   }
 }

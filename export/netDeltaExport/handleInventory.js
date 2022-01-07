@@ -1,5 +1,6 @@
-const handleInventory = ({ states, data, chIndex, globalData }) => {
-  const inventory = states.inventories[chIndex];
+const handleInventory = ({ states, data, actor }) => {
+  const actorId = actor.actorNetGUID.value;
+  const inventory = states.inventories[actorId];
 
   if (!inventory) {
     return;
@@ -16,8 +17,7 @@ const handleInventory = ({ states, data, chIndex, globalData }) => {
   }
 
   if (!inventory.playerId) {
-    const pawnChannel = globalData.actorToChannel[inventory.replayPawn];
-    const playerChannel = states.pawnChannelToStateChannel[pawnChannel];
+    const playerChannel = states.pawnChannelToStateChannel[inventory.replayPawn];
     const player = states.players[playerChannel];
 
     if (player) {

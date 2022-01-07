@@ -1,16 +1,21 @@
-const handleChests = ({ data, staticActorId, result, states, changedProperties }) => {
-  if (!states.chests[staticActorId]) {
-    states.chests[staticActorId] = data;
-    result.mapData.chests.push(data)
-    states.chests[staticActorId].chestId = staticActorId;
+const handleChests = ({ data, actor, staticActorId, result, states, changedProperties }) => {
+  const actorId = actor.actorNetGUID.value;
 
-    return;
+  let chest = states.chests[actorId];
+
+  if (!chest) {
+    chest = {
+      chestId: staticActorId,
+    };
+
+    states.chests[actorId] = chest;
+    result.mapData.chests.push(chest)
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];
 
-    states.chests[staticActorId][key] = data[key];
+    states.chests[actorId][key] = data[key];
   }
 }
 

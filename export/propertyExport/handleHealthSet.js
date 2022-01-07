@@ -21,8 +21,9 @@ const createFortSet = (handle, value) => {
   return fortset;
 };
 
-const handleHealthSet = ({ chIndex, data, states }) => {
-  const player = states.players[chIndex];
+const handleHealthSet = ({ actor, data, states }) => {
+  const actorId = actor.actorNetGUID.value;
+  const player = states.players[actorId];
 
   if (!player) {
     return;

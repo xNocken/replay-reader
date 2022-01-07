@@ -1,6 +1,8 @@
-const handleFortPickup = ({ chIndex, data, result, states, changedProperties }) => {
-  if (!states.pickups[chIndex]) {
-    states.pickups[chIndex] = data;
+const handleFortPickup = ({ actor, data, result, states, changedProperties }) => {
+  const actorId = actor.actorNetGUID.value;
+
+  if (!states.pickups[actorId]) {
+    states.pickups[actorId] = data;
     result.mapData.pickups.push(data);
 
     return;
@@ -9,7 +11,7 @@ const handleFortPickup = ({ chIndex, data, result, states, changedProperties }) 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];
 
-    states.pickups[chIndex][key] = data[key];
+    states.pickups[actorId][key] = data[key];
   }
 };
 

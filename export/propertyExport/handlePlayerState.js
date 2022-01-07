@@ -2,13 +2,7 @@ const handlePlayerPawn = require("./handlePlayerPawn");
 
 const onlySpectatingPlayers = [];
 
-const handleQueuedPlayerPawns = (stateChIndex, states, globalData) => {
-  const actorId = globalData.channelToActor[stateChIndex];
-
-  if (!actorId) {
-    return;
-  }
-
+const handleQueuedPlayerPawns = (actorId, states) => {
   const playerPawns = states.queuedPlayerPawns[actorId];
 
   if (!playerPawns) {
@@ -17,32 +11,38 @@ const handleQueuedPlayerPawns = (stateChIndex, states, globalData) => {
 
   playerPawns.forEach((playerPawn) => {
     handlePlayerPawn({
-      chIndex: playerPawn.chIndex,
+      actor: playerPawn.actor,
       data: playerPawn.playerPawn,
       changedProperties: playerPawn.changedProperties,
       states,
-      globalData,
     })
   });
 };
 
-const handlePlayerState = ({ chIndex, data, states, result, globalData, changedProperties }) => {
+const handlePlayerState = ({ actor, data, states, result, changedProperties }) => {
+  const actorId = actor.actorNetGUID.value;
+
   if (data.bOnlySpectator == true) {
-    onlySpectatingPlayers.push(chIndex);
+    onlySpectatingPlayers.push(actorId);
+
     return;
   }
 
-  if (onlySpectatingPlayers.includes(chIndex)) {
+  if (onlySpectatingPlayers.includes(actorId)) {
     return;
   }
 
-  let playerData = states.players[chIndex];
+  let playerData = states.players[actorId];
 
   let newPlayer = false;
 
   if (!playerData) {
-    playerData = data;
-    states.players[chIndex] = playerData;
+    playerData = {
+      ...data,
+      actorId,
+    };
+
+    states.players[actorId] = playerData;
     result.gameData.players.push(playerData);
     newPlayer = true;
   }
@@ -60,7 +60,7 @@ const handlePlayerState = ({ chIndex, data, states, result, globalData, changedP
   }
 
   if (newPlayer) {
-    handleQueuedPlayerPawns(chIndex, states, globalData);
+    handleQueuedPlayerPawns(actorId, states);
   }
 };
 

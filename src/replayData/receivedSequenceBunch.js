@@ -40,6 +40,7 @@ const receivedSequencedBunch = (bunch, globalData) => {
               states: globalData.states,
               setFastForward: globalData.setFastForward,
               stopParsing: globalData.stopParsingFunc,
+              actor: channel.actor,
             }
           );
         } catch (err) {

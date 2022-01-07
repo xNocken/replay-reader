@@ -1,14 +1,16 @@
-const handleSoccerGame = ({ data, staticActorId, result, states, changedProperties }) => {
-  if (!states.soccerGames[staticActorId]) {
+const handleSoccerGame = ({ actor, result, states, data, changedProperties }) => {
+  const actorId = actor.actorNetGUID.value;
+
+  if (!states.soccerGames[actorId]) {
     const newState = {
       scoreHistory: [],
     };
 
-    states.soccerGames[staticActorId] = newState;
+    states.soccerGames[actorId] = newState;
     result.mapData.soccerGames.push(newState);
   }
 
-  const current = states.soccerGames[staticActorId];
+  const current = states.soccerGames[actorId];
 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];

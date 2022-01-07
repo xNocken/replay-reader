@@ -4,12 +4,15 @@
     "/Valet/BasicTruck",
     "/Valet/BigRig/",
     "/Valet/SportsCar",
-    "/Valet/TaxiCab"
+    "/Valet/TaxiCab",
+    "/Game/Athena/DrivableVehicles",
+    "/Nevada/Blueprints/Vehicle/Nevada_Vehicle_V2.Nevada_Vehicle_V2_C",
+    "/Hoagie/HoagieVehicle.HoagieVehicle_C"
   ],
   "partialPath": true,
-  "customExportName": "Valet",
+  "customExportName": "Vehicles",
   "exportGroup": "mapData",
-  "exportName": "valets",
+  "exportName": "vehicles",
   "exportType": "array",
   "parseLevel": 2,
   "properties": {
@@ -17,12 +20,6 @@
       "name": "Health",
       "type": "float",
       "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "Location": {
-      "name": "Location",
-      "type": "FVector",
-      "parseFunction": "readPackedVector100",
       "parseType": "default"
     },
     "ReplicatedMovement": {

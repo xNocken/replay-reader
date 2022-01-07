@@ -22,5 +22,5 @@ module.exports = [
   require('./SpeedSign.json'),
   require('./SupplyDrop.json'),
   require('./SupplyDropLlama.json'),
-  require('./Valet.json'),
+  require('./Vehicles.json'),
 ];

@@ -41,8 +41,8 @@
     },
     "EditingPlayer": {
       "name": "EditingPlayer",
-      "type": "ActorGuid",
-      "parseType": "readClass"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     }
   }
 }

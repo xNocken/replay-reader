@@ -16,7 +16,7 @@ const handleSafezone = require('./propertyExport/handleSafezoneIndicator');
 const handleSoccerGame = require('./propertyExport/handleSoccerGame');
 const handleSpeedSign = require('./propertyExport/handleSpeedSign');
 const handleSupplyDrop = require('./propertyExport/handleSupplyDrop');
-const handleValets = require('./propertyExport/handleValets');
+const handleVehicles = require('./propertyExport/handleVehicles');
 const handleInventory = require('./netDeltaExport/handleInventory');
 const handleInventoryProperty = require('./propertyExport/handleInventory');
 const handleSafezoneFastForwarding = require('./propertyExport/handleSafezoneIndicatorFastForwarding');
@@ -32,7 +32,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('FortniteGame.FortPickupAthena', handlePickup);
   propertyExportEmitter.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
   propertyExportEmitter.on('PlayerBuilds', handlePlayerBuilds);
-  propertyExportEmitter.on('Valet', handleValets);
+  propertyExportEmitter.on('Vehicles', handleVehicles);
   propertyExportEmitter.on('BP_Athena_SpeedSign.BP_Athena_SpeedSign_C', handleSpeedSign);
   propertyExportEmitter.on('Chests', handleChests);
   propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker', handleBroadcastRemoteClientInfoMapMarker);

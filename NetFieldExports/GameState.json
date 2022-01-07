@@ -520,6 +520,11 @@
       "name": "PlayerID",
       "parseFunction": "readInt32",
       "parseType": "default"
+    },
+    "PlayerId": {
+      "name": "PlayerId",
+      "parseFunction": "readInt32",
+      "parseType": "default"
     }
   }
 }

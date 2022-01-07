@@ -1,11 +1,13 @@
-const handleGameplayCues = ({ chIndex, data, timeSeconds, result, states }) => {
-  if (!result.gameData.gameplayCues[chIndex]) {
-    result.gameData.gameplayCues[chIndex] = [];
-    states.gameplayCues[chIndex] = result.gameData.gameplayCues[chIndex];
+const handleGameplayCues = ({ actor, data, timeSeconds, result, states }) => {
+  const actorId = actor.actorNetGUID.value;
+
+  if (!result.gameData.gameplayCues[actorId]) {
+    result.gameData.gameplayCues[actorId] = [];
+    states.gameplayCues[actorId] = result.gameData.gameplayCues[actorId];
   }
 
-  result.gameData.gameplayCues[chIndex].push({
-    location: states.players[states.pawnChannelToStateChannel[chIndex]]?.ReplicatedMovement?.location || null,
+  result.gameData.gameplayCues[actorId].push({
+    location: states.players[states.pawnChannelToStateChannel[actorId]]?.ReplicatedMovement?.location || null,
     gameplayCueTag: data.GameplayCueTag,
     timeSeconds,
   });

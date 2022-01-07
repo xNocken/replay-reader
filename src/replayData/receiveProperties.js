@@ -106,6 +106,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
           setFastForward: globalData.setFastForward,
           stopParsing: globalData.stopParsingFunc,
           changedProperties,
+          actor: bunch.actor,
         },
       );
     } catch (err) {

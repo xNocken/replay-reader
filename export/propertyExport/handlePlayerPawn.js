@@ -12,39 +12,34 @@ const tryGetPlayerDataFromPawn = (pawn, states) => {
   return null;
 };
 
-const handlePlayerPawn = ({ chIndex, data, globalData, states, changedProperties }) => {
-  const { actorToChannel } = globalData;
+const handlePlayerPawn = ({ actor, data, states, changedProperties, timeSeconds }) => {
+  const actorId = actor.actorNetGUID.value;
   const { pawnChannelToStateChannel, queuedPlayerPawns, players } = states;
   let playerState;
 
   if (data.PlayerState) {
-    const actorId = data.PlayerState;
+    playerState = players[data.PlayerState];
 
-    let stateChannelIndex = actorToChannel[actorId];
-
-    if (stateChannelIndex !== undefined) {
-      pawnChannelToStateChannel[chIndex] = stateChannelIndex;
+    if (playerState) {
+      pawnChannelToStateChannel[actorId] = data.PlayerState;
     } else {
-      let playerPawns = queuedPlayerPawns[actorId];
+      let playerPawns = queuedPlayerPawns[data.PlayerState];
 
       if (!playerPawns) {
         playerPawns = [];
-        queuedPlayerPawns[actorId] = playerPawns;
+        queuedPlayerPawns[data.PlayerState] = playerPawns;
       }
 
       playerPawns.push({
-        chIndex,
         playerPawn: data,
         changedProperties,
+        actor,
       });
 
       return;
     }
-
-    playerState = players[stateChannelIndex];
-
   } else {
-    playerState = tryGetPlayerDataFromPawn(chIndex, states);
+    playerState = tryGetPlayerDataFromPawn(actorId, states);
 
     if (!playerState) {
       return;
@@ -55,6 +50,12 @@ const handlePlayerPawn = ({ chIndex, data, globalData, states, changedProperties
     const key = changedProperties[i];
 
     playerState[key] = data[key];
+  }
+
+  if (data.Vehicle) {
+    playerState.currentVehicle = states.vehicles[data.Vehicle];
+  } else if (data.Vehicle === 0) {
+    playerState.currentVehicle = null;
   }
 };
 
