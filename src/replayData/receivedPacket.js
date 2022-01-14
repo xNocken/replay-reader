@@ -15,7 +15,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
   globals.inPacketId++;
 
   while (!packetArchive.atEnd()) {
-    if (packetArchive.header.EngineNetworkVersion < 8) {
+    if (packetArchive.header.engineNetworkVersion < 8) {
       packetArchive.skipBits(1);
     }
 
@@ -29,7 +29,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     bunch.bOpen = bControl ? packetArchive.readBit() : false;
     bunch.bClose = bControl ? packetArchive.readBit() : false;
 
-    if (packetArchive.header.EngineNetworkVersion < 7) {
+    if (packetArchive.header.engineNetworkVersion < 7) {
       bunch.bDormant = bunch.bClose ? packetArchive.readBit() : false;
       bunch.closeReason = bunch.bDormant ? 1 : 0;
     } else {
@@ -40,7 +40,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     bunch.bIsReplicationPaused = packetArchive.readBit();
     bunch.bReliable = packetArchive.readBit();
 
-    if (packetArchive.header.EngineNetworkVersion < 3) {
+    if (packetArchive.header.engineNetworkVersion < 3) {
       bunch.chIndex = packetArchive.readSerializedInt();
     } else {
       bunch.chIndex = packetArchive.readIntPacked();
@@ -64,7 +64,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     let chType = 0;
     let chName = 3;
 
-    if (packetArchive.header.EngineNetworkVersion < 6) {
+    if (packetArchive.header.engineNetworkVersion < 6) {
       const type = packetArchive.readSerializedInt(8);
       chType = (bunch.bReliable || bunch.bOpen) ? type : 0;
 

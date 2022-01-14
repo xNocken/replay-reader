@@ -31,16 +31,16 @@ const parsePlayer = (replay) => {
  * @param {Replay} replay the replay
  */
 const parsePlayerElim = (result, replay) => {
-  if (replay.header.EngineNetworkVersion >= 11 && replay.header.Major >= 9) {
+  if (replay.header.engineNetworkVersion >= 11 && replay.header.major >= 9) {
     replay.skipBytes(85);
 
     result.eliminated = parsePlayer(replay);
     result.eliminator = parsePlayer(replay);
   } else {
-    if (replay.header.Major <= 4 && replay.header.Minor < 2) {
+    if (replay.header.major <= 4 && replay.header.minor < 2) {
       replay.skipBytes(12);
     }
-    else if (replay.header.Major == 4 && replay.header.Minor <= 2) {
+    else if (replay.header.major == 4 && replay.header.minor <= 2) {
       replay.skipBytes(40);
     }
     else {
@@ -108,7 +108,7 @@ const event = (replay, info) => {
     parseMatchTeamStats(result, decryptedEvent);
   }
 
-  if (!replay.info.IsEncrypted) {
+  if (!replay.info.isEncrypted) {
     replay.popOffset(1, info.length * 8);
   }
 

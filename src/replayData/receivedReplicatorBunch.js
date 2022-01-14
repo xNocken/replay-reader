@@ -47,7 +47,7 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
     return true;
   }
 
-  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFieldExportGroup.pathName, bunch.archive.header.EngineNetworkVersion >= 15);
+  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFieldExportGroup.pathName, bunch.archive.header.engineNetworkVersion >= 15);
 
   if (!classNetCache) {
     return false;

@@ -43,7 +43,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     }
   }
 
-  if (bunch.archive.header.EngineNetworkVersion >= 18) {
+  if (bunch.archive.header.engineNetworkVersion >= 18) {
     const bActorIsOuter = bunch.archive.readBit();
 
     if (!bActorIsOuter) {

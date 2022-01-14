@@ -10,7 +10,7 @@ const parseCheckpoint = async (replay, data, globalData) => {
   globalData.resetForCheckpoint();
 
   const decrypted = replay.decryptBuffer(data.sizeInBytes);
-  const binaryReplay = await decompress(decrypted, replay.info.IsCompressed);
+  const binaryReplay = await decompress(decrypted, replay.info.isCompressed);
 
   if (binaryReplay.hasDeltaCheckpoints()) {
     binaryReplay.skipBytes(4); // checkpoint size
@@ -20,11 +20,11 @@ const parseCheckpoint = async (replay, data, globalData) => {
     binaryReplay.skipBytes(8); // packet offset
   }
 
-  if (binaryReplay.header.NetworkVersion >= 6) {
+  if (binaryReplay.header.networkVersion >= 6) {
     binaryReplay.skipBytes(4); // level for checkpoint
   }
 
-  if (binaryReplay.header.NetworkVersion >= 8) {
+  if (binaryReplay.header.networkVersion >= 8) {
     if (binaryReplay.hasDeltaCheckpoints()) {
       throw new Error('delta checkpoints not implemented');
     }
@@ -45,7 +45,7 @@ const parseCheckpoint = async (replay, data, globalData) => {
       outerGuid,
     }
 
-    if (binaryReplay.header.NetworkVersion < 15) {
+    if (binaryReplay.header.networkVersion < 15) {
       cacheObject.pathName = binaryReplay.readString();
     } else {
       const isExported = binaryReplay.readByte() === 1;
@@ -63,7 +63,7 @@ const parseCheckpoint = async (replay, data, globalData) => {
       }
     }
 
-    if (binaryReplay.header.NetworkVersion < 16) {
+    if (binaryReplay.header.networkVersion < 16) {
       cacheObject.checksum = binaryReplay.readUint32();
     }
 
@@ -93,7 +93,7 @@ const parseCheckpoint = async (replay, data, globalData) => {
 
   parsePlaybackPackets(binaryReplay, globalData);
 
-  if (!replay.info.IsEncrypted) {
+  if (!replay.info.isEncrypted) {
     replay.popOffset(1)
   }
 };

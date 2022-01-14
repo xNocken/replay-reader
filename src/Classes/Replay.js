@@ -334,7 +334,7 @@ class Replay {
     if (isHardcoded) {
       let nameIndex;
 
-      if (this.header.EngineNetworkVersion < 6) {
+      if (this.header.engineNetworkVersion < 6) {
         nameIndex = this.readUInt32();
       } else {
         nameIndex = this.readIntPacked();
@@ -355,7 +355,7 @@ class Replay {
     if (isHardcoded) {
       let nameIndex;
 
-      if (this.header.EngineNetworkVersion < 6) {
+      if (this.header.engineNetworkVersion < 6) {
         nameIndex = this.readUInt32();
       } else {
         nameIndex = this.readIntPacked();
@@ -569,7 +569,7 @@ class Replay {
    * @returns {Replay} decrypted buffer
    */
   decryptBuffer(length) {
-    if (!this.info.IsEncrypted) {
+    if (!this.info.isEncrypted) {
       this.addOffsetByte(1, length);
 
       return this;
@@ -577,7 +577,7 @@ class Replay {
 
     const bytes = this.readBytes(length);
 
-    const decipher = crypto.createDecipheriv('aes-256-ecb', this.info.EncryptionKey, null);
+    const decipher = crypto.createDecipheriv('aes-256-ecb', this.info.encryptionKey, null);
     const newBuffer = Buffer.from(decipher.update(bytes, 'binary', 'binary') + decipher.final('binary'), 'binary');
 
     const newReplay = new Replay(newBuffer);
@@ -661,7 +661,7 @@ class Replay {
    * @returns {Boolean}
    */
   hasLevelStreamingFixes() {
-    return (this.header.Flags & 2) === 2;
+    return (this.header.flags & 2) === 2;
   }
 
   /**
@@ -669,7 +669,7 @@ class Replay {
    * @returns {Boolean}
    */
   hasDeltaCheckpoints() {
-    return (this.header.Flags & 4) === 4;
+    return (this.header.flags & 4) === 4;
   }
 
   /**
@@ -677,7 +677,7 @@ class Replay {
    * @returns {Boolean}
    */
   hasGameSpecificFrameData() {
-    return (this.header.Flags & 8) === 8;
+    return (this.header.flags & 8) === 8;
   }
 }
 

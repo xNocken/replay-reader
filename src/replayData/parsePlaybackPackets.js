@@ -40,7 +40,7 @@ const receivedRawPacket = (packet, replay, globalData) => {
 const parsePlaybackPackets = (replay, globalData) => {
   let currentLevelIndex;
 
-  if (replay.header.NetworkVersion >= 6) {
+  if (replay.header.networkVersion >= 6) {
     currentLevelIndex = replay.readInt32()
   }
 
@@ -64,7 +64,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     globalData.lastFrameTime = timeSeconds;
   }
 
-  if (replay.header.NetworkVersion >= 10) {
+  if (replay.header.networkVersion >= 10) {
     readExportData(replay, globalData);
   }
 

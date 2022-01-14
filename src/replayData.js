@@ -10,13 +10,13 @@ const parsePlaybackPackets = require('./replayData/parsePlaybackPackets');
 const parseReplayData = async (replay, data, globalData) => {
   replay.goTo(data.startPos);
   const decrypted = replay.decryptBuffer(data.length);
-  const binaryReplay = await decompress(decrypted, replay.info.IsCompressed);
+  const binaryReplay = await decompress(decrypted, replay.info.isCompressed);
 
   while (!binaryReplay.atEnd()) {
     parsePlaybackPackets(binaryReplay, globalData);
   }
 
-  if (!replay.info.IsEncrypted) {
+  if (!replay.info.isEncrypted) {
     replay.popOffset(1);
   };
 }

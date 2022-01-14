@@ -12,14 +12,14 @@ const GlobalData = require('./utils/globalData');
 const replayInfoStreaming = (metadata, globalData) => {
   const info = new Info();
 
-  info.LengthInMs = metadata.LengthInMS;
-  info.NetworkVersion = metadata.NetworkVersion;
-  info.Changelist = metadata.Changelist;
-  info.FriendlyName = metadata.FriendlyName;
-  info.IsLive = metadata.bIsLive;
-  info.Timestamp = new Date(metadata.Timestamp);
-  info.IsCompressed = metadata.bCompressed;
-  info.IsEncrypted = false;
+  info.lengthInMs = metadata.LengthInMS;
+  info.networkVersion = metadata.NetworkVersion;
+  info.changelist = metadata.Changelist;
+  info.friendlyName = metadata.FriendlyName;
+  info.isLive = metadata.bIsLive;
+  info.timestamp = new Date(metadata.Timestamp);
+  info.isCompressed = metadata.bCompressed;
+  info.isEncrypted = false;
 
   metadata.info = info;
   globalData.info = info;

@@ -1,15 +1,15 @@
 class Info {
-  LengthInMs = 0;
-  NetworkVersion = 0;
-  Changelist = 0;
-  FriendlyName = '';
-  Timestamp = 0;
-  TotalDataSizeInBytes = 0;
-  IsLive = 0;
-  IsCompressed = 0;
-  IsEncrypted = false;
-  EncryptionKey = [];
-  FileVersion = 0;
+  lengthInMs = 0;
+  networkVersion = 0;
+  changelist = 0;
+  friendlyName = '';
+  timestamp = 0;
+  totalDataSizeInBytes = 0;
+  isLive = 0;
+  isCompressed = 0;
+  isEncrypted = false;
+  encryptionKey = [];
+  fileVersion = 0;
 }
 
 module.exports = Info;

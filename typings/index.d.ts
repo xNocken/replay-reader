@@ -28,36 +28,36 @@ export interface NetworkGUID {
 }
 
 interface Header {
-  Magic: number,
-  NetworkVersion: number,
-  NetworkChecksum: number,
-  EngineNetworkVersion: number,
-  GameNetworkProtocolVersion: number,
-  Guid: string,
-  Major: number,
-  Minor: number,
-  Patch: number,
-  Changelist: number,
-  Branch: string,
-  LevelNamesAndTimes: {
+  magic: number,
+  networkVersion: number,
+  networkChecksum: number,
+  engineNetworkVersion: number,
+  gameNetworkProtocolVersion: number,
+  guid: string,
+  major: number,
+  minor: number,
+  patch: number,
+  changelist: number,
+  branch: string,
+  levelNamesAndTimes: {
     [world: string]: number
   },
-  Flags: number,
+  flags: number,
   gameSpecificData: string[],
 }
 
 interface Info {
-  LengthInMs: number,
-  NetworkVersion: number,
-  Changelist: number,
-  FriendlyName: string,
-  Timestamp: Date,
-  TotalDataSizeInBytes: number,
-  IsLive: boolean,
-  IsCompressed: boolean,
-  IsEncrypted: boolean,
-  EncryptionKey: number[],
-  FileVersion: number,
+  lengthInMs: number,
+  networkVersion: number,
+  changelist: number,
+  friendlyName: string,
+  timestamp: Date,
+  totalDataSizeInBytes: number,
+  isLive: boolean,
+  isCompressed: boolean,
+  isEncrypted: boolean,
+  encryptionKey: number[],
+  fileVersion: number,
 }
 
 interface Checkpoint {

@@ -30,7 +30,7 @@ const processBunch = (bunch, replay, globalData) => {
     if (inActor.actorNetGUID.isDynamic()) {
       inActor.archetype = internalLoadObject(bunch.archive, false, globalData);
 
-      if (bunch.archive.header.EngineNetworkVersion >= 5) {
+      if (bunch.archive.header.engineNetworkVersion >= 5) {
         inActor.level = internalLoadObject(bunch.archive, false, globalData);
       }
 

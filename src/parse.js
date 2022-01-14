@@ -14,37 +14,37 @@ const replayMagic = 0x1CA2E27F;
 const replayInfo = (replay, globalData) => {
   const info = new Info();
 
-  info.Magic = replay.readUInt32();
+  info.magic = replay.readUInt32();
 
-  if (info.Magic !== replayMagic) {
+  if (info.magic !== replayMagic) {
     throw new Error('Not a valid replay');
   }
 
-  info.FileVersion = replay.readUInt32();
-  info.LengthInMs = replay.readUInt32();
-  info.NetworkVersion = replay.readUInt32();
-  info.Changelist = replay.readUInt32();
-  info.FriendlyName = replay.readString();
-  info.IsLive = replay.readBoolean();
+  info.fileVersion = replay.readUInt32();
+  info.lengthInMs = replay.readUInt32();
+  info.networkVersion = replay.readUInt32();
+  info.changelist = replay.readUInt32();
+  info.friendlyName = replay.readString();
+  info.isLive = replay.readBoolean();
 
-  if (info.FileVersion >= 3) {
-    info.Timestamp = new Date(parseInt((replay.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
+  if (info.fileVersion >= 3) {
+    info.timestamp = new Date(parseInt((replay.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
   }
 
-  if (info.FileVersion >= 2) {
-    info.IsCompressed = replay.readBoolean();
+  if (info.fileVersion >= 2) {
+    info.isCompressed = replay.readBoolean();
   }
 
-  if (info.FileVersion >= 6) {
-    info.IsEncrypted = replay.readBoolean();
-    info.EncryptionKey = Buffer.from(replay.readBytes(replay.readUInt32()));
+  if (info.fileVersion >= 6) {
+    info.isEncrypted = replay.readBoolean();
+    info.encryptionKey = Buffer.from(replay.readBytes(replay.readUInt32()));
   }
 
-  if (!info.IsLive && info.IsEncrypted && info.EncryptionKey.length === 0) {
+  if (!info.isLive && info.isEncrypted && info.encryptionKey.length === 0) {
     throw Error('Replay encrypted but no key was found!');
   }
 
-  if (info.IsLive && info.IsEncrypted) {
+  if (info.isLive && info.isEncrypted) {
     throw Error('Replay encrypted but not completed');
   }
 
@@ -80,7 +80,7 @@ const replayChunks = (replay, globalData) => {
       case 1: {
         let info = {};
 
-        if (replay.info.FileVersion >= 4) {
+        if (replay.info.fileVersion >= 4) {
           info.start = replay.readUInt32();
           info.end = replay.readUInt32();
           info.length = replay.readUInt32();
@@ -88,7 +88,7 @@ const replayChunks = (replay, globalData) => {
           info.length = replay.readUInt32();
         }
 
-        if (replay.info.FileVersion >= 6) {
+        if (replay.info.fileVersion >= 6) {
           replay.skipBytes(4);
         }
 

@@ -232,7 +232,7 @@ For the PlaylistInfo it looks like this:
 ```js
 class PlaylistInfo {
   serialize(reader) {
-    if (reader.header.EngineNetworkVersion >= 11) {
+    if (reader.header.engineNetworkVersion >= 11) {
       reader.skipBits(1);
     }
 

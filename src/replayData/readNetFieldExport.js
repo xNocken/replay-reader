@@ -13,7 +13,7 @@ const readNetFieldExport = (archive) => {
     fieldExport.handle = archive.readIntPacked();
     fieldExport.compatibleChecksum = archive.readUInt32();
 
-    if (archive.header.EngineNetworkVersion < 9) {
+    if (archive.header.engineNetworkVersion < 9) {
       fieldExport.name = archive.readString();
       fieldExport.type = archive.readString();
     } else if (archive.header.EngineNetworkVersion < 10) {

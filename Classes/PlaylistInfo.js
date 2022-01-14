@@ -3,7 +3,7 @@ class PlaylistInfo {
   name;
 
   serialize(reader) {
-    if (reader.header.EngineNetworkVersion >= 11) {
+    if (reader.header.engineNetworkVersion >= 11) {
       reader.readBit();
     }
     reader.readBit();

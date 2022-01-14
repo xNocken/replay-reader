@@ -1,7 +1,7 @@
 const NetDeltaSerialize = require("./netDeltaSerialize");
 
 const receiveCustomDeltaProperty = (reader, group, bunch, enablePropertyChecksum, globalData, staticActorId) => {
-  if (reader.header.EngineNetworkVersion >= 11) {
+  if (reader.header.engineNetworkVersion >= 11) {
     reader.readBit();
   }
 
