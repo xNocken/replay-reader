@@ -37,7 +37,7 @@ const replayInfo = (replay, globalData) => {
 
   if (info.FileVersion >= 6) {
     info.IsEncrypted = replay.readBoolean();
-    info.EncryptionKey = replay.readBytes(replay.readUInt32());
+    info.EncryptionKey = Buffer.from(replay.readBytes(replay.readUInt32()));
   }
 
   if (!info.IsLive && info.IsEncrypted && info.EncryptionKey.length === 0) {

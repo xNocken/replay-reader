@@ -8,7 +8,7 @@ class FGameplayTagContainer {
       return;
     }
 
-    const numTags = reader.readBitsToInt(7);
+    const numTags = reader.readBitsToUnsignedInt(7);
 
     for (let i = 0; i < numTags; i++) {
       this.tags[i] = new FGameplayTag(reader);

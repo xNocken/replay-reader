@@ -6,7 +6,7 @@
   "version": "1.4.2",
   "scripts": {
     "run": "node --experimental-wasm-simd test.js",
-    "test": "mocha"
+    "test": "mocha test"
   },
   "name": "fortnite-replay-parser",
   "description": "A libary created to parse Fortnite replays in Node",

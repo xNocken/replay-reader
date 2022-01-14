@@ -5,9 +5,9 @@ const Header = require('./Header');
 class Replay {
   constructor(input, bitCount) {
     /**
-     * @type {Buffer}
+     * @type {Uint8Array}
      */
-    this.buffer = input;
+    this.buffer = new Uint8Array(input);
     this.lastBit = bitCount || this.buffer.length * 8;
     /**
      * @type {number}
@@ -15,6 +15,10 @@ class Replay {
     this.offset = 0;
     this.isError = false;
     this.offsets = [];
+
+
+    this.float32Array = new Float32Array(1);
+    this.uInt8Float32Array = new Uint8Array(this.float32Array.buffer);
 
     /**
      * @type {Header}
@@ -74,14 +78,14 @@ class Replay {
   }
 
   readBits(count) {
-    const buffer = Buffer.allocUnsafe(Math.ceil(count / 8));
+    const buffer = new Uint8Array(Math.ceil(count / 8));
     let readBytes = 0;
 
     if ((this.offset & 7) === 0) {
       readBytes = ~~(count / 8);
       const bytes = this.readBytes(readBytes);
 
-      bytes.copy(buffer);
+      bytes.copyWithin(buffer, 0);
     }
 
     let currentBit;
@@ -116,60 +120,6 @@ class Replay {
     }
 
     return buffer;
-  }
-
-  readBitsToInt(count) {
-    const maxVal = count === 32 ? 2147483648 : 1 << (count - 1);
-    let val = 0;
-    let readBits = 0;
-
-    if ((this.offset & 7) === 0) {
-      let bytesToRead = ~~((count - 1) / 8)
-
-      for (let i = 0; i < bytesToRead; i++) {
-        val |= this.buffer[this.offset / 8] << (readBits);
-
-        readBits += 8;
-        this.offset += 8;
-      }
-
-      if (count === 0) {
-        return val;
-      }
-    }
-
-    let currentBit = 1 << readBits;
-    let currentByte = this.buffer[~~(this.offset / 8)];
-    let currentByteBit = 1 << (this.offset & 7);
-
-    for (let i = readBits; i < count; i++) {
-      const bitOffset = this.offset & 7;
-
-      if (bitOffset === 0) {
-        currentByteBit = 1;
-        currentByte = this.buffer[~~(this.offset / 8)];
-      }
-
-      if (i === count - 1) {
-        if (currentByte & currentByteBit) {
-          val = -(maxVal - val);
-        }
-
-        this.offset += 1;
-        break;
-      }
-
-      if (currentByte & currentByteBit) {
-        val |= (currentBit);
-      }
-
-      this.offset += 1;
-
-      currentByteBit *= 2;
-      currentBit *= 2;
-    }
-
-    return val;
   }
 
   readBitsToUnsignedInt(count) {
@@ -277,7 +227,7 @@ class Replay {
       if (!this.canRead(byteCount)) {
         this.isError = true;
 
-        return Buffer.from([]);
+        return [];
       }
 
       const arr = this.buffer.slice(start, start + byteCount);
@@ -286,7 +236,7 @@ class Replay {
 
       return arr;
     } else {
-      const result = Buffer.allocUnsafe(byteCount);
+      const result = new Uint8Array(byteCount);
 
       for (let i = 0; i < byteCount; i++) {
         result[i] = this.readByte();
@@ -301,7 +251,11 @@ class Replay {
   }
 
   readInt16() {
-    return this.readBytes(2).readInt16LE();
+    const [first, last] = this.readBytes(2);
+
+    const val = first + (last << 8);
+
+    return val | (val & 2 ** 15) * 0x1fffe;
   }
 
   readUInt16() {
@@ -313,15 +267,33 @@ class Replay {
   }
 
   readInt32() {
-    return this.readBytes(4).readInt32LE();
+    const bytes = this.readBytes(4);
+
+    return bytes[0]
+      + (bytes[1] << 8)
+      + (bytes[2] << 16)
+      + (bytes[3] << 24);
   }
 
   readUInt64() {
-    return this.readBytes(8).readBigUInt64LE()
+    const bytes = this.readBytes(8);
+
+    const lo = bytes[0]
+      + (bytes[1] << 8)
+      + (bytes[2] << 16)
+      + (bytes[3] * 2 ** 24);
+
+    const hi = bytes[4]
+      + (bytes[5] << 8)
+      + (bytes[6] << 16)
+      + (bytes[7] * 2 ** 24);
+
+    return BigInt(lo) + (BigInt(hi) << 32n);
   }
 
   readString() {
     const length = this.readInt32();
+    let result = '';
 
     if (length === 0) {
       return '';
@@ -330,18 +302,30 @@ class Replay {
     if (length < 0) {
       if (!this.canRead(length * -2)) {
         this.isError = true;
+
         return '';
       }
 
-      return this.readBytes(length * -2).slice(0, -2).toString('utf16le').trim();
+      const bytes = this.readBytes(length * -2).slice(0, -2);
+
+      for (let i = 0; i < bytes.length; i += 2) {
+        result += String.fromCharCode(bytes[i] + (bytes[i + 1] << 8));
+      }
     } else {
       if (!this.canRead(length)) {
         this.isError = true;
+
         return '';
       }
 
-      return this.readBytes(length).slice(0, -1).toString('utf-8');
+      const bytes = this.readBytes(length).slice(0, length - 1);
+
+      for (let i = 0; i < bytes.length; i++) {
+        result += String.fromCharCode(bytes[i]);
+      }
     }
+
+    return result.trim();
   }
 
   readFName() {
@@ -400,14 +384,14 @@ class Replay {
 
   /**
    *
-   * @param {Buffer} data
+   * @param {Uint8Array} data
    * @param {number} bitCount
    */
   appendDataFromChecked(data, bitCount) {
-    const newBuffer = Buffer.allocUnsafe(data.length + this.buffer.length);
+    const newBuffer = new Uint8Array(data.length + this.buffer.length);
 
-    this.buffer.copy(newBuffer);
-    data.copy(newBuffer, this.buffer.length);
+    this.buffer.copyWithin(newBuffer, 0);
+    data.copyWithin(newBuffer, this.buffer.length);
 
     this.buffer = newBuffer;
 
@@ -425,17 +409,35 @@ class Replay {
       return 0;
     }
 
-    const result = this.readBytes(4).readFloatLE(0);
+    const result = this.readBytes(4);
 
-    return result;
+    this.uInt8Float32Array[0] = result[0];
+    this.uInt8Float32Array[1] = result[1];
+    this.uInt8Float32Array[2] = result[2];
+    this.uInt8Float32Array[3] = result[3];
+
+    return this.float32Array[0];
   }
 
   /**
    * Read an id
    * @returns {string} the id
    */
+  readBytesToHex(length = 16) {
+    let result = '';
+    const bytes = this.readBytes(length);
+
+    for (let i = 0; i < length; i++) {
+      const num = bytes[i].toString(16);
+
+      result += `${num.length - 1 ? '' : '0'}${num}`
+    }
+
+    return result;
+  }
+
   readId() {
-    return this.readBytes(16).toString('hex');
+    return this.readBytesToHex(16);
   }
 
   /**
@@ -477,7 +479,7 @@ class Replay {
       if (encoded) {
         const encodedSize = this.readByte();
 
-        return this.readBytes(encodedSize).toString('hex');
+        return this.readBytesToHex(encodedSize);
       }
 
       return this.readString();

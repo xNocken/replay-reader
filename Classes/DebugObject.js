@@ -17,7 +17,7 @@ class DebugObject {
       return;
     }
 
-    this.data = data;
+    this.data = Buffer.from(data);
     this.name = exportt.name;
     this.size = bits;
     this.header = header;
@@ -28,7 +28,7 @@ class DebugObject {
    */
   serialize(reader, globalData, config) {
     this.size = reader.getBitsLeft();
-    this.data = reader.readBits(this.size);
+    this.data = Buffer.from(reader.readBits(this.size));
     this.globalData = globalData;
     this.config = config;
     this.header = reader.header;

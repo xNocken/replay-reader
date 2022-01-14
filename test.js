@@ -2,7 +2,7 @@ const fs = require('fs');
 const parse = require('.');
 
 (async () => {
-  const replayBuffer = fs.readFileSync('replays/server-17.21.replay');
+  const replayBuffer = fs.readFileSync('replays/mothership.replay');
 
   console.time();
   const parsedReplay = await parse(replayBuffer, {
@@ -11,7 +11,7 @@ const parse = require('.');
     //   require('./NetFieldExports/SafeZoneIndicator.json'),
     // ],
     // onlyUseCustomNetFieldExports: true,
-    // debug: true,
+    debug: true,
     // useCheckpoints: true,
   });
   console.timeEnd();
