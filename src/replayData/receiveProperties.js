@@ -85,6 +85,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
 
       if (exportt) {
         globalData.netFieldParser.setType(exportGroup, exportt, group, new Replay(externalData.payload), globalData);
+        exportGroup[`${exportt.name}_encrypted`] = externalData.isEncrypted;
       }
     }
 

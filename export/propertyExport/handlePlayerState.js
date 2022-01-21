@@ -53,7 +53,7 @@ const handlePlayerState = ({ actor, data, states, result, changedProperties }) =
     playerData[key] = data[key];
   }
 
-  if (!playerData.bIsABot && data.PlayerNamePrivate) {
+  if (playerData.PlayerNamePrivate_encrypted && data.PlayerNamePrivate) {
     const name = data.PlayerNamePrivate;
 
     playerData.PlayerNamePrivate = name.split('').map((a, i) => String.fromCharCode(a.charCodeAt() + ((name.length % 4 * 3 % 8 + 1 + i) * 3 % 8))).join('')
