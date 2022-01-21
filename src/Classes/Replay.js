@@ -85,7 +85,7 @@ class Replay {
       readBytes = ~~(count / 8);
       const bytes = this.readBytes(readBytes);
 
-      bytes.copyWithin(buffer, 0);
+      buffer.set(bytes, 0);
     }
 
     let currentBit;
@@ -390,8 +390,8 @@ class Replay {
   appendDataFromChecked(data, bitCount) {
     const newBuffer = new Uint8Array(data.length + this.buffer.length);
 
-    this.buffer.copyWithin(newBuffer, 0);
-    data.copyWithin(newBuffer, this.buffer.length);
+    newBuffer.set(this.buffer, 0);
+    newBuffer.set(data, this.buffer.length);
 
     this.buffer = newBuffer;
 

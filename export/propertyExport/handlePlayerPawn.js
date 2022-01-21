@@ -12,50 +12,37 @@ const tryGetPlayerDataFromPawn = (pawn, states) => {
   return null;
 };
 
-const handlePlayerPawn = ({ actor, data, states, changedProperties, timeSeconds }) => {
+const handlePlayerPawn = ({ actor, data, states, changedProperties }) => {
   const actorId = actor.actorNetGUID.value;
-  const { pawnChannelToStateChannel, queuedPlayerPawns, players } = states;
-  let playerState;
+  const { pawns, players } = states;
+  let pawn = pawns[actorId];
 
-  if (data.PlayerState) {
-    playerState = players[data.PlayerState];
+  if (!pawn) {
+    pawn = {};
 
-    if (playerState) {
-      pawnChannelToStateChannel[actorId] = data.PlayerState;
-    } else {
-      let playerPawns = queuedPlayerPawns[data.PlayerState];
-
-      if (!playerPawns) {
-        playerPawns = [];
-        queuedPlayerPawns[data.PlayerState] = playerPawns;
-      }
-
-      playerPawns.push({
-        playerPawn: data,
-        changedProperties,
-        actor,
-      });
-
-      return;
-    }
-  } else {
-    playerState = tryGetPlayerDataFromPawn(actorId, states);
-
-    if (!playerState) {
-      return;
-    }
+    pawns[actorId] = pawn;
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];
 
-    playerState[key] = data[key];
+    pawn[key] = data[key];
+  }
+
+  if (pawn.PlayerState && !pawn.resolvedPlayer) {
+    const playerState = players[data.PlayerState];
+
+    if (playerState) {
+      playerState.PlayerPawn = pawn;
+
+      pawn.resolvedPlayer = true;
+    }
   }
 
   if (data.Vehicle) {
-    playerState.currentVehicle = states.vehicles[data.Vehicle];
+    pawn.currentVehicle = states.vehicles[data.Vehicle];
   } else if (data.Vehicle === 0) {
-    playerState.currentVehicle = null;
+    pawn.currentVehicle = null;
   }
 };
 

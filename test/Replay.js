@@ -179,4 +179,26 @@ describe('Replay', () => {
       assert.equal(replay.readFloat32(), buffer.readFloatLE());
     });
   })
+
+  describe('readIntPacked', () => {
+    for (let i = 0; i < 5; i++) {
+      let number = Math.round(Math.random() * 2147483647);
+      const origNumber = number;
+
+      const bytes = [];
+
+      while (number && bytes.length < 10) {
+        const currentNumber = number & 0x7F;
+
+        number >>= 7;
+        bytes.push(Boolean(number) + (currentNumber << 1))
+      }
+
+      it(`should return ${origNumber}`, () => {
+        const replay = new Replay(Buffer.from(bytes));
+
+        assert.equal(replay.readIntPacked(), origNumber);
+      })
+    }
+  })
 })

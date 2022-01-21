@@ -1,13 +1,20 @@
-const handleGameplayCues = ({ actor, data, timeSeconds, result, states }) => {
+const handleGameplayCues = ({ actor, data, timeSeconds, globalData, states }) => {
   const actorId = actor.actorNetGUID.value;
 
-  if (!result.gameData.gameplayCues[actorId]) {
-    result.gameData.gameplayCues[actorId] = [];
-    states.gameplayCues[actorId] = result.gameData.gameplayCues[actorId];
+  if (!states.pawns[actorId]) {
+    if (globalData.debug) {
+      console.log('Received gameplay cue for not tracked pawn');
+    }
+
+    return;
   }
 
-  result.gameData.gameplayCues[actorId].push({
-    location: states.players[states.pawnChannelToStateChannel[actorId]]?.ReplicatedMovement?.location || null,
+  if (!states.pawns[actorId].gameplayCues) {
+    states.pawns[actorId].gameplayCues = [];
+  }
+
+  states.pawns[actorId].gameplayCues.push({
+    location: states.pawns[actorId]?.ReplicatedMovement?.location || null,
     gameplayCueTag: data.GameplayCueTag,
     timeSeconds,
   });

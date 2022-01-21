@@ -1,12 +1,12 @@
 const handleLabradorLlama = ({ actor, data, states, result, changedProperties }) => {
   const actorId = actor.actorNetGUID.value;
 
-  if (!states.labradorLlamas[actorId]) {
-    states.labradorLlamas[actorId] = data;
+  if (!states.pawns[actorId]) {
+    states.pawns[actorId] = data;
     result.mapData.labradorLlamas.push(data);
   }
 
-  const currentLlama = states.labradorLlamas[actorId];
+  const currentLlama = states.pawns[actorId];
 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];
@@ -14,7 +14,7 @@ const handleLabradorLlama = ({ actor, data, states, result, changedProperties })
     currentLlama[key] = data[key];
   }
 
-  const gameplayCues = states.gameplayCues[actorId];
+  const gameplayCues = currentLlama.gameplayCues;
 
   if (!gameplayCues) {
     return;
