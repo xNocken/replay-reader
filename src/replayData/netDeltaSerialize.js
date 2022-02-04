@@ -3,6 +3,11 @@ const receiveProperties = require("./receiveProperties");
 const pathhhh = require('path');
 
 const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalData, staticActorId) => {
+  if (reader.header.engineNetworkVersion >= 11) {
+    if (!reader.readBit()) {
+      return false;
+    }
+  }
   const header = NetDeltaSerializeHeader(reader);
 
   if (reader.isError) {

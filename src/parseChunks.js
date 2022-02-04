@@ -2,7 +2,7 @@ const parseCheckpoint = require("./checkpoint");
 const parseEvent = require("./event");
 const parseReplayData = require("./replayData");
 
-const parseChunks = async (replay, chunks, globalData) => {
+const parseChunks = (replay, chunks, globalData) => {
   const events = [];
   let time = 0;
 
@@ -48,7 +48,7 @@ const parseChunks = async (replay, chunks, globalData) => {
       debugTime = Date.now();
     }
 
-    await parseCheckpoint(replay, checkpoint, globalData)
+    parseCheckpoint(replay, checkpoint, globalData)
 
     if (globalData.debug) {
       console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`)
@@ -91,7 +91,7 @@ const parseChunks = async (replay, chunks, globalData) => {
           console.error(`Error while exporting "nextChunk": ${err.stack}`);
         }
 
-        await parseCheckpoint(replay, checkpoint, globalData)
+        parseCheckpoint(replay, checkpoint, globalData)
 
         globalData.fastForwardTo = 0;
 
@@ -123,7 +123,7 @@ const parseChunks = async (replay, chunks, globalData) => {
         console.error(`Error while exporting "nextChunk": ${err.stack}`);
       }
 
-      await parseReplayData(replay, chunks.replayData[i], globalData);
+      parseReplayData(replay, chunks.replayData[i], globalData);
       time = chunks.replayData[i].end;
 
       if (globalData.debug) {

@@ -49,7 +49,7 @@ const parse = async (data, options) => {
 
       info = replayInfo(replay,  globalData);
       chunks = replayChunks(replay, globalData);
-      events = await parseChunks(replay, chunks, globalData);
+      events = parseChunks(replay, chunks, globalData);
     } else {
       if (!verifyMetadata(data)) {
         throw new Error('The data provided is neither a Buffer or a valid metadata file')

@@ -84,7 +84,11 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
       const exportt = group?.netFieldExports[externalData.handle];
 
       if (exportt) {
-        globalData.netFieldParser.setType(exportGroup, exportt, group, new Replay(externalData.payload), globalData);
+        const payloadReader = new Replay(externalData.payload);
+
+        payloadReader.header = archive.header;
+
+        globalData.netFieldParser.setType(exportGroup, exportt, group, payloadReader, globalData);
         exportGroup[`${exportt.name}_encrypted`] = externalData.isEncrypted;
       }
     }
@@ -113,6 +117,10 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     } catch (err) {
       console.error(`Error while exporting propertyExport "${exportGroup.type}": ${err.stack}`);
     }
+  }
+
+  if (!hasData) {
+    return null;
   }
 
   return { exportGroup, changedProperties };

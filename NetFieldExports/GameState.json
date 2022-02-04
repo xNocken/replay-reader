@@ -96,7 +96,7 @@
     },
     "PlayerSharedMaxTrapAttributes": {
       "name": "SpawnPointsAllocated",
-      "type": "float",
+      "parseFunction": "readFloat32",
       "parseType": "readDynamicArray"
     },
     "TotalPlayerStructures": {

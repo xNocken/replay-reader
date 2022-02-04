@@ -9,14 +9,15 @@ const readNetFieldExport = (archive) => {
   const isExported = archive.readByte();
 
   if (isExported) {
-    const fieldExport = {};
-    fieldExport.handle = archive.readIntPacked();
-    fieldExport.compatibleChecksum = archive.readUInt32();
+    const fieldExport = {
+      handle: archive.readIntPacked(),
+      compatibleChecksum: archive.readUInt32(),
+    };
 
     if (archive.header.engineNetworkVersion < 9) {
       fieldExport.name = archive.readString();
-      fieldExport.type = archive.readString();
-    } else if (archive.header.EngineNetworkVersion < 10) {
+      fieldExport.origType = archive.readString();
+    } else if (archive.header.engineNetworkVersion < 10) {
       fieldExport.name = archive.readString();
     } else {
       fieldExport.name = archive.readFNameByte();

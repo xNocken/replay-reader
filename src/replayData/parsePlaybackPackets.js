@@ -72,7 +72,7 @@ const parsePlaybackPackets = (replay, globalData) => {
     const numStreamingLevels = replay.readIntPacked();
 
     for (let i = 0; i < numStreamingLevels; i++) {
-      const levelName = replay.readString();
+      replay.readString();
     }
   } else {
     throw Error('FTransform deserialize not implemented');

@@ -1,11 +1,11 @@
-const DataBunch = require('../Classes/DataBunch');
-const Replay = require('../Classes/Replay');
-const GlobalData = require('../utils/globalData');
-const readFieldHeaderAndPayload = require('./ReadFieldHeaderAndPayload');
-const receiveCustomDeltaProperty = require('./receiveCustomDeltaProperty');
-const receiveCustomProperty = require('./receiveCustomProperty');
-const receivedRPC = require('./receivedRPC');
-const receiveProperties = require('./receiveProperties');
+const DataBunch = require("../Classes/DataBunch");
+const Replay = require("../Classes/Replay");
+const GlobalData = require("../utils/globalData");
+const NetDeltaSerialize = require("./netDeltaSerialize");
+const readFieldHeaderAndPayload = require("./ReadFieldHeaderAndPayload");
+const receiveCustomProperty = require("./receiveCustomProperty");
+const receivedRPC = require("./receivedRPC");
+const receiveProperties = require("./receiveProperties");
 
 /**
  * @param {DataBunch} bunch
@@ -14,14 +14,27 @@ const receiveProperties = require('./receiveProperties');
  * @param {boolean} bHasRepLayout
  * @param {GlobalData} globalData
  */
-const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsActor, globalData) => {
+const receivedReplicatorBunch = (
+  bunch,
+  archive,
+  repObject,
+  bHasRepLayout,
+  bIsActor,
+  globalData
+) => {
   let netFieldExportGroup;
   let staticActorId;
 
   if (bunch.actor.actorNetGUID.isDynamic()) {
-    netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(repObject, globalData);
+    netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+      repObject,
+      globalData
+    );
   } else {
-    const result = globalData.netGuidCache.getStaticActorExportGroup(repObject, globalData);
+    const result = globalData.netGuidCache.getStaticActorExportGroup(
+      repObject,
+      globalData
+    );
 
     netFieldExportGroup = result.group;
     staticActorId = result.staticActorId;
@@ -38,7 +51,17 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
   const { netFieldParser } = globalData;
 
   if (bHasRepLayout) {
-    if (!receiveProperties(archive, netFieldExportGroup, bunch, true, false, globalData, staticActorId)) {
+    if (
+      !receiveProperties(
+        archive,
+        netFieldExportGroup,
+        bunch,
+        true,
+        false,
+        globalData,
+        staticActorId
+      )
+    ) {
       return false;
     }
   }
@@ -47,7 +70,10 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
     return true;
   }
 
-  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(netFieldExportGroup.pathName, bunch.archive.header.engineNetworkVersion >= 15);
+  const classNetCache = globalData.netGuidCache.tryGetClassNetCache(
+    netFieldExportGroup.pathName,
+    bunch.archive.header.engineNetworkVersion >= 15
+  );
 
   if (!classNetCache) {
     return false;
@@ -79,25 +105,46 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
     archive.addOffset(5, numPayloadBits);
 
     if (fieldCache.isFunction) {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(fieldCache.type);
+      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+        fieldCache.type
+      );
 
       if (!exportGroup) {
+        archive.popOffset(5);
+
         return false;
       }
 
-      if (!receivedRPC(archive, exportGroup, bunch, globalData, staticActorId)) {
+      if (
+        !receivedRPC(archive, exportGroup, bunch, globalData, staticActorId)
+      ) {
+        archive.popOffset(5);
+
         return false;
       }
     } else if (fieldCache.isCustomStruct) {
-      if (!receiveCustomProperty(archive, fieldCache, bunch, classNetCache.pathName, globalData, staticActorId)) {
+      if (
+        !receiveCustomProperty(
+          archive,
+          fieldCache,
+          bunch,
+          classNetCache.pathName,
+          globalData,
+          staticActorId
+        )
+      ) {
         archive.popOffset(5);
 
         continue;
       }
     } else {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(fieldCache.type);
+      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+        fieldCache.type
+      );
 
       if (!exportGroup) {
+        archive.popOffset(5);
+
         return false;
       }
 
@@ -107,7 +154,16 @@ const receivedReplicatorBunch = (bunch, archive, repObject, bHasRepLayout, bIsAc
         continue;
       }
 
-      if (receiveCustomDeltaProperty(archive, exportGroup, bunch, fieldCache.EnablePropertyChecksum || false, globalData, staticActorId)) {
+      if (
+        NetDeltaSerialize(
+          archive,
+          exportGroup,
+          bunch,
+          fieldCache.EnablePropertyChecksum || false,
+          globalData,
+          staticActorId
+        )
+      ) {
         archive.popOffset(5);
 
         continue;

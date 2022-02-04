@@ -5,6 +5,7 @@ const UChannel = require('../Classes/UChannel');
 const EventEmitter = require('events');
 const handleEventEmitter = require('../../export/handleEventEmitter');
 const Info = require('../Classes/Info');
+const ffi = require('ffi-napi');
 
 class GlobalData {
   constructor(overrideConfig = {}) {
@@ -78,6 +79,10 @@ class GlobalData {
     });
 
     this.netFieldParser = new NetFieldParser(this);
+
+    this.oodleLib = ffi.Library('./liblinoodle.so', {
+      OodleLZ_Decompress: ["int", ["uint8*", "size_t", "uint8*", "size_t", "int", "int", "int", "uint8*", "size_t", "void*", "void*", "void*", "size_t", "int"]],
+    })
   }
 
   resetForCheckpoint() {

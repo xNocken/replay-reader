@@ -7,10 +7,10 @@ const parsePlaybackPackets = require('./replayData/parsePlaybackPackets');
  * Parse the replayData event
  * @param {Replay} replay the replay
  */
-const parseReplayData = async (replay, data, globalData) => {
+const parseReplayData = (replay, data, globalData) => {
   replay.goTo(data.startPos);
   const decrypted = replay.decryptBuffer(data.length);
-  const binaryReplay = await decompress(decrypted, replay.info.isCompressed);
+  const binaryReplay = decompress(decrypted, replay.info.isCompressed, globalData);
 
   while (!binaryReplay.atEnd()) {
     parsePlaybackPackets(binaryReplay, globalData);

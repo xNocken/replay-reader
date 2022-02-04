@@ -1,7 +1,8 @@
 {
   "dependencies": {
+    "ffi-napi": "^4.0.3",
     "needle": "^3.0.0",
-    "ooz-wasm": "1.0.0"
+    "ref-napi": "^3.0.3"
   },
   "version": "1.4.2",
   "scripts": {

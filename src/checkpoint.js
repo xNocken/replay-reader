@@ -4,13 +4,13 @@ const decompress = require('./decompress');
 const parsePlaybackPackets = require('./replayData/parsePlaybackPackets');
 const removePathPrefix = require('./utils/removePathPrefix');
 
-const parseCheckpoint = async (replay, data, globalData) => {
+const parseCheckpoint = (replay, data, globalData) => {
   replay.goTo(data.startPos);
 
   globalData.resetForCheckpoint();
 
   const decrypted = replay.decryptBuffer(data.sizeInBytes);
-  const binaryReplay = await decompress(decrypted, replay.info.isCompressed);
+  const binaryReplay = decompress(decrypted, replay.info.isCompressed, globalData);
 
   if (binaryReplay.hasDeltaCheckpoints()) {
     binaryReplay.skipBytes(4); // checkpoint size
@@ -64,7 +64,7 @@ const parseCheckpoint = async (replay, data, globalData) => {
     }
 
     if (binaryReplay.header.networkVersion < 16) {
-      cacheObject.checksum = binaryReplay.readUint32();
+      cacheObject.checksum = binaryReplay.readUInt32();
     }
 
     cacheObject.flags = binaryReplay.readByte();

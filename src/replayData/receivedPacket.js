@@ -41,7 +41,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     bunch.bReliable = packetArchive.readBit();
 
     if (packetArchive.header.engineNetworkVersion < 3) {
-      bunch.chIndex = packetArchive.readSerializedInt();
+      bunch.chIndex = packetArchive.readSerializedInt(10240);
     } else {
       bunch.chIndex = packetArchive.readIntPacked();
     }
@@ -65,8 +65,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     let chName = 3;
 
     if (packetArchive.header.engineNetworkVersion < 6) {
-      const type = packetArchive.readSerializedInt(8);
-      chType = (bunch.bReliable || bunch.bOpen) ? type : 0;
+      chType = (bunch.bReliable || bunch.bOpen) ? packetArchive.readSerializedInt(8) : 0;
 
       if (chType === 2) {
         chName = 2;

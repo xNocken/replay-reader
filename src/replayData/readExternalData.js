@@ -14,7 +14,7 @@ const readExternalData = (replay, globalData) => {
     }
 
     const netGuid = replay.readIntPacked();
-    const externalDataNumBytes = externalDataNumBits / 8;
+    const externalDataNumBytes = (externalDataNumBits + 7) >> 3;
 
     const handle = replay.readByte();
     const something = replay.readByte();

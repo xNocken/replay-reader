@@ -43,7 +43,7 @@ const header = (replay) => {
     result.changelist = replay.readUInt32();
   }
 
-  if (header.networkVersion <= 6) {
+  if (result.networkVersion <= 6) {
     throw Error('Not implented')
   } else {
     result.levelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
@@ -54,6 +54,10 @@ const header = (replay) => {
   }
 
   result.gameSpecificData = replay.readArray((a) => a.readString());
+
+  if (result.engineNetworkVersion === 9) {
+    throw new Error('Replays with engineNetworkVersion 9 are not supported');
+  }
 
   replay.header = result;
 
