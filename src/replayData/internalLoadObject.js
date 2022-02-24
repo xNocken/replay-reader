@@ -26,7 +26,7 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, interna
 
     if ((flags & 1) === 1) {
       // outer guid
-      internalLoadObject(replay, true, globalData, internalLoadObjectRecursionCount + 1);
+      netGuid.outer = internalLoadObject(replay, true, globalData, internalLoadObjectRecursionCount + 1);
       const pathName = replay.readString();
 
       if ((flags & 4) == 4) {
@@ -41,6 +41,7 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, interna
           globalData.debugNetGuidToPathName.push({
             key: netGuid.value,
             val: globalData.netGuidCache.NetGuidToPathName[netGuid.value],
+            outer: netGuid.outer.value,
           });
         }
       }

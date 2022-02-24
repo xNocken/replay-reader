@@ -25,12 +25,12 @@ const decompress = (replay, isCompressed, globalData) => {
     decompressedSize,
     0,
     0,
-    2147483647,
-    ref.NULL,
     0,
-    ref.NULL,
-    ref.NULL,
-    ref.NULL,
+    0,
+    0,
+    0,
+    0,
+    0,
     0,
     0
   );

@@ -1,4 +1,4 @@
-const handleSafezoneFastForwarding = ({ data, result, states, timeSeconds, setFastForward }) => {
+const handleSafezoneFastForwarding = ({ data, result, states, setFastForward }) => {
   if (data.SafeZoneFinishShrinkTime && states.safeZones.SafeZoneFinishShrinkTime !== data.SafeZoneFinishShrinkTime) {
     result.gameData.safeZones.push(data);
     states.safeZones.SafeZoneFinishShrinkTime = data.SafeZoneFinishShrinkTime;

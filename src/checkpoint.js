@@ -75,6 +75,7 @@ const parseCheckpoint = (replay, data, globalData) => {
       globalData.debugNetGuidToPathName.push({
         key: guid,
         val: globalData.netGuidCache.NetGuidToPathName[guid],
+        outer: outerGuid.value,
       });
     }
   }

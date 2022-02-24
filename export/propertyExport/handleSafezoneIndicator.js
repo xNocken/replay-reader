@@ -1,6 +1,10 @@
-const handleSafezone = ({ data, result }) => {
-  if (data.SafeZoneStartShrinkTime && data.SafeZoneFinishShrinkTime) {
+const handleSafezone = ({ data, result, states }) => {
+  if (
+    data.SafeZoneFinishShrinkTime &&
+    states.safeZones.SafeZoneFinishShrinkTime !== data.SafeZoneFinishShrinkTime
+  ) {
     result.gameData.safeZones.push(data);
+    states.safeZones.SafeZoneFinishShrinkTime = data.SafeZoneFinishShrinkTime;
   }
 };
 
