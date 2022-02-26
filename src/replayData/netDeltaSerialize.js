@@ -49,7 +49,7 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
 
     const properties = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, staticActorId);
 
-    if (!properties) {
+    if (!properties?.changedProperties?.length) {
       continue;
     }
 

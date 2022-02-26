@@ -119,10 +119,6 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     }
   }
 
-  if (!hasData) {
-    return null;
-  }
-
   return { exportGroup, changedProperties };
 };
 

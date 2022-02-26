@@ -19,7 +19,7 @@ const handlePlayerPawn = ({ actor, data, states, changedProperties }) => {
 
   if (!pawn) {
     pawn = {
-      shots: [],
+      damages: [],
     };
 
     pawns[actorId] = pawn;
