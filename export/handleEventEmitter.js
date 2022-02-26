@@ -20,6 +20,7 @@ const handleVehicles = require('./propertyExport/handleVehicles');
 const handleInventory = require('./netDeltaExport/handleInventory');
 const handleInventoryProperty = require('./propertyExport/handleInventory');
 const handleSafezoneFastForwarding = require('./propertyExport/handleSafezoneIndicatorFastForwarding');
+const handleDamageCues = require('./rpcExport/handleDamageCues');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
@@ -27,6 +28,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone);
   // propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezoneFastForwarding);
   propertyExportEmitter.on('PlayerPawn_Athena.PlayerPawn_Athena_C', handlePlayerPawn);
+  propertyExportEmitter.on('FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues', handleDamageCues);
   propertyExportEmitter.on('FortniteGame.FortPlayerStateAthena', handlePlayerState);
   propertyExportEmitter.on('Athena_GameState.Athena_GameState_C', handleGameState);
   propertyExportEmitter.on('FortniteGame.FortPickupAthena', handlePickup);

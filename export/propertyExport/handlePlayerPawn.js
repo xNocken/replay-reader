@@ -18,7 +18,9 @@ const handlePlayerPawn = ({ actor, data, states, changedProperties }) => {
   let pawn = pawns[actorId];
 
   if (!pawn) {
-    pawn = {};
+    pawn = {
+      shots: [],
+    };
 
     pawns[actorId] = pawn;
   }

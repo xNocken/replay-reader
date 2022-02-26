@@ -15,6 +15,7 @@ module.exports = [
   require('./GameStateCache.json'),
   require('./LabradorLlama.json'),
   require('./PlayerBuilds.json'),
+  require('./PlayerPawn_NetMulticast_Athena_BatchedDamageCues.json'),
   require('./PlayerPawn.json'),
   require('./PlayerPawnCache.json'),
   require('./SafeZoneIndicator.json'),

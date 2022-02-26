@@ -24,6 +24,12 @@
       "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec",
       "isFunction": true,
       "isCustomStruct": false
+    },
+    "NetMulticast_Athena_BatchedDamageCues": {
+      "name": "NetMulticast_Athena_BatchedDamageCues",
+      "type": "/Script/FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues",
+      "isFunction": true,
+      "isCustomStruct": false
     }
   }
 }
