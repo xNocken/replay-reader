@@ -145,7 +145,11 @@ const receivedReplicatorBunch = (
       if (!exportGroup) {
         archive.popOffset(5);
 
-        return false;
+        if (globalData.debug) {
+          console.error(`class net cache ${fieldCache.name} from ${classNetCache.pathName} has been declared but has no export group`)
+        }
+
+        continue;
       }
 
       if (!exportGroup || !netFieldParser.willReadType(exportGroup.pathName)) {
