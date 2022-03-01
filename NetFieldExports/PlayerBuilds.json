@@ -3,7 +3,7 @@
     "/Game/Building/ActorBlueprints/Player/"
   ],
   "customExportName": "PlayerBuilds",
-  "parseLevel": 2,
+  "parseLevel": 4,
   "partialPath": true,
   "exportGroup": "mapData",
   "exportName": "playerBuilds",

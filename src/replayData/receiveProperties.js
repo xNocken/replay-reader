@@ -65,6 +65,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     try {
       archive.addOffset(6, numbits);
       changedProperties.push(exportt.name);
+
       if (!netFieldParser.setType(exportGroup, exportt, group, archive, globalData)) {
         exportt.incompatible = true;
       }

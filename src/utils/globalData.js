@@ -63,6 +63,7 @@ class GlobalData {
     this.additionalStates = [
       'pawnChannelToStateChannel',
       'queuedPlayerPawns',
+      'queuedSpectatorInfo',
     ];
 
     this.exportEmitter = new EventEmitter();

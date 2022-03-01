@@ -208,6 +208,12 @@ class Replay {
     let index = 0;
 
     while (remaining) {
+      if (!this.canRead(8)) {
+        this.isError = true;
+
+        return 0;
+      }
+
       const currentByte = this.readByte();
 
       remaining = (currentByte & 1) === 1;
@@ -678,6 +684,14 @@ class Replay {
    */
   hasGameSpecificFrameData() {
     return (this.header.flags & 8) === 8;
+  }
+
+  readDebugString(value) {
+    const read = this.readString();
+
+    if (value !== read) {
+      throw new Error('debug string test failed');
+    }
   }
 }
 

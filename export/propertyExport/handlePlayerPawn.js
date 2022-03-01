@@ -41,7 +41,7 @@ const handlePlayerPawn = ({ actor, data, states, changedProperties }) => {
     }
   }
 
-  if (data.Vehicle) {
+  if (data.Vehicle && states.vehicles) {
     pawn.currentVehicle = states.vehicles[data.Vehicle];
   } else if (data.Vehicle === 0) {
     pawn.currentVehicle = null;

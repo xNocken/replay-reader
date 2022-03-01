@@ -2,7 +2,7 @@ const fs = require('fs');
 const parse = require('.');
 
 (async () => {
-  const replayBuffer = fs.readFileSync('replays/server-19.01.replay');
+  const replayBuffer = fs.readFileSync('../replay-builder/result.replay');
 
   console.time();
   const parsedReplay = await parse(replayBuffer, {
@@ -12,7 +12,7 @@ const parse = require('.');
     // ],
     // onlyUseCustomNetFieldExports: true,
     debug: true,
-    // useCheckpoints: true,
+    useCheckpoints: true,
   });
   console.timeEnd();
 

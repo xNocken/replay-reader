@@ -1,3 +1,4 @@
+const { savePlayerData } = require("./handleFortBroadcastSpectatorInfo");
 const handlePlayerPawn = require("./handlePlayerPawn");
 
 const onlySpectatingPlayers = [];
@@ -17,6 +18,16 @@ const handleQueuedPlayerPawns = (actorId, states) => {
       states,
     })
   });
+};
+
+const handleQueuedSpectatorInfo = (actorId, states, player) => {
+  const spectatorInfo = states.queuedSpectatorInfo[actorId];
+
+  if (!spectatorInfo) {
+    return;
+  }
+
+  savePlayerData(spectatorInfo, player);
 };
 
 const handlePlayerState = ({ actor, data, states, result, changedProperties }) => {
@@ -61,6 +72,15 @@ const handlePlayerState = ({ actor, data, states, result, changedProperties }) =
 
   if (newPlayer) {
     handleQueuedPlayerPawns(actorId, states);
+    handleQueuedSpectatorInfo(actorId, states, playerData);
+  }
+
+  if (playerData.clientInfoId && !playerData.clientPlayerData) {
+    const clientPlayerData = states.remoteClientInfo[playerData.clientInfoId];
+
+    if (clientPlayerData) {
+      playerData.clientPlayerData = clientPlayerData;
+    }
   }
 };
 

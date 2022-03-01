@@ -2,7 +2,7 @@
   "path": [
     "/Script/FortniteGame.ActiveGameplayModifier"
   ],
-  "parseLevel": 1,
+  "parseLevel": 2,
   "exportGroup": "gameData",
   "exportName": "activeGameplayModifiers",
   "exportType": "array",

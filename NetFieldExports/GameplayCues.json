@@ -8,7 +8,7 @@
   "exportGroup": "gameData",
   "exportName": "gameplayCues",
   "exportType": "object",
-  "parseLevel": 1,
+  "parseLevel": 2,
   "properties": {
     "GameplayCueTag": {
       "name": "GameplayCueTag",

@@ -22,16 +22,6 @@ const parse = async (data, options) => {
   let chunks;
   let events = [];
 
-  if (globalData.debug) {
-    if (fs.existsSync('netfieldexports.txt')) {
-      fs.unlinkSync('netfieldexports.txt');
-    }
-
-    if (fs.existsSync('netGuidToPathName.txt')) {
-      fs.unlinkSync('netGuidToPathName.txt');
-    }
-  }
-
   globalData.additionalStates.forEach((stateName) => {
     globalData.states[stateName] = {};
   });
@@ -66,22 +56,9 @@ const parse = async (data, options) => {
   }
 
   if (globalData.debug) {
-    Object.values(globalData.netGuidCache.NetFieldExportGroupMap).forEach((value) => {
-      const filteredNetFieldExports = value.netFieldExports.filter((a) => a && a.name !== 'RemoteRole' && a.name !== 'Role');
-
-      if (!filteredNetFieldExports.length) {
-        return;
-      }
-
-      fs.appendFileSync('netfieldexports.txt', value.pathName + '\n');
-
-      filteredNetFieldExports.forEach((exportt) => {
-        fs.appendFileSync('netfieldexports.txt', '  ' + exportt.name + '\n');
-      });
-    });
-
-    fs.writeFileSync('netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val, outer }) => `${key}: ${val} -> ${outer}`).join('\n'));
-    fs.writeFileSync('notReadingGroups.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
+    fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val, outer }) => `${key}: ${val} -> ${outer}`).join('\n'));
+    fs.writeFileSync('debug-notReadNFE.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
+    fs.writeFileSync('debug-readNFE.txt', Object.values(globalData.netGuidCache.NetFieldExportGroupMap).map(({ pathName, netFieldExports }) => `${pathName}:\n${Object.values(netFieldExports).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
   }
 
   isParsing = false;

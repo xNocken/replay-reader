@@ -12,4 +12,5 @@ module.exports = {
   ItemDefinition: require('./ItemDefinition'),
   NetworkGUID: require('./NetworkGUID'),
   PlaylistInfo: require('./PlaylistInfo'),
+  Vector2: require('./Vector2'),
 }

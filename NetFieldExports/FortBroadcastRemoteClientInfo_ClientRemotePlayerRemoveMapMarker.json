@@ -2,7 +2,7 @@
   "path": [
     "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker"
   ],
-  "parseLevel": 1,
+  "parseLevel": 3,
   "exportGroup": "gameData",
   "exportName": "markers",
   "exportType": "array",

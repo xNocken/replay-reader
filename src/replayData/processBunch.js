@@ -49,6 +49,7 @@ const processBunch = (bunch, replay, globalData) => {
     channel.actor = inActor;
 
     onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
+
     if (globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0)) {
       const path = globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0);
 
@@ -92,6 +93,7 @@ const processBunch = (bunch, replay, globalData) => {
     }
 
     receivedReplicatorBunch(bunch, replay, repObject, bOutHasRepLayout, bIsActor, globalData);
+
     if (numPayloadBits > 0) {
       replay.popOffset(4);
     }

@@ -1,4 +1,3 @@
-const ref = require("ref-napi");
 const Replay = require("./Classes/Replay");
 const GlobalData = require("./utils/globalData");
 

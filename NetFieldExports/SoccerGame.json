@@ -2,6 +2,7 @@
   "path": [
     "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C"
   ],
+  "parseLevel": 3,
   "exportGroup": "mapData",
   "exportName": "soccerGames",
   "exportType": "array",

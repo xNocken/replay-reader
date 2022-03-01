@@ -2,7 +2,7 @@
   "path": [
     "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C"
   ],
-  "parseLevel": 2,
+  "parseLevel": 3,
   "exportGroup": "mapData",
   "exportName": "speedSigns",
   "exportType": "array",

@@ -1,4 +1,3 @@
-const NetGuidCache = require("../src/Classes/NetGuidCache");
 const NetworkGUID = require("./NetworkGUID");
 
 class ItemDefinition extends NetworkGUID {

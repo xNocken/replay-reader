@@ -1,6 +1,5 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const cleanStaticIdSuffix = require('../utils/cleanStaticIdSuffix');
-const GlobalData = require('../utils/globalData');
 const removePathPrefix = require('../utils/removePathPrefix');
 const Actor = require('./Actor');
 const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');

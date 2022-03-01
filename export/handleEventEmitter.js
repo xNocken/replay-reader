@@ -1,10 +1,10 @@
 const handleChest = require('./actorDespawn/handleChest');
 const handleActiveGameplayModifiers = require('./netDeltaExport/handleActiveGameplayModifiers');
 const handleChests = require('./propertyExport/handleChests');
-const handleBroadcastRemoteClientInfoMapMarker = require('./propertyExport/handleBroadCastRemoteClientInfoMapMarker');
+const handleBroadcastRemoteClientInfoMapMarker = require('./rpcExport/functions/handleBroadCastRemoteClientInfoMapMarker');
 const handlePickup = require('./propertyExport/handlePickup');
 const handlePlayerState = require('./propertyExport/handlePlayerState');
-const handleGameplayCues = require('./propertyExport/handleGameplayCues');
+const handleGameplayCues = require('./rpcExport/functions/handleGameplayCues');
 const handleGameState = require('./propertyExport/handleGameState');
 const handleHealthSet = require('./propertyExport/handleHealthSet');
 const handleLabradorLlama = require('./propertyExport/handleLabradorLlama');
@@ -20,7 +20,10 @@ const handleVehicles = require('./propertyExport/handleVehicles');
 const handleInventory = require('./netDeltaExport/handleInventory');
 const handleInventoryProperty = require('./propertyExport/handleInventory');
 const handleSafezoneFastForwarding = require('./propertyExport/handleSafezoneIndicatorFastForwarding');
-const handleDamageCues = require('./rpcExport/handleDamageCues');
+const handleDamageCues = require('./rpcExport/functions/handleDamageCues');
+const handleRemoteClientInfo = require('./propertyExport/handleRemoteClientInfo');
+const handleFortBroadcastSpectatorInfo = require('./propertyExport/handleFortBroadcastSpectatorInfo');
+const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientInfoHitMarkers');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
@@ -39,6 +42,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('Chests', handleChests);
   propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker', handleBroadcastRemoteClientInfoMapMarker);
   propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker', handleBroadcastRemoteClientInfoMapMarker);
+  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers', handleClientInfoHitMarkers);
   propertyExportEmitter.on('FortniteGame.FortRegenHealthSet', handleHealthSet);
   propertyExportEmitter.on('gameplayCue', handleGameplayCues);
   propertyExportEmitter.on('BP_AIPawn_Labrador.BP_AIPawn_Labrador_C', handleLabradorLlama);
@@ -46,6 +50,8 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('AthenaSupplyDrop.AthenaSupplyDrop_C', handleSupplyDrop);
   propertyExportEmitter.on('Athena_SoccerGame.Athena_SoccerGame_C', handleSoccerGame);
   propertyExportEmitter.on('FortniteGame.FortInventory', handleInventoryProperty)
+  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo', handleRemoteClientInfo);
+  propertyExportEmitter.on('FortniteGame.FortBroadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
 
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
   netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);
