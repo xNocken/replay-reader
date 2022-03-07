@@ -21,7 +21,7 @@ const parsePlayer = (replay) => {
       return replay.readId();
 
     default:
-      console.log('Invalid userType', playerType);
+      console.log('Invalid playerType', playerType, 'while reading event');
   }
 };
 
@@ -31,20 +31,56 @@ const parsePlayer = (replay) => {
  * @param {Replay} replay the replay
  */
 const parsePlayerElim = (result, replay) => {
-  if (replay.header.engineNetworkVersion >= 11 && replay.header.major >= 9) {
-    replay.skipBytes(85);
+  const version = replay.readInt32();
 
-    result.eliminated = parsePlayer(replay);
-    result.eliminator = parsePlayer(replay);
+  result.version = version;
+
+  if (version >= 3) {
+    replay.skipBytes(1);
+
+    result.eliminated = {};
+
+    if (version >= 6) {
+      result.eliminated = {
+        rotation: {
+          x: replay.readFloat32(),
+          y: replay.readFloat32(),
+          z: replay.readFloat32(),
+          w: replay.readFloat32(),
+        },
+        location: replay.readVector(),
+        scale: replay.readVector(),
+      };
+    }
+
+    result.eliminator = {
+      rotation: {
+        x: replay.readFloat32(),
+        y: replay.readFloat32(),
+        z: replay.readFloat32(),
+        w: replay.readFloat32(),
+      },
+      location: replay.readVector(),
+      scale: replay.readVector(),
+    }
+
+    // TODO: verify
+    if (replay.header.major >= 5) {
+      result.eliminated.name = parsePlayer(replay);
+      result.eliminator.name = parsePlayer(replay);
+    } else {
+      result.eliminated.name = replay.readString();
+      result.eliminator.name = replay.readString();
+    }
   } else {
     if (replay.header.major <= 4 && replay.header.minor < 2) {
-      replay.skipBytes(12);
+      replay.skipBytes(8);
     }
     else if (replay.header.major == 4 && replay.header.minor <= 2) {
-      replay.skipBytes(40);
+      replay.skipBytes(36);
     }
     else {
-      replay.skipBytes(45);
+      replay.skipBytes(41);
     }
 
     result.eliminated = replay.readString();
@@ -63,7 +99,7 @@ const parsePlayerElim = (result, replay) => {
  * @param {Replay} replay the replay
  */
 const parseMatchStats = (data, replay) => {
-  replay.skipBytes(4);
+  data.version = replay.readInt32();
   data.accuracy = replay.readFloat32();
   data.assists = replay.readUInt32();
   data.eliminations = replay.readUInt32();
@@ -84,7 +120,7 @@ const parseMatchStats = (data, replay) => {
  * @param {Replay} replay the replay
  */
 const parseMatchTeamStats = (data, replay) => {
-  data.something = replay.readInt32();
+  data.version = replay.readInt32();
   data.position = replay.readUInt32();
   data.totalPlayers = replay.readUInt32();
 };
@@ -97,7 +133,9 @@ const event = (replay, info) => {
   replay.goTo(info.startPos);
   let decryptedEvent = replay.decryptBuffer(info.length);
   const result = {
-    ...info,
+    eventId: info.eventId,
+    group: info.group,
+    metadata: info.metadata,
   };
 
   if (info.group === 'playerElim') {

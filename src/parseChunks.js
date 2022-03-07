@@ -27,7 +27,11 @@ const parseChunks = (replay, chunks, globalData) => {
         console.error(`Error while exporting "nextChunk": ${err.stack}`);
       }
 
-      events.push(parseEvent(replay, event));
+      try {
+        events.push(parseEvent(replay, event));
+      } catch (err) {
+        console.log('Error while reading event chunk');
+      }
 
       if (globalData.debug) {
         console.log(`read eventChunk with ${event.length} bytes in ${Date.now() - debugTime}ms`)
