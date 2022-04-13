@@ -294,9 +294,8 @@
     },
     "LastReplicatedEmoteExecuted": {
       "name": "LastReplicatedEmoteExecuted",
-      "type": "int",
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
+      "type": "ItemDefinition",
+      "parseType": "readClass"
     },
     "bCanBeInterrupted": {
       "name": "bCanBeInterrupted",
@@ -799,6 +798,11 @@
       "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
+    },
+    "CustomData": {
+      "name": "CustomData",
+      "type": "DebugObject",
+      "parseType": "readClass"
     }
   }
 }

@@ -13,11 +13,13 @@ const handleDamageCues = ({ data, timeSeconds, states, actor }) => {
     return;
   }
 
-  states.pawns[actorId].damages.push({
+  const pawn = states.pawns[actorId];
+
+  pawn.damages.push({
     ...data,
     hitPlayerName: hitPlayerState.PlayerNamePrivate,
     timeSeconds,
-    playerPos: states.pawns[actorId].ReplicatedMovement.location,
+    playerPos: pawn.currentVehicle ? pawn.currentVehicle.ReplicatedMovement.location : pawn.ReplicatedMovement.location,
   });
 }
 
