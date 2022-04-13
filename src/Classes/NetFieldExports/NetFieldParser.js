@@ -193,7 +193,7 @@ class NetFieldParser {
   setType(obj, exportt, exportGroup, netBitReader, globalData) {
     let data;
 
-    if (exportGroup.parseUnknownHandles) {
+    if (!exportt.parseType && exportGroup.parseUnknownHandles) {
       const size = netBitReader.getBitsLeft();
 
       data = new DebugObject(netBitReader.readBits(size), exportt, size, netBitReader.header);
@@ -287,7 +287,11 @@ class NetFieldParser {
                 parseType: 'default'
               }, exportGroup, archive, globalData);
 
-              newData = temp[exporttt.name];
+              if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+                newData = temp[exporttt.handle];
+              } else {
+                newData = temp[exporttt.name];
+              }
             } else {
               const temp = {};
 
@@ -298,10 +302,20 @@ class NetFieldParser {
                 }, exportGroup, archive, globalData);
 
                 newData = temp[exporttt.name];
+
+                if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+                  newData = temp[exporttt.handle];
+                } else {
+                  newData = temp[exporttt.name];
+                }
               } else {
                 this.setType(temp, exporttt, exportGroup, archive, globalData);
 
-                newData[exporttt.name] = temp[exporttt.name];
+                if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+                  newData[exporttt.handle] = temp[exporttt.handle];
+                } else {
+                  newData[exporttt.name] = temp[exporttt.name];
+                }
               }
             }
           }
@@ -331,7 +345,11 @@ class NetFieldParser {
         break;
     }
 
-    obj[exportt.name] = data;
+    if (exportGroup.storeAsHandle || exportt.storeAsHandle) {
+      obj[exportt.handle] = data;
+    } else {
+      obj[exportt.name] = data;
+    }
     return true;
   }
 

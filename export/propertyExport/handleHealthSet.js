@@ -2,26 +2,24 @@ const FortSet = require('../../Classes/FortSet');
 
 let healthStartHandle;
 let shieldStartHandle;
+let overShieldStartHandle;
+let lastExportAmount = 0;
 
 const hasDataInSet = (handle, value) => value[handle]
   || value[handle + 1]
-  || value[handle + 3]
-  || value[handle + 7]
-  || value[handle + 8];
+  || value[handle + 3];
 
-const createFortSet = (handle, value) => {
+const createFortSet = (handle, value, oldValues) => {
   const fortset = {};
 
-  fortset.BaseValue = value[handle]?.getValueAsFloat();
-  fortset.CurrentValue = value[handle + 1]?.getValueAsFloat();
-  fortset.Maximum = value[handle + 3]?.getValueAsFloat();
-  fortset.UnclampedBaseValue = value[handle + 7]?.getValueAsFloat();
-  fortset.UnclampedCurrentValue = value[handle + 8]?.getValueAsFloat();
+  fortset.BaseValue = value[handle] !== undefined ? value[handle] :  oldValues?.BaseValue;
+  fortset.CurrentValue = value[handle + 1] !== undefined ? value[handle + 1] :  oldValues?.CurrentValue;
+  fortset.Maximum = value[handle + 3] !== undefined ? value[handle + 3] :  oldValues?.Maximum;
 
   return fortset;
 };
 
-const handleHealthSet = ({ actor, data, states }) => {
+const handleHealthSet = ({ actor, data, states, netFieldExports }) => {
   const actorId = actor.actorNetGUID.value;
   const player = states.players[actorId];
 
@@ -29,19 +27,31 @@ const handleHealthSet = ({ actor, data, states }) => {
     return;
   }
 
-  if (healthStartHandle === undefined) {
-    const startingHandles = Object.entries(data).filter(([, a]) => a.name === 'Maximum');
+  const nfeLength = netFieldExports.filter(Boolean).length;
 
-    healthStartHandle = parseInt(startingHandles[0][0], 10) - 3;
-    shieldStartHandle = parseInt(startingHandles[1][0], 10) - 3;
+  if (lastExportAmount !== nfeLength) {
+    const startingHandles = netFieldExports.filter((a) => a.name === 'Maximum');
+
+    healthStartHandle = startingHandles[0].handle - 3;
+    shieldStartHandle = startingHandles[1].handle - 3;
+
+    if (startingHandles[2]) {
+      overShieldStartHandle = startingHandles[2].handle - 3;
+    }
+
+    lastExportAmount = nfeLength;
   }
 
   if (hasDataInSet(healthStartHandle, data)) {
-    player.health = createFortSet(healthStartHandle, data);
+    player.health = createFortSet(healthStartHandle, data, player.health);
   }
 
   if (hasDataInSet(shieldStartHandle, data)) {
-    player.shield = createFortSet(shieldStartHandle, data);
+    player.shield = createFortSet(shieldStartHandle, data, player.shield);
+  }
+
+  if (overShieldStartHandle && hasDataInSet(overShieldStartHandle, data)) {
+    player.overShield = createFortSet(overShieldStartHandle, data, player.overShield);
   }
 };
 

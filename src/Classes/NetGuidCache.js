@@ -71,6 +71,7 @@ class NetGuidCache {
     }
 
     exportGroup.parseUnknownHandles = netFieldExport.parseUnknownHandles;
+    exportGroup.storeAsHandle = netFieldExport.storeAsHandle;
     exportGroup.customExportName = netFieldExport.customExportName;
     exportGroup.exportGroup = netFieldExport.exportGroup;
     exportGroup.exportName = netFieldExport.exportName;

@@ -32,15 +32,15 @@ const readNetFieldExportGroup = (replay, globalData) => {
       continue;
     }
 
-    if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {
-      group.netFieldExports[netField.handle] = netField;
-
-      continue;
-    }
-
     const netFieldExportGroup = globalData.netFieldParser.getNetFieldExport(group.pathName);
 
     if (!netFieldExportGroup) {
+      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {
+        group.netFieldExports[netField.handle] = netField;
+
+        continue;
+      }
+
       addToUnreadGroups(group, netField, globalData);
       continue;
     }
@@ -48,6 +48,12 @@ const readNetFieldExportGroup = (replay, globalData) => {
     const netFieldExport = netFieldExportGroup.properties[netField.name];
 
     if (!netFieldExport) {
+      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {
+        group.netFieldExports[netField.handle] = netField;
+
+        continue;
+      }
+
       addToUnreadGroups(group, netField, globalData);
       continue;
     }
