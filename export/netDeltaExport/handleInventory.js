@@ -1,5 +1,4 @@
-const handleInventory = ({ states, data, actor }) => {
-  const actorId = actor.actorNetGUID.value;
+const handleInventory = ({ states, data, actorId }) => {
   const inventory = states.inventories[actorId];
 
   if (!inventory) {

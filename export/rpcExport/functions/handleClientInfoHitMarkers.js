@@ -1,6 +1,4 @@
-const handleClientInfoHitMarkers = ({ data, changedProperties, states, actor }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleClientInfoHitMarkers = ({ data, changedProperties, states, actorId }) => {
   const clientInfo = states.remoteClientInfo[actorId];
 
   if (!clientInfo) {

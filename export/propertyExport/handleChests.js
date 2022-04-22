@@ -1,6 +1,4 @@
-const handleChests = ({ data, actor, staticActorId, result, states, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleChests = ({ data, actorId, staticActorId, result, states, changedProperties }) => {
   let chest = states.chests[actorId];
 
   if (!chest) {

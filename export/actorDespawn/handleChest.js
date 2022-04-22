@@ -1,6 +1,4 @@
-const handleChest = ({ staticActorId, states, actor, result }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleChest = ({ staticActorId, states, actorId, result }) => {
   if (!states.chests[actorId]) {
     states.chests[actorId] = {
       destroyed: true,

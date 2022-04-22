@@ -117,6 +117,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
           stopParsing: globalData.stopParsingFunc,
           changedProperties,
           actor: bunch.actor,
+          actorId: bunch.actor.actorNetGUID.value,
           netFieldExports: group.netFieldExports,
         },
       );

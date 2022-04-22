@@ -1,6 +1,4 @@
-const handleDamageCues = ({ data, timeSeconds, states, actor }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleDamageCues = ({ data, timeSeconds, states, actorId }) => {
   const hitPlayer = states.pawns[data.HitActor];
 
   if (!hitPlayer) {

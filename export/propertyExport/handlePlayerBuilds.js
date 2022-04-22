@@ -1,6 +1,4 @@
-const handlePlayerBuilds = ({ actor, data, states, result, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handlePlayerBuilds = ({ actorId, data, states, result, changedProperties }) => {
   if (!states.playerBuilds[actorId]) {
     states.playerBuilds[actorId] = data;
     result.mapData.playerBuilds.push(data);

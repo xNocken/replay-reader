@@ -1,6 +1,4 @@
-const handleSupplyDrop = ({ actor, data, states, result, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleSupplyDrop = ({ actorId, data, states, result, changedProperties }) => {
   if (!states.supplyDrops[actorId]) {
     states.supplyDrops[actorId] = data;
     result.mapData.supplyDrops.push(data);

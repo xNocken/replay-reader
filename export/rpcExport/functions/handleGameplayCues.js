@@ -1,6 +1,4 @@
-const handleGameplayCues = ({ actor, data, timeSeconds, globalData, states }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleGameplayCues = ({ actorId, data, timeSeconds, globalData, states }) => {
   if (!states.pawns[actorId]) {
     if (globalData.debug) {
       console.log('Received gameplay cue for not tracked pawn');

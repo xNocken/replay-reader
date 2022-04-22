@@ -253,6 +253,8 @@ export interface NetDeltaExport {
   setFastForward: setFastForward,
   stopParsing: setFastForward,
   changedProperties?: string[],
+  actor: Actor,
+  actorId: number,
 }
 
 export interface PropertyExport {
@@ -266,6 +268,8 @@ export interface PropertyExport {
   setFastForward: setFastForward,
   stopParsing: setFastForward,
   changedProperties: string[],
+  actor: Actor,
+  actorId: number,
 }
 
 export interface ActorDespawnExport {
@@ -279,6 +283,8 @@ export interface ActorDespawnExport {
   netFieldExportGroup: any,
   setFastForward: setFastForward,
   stopParsing: setFastForward,
+  actor: Actor,
+  actorId: number,
 }
 
 export interface ChannelOpenedClosed {

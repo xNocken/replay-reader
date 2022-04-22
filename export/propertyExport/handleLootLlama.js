@@ -1,6 +1,4 @@
-const handleLootLlama = ({ actor, data, result, states, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleLootLlama = ({ actorId, data, result, states, changedProperties }) => {
   if (!states.llamas[actorId]) {
     result.mapData.llamas.push(data);
 

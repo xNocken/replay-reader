@@ -1,6 +1,4 @@
-const handleSoccerGame = ({ actor, result, states, data, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleSoccerGame = ({ actorId, result, states, data, changedProperties }) => {
   if (!states.soccerGames[actorId]) {
     const newState = {
       scoreHistory: [],

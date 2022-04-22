@@ -41,6 +41,7 @@ const receivedSequencedBunch = (bunch, globalData) => {
               setFastForward: globalData.setFastForward,
               stopParsing: globalData.stopParsingFunc,
               actor: channel.actor,
+              actorId: bunch.actor.actorNetGUID.value,
             }
           );
         } catch (err) {

@@ -30,9 +30,7 @@ const handleQueuedSpectatorInfo = (actorId, states, player) => {
   savePlayerData(spectatorInfo, player);
 };
 
-const handlePlayerState = ({ actor, data, states, result, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handlePlayerState = ({ actorId, data, states, result, changedProperties }) => {
   if (data.bOnlySpectator == true) {
     onlySpectatingPlayers.push(actorId);
 

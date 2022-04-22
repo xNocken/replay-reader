@@ -12,8 +12,7 @@ const tryGetPlayerDataFromPawn = (pawn, states) => {
   return null;
 };
 
-const handlePlayerPawn = ({ actor, data, states, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
+const handlePlayerPawn = ({ actorId, data, states, changedProperties }) => {
   const { pawns, players } = states;
   let pawn = pawns[actorId];
 

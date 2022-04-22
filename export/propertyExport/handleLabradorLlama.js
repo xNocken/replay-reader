@@ -1,6 +1,4 @@
-const handleLabradorLlama = ({ actor, data, states, result, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleLabradorLlama = ({ actorId, data, states, result, changedProperties }) => {
   if (!states.pawns[actorId]) {
     states.pawns[actorId] = data;
     result.mapData.labradorLlamas.push(data);

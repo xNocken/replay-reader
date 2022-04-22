@@ -23,6 +23,7 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
         setFastForward: globalData.setFastForward,
         stopParsing: globalData.stopParsingFunc,
         actor: bunch.actor,
+        actorId: bunch.actor.actorNetGUID.value,
       },
     );
   } catch (err) {

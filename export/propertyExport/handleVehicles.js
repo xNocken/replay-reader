@@ -1,6 +1,4 @@
-const handleVehicles = ({ actor, data, states, result, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleVehicles = ({ actorId, data, states, result, changedProperties }) => {
   if (!states.vehicles[actorId]) {
     states.vehicles[actorId] = data;
     result.mapData.vehicles.push(data);

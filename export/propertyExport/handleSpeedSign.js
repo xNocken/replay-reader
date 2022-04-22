@@ -1,6 +1,4 @@
-const handleSpeedSign = ({ actor, result, states, data, changedProperties }) => {
-  const actorId = actor.actorNetGUID.value;
-
+const handleSpeedSign = ({ actorId, result, states, data, changedProperties }) => {
   if (!states.speedSigns[actorId]) {
     const newState = {
       history: [],
