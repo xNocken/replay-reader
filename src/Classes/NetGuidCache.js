@@ -100,9 +100,6 @@ class NetGuidCache {
   }
 
   GetNetFieldExportGroup(netguid, globalData) {
-    if (netguid === 783) {
-      console
-    }
     if (typeof netguid === 'string') {
       return this.GetNetFieldExportGroupString(netguid);
     }
