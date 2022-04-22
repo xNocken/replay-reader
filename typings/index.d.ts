@@ -44,6 +44,7 @@ interface Header {
   },
   flags: number,
   gameSpecificData: string[],
+  platform: string,
 }
 
 interface Info {
@@ -383,6 +384,9 @@ export interface parseOptions {
   handleEventEmitter?: handleEventEmitter,
   useCheckpoints?: boolean,
   fastForwardThreshold?: number,
+}
+
+export interface parseStreamOptions extends parseOptions {
   maxConcurrentDownloads?: number,
   maxConcurrentEventDownloads?: number,
   parseEvents?: boolean,
@@ -399,6 +403,5 @@ interface Result {
   }
 }
 
-declare function parse(buffer: Buffer|MetaDataResult, options?: parseOptions): Promise<Result>;
-
-export = parse;
+export function parse(buffer: Buffer, options?: parseOptions): Result;
+export function parseStreaming(metadata: MetaDataResult, options?: parseStreamOptions): Promise<Result>;

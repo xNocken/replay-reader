@@ -8,19 +8,14 @@ const parseChunksStreaming = require('./src/parseChunksStreaming');
 const verifyMetadata = require('./src/utils/verifyMetadata');
 let isParsing = false;
 
-const parse = async (data, options) => {
-  if (isParsing) {
-    throw Error('Cannot parse multiple replays at once');
-  }
+const debugStuff = (globalData) => {
+  fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val, outer }) => `${key}: ${val} -> ${outer}`).join('\n'));
+  fs.writeFileSync('debug-notReadNFE.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
+  fs.writeFileSync('debug-readNFE.txt', Object.values(globalData.netGuidCache.NetFieldExportGroupMap).map(({ pathName, netFieldExports }) => `${pathName}:\n${Object.values(netFieldExports).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
+}
 
-  const isBinaryFile = data instanceof Buffer;
-
-  isParsing = true;
-
+const initGlobalData = (options) => {
   const globalData = new GlobalData(options || {});
-  let info;
-  let chunks;
-  let events = [];
 
   globalData.additionalStates.forEach((stateName) => {
     globalData.states[stateName] = {};
@@ -33,22 +28,27 @@ const parse = async (data, options) => {
     parsingEmitter: globalData.parsingEmitter,
   });
 
+  return globalData;
+}
+
+const parseBinary = (data, options) => {
+  if (isParsing) {
+    throw Error('Cannot parse multiple replays at once');
+  }
+
+  isParsing = true;
+
+  const globalData = initGlobalData(options);
+  let info;
+  let chunks;
+  let events = [];
+
   try {
-    if (isBinaryFile) {
-      const replay = new Replay(data);
+    const replay = new Replay(data);
 
-      info = replayInfo(replay,  globalData);
-      chunks = replayChunks(replay, globalData);
-      events = parseChunks(replay, chunks, globalData);
-    } else {
-      if (!verifyMetadata(data)) {
-        throw new Error('The data provided is neither a Buffer or a valid metadata file')
-      }
-
-      info = replayInfoStreaming(data, globalData);
-      chunks = await replayChunksStreaming(data, globalData);
-      events = await parseChunksStreaming(chunks, globalData);
-    }
+    info = replayInfo(replay, globalData);
+    chunks = replayChunks(replay, globalData);
+    events = parseChunks(replay, chunks, globalData);
   } catch (err) {
     isParsing = false;
 
@@ -56,9 +56,7 @@ const parse = async (data, options) => {
   }
 
   if (globalData.debug) {
-    fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val, outer }) => `${key}: ${val} -> ${outer}`).join('\n'));
-    fs.writeFileSync('debug-notReadNFE.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
-    fs.writeFileSync('debug-readNFE.txt', Object.values(globalData.netGuidCache.NetFieldExportGroupMap).map(({ pathName, netFieldExports }) => `${pathName}:\n${Object.values(netFieldExports).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
+    debugStuff(globalData);
   }
 
   isParsing = false;
@@ -72,4 +70,48 @@ const parse = async (data, options) => {
   };
 }
 
-module.exports = parse;
+const parseStreaming = async (metadata, options) => {
+  if (isParsing) {
+    throw Error('Cannot parse multiple replays at once');
+  }
+
+  isParsing = true;
+
+  const globalData = initGlobalData(options);
+  let info;
+  let chunks;
+  let events = [];
+
+  try {
+    if (!verifyMetadata(metadata)) {
+      throw new Error('The data provided is not a valid metadata file')
+    }
+
+    info = replayInfoStreaming(metadata, globalData);
+    chunks = await replayChunksStreaming(metadata, globalData);
+    events = await parseChunksStreaming(chunks, globalData);
+  } catch (err) {
+    isParsing = false;
+
+    throw err;
+  }
+
+  if (globalData.debug) {
+    debugStuff(globalData);
+  }
+
+  isParsing = false;
+
+  return {
+    header: globalData.header,
+    info,
+    chunks,
+    events,
+    ...globalData.result,
+  };
+}
+
+module.exports = {
+  parse: parseBinary,
+  parseStreaming,
+};
