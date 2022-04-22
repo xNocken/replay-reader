@@ -59,6 +59,13 @@ const header = (replay) => {
     throw new Error('Replays with engineNetworkVersion 9 are not supported');
   }
 
+  if (result.networkVersion >= 17) {
+    replay.skipBytes(16)
+
+    result.platform = replay.readString();
+    replay.skipBytes(2)
+  }
+
   replay.header = result;
 
   return result;

@@ -92,10 +92,6 @@ const receivedReplicatorBunch = (
 
     const { outField: fieldCache, numPayloadBits } = result;
 
-    if (!numPayloadBits) {
-      continue;
-    }
-
     if (!fieldCache || fieldCache.incompatible) {
       archive.skipBits(numPayloadBits);
 
