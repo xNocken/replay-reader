@@ -236,7 +236,7 @@ class Replay {
         return [];
       }
 
-      const arr = this.buffer.slice(start, start + byteCount);
+      const arr = this.buffer.subarray(start, start + byteCount);
 
       this.offset += byteCount * 8;
 
@@ -312,9 +312,9 @@ class Replay {
         return '';
       }
 
-      const bytes = this.readBytes(length * -2).slice(0, -2);
+      const bytes = this.readBytes(length * -2);
 
-      for (let i = 0; i < bytes.length; i += 2) {
+      for (let i = 0; i < bytes.length - 2; i += 2) {
         result += String.fromCharCode(bytes[i] + (bytes[i + 1] << 8));
       }
     } else {
@@ -324,9 +324,9 @@ class Replay {
         return '';
       }
 
-      const bytes = this.readBytes(length).slice(0, length - 1);
+      const bytes = this.readBytes(length);
 
-      for (let i = 0; i < bytes.length; i++) {
+      for (let i = 0; i < bytes.length - 1; i++) {
         result += String.fromCharCode(bytes[i]);
       }
     }

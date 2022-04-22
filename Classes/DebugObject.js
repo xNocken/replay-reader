@@ -71,7 +71,7 @@ class DebugObject {
       return null;
     }
 
-    return this.data.toString('utf-8', 4, length);
+    return this.data.toString('utf-8', 4, length + 3);
   }
 
   getValueAsClass(Class) {

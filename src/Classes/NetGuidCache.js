@@ -100,10 +100,6 @@ class NetGuidCache {
   }
 
   GetNetFieldExportGroup(netguid, globalData) {
-    if (typeof netguid === 'string') {
-      return this.GetNetFieldExportGroupString(netguid);
-    }
-
     const group = this.ArchTypeToExportGroup[netguid];
 
     if (group) {

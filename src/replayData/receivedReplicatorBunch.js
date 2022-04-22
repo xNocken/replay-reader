@@ -101,7 +101,7 @@ const receivedReplicatorBunch = (
     archive.addOffset(5, numPayloadBits);
 
     if (fieldCache.isFunction) {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
         fieldCache.type
       );
 
@@ -134,7 +134,7 @@ const receivedReplicatorBunch = (
         continue;
       }
     } else {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
         fieldCache.type
       );
 
