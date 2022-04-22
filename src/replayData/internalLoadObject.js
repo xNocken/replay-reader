@@ -35,12 +35,20 @@ const internalLoadObject = (replay, isExportingNetGUIDBunch, globalData, interna
       }
 
       if (isExportingNetGUIDBunch) {
-        globalData.netGuidCache.NetGuidToPathName[netGuid.value] = removePathPrefix(pathName);
+        const cleanedPath = removePathPrefix(pathName);
+
+        if (pathName) {
+          globalData.netGuidCache.NetGuids[netGuid.value] = {
+            value: netGuid.value,
+            path: cleanedPath,
+            outer: globalData.netGuidCache.NetGuids[netGuid.outer.value],
+          };
+        }
 
         if (globalData.debug) {
           globalData.debugNetGuidToPathName.push({
             key: netGuid.value,
-            val: globalData.netGuidCache.NetGuidToPathName[netGuid.value],
+            val: cleanedPath,
             outer: netGuid.outer.value,
           });
         }

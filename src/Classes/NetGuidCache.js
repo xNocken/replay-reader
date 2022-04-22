@@ -1,5 +1,6 @@
 const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const cleanStaticIdSuffix = require('../utils/cleanStaticIdSuffix');
+const getFullGuidPath = require('../utils/getFullGuidPath');
 const removePathPrefix = require('../utils/removePathPrefix');
 const Actor = require('./Actor');
 const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
@@ -8,7 +9,7 @@ const NetFieldParser = require('./NetFieldExports/NetFieldParser');
 class NetGuidCache {
   NetFieldExportGroupMap = {};
   NetFieldExportGroupIndexToGroup = {};
-  NetGuidToPathName = {};
+  NetGuids = {};
   NetFieldExportGroupMapPathFixed = {};
   ArchTypeToExportGroup = {};
   failedPaths = [];
@@ -91,7 +92,7 @@ class NetGuidCache {
   }
 
   tryGetPathName(netGuid) {
-    return this.NetGuidToPathName[netGuid];
+    return this.NetGuids[netGuid]?.path;
   }
 
   GetNetFieldExportGroupString(path) {
@@ -99,97 +100,49 @@ class NetGuidCache {
   }
 
   GetNetFieldExportGroup(netguid, globalData) {
+    if (netguid === 783) {
+      console
+    }
     if (typeof netguid === 'string') {
       return this.GetNetFieldExportGroupString(netguid);
     }
 
-    if (this.netguidToNetFieldExportgroup[netguid] !== undefined) {
-      return this.netguidToNetFieldExportgroup[netguid];
+    const group = this.ArchTypeToExportGroup[netguid];
+
+    if (group) {
+      return group;
     }
 
-    let group = this.ArchTypeToExportGroup[netguid];
+    const fixedGroup = this.NetFieldExportGroupMapPathFixed[netguid];
 
-    if (!group) {
-      let path = this.NetGuidToPathName[netguid];
+    if (fixedGroup) {
+      this.ArchTypeToExportGroup[netguid] = fixedGroup;
 
-      if (!path) {
-        this.netguidToNetFieldExportgroup[netguid] = null;
-        return null;
-      }
+      return fixedGroup;
+    }
 
-      group = this.NetFieldExportGroupMapPathFixed[netguid];
+    const netGuid = this.NetGuids[netguid];
 
-      path = globalData.netFieldParser.getRedirect(path);
+    if (!netGuid) {
+      this.ArchTypeToExportGroup[netguid] = null;
 
-      if (group) {
-        this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMapPathFixed[netguid];
-        this.netguidToNetFieldExportgroup[netguid] = group;
-
-        return this.netguidToNetFieldExportgroup[netguid];
-      }
-
-      let returnValue;
-      const NetFieldExportGroupMapEntries = Object.entries(this.NetFieldExportGroupMap);
-
-      for (let i = 0; i < NetFieldExportGroupMapEntries.length; i++) {
-        const [groupPath, value] = NetFieldExportGroupMapEntries[i];
-
-        let groupPathFixed = this.CleanedPaths[value.pathNameIndex];
-
-        if (!groupPathFixed) {
-          groupPathFixed = removePathPrefix(groupPath);
-          this.CleanedPaths[value.pathNameIndex] = groupPathFixed;
-        }
-
-        if (path.includes(groupPathFixed)) {
-          this.NetFieldExportGroupMapPathFixed[netguid] = this.NetFieldExportGroupMap[groupPath];
-          this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMap[groupPath];
-
-          returnValue = this.NetFieldExportGroupMap[groupPath];
-
-          break;
-        }
-      }
-
-      if (returnValue) {
-        this.netguidToNetFieldExportgroup[netguid] = returnValue;
-
-        return this.netguidToNetFieldExportgroup[netguid];
-      }
-
-      const cleanedPath = cleanPathSuffix(path);
-
-      for (let i = 0; i < NetFieldExportGroupMapEntries.length; i++) {
-        const [groupPath, value] = NetFieldExportGroupMapEntries[i];
-
-        const groupPathFixed = this.CleanedPaths[value.PathNameIndex];
-
-        if (groupPathFixed) {
-          if (this.groupPathFixed.includes(cleanedPath)) {
-            this.NetFieldExportGroupMapPathFixed[netguid] = this.NetFieldExportGroupMap[groupPath];
-            this.ArchTypeToExportGroup[netguid] = this.NetFieldExportGroupMap[groupPath];
-
-            returnValue = this.NetFieldExportGroupMap[groupPath];
-
-            break;
-          }
-        }
-      }
-
-      if (returnValue) {
-        this.netguidToNetFieldExportgroup[netguid] = this.netguidToNetFieldExportgroup[netguid];
-
-        return returnValue;
-      }
-
-      this.failedPaths[netguid] = path;
-      this.netguidToNetFieldExportgroup[netguid] = null;
       return null;
     }
 
-    this.netguidToNetFieldExportgroup[netguid] = group;
+    const path = globalData.netFieldParser.getRedirect(getFullGuidPath(netGuid));
 
-    return group;
+    const returnValue = this.NetFieldExportGroupMap[path];
+
+    if (returnValue) {
+      this.ArchTypeToExportGroup[netguid] = returnValue;
+
+      return returnValue;
+    }
+
+    this.failedPaths[netguid] = path;
+    this.ArchTypeToExportGroup[netguid] = null;
+
+    return null;
   }
 
   GetNetFieldExportGroupFromIndex(index) {
@@ -250,7 +203,7 @@ class NetGuidCache {
   }
 
   getStaticActorExportGroup(netGuid) {
-    let staticActorId = this.NetGuidToPathName[netGuid];
+    let staticActorId = this.NetGuids[netGuid]?.path;
 
     if (!staticActorId) {
       return { staticActorId: null, group: null };
