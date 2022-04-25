@@ -1,0 +1,30 @@
+{
+  "path": ["/Script/FortniteGame.FortVehicleSeatComponent"],
+  "redirects": ["VehicleSeatComponent"],
+  "properties": {
+    "PlayerSlots": {
+      "name": "PlayerSlots",
+      "parseType": "readDynamicArray"
+    },
+    "Player": {
+      "name": "Player",
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
+    },
+    "PlayerEntryTime": {
+      "name": "PlayerEntryTime",
+      "parseFunction": "readFloat32",
+      "parseType": "default"
+    },
+    "WeaponComponent": {
+      "name": "WeaponComponent",
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
+    },
+    "SeatIndex": {
+      "name": "SeatIndex",
+      "parseFunction": "readInt32",
+      "parseType": "default"
+    }
+  }
+}

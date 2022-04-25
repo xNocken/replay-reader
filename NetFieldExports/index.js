@@ -27,4 +27,5 @@ module.exports = [
   require('./SupplyDrop.json'),
   require('./SupplyDropLlama.json'),
   require('./Vehicles.json'),
+  require('./VehicleSeatComponent.json'),
 ];

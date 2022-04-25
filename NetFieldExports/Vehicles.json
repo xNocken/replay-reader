@@ -9,7 +9,8 @@
     "/Nevada/Blueprints/Vehicle/Nevada_Vehicle_V2.Nevada_Vehicle_V2_C",
     "/Hoagie/HoagieVehicle.HoagieVehicle_C",
     "/Tank/Vehicle/Tank_Vehicle.Tank_Vehicle_C",
-    "/ArmoredBattleBus/Vehicle/ArmoredBattleBus_Vehicle.ArmoredBattleBus_Vehicle_C"
+    "/ArmoredBattleBus/Vehicle/ArmoredBattleBus_Vehicle.ArmoredBattleBus_Vehicle_C",
+    "/ResolveCannon/Environmental/MountedCannon/Vehicle/MountedCannon__v2.MountedCannon__v2_C"
   ],
   "partialPath": true,
   "customExportName": "Vehicles",
@@ -20,7 +21,6 @@
   "properties": {
     "Health": {
       "name": "Health",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },

@@ -39,12 +39,6 @@ const handlePlayerPawn = ({ actorId, data, states, changedProperties }) => {
       pawn.resolvedPlayer = true;
     }
   }
-
-  if (data.Vehicle && states.vehicles) {
-    pawn.currentVehicle = states.vehicles[data.Vehicle];
-  } else if (data.Vehicle === 0) {
-    pawn.currentVehicle = null;
-  }
 };
 
 module.exports = handlePlayerPawn;

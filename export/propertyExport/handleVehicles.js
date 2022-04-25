@@ -1,9 +1,14 @@
 const handleVehicles = ({ actorId, data, states, result, changedProperties }) => {
-  if (!states.vehicles[actorId]) {
-    states.vehicles[actorId] = data;
-    result.mapData.vehicles.push(data);
+  let vehicle = states.vehicles[actorId];
 
-    return;
+  if (!vehicle) {
+    vehicle = {
+      type: states.actorToPath[actorId],
+      seats: [],
+    };
+
+    states.vehicles[actorId] = vehicle;
+    result.mapData.vehicles.push(vehicle);
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {

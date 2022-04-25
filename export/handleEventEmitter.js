@@ -52,6 +52,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('FortniteGame.FortInventory', handleInventoryProperty)
   propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo', handleRemoteClientInfo);
   propertyExportEmitter.on('FortniteGame.FortBroadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
+  propertyExportEmitter.on('FortniteGame.FortVehicleSeatComponent', handleVehicleSeatComponent);
 
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
   netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);

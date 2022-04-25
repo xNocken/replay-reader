@@ -31,6 +31,10 @@ const validateNetFieldExportProperty = (property, pathName, customClasses, custo
         throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'default' requires a parseFunction`);
       }
 
+      if (!Replay.prototype[property.parseFunction]) {
+        throw Error(`Invalid export: ${pathName} -> ${property.name} parse function ${property.parseFunction} does not exist`);
+      }
+
       break;
 
     case 'readClass':
@@ -75,7 +79,6 @@ class NetFieldParser {
   redirects = {};
   classPathCache = {};
   enumCache = {};
-  informedError = {};
 
   constructor(globalData) {
     const handleExport = (fieldExport) => {
@@ -264,13 +267,8 @@ class NetFieldParser {
             }
 
             if (!exporttt) {
-              if (!this.informedError[`${exportGroup.pathName}:${exportt.name}:${handle}`]) {
-                console.warn(`${exportGroup.pathName}'s property ${exportt.name} requires another property with handle ${handle}`);
-
-                this.informedError[`${exportGroup.pathName}:${exportt.name}:${handle}`] = true;
-              }
-
               netBitReader.skipBits(numBits);
+
               continue;
             }
 
