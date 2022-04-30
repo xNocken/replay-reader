@@ -100,7 +100,7 @@ const receivedReplicatorBunch = (
 
     archive.addOffset(5, numPayloadBits);
 
-    if (fieldCache.isFunction) {
+    if (fieldCache.parseType === 'function') {
       const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
         fieldCache.type
       );
@@ -118,7 +118,9 @@ const receivedReplicatorBunch = (
 
         return false;
       }
-    } else if (fieldCache.isCustomStruct) {
+    }
+
+    if (fieldCache.parseType === 'class') {
       if (
         !receiveCustomProperty(
           archive,
@@ -133,7 +135,9 @@ const receivedReplicatorBunch = (
 
         continue;
       }
-    } else {
+    }
+
+    if (fieldCache.parseType === 'netDeltaSerialize') {
       const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
         fieldCache.type
       );
