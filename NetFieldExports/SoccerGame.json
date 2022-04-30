@@ -11,38 +11,26 @@
   ],
   "properties": {
     "Score_Team_A": {
-      "name": "Score_Team_A",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "Score_Team_B": {
-      "name": "Score_Team_B",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "ScoreLocation": {
-      "name": "ScoreLocation",
-      "type": "fVector",
       "parseFunction": "readVector",
       "parseType": "default"
     },
     "WinningTeam": {
-      "name": "WinningTeam",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "PlayerWhoScored": {
-      "name": "PlayerWhoScored",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "bScoredWithToy": {
-      "name": "bScoredWithToy",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     }

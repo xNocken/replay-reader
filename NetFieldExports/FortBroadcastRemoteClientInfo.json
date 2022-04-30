@@ -8,7 +8,6 @@
   "exportType": "array",
   "properties": {
     "RemoteEventScore": {
-      "name": "RemoteEventScore",
       "parseFunction": "readInt32",
       "parseType": "default"
     }

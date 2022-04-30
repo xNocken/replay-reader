@@ -11,19 +11,14 @@
   ],
   "properties": {
     "VehicleSpeed": {
-      "name": "VehicleSpeed",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "bReplicateMovement": {
-      "name": "bReplicateMovement",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass",
       "config": {

@@ -8,22 +8,18 @@
   "exportType": "array",
   "properties": {
     "Count": {
-      "name": "Count",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "ItemDefinition": {
-      "name": "ItemDefinition",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "LoadedAmmo": {
-      "name": "LoadedAmmo",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "ReplayPawn": {
-      "name": "ReplayPawn",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     }

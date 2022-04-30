@@ -3,7 +3,7 @@ const handleVehicles = ({ actorId, data, states, result, changedProperties }) =>
 
   if (!vehicle) {
     vehicle = {
-      type: states.actorToPath[actorId],
+      type: data.pathName,
       seats: [],
     };
 

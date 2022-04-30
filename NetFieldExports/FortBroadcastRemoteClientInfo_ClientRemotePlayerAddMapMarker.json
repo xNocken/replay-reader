@@ -8,8 +8,6 @@
   "exportType": "array",
   "properties": {
     "PlayerID": {
-      "name": "PlayerID",
-      "type": "int",
       "parseFunction": "readUInt32",
       "parseType": "default"
     }

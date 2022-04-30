@@ -8,799 +8,520 @@
   "exportType": "array",
   "properties": {
     "Owner": {
-      "name": "Owner",
       "type": "ActorGuid",
       "parseType": "readClass"
     },
     "bHidden": {
-      "name": "bHidden",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
-    },
-    "bReplicateMovement": {
-      "name": "bReplicateMovement",
-      "type": "boolean",
-      "parseType": "ignore"
-    },
-    "bTearOff": {
-      "name": "bTearOff",
-      "type": "Ignore",
-      "parseType": "ignore"
     },
     "bCanBeDamaged": {
-      "name": "bCanBeDamaged",
-      "type": "bool",
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "RemoteRole": {
-      "name": "RemoteRole",
-      "type": "Ignore",
-      "parseType": "ignore"
-    },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass"
     },
-    "AttachParent": {
-      "name": "AttachParent",
-      "type": "Ignore",
-      "parseType": "ignore"
-    },
     "LocationOffset": {
-      "name": "LocationOffset",
-      "type": "FVector",
       "parseFunction": "readPackedVector100",
       "parseType": "default"
     },
     "RelativeScale3D": {
-      "name": "RelativeScale3D",
-      "type": "FVector",
       "parseFunction": "readPackedVector100",
       "parseType": "default"
     },
     "RotationOffset": {
-      "name": "RotationOffset",
-      "type": "FVector",
       "parseFunction": "readRotationShort",
       "parseType": "default"
     },
     "AttachSocket": {
-      "name": "AttachSocket",
-      "type": "FName",
       "parseFunction": "readFName",
       "parseType": "default"
     },
     "ExitSocketIndex": {
-      "name": "ExitSocketIndex",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "AttachComponent": {
-      "name": "AttachComponent",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
-    "Role": {
-      "name": "Role",
-      "type": "object",
-      "parseType": "ignore"
-    },
     "Instigator": {
-      "name": "Instigator",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "RemoteViewPitch": {
-      "name": "RemoteViewPitch",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "PlayerState": {
-      "name": "PlayerState",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "Controller": {
-      "name": "Controller",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "MovementBase": {
-      "name": "MovementBase",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "BoneName": {
-      "name": "BoneName",
       "type": "FName",
       "parseType": "readClass"
     },
     "Location": {
-      "name": "Location",
-      "type": "FVector",
       "parseFunction": "readPackedVector100",
       "parseType": "default"
     },
     "Rotation": {
-      "name": "Rotation",
-      "type": "FRotator",
       "parseFunction": "readRotationShort",
       "parseType": "default"
     },
     "bServerHasBaseComponent": {
-      "name": "bServerHasBaseComponent",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bRelativeRotation": {
-      "name": "bRelativeRotation",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bServerHasVelocity": {
-      "name": "bServerHasVelocity",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ReplayLastTransformUpdateTimeStamp": {
-      "name": "ReplayLastTransformUpdateTimeStamp",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "ReplicatedMovementMode": {
-      "name": "ReplicatedMovementMode",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "bIsCrouched": {
-      "name": "bIsCrouched",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bProxyIsJumpForceApplied": {
-      "name": "bProxyIsJumpForceApplied",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsActive": {
-      "name": "bIsActive",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "Position": {
-      "name": "Position",
-      "type": "FVector",
       "parseFunction": "readPackedVector100",
       "parseType": "default"
     },
-    "Acceleration": {
-      "name": "Acceleration",
-      "type": "FVector",
-      "parseType": "ignore"
-    },
     "LinearVelocity": {
-      "name": "LinearVelocity",
-      "type": "FVector",
       "parseFunction": "readPackedVector10",
       "parseType": "default"
     },
     "CurrentMovementStyle": {
-      "name": "CurrentMovementStyle",
       "type": "EFortMovementStyle",
       "parseType": "readEnum",
       "bits": 4
     },
-    "bIgnoreNextFallingDamage": {
-      "name": "bIgnoreNextFallingDamage",
-      "type": "boolean",
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "TeleportCounter": {
-      "name": "TeleportCounter",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "PawnUniqueID": {
-      "name": "PawnUniqueID",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "bIsDying": {
-      "name": "bIsDying",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "CurrentWeapon": {
-      "name": "CurrentWeapon",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "bIsInvulnerable": {
-      "name": "bIsInvulnerable",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bMovingEmote": {
-      "name": "bMovingEmote",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bWeaponActivated": {
-      "name": "bWeaponActivated",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsDBNO": {
-      "name": "bIsDBNO",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bWasDBNOOnDeath": {
-      "name": "bWasDBNOOnDeath",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "JumpFlashCount": {
-      "name": "JumpFlashCount",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "bWeaponHolstered": {
-      "name": "bWeaponHolstered",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "SpawnImmunityTime": {
-      "name": "SpawnImmunityTime",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "bInterruptCurrentLine": {
-      "name": "bInterruptCurrentLine",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "LastReplicatedEmoteExecuted": {
-      "name": "LastReplicatedEmoteExecuted",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "bCanBeInterrupted": {
-      "name": "bCanBeInterrupted",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bCanQue": {
-      "name": "bCanQue",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ForwardAlpha": {
-      "name": "ForwardAlpha",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "RightAlpha": {
-      "name": "RightAlpha",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "TurnDelta": {
-      "name": "TurnDelta",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "SteerAlpha": {
-      "name": "SteerAlpha",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "GravityScale": {
-      "name": "GravityScale",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "WorldLookDir": {
-      "name": "WorldLookDir",
-      "type": "FVector",
       "parseFunction": "readPackedVector1",
       "parseType": "default"
     },
-    "bIgnoreForwardInAir": {
-      "name": "bIgnoreForwardInAir",
-      "type": "boolean",
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "bIsHonking": {
-      "name": "bIsHonking",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsJumping": {
-      "name": "bIsJumping",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsSprinting": {
-      "name": "bIsSprinting",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "Vehicle": {
-      "name": "Vehicle",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "VehicleApexZ": {
-      "name": "VehicleApexZ",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "SeatIndex": {
-      "name": "SeatIndex",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "bIsWaterJump": {
-      "name": "bIsWaterJump",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsWaterSprintBoost": {
-      "name": "bIsWaterSprintBoost",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsWaterSprintBoostPending": {
-      "name": "bIsWaterSprintBoostPending",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "BuildingState": {
-      "name": "BuildingState",
       "type": "EFortBuildingState",
       "parseType": "readEnum",
       "bits": 2
     },
     "bIsTargeting": {
-      "name": "bIsTargeting",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "PawnMontage": {
-      "name": "PawnMontage",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "bPlayBit": {
-      "name": "bPlayBit",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsPlayingEmote": {
-      "name": "bIsPlayingEmote",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "FootstepBankOverride": {
-      "name": "FootstepBankOverride",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "PackedReplicatedSlopeAngles": {
-      "name": "PackedReplicatedSlopeAngles",
-      "type": "ushort",
       "parseFunction": "readUInt16",
       "parseType": "default"
     },
     "bStartedInteractSearch": {
-      "name": "bStartedInteractSearch",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "AccelerationPack": {
-      "name": "AccelerationPack",
-      "type": "ushort",
       "parseFunction": "readUInt16",
       "parseType": "default"
     },
     "bIsWaitingForEmoteInteraction": {
-      "name": "bIsWaitingForEmoteInteraction",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "GroupEmoteLookTarget": {
-      "name": "GroupEmoteLookTarget",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "bIsSkydiving": {
-      "name": "bIsSkydiving",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsParachuteOpen": {
-      "name": "bIsParachuteOpen",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsParachuteForcedOpen": {
-      "name": "bIsParachuteForcedOpen",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsSkydivingFromBus": {
-      "name": "bIsSkydivingFromBus",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bReplicatedIsInSlipperyMovement": {
-      "name": "bReplicatedIsInSlipperyMovement",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsInAnyStorm": {
-      "name": "bIsInAnyStorm",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsSlopeSliding": {
-      "name": "bIsSlopeSliding",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsProxySimulationTimedOut": {
-      "name": "bIsProxySimulationTimedOut",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsInsideSafeZone": {
-      "name": "bIsInsideSafeZone",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsOutsideSafeZone": {
-      "name": "bIsOutsideSafeZone",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "Zipline": {
-      "name": "Zipline",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "PetState": {
-      "name": "PetState",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "bIsZiplining": {
-      "name": "bIsZiplining",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bJumped": {
-      "name": "bJumped",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ParachuteAttachment": {
-      "name": "ParachuteAttachment",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "RemoteViewData32": {
-      "name": "RemoteViewData32",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "bNetMovementPrioritized": {
-      "name": "bNetMovementPrioritized",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "EntryTime": {
-      "name": "EntryTime",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "CapsuleRadiusAthena": {
-      "name": "CapsuleRadiusAthena",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "CapsuleHalfHeightAthena": {
-      "name": "CapsuleHalfHeightAthena",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "WalkSpeed": {
-      "name": "WalkSpeed",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "RunSpeed": {
-      "name": "RunSpeed",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "CrouchedSprintSpeed": {
-      "name": "CrouchedSprintSpeed",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "PlayRate": {
-      "name": "PlayRate",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "BlendTime": {
-      "name": "BlendTime",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "ForcePlayBit": {
-      "name": "ForcePlayBit",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "IsStopped": {
-      "name": "IsStopped",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "SkipPositionCorrection": {
-      "name": "SkipPositionCorrection",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "RepAnimMontageStartSection": {
-      "name": "RepAnimMontageStartSection",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "SimulatedProxyGameplayCues": {
-      "name": "SimulatedProxyGameplayCues",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "WeaponActivated": {
-      "name": "WeaponActivated",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsInWaterVolume": {
-      "name": "bIsInWaterVolume",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "BannerIconId": {
-      "name": "BannerIconId",
-      "type": "string",
       "parseFunction": "readString",
       "parseType": "default"
     },
     "BannerColorId": {
-      "name": "BannerColorId",
-      "type": "string",
       "parseFunction": "readString",
       "parseType": "default"
     },
     "ItemWraps": {
-      "name": "ItemWraps",
       "type": "ItemDefinition",
       "parseType": "readDynamicArray"
     },
     "SkyDiveContrail": {
-      "name": "SkyDiveContrail",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "Glider": {
-      "name": "Glider",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "bIsDefaultCharacter": {
-      "name": "bIsDefaultCharacter",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "Pickaxe": {
-      "name": "Pickaxe",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "Character": {
-      "name": "Character",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "DBNOHoister": {
-      "name": "DBNOHoister",
       "type": "ActorGuid",
       "parseType": "readClass"
     },
     "Backpack": {
-      "name": "Backpack",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "LoadingScreen": {
-      "name": "LoadingScreen",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "Dances": {
-      "name": "Dances",
       "type": "ItemDefinition",
       "parseType": "readDynamicArray"
     },
     "MusicPack": {
-      "name": "MusicPack",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "PetSkin": {
-      "name": "PetSkin",
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
     "EncryptedPawnReplayData": {
-      "name": "EncryptedPawnReplayData",
       "type": "FAthenaPawnReplayData",
       "parseType": "readClass"
     },
     "GravityFloorAltitude": {
-      "name": "GravityFloorAltitude",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "GravityFloorWidth": {
-      "name": "GravityFloorWidth",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "GravityFloorGravityScalar": {
-      "name": "GravityFloorGravityScalar",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "ReplicatedWaterBody": {
-      "name": "ReplicatedWaterBody",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "DBNORevivalStacking": {
-      "name": "DBNORevivalStacking",
-      "type": "byte",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "ServerWorldTimeRevivalTime": {
-      "name": "ServerWorldTimeRevivalTime",
-      "type": "uint",
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
     "FlySpeed": {
-      "name": "FlySpeed",
-      "type": "float",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "bIsSkydivingFromLaunchPad": {
-      "name": "bIsSkydivingFromLaunchPad",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bInGliderRedeploy": {
-      "name": "bInGliderRedeploy",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bReplicatedIsInVortex": {
-      "name": "bReplicatedIsInVortex",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "CustomData": {
-      "name": "CustomData",
       "type": "DebugObject",
       "parseType": "readClass"
     }

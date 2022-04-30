@@ -20,12 +20,10 @@
   "parseLevel": 2,
   "properties": {
     "Health": {
-      "name": "Health",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass"
     }

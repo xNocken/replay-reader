@@ -21,10 +21,6 @@ const getExportByType = (type) => {
 }
 
 const validateNetFieldExportProperty = (property, pathName, customClasses, customEnums) => {
-  if (!property.name) {
-    throw Error(`Invalid export: ${pathName} -> unknown has no name`);
-  }
-
   switch (property.parseType) {
     case 'default':
       if (!property.parseFunction) {

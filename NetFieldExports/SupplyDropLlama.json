@@ -8,13 +8,10 @@
   "exportType": "array",
   "properties": {
     "Looted": {
-      "name": "Looted",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass",
       "config": {

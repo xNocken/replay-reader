@@ -8,7 +8,6 @@
   "exportType": "array",
   "properties": {
     "ModifierDef": {
-      "name": "ModifierDef",
       "type": "ItemDefinition",
       "parseType": "readClass"
     }

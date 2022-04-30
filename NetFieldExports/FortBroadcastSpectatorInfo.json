@@ -8,21 +8,17 @@
   "exportType": "array",
   "properties": {
     "PerPlayerInfo": {
-      "name": "PerPlayerInfo",
       "parseType": "readDynamicArray"
     },
     "PlayerState": {
-      "name": "PlayerState",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "PlayerInventory": {
-      "name": "PlayerInventory",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "PlayerClientInfo": {
-      "name": "PlayerClientInfo",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     }

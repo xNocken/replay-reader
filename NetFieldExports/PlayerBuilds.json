@@ -10,37 +10,26 @@
   "exportType": "array",
   "properties": {
     "bDestroyed": {
-      "name": "bDestroyed",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bPlayerPlaced": {
-      "name": "bPlayerPlaced",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bCollisionBlockedByPawns": {
-      "name": "bCollisionBlockedByPawns",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "TeamIndex": {
-      "name": "TeamIndex",
-      "type": "int",
       "parseFunction": "readByte",
       "parseType": "default"
     },
     "Health": {
-      "name": "Health",
-      "type": "int",
       "parseFunction": "readInt16",
       "parseType": "default"
     },
     "EditingPlayer": {
-      "name": "EditingPlayer",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     }

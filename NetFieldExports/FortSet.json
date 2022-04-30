@@ -10,17 +10,14 @@
   ],
   "properties": {
     "BaseValue": {
-      "name": "BaseValue",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "CurrentValue": {
-      "name": "CurrentValue",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "Maximum": {
-      "name": "Maximum",
       "parseFunction": "readFloat32",
       "parseType": "default"
     }

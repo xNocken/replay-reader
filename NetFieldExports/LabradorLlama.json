@@ -8,24 +8,18 @@
   "exportType": "array",
   "properties": {
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass"
     },
     "bIsHiddenForDeath": {
-      "name": "bIsHiddenForDeath",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "PawnUniqueID": {
-      "name": "PawnUniqueID",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "NPC_AlertLevel": {
-      "name": "NPC_AlertLevel",
       "type": "EAlertLevel",
       "parseType": "readEnum",
       "bits": 3

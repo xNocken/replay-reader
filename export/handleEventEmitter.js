@@ -24,6 +24,7 @@ const handleDamageCues = require('./rpcExport/functions/handleDamageCues');
 const handleRemoteClientInfo = require('./propertyExport/handleRemoteClientInfo');
 const handleFortBroadcastSpectatorInfo = require('./propertyExport/handleFortBroadcastSpectatorInfo');
 const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientInfoHitMarkers');
+const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);

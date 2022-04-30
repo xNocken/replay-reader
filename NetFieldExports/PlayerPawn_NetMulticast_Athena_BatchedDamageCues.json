@@ -8,77 +8,62 @@
   "exportType": "array",
   "properties": {
     "Location": {
-      "name": "Location",
       "parseFunction": "readPackedVector10",
       "parseType": "default"
     },
     "Normal": {
-      "name": "Normal",
       "parseFunction": "readPackedVector10",
       "parseType": "default"
     },
     "Magnitude": {
-      "name": "Magnitude",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
     "bWeaponActivate": {
-      "name": "bWeaponActivate",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsFatal": {
-      "name": "bIsFatal",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsCritical": {
-      "name": "bIsCritical",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsShield": {
-      "name": "bIsShield",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsShieldDestroyed": {
-      "name": "bIsShieldDestroyed",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsShieldApplied": {
-      "name": "bIsShieldApplied",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsBallistic": {
-      "name": "bIsBallistic",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bIsBeam": {
-      "name": "bIsBeam",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "NonPlayerbIsFatal": {
-      "name": "NonPlayerbIsFatal",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "NonPlayerbIsCritical": {
-      "name": "NonPlayerbIsCritical",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "HitActor": {
-      "name": "HitActor",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "NonPlayerHitActor": {
-      "name": "NonPlayerHitActor",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     }

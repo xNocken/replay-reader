@@ -8,16 +8,13 @@
   "exportType": "array",
   "properties": {
     "ScreenSpaceHitLocations": {
-      "name": "ScreenSpaceHitLocations",
       "parseType": "readDynamicArray"
     },
     "ScreenSpaceHitLocation": {
-      "name": "ScreenSpaceHitLocation",
       "type": "Vector2",
       "parseType": "readClass"
     },
     "bWasCriticalHit": {
-      "name": "bWasCriticalHit",
       "parseFunction": "readBit",
       "parseType": "default"
     }

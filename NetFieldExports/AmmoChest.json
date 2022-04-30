@@ -12,49 +12,36 @@
   ],
   "properties": {
     "bHidden": {
-      "name": "bHidden",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "bAlreadySearched": {
-      "name": "bAlreadySearched",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ReplicatedLootTier": {
-      "name": "ReplicatedLootTier",
-      "type": "int",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "SearchingPawn": {
-      "name": "SearchingPawn",
-      "type": "uint",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "bReplicateMovement": {
-      "name": "bReplicateMovement",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "RemoteRole": {
-      "name": "RemoteRole",
       "type": "ENetRole",
       "parseType": "readEnum",
       "bits": 3
     },
     "Role": {
-      "name": "Role",
       "type": "ENetRole",
       "parseType": "readEnum",
       "bits": 3
     },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass",
       "config": {
@@ -62,27 +49,22 @@
       }
     },
     "ForceMetadataRelevant": {
-      "name": "ForceMetadataRelevant",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "StaticMesh": {
-      "name": "StaticMesh",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "SearchedMesh": {
-      "name": "SearchedMesh",
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
     "AltMeshIdx": {
-      "name": "AltMeshIdx",
       "parseFunction": "readInt32",
       "parseType": "default"
     },
     "ChosenRandomUpgrade": {
-      "name": "ChosenRandomUpgrade",
       "parseFunction": "readInt32",
       "parseType": "default"
     }

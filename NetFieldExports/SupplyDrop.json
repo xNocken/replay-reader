@@ -8,19 +8,14 @@
   "exportType": "array",
   "properties": {
     "Opened": {
-      "name": "Opened",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "BalloonPopped": {
-      "name": "BalloonPopped",
-      "type": "boolean",
       "parseFunction": "readBit",
       "parseType": "default"
     },
     "ReplicatedMovement": {
-      "name": "ReplicatedMovement",
       "type": "FRepMovement",
       "parseType": "readClass",
       "config": {
