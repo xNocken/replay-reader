@@ -358,7 +358,7 @@ class NetFieldParser {
   }
 
   getRedirect(path) {
-    return this.redirects[path] || path;
+    return this.redirects[path];
   }
 
   cleanForCheckpoint() {

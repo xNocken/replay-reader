@@ -95,6 +95,10 @@ class NetGuidCache {
     return this.NetGuids[netGuid]?.path;
   }
 
+  tryGetFullPathName(netGuid) {
+    return getFullGuidPath(this.NetGuids[netGuid]);
+  }
+
   GetNetFieldExportGroupString(path) {
     return this.NetFieldExportGroupMap[path];
   }
@@ -122,7 +126,19 @@ class NetGuidCache {
       return null;
     }
 
-    const path = globalData.netFieldParser.getRedirect(getFullGuidPath(netGuid));
+    const redirect = globalData.netFieldParser.getRedirect(netGuid.path);
+
+    if (redirect) {
+      const theGroup = this.NetFieldExportGroupMap[redirect];
+
+      if (theGroup) {
+        this.ArchTypeToExportGroup[netguid] = theGroup;
+
+        return theGroup;
+      }
+    }
+
+    const path = getFullGuidPath(netGuid);
 
     const returnValue = this.NetFieldExportGroupMap[path];
 

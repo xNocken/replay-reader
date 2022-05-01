@@ -10,13 +10,12 @@
   "properties": {
     "CurrentPlaylistInfo": {
       "type": "PlaylistInfo",
-      "isFunction": false,
-      "isCustomStruct": true
+      "parseType": "class"
+
     },
     "ActiveGameplayModifiers": {
       "type": "/Script/FortniteGame.ActiveGameplayModifier",
-      "isFunction": false,
-      "isCustomStruct": false
+      "parseType": "netDeltaSerialize"
     }
   }
 }

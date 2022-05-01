@@ -9,23 +9,19 @@
   "properties": {
     "NetMulticast_InvokeGameplayCueAdded_WithParams": {
       "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueAdded_WithParams",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     },
     "NetMulticast_InvokeGameplayCueExecuted_WithParams": {
       "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_WithParams",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     },
     "NetMulticast_InvokeGameplayCueExecuted_FromSpec": {
       "type": "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     },
     "NetMulticast_Athena_BatchedDamageCues": {
       "type": "/Script/FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     }
   }
 }

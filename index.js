@@ -26,7 +26,7 @@ const initGlobalData = (options) => {
     actorDespawnEmitter: globalData.actorDespawnEmitter,
     netDeltaReadEmitter: globalData.netDeltaEmitter,
     parsingEmitter: globalData.parsingEmitter,
-  });
+  }, globalData);
 
   return globalData;
 }

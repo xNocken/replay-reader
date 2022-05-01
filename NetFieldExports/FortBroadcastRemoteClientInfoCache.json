@@ -7,18 +7,15 @@
   "properties": {
     "ClientRemotePlayerAddMapMarker": {
       "type": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     },
     "ClientRemotePlayerRemoveMapMarker": {
       "type": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     },
     "ClientRemotePlayerHitMarkers": {
       "type": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers",
-      "isFunction": true,
-      "isCustomStruct": false
+      "parseType": "function"
     }
   }
 }

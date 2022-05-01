@@ -155,18 +155,6 @@
     "OrderIndex": {
       "parseFunction": "readUInt16",
       "parseType": "default"
-    },
-    "IntValue": {
-      "parseType": "readClass",
-      "type": "DebugObject"
-    },
-    "NameValue": {
-      "parseType": "readClass",
-      "type": "DebugObject"
-    },
-    "StateType": {
-      "parseType": "readClass",
-      "type": "DebugObject"
     }
   }
 }

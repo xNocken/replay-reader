@@ -1,7 +1,7 @@
 const onChannelOpened = (chIndex, actor, globalData) => {
   if (actor) {
-    globalData.actorToChannel[actor.value] = chIndex;
-    globalData.channelToActor[chIndex] = actor.value;
+    globalData.actorToChannel[actor.actorNetGUID.value] = chIndex;
+    globalData.channelToActor[chIndex] = actor.actorNetGUID.value;
   }
 
   try {

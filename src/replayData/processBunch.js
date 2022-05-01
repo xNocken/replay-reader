@@ -48,7 +48,7 @@ const processBunch = (bunch, replay, globalData) => {
 
     channel.actor = inActor;
 
-    onChannelOpened(bunch.chIndex, inActor.actorNetGUID, globalData);
+    onChannelOpened(bunch.chIndex, inActor, globalData);
 
     if (globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0)) {
       const path = globalData.netGuidCache.tryGetPathName(channel.actor?.archetype?.value || 0);

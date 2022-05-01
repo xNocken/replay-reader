@@ -26,7 +26,7 @@ const handleFortBroadcastSpectatorInfo = require('./propertyExport/handleFortBro
 const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientInfoHitMarkers');
 const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
 
-const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }) => {
+const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }, globalData) => {
   actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
 
   propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone);
@@ -58,7 +58,22 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
   netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);
 
-  // parsingEmitter.on('channelOpened', console.log);
+  if (globalData.debug) {
+    parsingEmitter.on('channelOpened', ({ actor, globalData, states }) => {
+      let repObject = 0;
+
+      if (actor.actorNetGUID.isDynamic()) {
+        repObject = actor.archetype.value;
+      } else {
+        repObject = actor.actorNetGUID.value;
+      }
+
+      const path = globalData.netGuidCache.tryGetFullPathName(repObject);
+
+      states.actorToPath[actor.actorNetGUID.value] = path;
+    });
+  }
+
   // parsingEmitter.on('channelClosed', console.log);
   // parsingEmitter.on('nextChunk', console.log);
   // parsingEmitter.on('nextFrame', console.log);

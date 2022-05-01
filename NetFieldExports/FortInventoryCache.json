@@ -7,8 +7,7 @@
   "properties": {
     "Inventory": {
       "type": "/Script/FortniteGame.FortInventory",
-      "isFunction": false,
-      "isCustomStruct": false,
+      "parseType": "netDeltaSerialize",
       "EnablePropertyChecksum": true
     }
   }

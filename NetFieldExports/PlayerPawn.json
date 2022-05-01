@@ -520,10 +520,6 @@
     "bReplicatedIsInVortex": {
       "parseFunction": "readBit",
       "parseType": "default"
-    },
-    "CustomData": {
-      "type": "DebugObject",
-      "parseType": "readClass"
     }
   }
 }

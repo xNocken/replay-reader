@@ -212,7 +212,7 @@
       "parseType": "readClass"
     },
     "WinningPlayerList": {
-      "type": "readUInt32",
+      "parseFunction": "readUInt32",
       "parseType": "readDynamicArray"
     },
     "WinningTeam": {
