@@ -25,7 +25,7 @@ const receivedReplicatorBunch = (
   let netFieldExportGroup;
   let staticActorId;
 
-  if (bunch.actor.actorNetGUID.isDynamic()) {
+  if (bunch.actor.actorNetGUID.isDynamic() || !bIsActor) {
     netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
       repObject,
       globalData
@@ -41,7 +41,7 @@ const receivedReplicatorBunch = (
   }
 
   if (!netFieldExportGroup) {
-    if (bIsActor) {
+    if (bIsActor && !globalData.debug) {
       globalData.ignoredChannels[bunch.chIndex] = true;
     }
 
