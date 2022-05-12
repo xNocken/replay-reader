@@ -1,15 +1,20 @@
 const handleChest = ({ staticActorId, states, actorId, result }) => {
-  if (!states.chests[actorId]) {
-    states.chests[actorId] = {
-      destroyed: true,
+  let chest = states.chests[actorId];
+
+  if (!chest) {
+    chest = {
+      chestId: staticActorId,
     };
 
-    result.mapData.chests.push(states.chests[actorId]);
-
-    return;
+    states.chests[actorId] = chest;
+    result.mapData.chests.push(chest);
   }
 
-  states.chests[actorId].destroyed = true;
+  chest.destroyed = true;
+
+  if (!states.gameState.inited || states.gameState.ReplicatedWorldTimeSeconds < states.gameState.WarmupCountdownEndTime) {
+    chest.despawned = true;
+  }
 };
 
 module.exports = handleChest;

@@ -43,6 +43,11 @@ const readNetFieldExports = (replay, globalData) => {
         group.netFieldExports = [];
 
         globalData.netGuidCache.addToExportGroupMap(pathname, group, globalData);
+      } else if (!group.netFieldExportsLength) {
+        group.netFieldExportsLength = numExports;
+        group.pathNameIndex = pathNameIndex;
+pathNameIndex
+        globalData.netGuidCache.NetFieldExportGroupIndexToGroup[pathNameIndex] = pathname
       }
     } else {
       group = globalData.netGuidCache.GetNetFieldExportGroupFromIndex(pathNameIndex);

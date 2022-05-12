@@ -28,7 +28,7 @@ const receivedSequencedBunch = (bunch, globalData) => {
       if (netFieldExportGroup) {
         try {
           globalData.actorDespawnEmitter.emit(
-            pathhhh.basename(netFieldExportGroup.pathName),
+            netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName),
             {
               openPacket: bunch.bOpen,
               chIndex: bunch.chIndex,

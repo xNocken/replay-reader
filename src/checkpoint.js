@@ -42,23 +42,23 @@ const parseCheckpoint = (replay, data, globalData) => {
     outerGuid.value = binaryReplay.readIntPacked();
 
     const cacheObject = {
-      outerGuid,
+      outer: outerGuid,
     }
 
     if (binaryReplay.header.networkVersion < 15) {
-      cacheObject.pathName = binaryReplay.readString();
+      cacheObject.path = removePathPrefix(binaryReplay.readString());
     } else {
       const isExported = binaryReplay.readByte() === 1;
 
       if (isExported) {
-        cacheObject.pathName = binaryReplay.readString();
+        cacheObject.path = removePathPrefix(binaryReplay.readString());
 
         cacheGuids.push(cacheObject);
       } else {
         const pathNameIndex = binaryReplay.readIntPacked();
 
         if (pathNameIndex < cacheGuids.length) {
-          cacheObject.pathName = cacheGuids[pathNameIndex].pathName;
+          cacheObject.path = cacheGuids[pathNameIndex].path;
         }
       }
     }
@@ -69,12 +69,12 @@ const parseCheckpoint = (replay, data, globalData) => {
 
     cacheObject.flags = binaryReplay.readByte();
 
-    globalData.netGuidCache.NetGuidToPathName[guid] = removePathPrefix(cacheObject.pathName);
+    globalData.netGuidCache.NetGuids[guid] = cacheObject;
 
     if (globalData.debug) {
       globalData.debugNetGuidToPathName.push({
-        key: guid,
-        val: globalData.netGuidCache.NetGuidToPathName[guid],
+        path: cacheObject.path,
+        value: guid,
         outer: outerGuid.value,
       });
     }

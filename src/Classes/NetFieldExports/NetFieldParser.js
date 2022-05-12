@@ -5,6 +5,7 @@ const netFieldExports = require('../../../NetFieldExports');
 const enums = require('../../../Enums');
 const classes = require('../../../Classes');
 const Replay = require('../../Classes/Replay');
+const NetFieldExportGroup = require('./NetFieldExportGroup');
 
 const getExportByType = (type) => {
   switch (type) {
@@ -119,6 +120,30 @@ class NetFieldParser {
             globalData.states[fieldExport.exportName] = {};
           }
         }
+      }
+
+      if (fieldExport.staticActorIds) {
+        const exportGroup = new NetFieldExportGroup();
+
+        exportGroup.parseUnknownHandles = fieldExport.parseUnknownHandles;
+        exportGroup.storeAsHandle = fieldExport.storeAsHandle;
+        exportGroup.customExportName = fieldExport.customExportName;
+        exportGroup.exportGroup = fieldExport.exportGroup;
+        exportGroup.exportName = fieldExport.exportName;
+        exportGroup.exportType = fieldExport.exportType;
+        exportGroup.type = fieldExport.type;
+        exportGroup.pathName = fieldExport.path[0];
+        exportGroup.netFieldExports = [];
+        exportGroup.pathNameIndex = null;
+        exportGroup.netFieldExportsLength = 0;
+
+        fieldExport.staticActorIds.forEach((id) => {
+          globalData.netGuidCache.staticActorIdMap[id] = exportGroup;
+        });
+
+        fieldExport.path.forEach((path) => {
+          globalData.netGuidCache.NetFieldExportGroupMap[path] = exportGroup;
+        })
       }
     };
 

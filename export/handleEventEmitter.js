@@ -27,7 +27,7 @@ const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientIn
 const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }, globalData) => {
-  actorDespawnEmitter.on('Tiered_Chest_Athena.Tiered_Chest_Athena_C', handleChest);
+  actorDespawnEmitter.on('Chests', handleChest);
 
   propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone);
   // propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezoneFastForwarding);

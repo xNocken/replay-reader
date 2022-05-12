@@ -79,12 +79,6 @@ class NetGuidCache {
     exportGroup.exportType = netFieldExport.exportType;
     exportGroup.type = netFieldExport.type;
 
-    if (netFieldExport.staticActorIds) {
-      netFieldExport.staticActorIds.forEach((staticActorId) => {
-        this.staticActorIdMap[staticActorId] = exportGroup;
-      });
-    }
-
     this.NetFieldExportGroupMap[pathName] = exportGroup;
     this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
 
@@ -212,17 +206,18 @@ class NetGuidCache {
   }
 
   getStaticActorExportGroup(netGuid) {
-    let staticActorId = this.NetGuids[netGuid]?.path;
+    let staticActorId = this.NetGuids[netGuid];
 
     if (!staticActorId) {
       return { staticActorId: null, group: null };
     }
 
-    const cleanedPath = cleanStaticIdSuffix(staticActorId);
+    const cleanedPath = cleanStaticIdSuffix(staticActorId.path);
+    const fullStaticActorId = getFullGuidPath(staticActorId);
 
     const exportGroup = this.staticActorIdMap[cleanedPath];
 
-    return { staticActorId, group: exportGroup || null };
+    return { staticActorId: fullStaticActorId, group: exportGroup || null };
   }
 
   cleanForCheckpoint() {
