@@ -157,11 +157,12 @@ const parseChunksStreaming = async (chunks, globalData) => {
   }
 
   const downloadNextChunk = async () => {
-    let wasFastForwarded = false;
     if (isFastForwarding) {
-      if (globalData.stopParsing) {
-        exitFunction();
-      }
+      return;
+    }
+
+    if (globalData.stopParsing) {
+      exitFunction();
 
       return;
     }
