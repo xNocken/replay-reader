@@ -1,16 +1,18 @@
 const handleFortBroadcastRemoteClientInfoMapMarker = ({ chIndex, data, result, states, changedProperties }) => {
-  if (data.type.match('Remove')) {
+  if (data.pathName.match('Remove')) {
     if (states.markers[chIndex]) {
       states.markers[chIndex].removed = true;
     }
 
     delete states.markers[chIndex];
+
     return;
   }
 
   if (!states.markers[chIndex]) {
     states.markers[chIndex] = data;
     result.gameData.markers.push(data);
+
     return;
   }
 

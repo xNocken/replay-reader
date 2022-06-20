@@ -1,6 +1,6 @@
-const handleChest = require('./actorDespawn/handleChest');
+const handleContainerDespawn = require('./actorDespawn/handleContainer');
 const handleActiveGameplayModifiers = require('./netDeltaExport/handleActiveGameplayModifiers');
-const handleChests = require('./propertyExport/handleChests');
+const handleContainer = require('./propertyExport/handleContainer');
 const handleBroadcastRemoteClientInfoMapMarker = require('./rpcExport/functions/handleBroadCastRemoteClientInfoMapMarker');
 const handlePickup = require('./propertyExport/handlePickup');
 const handlePlayerState = require('./propertyExport/handlePlayerState');
@@ -27,36 +27,39 @@ const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientIn
 const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
 
 const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }, globalData) => {
-  actorDespawnEmitter.on('Chests', handleChest);
+  actorDespawnEmitter.on('container', handleContainerDespawn);
 
-  propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone);
-  // propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezoneFastForwarding);
-  propertyExportEmitter.on('PlayerPawn_Athena.PlayerPawn_Athena_C', handlePlayerPawn);
-  propertyExportEmitter.on('FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues', handleDamageCues);
-  propertyExportEmitter.on('FortniteGame.FortPlayerStateAthena', handlePlayerState);
-  propertyExportEmitter.on('Athena_GameState.Athena_GameState_C', handleGameState);
-  propertyExportEmitter.on('FortniteGame.FortPickupAthena', handlePickup);
-  propertyExportEmitter.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
-  propertyExportEmitter.on('PlayerBuilds', handlePlayerBuilds);
-  propertyExportEmitter.on('Vehicles', handleVehicles);
-  propertyExportEmitter.on('BP_Athena_SpeedSign.BP_Athena_SpeedSign_C', handleSpeedSign);
-  propertyExportEmitter.on('Chests', handleChests);
-  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker', handleBroadcastRemoteClientInfoMapMarker);
-  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerRemoveMapMarker', handleBroadcastRemoteClientInfoMapMarker);
-  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers', handleClientInfoHitMarkers);
-  propertyExportEmitter.on('FortniteGame.FortRegenHealthSet', handleHealthSet);
+  propertyExportEmitter.on('safeZone', handleSafezone);
+  // propertyExportEmitter.on('safeZone', handleSafezoneFastForwarding);
+  propertyExportEmitter.on('playerPawn', handlePlayerPawn);
+  propertyExportEmitter.on('playerState', handlePlayerState);
+  propertyExportEmitter.on('gameState', handleGameState);
+  propertyExportEmitter.on('pickup', handlePickup);
+  propertyExportEmitter.on('playerBuild', handlePlayerBuilds);
+  propertyExportEmitter.on('vehicle', handleVehicles);
+  propertyExportEmitter.on('speedSign', handleSpeedSign);
+  propertyExportEmitter.on('container', handleContainer);
+  propertyExportEmitter.on('healthSet', handleHealthSet);
+  propertyExportEmitter.on('labrador', handleLabradorLlama);
+  propertyExportEmitter.on('llama', handleLootLlama);
+  propertyExportEmitter.on('supplyDrop', handleSupplyDrop);
+  propertyExportEmitter.on('soccerGame', handleSoccerGame);
+  propertyExportEmitter.on('inventory', handleInventoryProperty)
+  propertyExportEmitter.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
+  propertyExportEmitter.on('broadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
+  propertyExportEmitter.on('vehicleSeatComponent', handleVehicleSeatComponent);
+
+  // functions
+  propertyExportEmitter.on('batchedDamageCue', handleDamageCues);
+  propertyExportEmitter.on('mapMarker', handleBroadcastRemoteClientInfoMapMarker);
+  propertyExportEmitter.on('hitMarkers', handleClientInfoHitMarkers);
   propertyExportEmitter.on('gameplayCue', handleGameplayCues);
-  propertyExportEmitter.on('BP_AIPawn_Labrador.BP_AIPawn_Labrador_C', handleLabradorLlama);
-  propertyExportEmitter.on('AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C', handleLootLlama);
-  propertyExportEmitter.on('AthenaSupplyDrop.AthenaSupplyDrop_C', handleSupplyDrop);
-  propertyExportEmitter.on('Athena_SoccerGame.Athena_SoccerGame_C', handleSoccerGame);
-  propertyExportEmitter.on('FortniteGame.FortInventory', handleInventoryProperty)
-  propertyExportEmitter.on('FortniteGame.FortBroadcastRemoteClientInfo', handleRemoteClientInfo);
-  propertyExportEmitter.on('FortniteGame.FortBroadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
-  propertyExportEmitter.on('FortniteGame.FortVehicleSeatComponent', handleVehicleSeatComponent);
 
-  netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
-  netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);
+  // class
+  propertyExportEmitter.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
+
+  netDeltaReadEmitter.on('activeGamplayModifier', handleActiveGameplayModifiers)
+  netDeltaReadEmitter.on('inventory', handleInventory);
 
   if (globalData.debug) {
     parsingEmitter.on('channelOpened', ({ actor, globalData, states }) => {

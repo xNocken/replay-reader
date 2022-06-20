@@ -61,9 +61,6 @@ class GlobalData {
 
     this.externalData = {};
     this.additionalStates = [
-      'pawnChannelToStateChannel',
-      'queuedPlayerPawns',
-      'queuedSpectatorInfo',
       'actorToPath',
     ];
 

@@ -1,11 +1,11 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortBroadcastSpectatorInfo"
-  ],
+  "path": "/Script/FortniteGame.FortBroadcastSpectatorInfo",
   "parseLevel": 3,
-  "exportName": "broadcastSpectatorInfo",
-  "exportGroup": "gameData",
-  "exportType": "array",
+  "customExportName": "broadcastSpectatorInfo",
+  "states": {
+    "broadcastSpectatorInfo": "object",
+    "queuedSpectatorInfo": "object"
+  },
   "properties": {
     "PerPlayerInfo": {
       "parseType": "readDynamicArray"

@@ -8,7 +8,6 @@ const handleRemoteClientInfo = ({ states, data, result, actorId, changedProperti
     };
 
     states.remoteClientInfo[actorId] = remoteClientInfo;
-    result.gameData.remoteClientInfo.push(remoteClientInfo);
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {

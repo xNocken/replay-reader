@@ -1,11 +1,18 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortPickupAthena"
-  ],
+  "path": "/Script/FortniteGame.FortPickupAthena",
   "parseLevel": 3,
+  "customExportName": "pickup",
   "exportGroup": "mapData",
   "exportName": "pickups",
   "exportType": "array",
+  "exports": {
+    "name": "pickups",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "pickups": "object"
+  },
   "properties": {
     "bReplicateMovement": {
       "parseFunction": "readBit",

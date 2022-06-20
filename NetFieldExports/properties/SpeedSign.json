@@ -1,14 +1,16 @@
 {
-  "path": [
-    "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C"
-  ],
+  "path": "/Game/Athena/Environments/Blueprints/BP_Athena_SpeedSign.BP_Athena_SpeedSign_C",
   "parseLevel": 3,
-  "exportGroup": "mapData",
-  "exportName": "speedSigns",
-  "exportType": "array",
-  "staticActorIds": [
-    "BP_Athena_SpeedSign"
-  ],
+  "customExportName": "speedSign",
+  "exports": {
+    "name": "speedSigns",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "speedSigns": "object"
+  },
+  "staticActorIds": ["BP_Athena_SpeedSign"],
   "properties": {
     "VehicleSpeed": {
       "parseFunction": "readFloat32",

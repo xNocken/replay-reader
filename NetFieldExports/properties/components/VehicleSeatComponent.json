@@ -1,7 +1,8 @@
 {
-  "path": ["/Script/FortniteGame.FortVehicleSeatComponent"],
-  "redirects": ["VehicleSeatComponent"],
+  "path": "/Script/FortniteGame.FortVehicleSeatComponent",
   "parseLevel": 2,
+  "customExportName": "vehicleSeatComponent",
+  "redirects": ["VehicleSeatComponent"],
   "properties": {
     "PlayerSlots": {
       "parseType": "readDynamicArray"

@@ -79,11 +79,13 @@ class NetFieldParser {
 
   constructor(globalData) {
     const handleExport = (fieldExport) => {
+      let path;
+
       if (fieldExport.parseLevel > globalData.parseLevel) {
         return;
       }
 
-      fieldExport.path.forEach((path) => {
+      const handlePath = (path) => {
         const index = this.netFieldGroups.findIndex(([thePath]) => thePath === path);
 
         if (index !== -1) {
@@ -91,11 +93,19 @@ class NetFieldParser {
         }
 
         this.netFieldGroups.push([path, fieldExport]);
-      })
+      };
+
+      if (typeof fieldExport.path === 'string') {
+        handlePath(fieldExport.path);
+        path = fieldExport.path;
+      } else if (Array.isArray(fieldExport.path)) {
+        fieldExport.path.forEach(handlePath);
+        path = fieldExport.path[0];
+      }
 
       if (fieldExport.redirects) {
-        fieldExport.redirects.forEach((path) => {
-          this.redirects[path] = fieldExport.path[0];
+        fieldExport.redirects.forEach((redirect) => {
+          this.redirects[redirect] = path;
         });
       }
 
@@ -104,22 +114,34 @@ class NetFieldParser {
           break;
 
         default:
-          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, fieldExport.path[0], globalData.customClasses, globalData.customEnums))
+          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, path, globalData.customClasses, globalData.customEnums))
           break;
       }
 
-
-      if (fieldExport.exportGroup) {
-        if (!globalData.result[fieldExport.exportGroup]) {
-          globalData.result[fieldExport.exportGroup] = {};
+      const createExport = (group, name, type) => {
+        if (!globalData.result[group]) {
+          globalData.result[group] = {};
         }
 
-        if (fieldExport.exportName) {
-          if (!globalData.result[fieldExport.exportGroup][fieldExport.exportName]) {
-            globalData.result[fieldExport.exportGroup][fieldExport.exportName] = getExportByType(fieldExport.exportType);
-            globalData.states[fieldExport.exportName] = {};
-          }
+        if (!globalData.result[group][name]) {
+          globalData.result[group][name] = getExportByType(type);
         }
+      }
+
+      if (fieldExport.exports) {
+        if (Array.isArray(fieldExport.exports)) {
+          fieldExport.exports.forEach((group) => {
+            createExport(group.group, group.name, group.type);
+          });
+        } else {
+          createExport(fieldExport.exports.group, fieldExport.exports.name, fieldExport.exports.type);
+        }
+      }
+
+      if (fieldExport.states) {
+        Object.entries(fieldExport.states).forEach(([name, type]) => {
+          globalData.states[name] = getExportByType(type);
+        });
       }
 
       if (fieldExport.staticActorIds) {
@@ -132,7 +154,7 @@ class NetFieldParser {
         exportGroup.exportName = fieldExport.exportName;
         exportGroup.exportType = fieldExport.exportType;
         exportGroup.type = fieldExport.type;
-        exportGroup.pathName = fieldExport.path[0];
+        exportGroup.pathName = path;
         exportGroup.netFieldExports = [];
         exportGroup.pathNameIndex = null;
         exportGroup.netFieldExportsLength = 0;
@@ -141,9 +163,13 @@ class NetFieldParser {
           globalData.netGuidCache.staticActorIdMap[id] = exportGroup;
         });
 
-        fieldExport.path.forEach((path) => {
-          globalData.netGuidCache.NetFieldExportGroupMap[path] = exportGroup;
-        })
+        if (typeof fieldExport.path === 'string') {
+          globalData.netGuidCache.NetFieldExportGroupMap[fieldExport.path] = exportGroup;
+        } else {
+          fieldExport.path.forEach((path) => {
+            globalData.netGuidCache.NetFieldExportGroupMap[path] = exportGroup;
+          })
+        }
       }
     };
 

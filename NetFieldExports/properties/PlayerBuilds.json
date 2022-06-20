@@ -1,13 +1,16 @@
 {
-  "path": [
-    "/Game/Building/ActorBlueprints/Player/"
-  ],
-  "customExportName": "PlayerBuilds",
+  "path": "/Game/Building/ActorBlueprints/Player/",
+  "customExportName": "playerBuild",
   "parseLevel": 4,
   "partialPath": true,
-  "exportGroup": "mapData",
-  "exportName": "playerBuilds",
-  "exportType": "array",
+  "exports": {
+    "name": "playerBuilds",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "playerBuilds": "object"
+  },
   "properties": {
     "bDestroyed": {
       "parseFunction": "readBit",

@@ -5,9 +5,9 @@
     "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec"
   ],
   "customExportName": "gameplayCue",
-  "exportGroup": "gameData",
-  "exportName": "gameplayCues",
-  "exportType": "object",
+  "states": {
+    "gameplayCues": "object"
+  },
   "parseLevel": 2,
   "properties": {
     "GameplayCueTag": {

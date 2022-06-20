@@ -1,11 +1,15 @@
 {
-  "path": [
-    "/Game/Athena/Athena_GameState.Athena_GameState_C"
-  ],
+  "path": "/Game/Athena/Athena_GameState.Athena_GameState_C",
   "parseLevel": 1,
-  "exportGroup": "gameData",
-  "exportName": "gameState",
-  "exportType": "object",
+  "customExportName": "gameState",
+  "exports": {
+    "name": "gameState",
+    "group": "gameData",
+    "type": "object"
+  },
+  "states": {
+    "gameState": "object"
+  },
   "properties": {
     "GoldenPoiLocationTags": {
       "type": "FGameplayTagContainer",

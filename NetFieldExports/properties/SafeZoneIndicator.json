@@ -1,11 +1,15 @@
 {
-  "path": [
-    "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C"
-  ],
+  "path": "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C",
   "parseLevel": 1,
-  "exportGroup": "gameData",
-  "exportName": "safeZones",
-  "exportType": "array",
+  "customExportName": "safeZone",
+  "exports": {
+    "name": "safeZones",
+    "group": "gameData",
+    "type": "array"
+  },
+  "states": {
+    "safeZones": "object"
+  },
   "properties": {
     "LastRadius": {
       "parseFunction": "readFloat32",

@@ -1,13 +1,9 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortRegenHealthSet"
-  ],
-  "customExportName": "FortniteGame.FortRegenHealthSet",
+  "path": "/Script/FortniteGame.FortRegenHealthSet",
+  "customExportName": "healthSet",
   "parseLevel": 1,
   "storeAsHandle": true,
-  "redirects": [
-    "HealthSet"
-  ],
+  "redirects": ["HealthSet"],
   "properties": {
     "BaseValue": {
       "parseFunction": "readFloat32",

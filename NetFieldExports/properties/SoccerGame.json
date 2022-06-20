@@ -1,14 +1,16 @@
 {
-  "path": [
-    "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C"
-  ],
+  "path": "/Game/Athena/Prototype/SoccerGame/Athena_SoccerGame.Athena_SoccerGame_C",
   "parseLevel": 3,
-  "exportGroup": "mapData",
-  "exportName": "soccerGames",
-  "exportType": "array",
-  "staticActorIds": [
-    "Athena_SoccerGame"
-  ],
+  "customExportName": "soccerGame",
+  "exports": {
+    "name": "soccerGames",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "soccerGames": "object"
+  },
+  "staticActorIds": ["Athena_SoccerGame"],
   "properties": {
     "Score_Team_A": {
       "parseFunction": "readInt32",

@@ -13,10 +13,15 @@
     "/ResolveCannon/Environmental/MountedCannon/Vehicle/MountedCannon__v2.MountedCannon__v2_C"
   ],
   "partialPath": true,
-  "customExportName": "Vehicles",
-  "exportGroup": "mapData",
-  "exportName": "vehicles",
-  "exportType": "array",
+  "customExportName": "vehicle",
+  "exports": {
+    "name": "vehicles",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "vehicles": "object"
+  },
   "parseLevel": 2,
   "properties": {
     "Health": {

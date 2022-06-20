@@ -1,11 +1,12 @@
 {
-  "path": [
-    "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C"
-  ],
+  "path": "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C",
   "parseLevel": 1,
-  "exportGroup": "gameData",
-  "exportName": "pawns",
-  "exportType": "array",
+  "customExportName": "playerPawn",
+  "states": {
+    "pawns": "object",
+    "pawnChannelToStateChannel": "object",
+    "queuedPlayerPawns": "object"
+  },
   "properties": {
     "Owner": {
       "type": "ActorGuid",

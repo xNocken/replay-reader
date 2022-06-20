@@ -1,11 +1,15 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortPlayerStateAthena"
-  ],
+  "path": "/Script/FortniteGame.FortPlayerStateAthena",
+  "customExportName": "playerState",
   "parseLevel": 1,
-  "exportGroup": "gameData",
-  "exportName": "players",
-  "exportType": "array",
+  "exports": {
+    "name": "players",
+    "group": "gameData",
+    "type": "array"
+  },
+  "states": {
+    "players": "object"
+  },
   "properties": {
     "PlayerID": {
       "parseFunction": "readUInt32",

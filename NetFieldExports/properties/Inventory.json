@@ -1,11 +1,10 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortInventory"
-  ],
+  "path": "/Script/FortniteGame.FortInventory",
   "parseLevel": 1,
-  "exportName": "inventories",
-  "exportGroup": "gameData",
-  "exportType": "array",
+  "customExportName": "inventory",
+  "states": {
+    "inventories": "object"
+  },
   "properties": {
     "Count": {
       "parseFunction": "readInt32",

@@ -1,17 +1,17 @@
 {
-  "path": [
-    "/Game/Athena/SupplyDrops/AthenaSupplyDrop.AthenaSupplyDrop_C"
-  ],
+  "path": "/Game/Athena/SupplyDrops/Llama/AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C",
   "parseLevel": 1,
-  "exportGroup": "mapData",
-  "exportName": "supplyDrops",
-  "exportType": "array",
+  "customExportName": "llama",
+  "exports": {
+    "name": "llamas",
+    "group": "mapData",
+    "type": "array"
+  },
+  "states": {
+    "llamas": "object"
+  },
   "properties": {
-    "Opened": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "BalloonPopped": {
+    "Looted": {
       "parseFunction": "readBit",
       "parseType": "default"
     },

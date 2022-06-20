@@ -1,11 +1,7 @@
 {
-  "path": [
-    "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers"
-  ],
+  "path": "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers",
   "parseLevel": 3,
-  "exportGroup": "gameData",
-  "exportName": "markers",
-  "exportType": "array",
+  "customExportName": "hitMarkers",
   "properties": {
     "ScreenSpaceHitLocations": {
       "parseType": "readDynamicArray"
