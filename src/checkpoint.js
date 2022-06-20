@@ -38,11 +38,20 @@ const parseCheckpoint = (replay, data, globalData) => {
 
   for (let i = 0; i < guidCount; i++) {
     const guid = binaryReplay.readIntPacked();
-    const outerGuid = new NetworkGUID();
-    outerGuid.value = binaryReplay.readIntPacked();
+    const outerId = binaryReplay.readIntPacked();
+    let outerGuid = null;
+
+    if (outerId !== 0) {
+      outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId);
+
+      if (!outerGuid) {
+        console.log('failed to find outer')
+      }
+    }
 
     const cacheObject = {
       outer: outerGuid,
+      value: guid,
     }
 
     if (binaryReplay.header.networkVersion < 15) {
@@ -75,7 +84,7 @@ const parseCheckpoint = (replay, data, globalData) => {
       globalData.debugNetGuidToPathName.push({
         path: cacheObject.path,
         value: guid,
-        outer: outerGuid.value,
+        outer: outerGuid?.value,
       });
     }
   }
