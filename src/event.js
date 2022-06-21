@@ -1,5 +1,6 @@
 const Replay = require('./Classes/Replay');
 const weaponTypes = require('../Enums/EFortWeaponType.json');
+const halfMapSize = 131328;
 
 /**
  * Parse the player
@@ -125,6 +126,65 @@ const parseMatchTeamStats = (data, replay) => {
   data.totalPlayers = replay.readUInt32();
 };
 
+const parseZoneUpdate = (data, replay) => {
+  data.version = replay.readInt32();
+  data.x = replay.readFloat32();
+  data.y = replay.readFloat32();
+  data.z = replay.readFloat32();
+  data.radius = replay.readFloat32();
+};
+
+const parseCharacterSampleMeta = (data, replay) => {
+  data.version = replay.readInt32();
+  data.players = [];
+
+  const playerAmount = replay.readInt32();
+
+  for (let i = 0; i < playerAmount; i += 1) {
+    const player = {
+      playerId: replay.readString(),
+      positions: [],
+    };
+
+    const positionAmount = replay.readUInt32();
+
+    for (let i = 0; i < positionAmount; i += 1) {
+      const size = replay.readInt32();
+
+      player.positions.push({
+        x: replay.readInt32() - (halfMapSize >> (16 - size)),
+        y: replay.readInt32() - (halfMapSize >> (16 - size)),
+        z: replay.readInt32() - (halfMapSize >> (16 - size)),
+        movementType: replay.readByte(),
+        time: replay.readUInt16(),
+      });
+    }
+
+    data.players.push(player);
+  }
+};
+
+const parseTimecode = (data, replay) => {
+  data.version = replay.readInt32();
+  data.timecode = new Date(parseInt((replay.readUInt64() - 621355968000000000n) / 10000n, 10));
+}
+
+const actorPositions = (data, replay) => {
+  data.version = replay.readInt32();
+  data.count = replay.readUInt32();
+  data.positions = [];
+
+  for (let i = 0; i < data.count; i += 1) {
+    const size = replay.readInt32();
+
+    data.positions.push({
+      x: replay.readInt32() - (halfMapSize >> (16 - size)),
+      y: replay.readInt32() - (halfMapSize >> (16 - size)),
+      z: replay.readInt32() - (halfMapSize >> (16 - size)),
+    })
+  }
+}
+
 /**
  * Parse the replays meta
  * @param {Replay} replay the replay
@@ -138,12 +198,40 @@ const event = (replay, info) => {
     metadata: info.metadata,
   };
 
-  if (info.group === 'playerElim') {
-    parsePlayerElim(result, decryptedEvent);
-  } else if (info.metadata === 'AthenaMatchStats') {
-    parseMatchStats(result, decryptedEvent);
-  } else if (info.metadata === 'AthenaMatchTeamStats') {
-    parseMatchTeamStats(result, decryptedEvent);
+  switch (info.group) {
+    case 'AthenaReplayBrowserEvents':
+      if (info.metadata === 'AthenaMatchStats') {
+        parseMatchStats(result, decryptedEvent);
+      } else if (info.metadata === 'AthenaMatchTeamStats') {
+        parseMatchTeamStats(result, decryptedEvent);
+      }
+
+      break;
+
+    case 'playerElim':
+      parsePlayerElim(result, decryptedEvent);
+
+      break;
+
+    case 'ZoneUpdate':
+      parseZoneUpdate(result, decryptedEvent);
+
+      break;
+
+    case 'CharacterSample':
+      parseCharacterSampleMeta(result, decryptedEvent);
+
+      break;
+
+    case 'Timecode':
+      parseTimecode(result, decryptedEvent);
+
+      break;
+
+    case 'ActorsPosition':
+      actorPositions(result, decryptedEvent);
+
+      break;
   }
 
   if (!replay.info.isEncrypted) {

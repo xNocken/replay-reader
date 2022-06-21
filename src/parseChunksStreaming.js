@@ -73,6 +73,7 @@ const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalDat
 const parseChunksStreaming = async (chunks, globalData) => {
   const events = [];
   const canBeParsed = [];
+  const eventPromises = [];
   let time = 0;
   let isParsing = false;
   let isFastForwarding = false;
@@ -103,37 +104,43 @@ const parseChunksStreaming = async (chunks, globalData) => {
         }
       });
 
-      eventDownloadCount += 1;
-      getChunk(event.link, globalData).then((replay) => {
-        if (globalData.debug) {
-          debugTimeDownloadFinish = Date.now();
-          debugTime = Date.now();
-        }
+      eventPromises.push(new Promise(async (resolve, reject) => {
+        eventDownloadCount += 1;
 
-        try {
-          globalData.parsingEmitter.emit('nextChunk', {
-            size: event.length,
-            type: 3,
-            chunks,
-            chunk: event,
-            setFastForward: globalData.setFastForward,
-            stopParsing: globalData.stopParsingFunc,
-          });
-        } catch (err) {
-          console.error(`Error while exporting "nextChunk": ${err.stack}`);
-        }
+        getChunk(event.link, globalData).then((replay) => {
+          if (globalData.debug) {
+            debugTimeDownloadFinish = Date.now();
+            debugTime = Date.now();
+          }
 
-        events.push(parseEvent(replay, event));
-        eventDownloadCount -= 1;
+          try {
+            globalData.parsingEmitter.emit('nextChunk', {
+              size: event.length,
+              type: 3,
+              chunks,
+              chunk: event,
+              setFastForward: globalData.setFastForward,
+              stopParsing: globalData.stopParsingFunc,
+            });
+          } catch (err) {
+            console.error(`Error while exporting "nextChunk": ${err.stack}`);
+          }
 
-        continueParsing();
+          events.push(parseEvent(replay, event));
+          eventDownloadCount -= 1;
 
-        if (globalData.debug) {
-          console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
-        }
-      })
+          continueParsing();
+          resolve();
+
+          if (globalData.debug) {
+            console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
+          }
+        });
+      }));
     };
   }
+
+  await Promise.all(eventPromises);
 
   if (!globalData.parsePackets) {
     return events;
