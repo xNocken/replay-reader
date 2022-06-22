@@ -110,14 +110,14 @@ interface MetadataCheckpoint {
 interface PlayerElemEvent extends Event {
   eliminated: string,
   eliminator: string,
-  gunType: string|number,
+  gunType: string | number,
   knocked: boolean,
 }
 
 interface MatchStatsEvent extends Event {
   eliminated: string,
   eliminator: string,
-  gunType: string|number,
+  gunType: string | number,
   knocked: boolean
   accuracy: number,
   assists: number,
@@ -131,11 +131,7 @@ interface MatchStatsEvent extends Event {
   materialsUsed: number,
   totalTraveled: number,
   damageToPlayers: number,
-}
-
-interface MatchTeamStatsEvent extends Event {
-  something: number,
-  position: number,
+  placement: number,
   totalPlayers: number,
 }
 
@@ -300,7 +296,7 @@ export interface ChannelOpenedClosed {
 export interface NextChunk {
   size: number,
   type: number,
-  chunk: PlayerElemEvent|MatchStatsEvent|MatchTeamStatsEvent|Event,
+  chunk: PlayerElemEvent | MatchStatsEvent | MatchTeamStatsEvent | Event,
   chunks: Chunks,
   setFastForward: setFastForward,
   stopParsing: setFastForward,
@@ -332,6 +328,47 @@ export interface ParsingEmitter extends EventEmitter {
   on(event: 'channelClosed', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'nextChunk', listener: (exportt: NextChunk) => void): this,
   on(event: 'nextFrame', listener: (exportt: NextFrame) => void): this,
+}
+
+export interface SafeZone {
+  x: number,
+  y: number,
+  z: number,
+  radius: number,
+}
+
+export interface DeathInfo {
+  id: string,
+  reason: string,
+  time: number,
+}
+
+export interface PlayerPosition {
+  x: number,
+  y: number,
+  z: number,
+  movementType?: string,
+}
+
+export interface PlayerPositionMap {
+  [time: number]: PlayerPosition;
+}
+
+export interface PlayerKill {
+  playerId: string,
+  reason: string,
+  knocked: boolean,
+  location: FVector,
+  time: number,
+}
+
+export interface Player {
+  id: string,
+  positions: PlayerPositionMap,
+  killScore: number,
+  kills: PlayerKill[],
+  knockedInfo: DeathInfo,
+  elimInfo: DeathInfo,
 }
 
 export interface EventEmittersObject {
@@ -399,13 +436,20 @@ export interface parseStreamOptions extends parseOptions {
   parsePackets?: boolean,
 }
 
+export interface Events {
+  chests: FVector[],
+  safeZones: SafeZone[],
+  players: Player[],
+  matchStats: MatchStatsEvent,
+}
+
 interface Result {
   header: Header,
   info: Info,
   chunks: Chunks,
-  events: (PlayerElemEvent|MatchStatsEvent|MatchTeamStatsEvent|Event)[],
+  events: Events,
   [exportGroup: string]: {
-    [chIndex: number|string]: object,
+    [chIndex: number | string]: object,
   }
 }
 

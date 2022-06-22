@@ -3,40 +3,45 @@ const parseEvent = require("./event");
 const parseReplayData = require("./replayData");
 
 const parseChunks = (replay, chunks, globalData) => {
-  const events = [];
   let time = 0;
 
   if (globalData.parseEvents) {
-    chunks.events.forEach((event) => {
-      let debugTime;
+    chunks.events
+      .sort((a, b) => a.startTime - b.startTime)
+      .forEach((event) => {
+        let debugTime;
 
-      if (globalData.debug) {
-        debugTime = Date.now();
-      }
+        if (!globalData.supportedEvents.includes(event.group)) {
+          return;
+        }
 
-      try {
-        globalData.parsingEmitter.emit('nextChunk', {
-          size: event.sizeInBytes,
-          type: 3,
-          chunks,
-          chunk: event,
-          setFastForward: globalData.setFastForward,
-          stopParsing: globalData.stopParsingFunc,
-        });
-      } catch (err) {
-        console.error(`Error while exporting "nextChunk": ${err.stack}`);
-      }
+        if (globalData.debug) {
+          debugTime = Date.now();
+        }
 
-      try {
-        events.push(parseEvent(replay, event));
-      } catch (err) {
-        console.log('Error while reading event chunk');
-      }
+        try {
+          globalData.parsingEmitter.emit('nextChunk', {
+            size: event.sizeInBytes,
+            type: 3,
+            chunks,
+            chunk: event,
+            setFastForward: globalData.setFastForward,
+            stopParsing: globalData.stopParsingFunc,
+          });
+        } catch (err) {
+          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+        }
 
-      if (globalData.debug) {
-        console.log(`read eventChunk with ${event.length} bytes in ${Date.now() - debugTime}ms`)
-      }
-    });
+        try {
+          parseEvent(replay, event, globalData);
+        } catch (err) {
+          console.log('Error while reading event chunk');
+        }
+
+        if (globalData.debug) {
+          console.log(`read eventChunk with ${event.length} bytes in ${Date.now() - debugTime}ms`)
+        }
+      });
   }
 
   if (!globalData.parsePackets) {
@@ -135,8 +140,6 @@ const parseChunks = (replay, chunks, globalData) => {
       }
     }
   }
-
-  return events;
 };
 
 module.exports = parseChunks;

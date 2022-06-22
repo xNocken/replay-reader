@@ -41,14 +41,13 @@ const parseBinary = (data, options) => {
   const globalData = initGlobalData(options);
   let info;
   let chunks;
-  let events = [];
 
   try {
     const replay = new Replay(data);
 
     info = replayInfo(replay, globalData);
     chunks = replayChunks(replay, globalData);
-    events = parseChunks(replay, chunks, globalData);
+    parseChunks(replay, chunks, globalData);
   } catch (err) {
     isParsing = false;
 
@@ -61,13 +60,25 @@ const parseBinary = (data, options) => {
 
   isParsing = false;
 
-  return {
+  const result = {
     header: globalData.header,
     info,
-    chunks,
-    events,
     ...globalData.result,
   };
+
+  if (globalData.parseEvents) {
+    result.events = {
+      chests: globalData.eventData.chests,
+      safeZones: globalData.eventData.safeZones,
+      players: Object.values(globalData.eventData.players),
+    };
+  }
+
+  if (globalData.exportChunks) {
+    result.chunks = chunks;
+  }
+
+  return result;
 }
 
 const parseStreaming = async (metadata, options) => {
@@ -80,7 +91,6 @@ const parseStreaming = async (metadata, options) => {
   const globalData = initGlobalData(options);
   let info;
   let chunks;
-  let events = [];
 
   try {
     if (!verifyMetadata(metadata)) {
@@ -89,7 +99,7 @@ const parseStreaming = async (metadata, options) => {
 
     info = replayInfoStreaming(metadata, globalData);
     chunks = await replayChunksStreaming(metadata, globalData);
-    events = await parseChunksStreaming(chunks, globalData);
+    await parseChunksStreaming(chunks, globalData);
   } catch (err) {
     isParsing = false;
 
@@ -102,13 +112,25 @@ const parseStreaming = async (metadata, options) => {
 
   isParsing = false;
 
-  return {
+  const result = {
     header: globalData.header,
     info,
-    chunks,
-    events,
     ...globalData.result,
   };
+
+  if (globalData.parseEvents) {
+    result.events = {
+      chests: globalData.eventData.chests,
+      safeZones: globalData.eventData.safeZones,
+      players: Object.values(globalData.eventData.players),
+    };
+  }
+
+  if (globalData.exportChunks) {
+    result.chunks = chunks;
+  }
+
+  return result;
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 const Replay = require('./Classes/Replay');
-const weaponTypes = require('../Enums/EFortWeaponType.json');
+const enums = require('../Enums');
 const halfMapSize = 131328;
 
 /**
@@ -31,10 +31,10 @@ const parsePlayer = (replay) => {
  * @param {object} result the event
  * @param {Replay} replay the replay
  */
-const parsePlayerElim = (result, replay) => {
+const parsePlayerElim = (globalData, replay, time) => {
   const version = replay.readInt32();
-
-  result.version = version;
+  const targetEnum = (globalData.customEnums.EDeathCause || enums.EDeathCause);
+  const result = {};
 
   if (version >= 3) {
     replay.skipBytes(1);
@@ -90,8 +90,63 @@ const parsePlayerElim = (result, replay) => {
 
   const gunType = replay.readByte();
 
-  result.gunType = weaponTypes[gunType] || gunType;
+  result.gunType = targetEnum[gunType];
   result.knocked = replay.readBoolean();
+
+  let eliminator = globalData.eventData.players[result.eliminator.name];
+
+  if (!eliminator) {
+    eliminator = {
+      id: result.eliminator.name,
+      killScore: 0,
+      positions: {},
+      kills: [],
+    };
+
+    globalData.eventData.players[result.eliminator.name] = eliminator;
+  }
+
+  let eliminated = globalData.eventData.players[result.eliminated.name];
+
+  if (!eliminated) {
+    eliminated = {
+      id: result.eliminated.name,
+      killScore: 0,
+      positions: {},
+      kills: [],
+    };
+
+    globalData.eventData.players[result.eliminated.name] = eliminated;
+  }
+
+  eliminator.kills.push({
+    playerId: result.eliminated.name,
+    reason: result.reason,
+    knocked: result.knocked,
+    location: result.eliminated.location,
+    time,
+  });
+
+  eliminator.positions[time] = result.eliminator.location;
+  eliminated.positions[time] = result.eliminated.location;
+
+  if (result.knocked && result.eliminated.name !== result.eliminator.name) {
+    eliminated.killScore += 1;
+  }
+
+  if (result.knocked) {
+    elimited.knockInfo = {
+      id: result.eliminator.name,
+      time,
+      reason: result.gunType,
+    };
+  } else {
+    eliminated.elimInfo = {
+      id: result.eliminator.name,
+      time,
+      reason: result.gunType,
+    };
+  }
 };
 
 /**
@@ -99,20 +154,22 @@ const parsePlayerElim = (result, replay) => {
  * @param {object} data the event
  * @param {Replay} replay the replay
  */
-const parseMatchStats = (data, replay) => {
-  data.version = replay.readInt32();
-  data.accuracy = replay.readFloat32();
-  data.assists = replay.readUInt32();
-  data.eliminations = replay.readUInt32();
-  data.weaponDamage = replay.readUInt32();
-  data.otherDamage = replay.readUInt32();
-  data.revives = replay.readUInt32();
-  data.damageTaken = replay.readUInt32();
-  data.damageToStructures = replay.readUInt32();
-  data.materialsGathered = replay.readUInt32();
-  data.materialsUsed = replay.readUInt32();
-  data.totalTraveled = replay.readUInt32();
-  data.damageToPlayers = data.otherDamage + data.weaponDamage;
+const parseMatchStats = (globalData, replay) => {
+  const { matchStats } = globalData.eventData;
+  const version = replay.readInt32();
+
+  matchStats.accuracy = replay.readFloat32();
+  matchStats.assists = replay.readUInt32();
+  matchStats.eliminations = replay.readUInt32();
+  matchStats.weaponDamage = replay.readUInt32();
+  matchStats.otherDamage = replay.readUInt32();
+  matchStats.revives = replay.readUInt32();
+  matchStats.damageTaken = replay.readUInt32();
+  matchStats.damageToStructures = replay.readUInt32();
+  matchStats.materialsGathered = replay.readUInt32();
+  matchStats.materialsUsed = replay.readUInt32();
+  matchStats.totalTraveled = replay.readUInt32();
+  matchStats.damageToPlayers = matchStats.otherDamage + matchStats.weaponDamage;
 };
 
 /**
@@ -120,64 +177,77 @@ const parseMatchStats = (data, replay) => {
  * @param {object} data the event
  * @param {Replay} replay the replay
  */
-const parseMatchTeamStats = (data, replay) => {
-  data.version = replay.readInt32();
-  data.position = replay.readUInt32();
-  data.totalPlayers = replay.readUInt32();
+const parseMatchTeamStats = (globalData, replay) => {
+  const { matchStats } = globalData.eventData;
+  const version = replay.readInt32();
+
+  matchStats.placement = replay.readUInt32();
+  matchStats.totalPlayers = replay.readUInt32();
 };
 
-const parseZoneUpdate = (data, replay) => {
-  data.version = replay.readInt32();
-  data.x = replay.readFloat32();
-  data.y = replay.readFloat32();
-  data.z = replay.readFloat32();
-  data.radius = replay.readFloat32();
+const parseZoneUpdate = (globalData, replay) => {
+  const version = replay.readInt32();
+
+  globalData.eventData.safeZones.push({
+    x: replay.readFloat32(),
+    y: replay.readFloat32(),
+    z: replay.readFloat32(),
+    radius: replay.readFloat32(),
+  });
 };
 
-const parseCharacterSampleMeta = (data, replay) => {
-  data.version = replay.readInt32();
-  data.players = [];
-
+const parseCharacterSampleMeta = (globalData, replay) => {
+  const version = replay.readInt32();
   const playerAmount = replay.readInt32();
 
   for (let i = 0; i < playerAmount; i += 1) {
-    const player = {
-      playerId: replay.readString(),
-      positions: [],
-    };
+    const playerId = replay.readString();
+    let player = globalData.eventData.players[playerId];
+
+    if (!player) {
+      player = {
+        id: playerId,
+        killScore: 0,
+        positions: {},
+        kills: [],
+      };
+
+      globalData.eventData.players[playerId] = player;
+    }
 
     const positionAmount = replay.readUInt32();
 
     for (let i = 0; i < positionAmount; i += 1) {
       const size = replay.readInt32();
+      const targetEnum = (globalData.customEnums.EFortMovementStyle || enums.EFortMovementStyle);
 
-      player.positions.push({
+      const result = {
         x: replay.readInt32() - (halfMapSize >> (16 - size)),
         y: replay.readInt32() - (halfMapSize >> (16 - size)),
         z: replay.readInt32() - (halfMapSize >> (16 - size)),
-        movementType: replay.readByte(),
-        time: replay.readUInt16(),
-      });
-    }
+        movementStyle: targetEnum[replay.readByte()],
+      };
 
-    data.players.push(player);
+      const time = replay.readUInt16();
+
+      player.positions[time] = result;
+    }
   }
 };
 
-const parseTimecode = (data, replay) => {
-  data.version = replay.readInt32();
-  data.timecode = new Date(parseInt((replay.readUInt64() - 621355968000000000n) / 10000n, 10));
+const parseTimecode = (globalData, replay) => {
+  const version = replay.readInt32();
+  globalData.eventData.timecode = new Date(parseInt((replay.readUInt64() - 621355968000000000n) / 10000n, 10));
 }
 
-const actorPositions = (data, replay) => {
-  data.version = replay.readInt32();
-  data.count = replay.readUInt32();
-  data.positions = [];
+const actorPositions = (globalData, replay) => {
+  const version = replay.readInt32();
+  const count = replay.readUInt32();
 
-  for (let i = 0; i < data.count; i += 1) {
+  for (let i = 0; i < count; i += 1) {
     const size = replay.readInt32();
 
-    data.positions.push({
+    globalData.eventData.chests.push({
       x: replay.readInt32() - (halfMapSize >> (16 - size)),
       y: replay.readInt32() - (halfMapSize >> (16 - size)),
       z: replay.readInt32() - (halfMapSize >> (16 - size)),
@@ -187,49 +257,47 @@ const actorPositions = (data, replay) => {
 
 /**
  * Parse the replays meta
- * @param {Replay} replay the replay
+ * @param {Replay} replay
+ * @param {GlobalData} globalData
  */
-const event = (replay, info) => {
+const event = (replay, info, globalData) => {
+  const startTime = Math.round(info.startTime / 1000);
+
   replay.goTo(info.startPos);
   let decryptedEvent = replay.decryptBuffer(info.length);
-  const result = {
-    eventId: info.eventId,
-    group: info.group,
-    metadata: info.metadata,
-  };
 
   switch (info.group) {
     case 'AthenaReplayBrowserEvents':
       if (info.metadata === 'AthenaMatchStats') {
-        parseMatchStats(result, decryptedEvent);
+        parseMatchStats(globalData, decryptedEvent);
       } else if (info.metadata === 'AthenaMatchTeamStats') {
-        parseMatchTeamStats(result, decryptedEvent);
+        parseMatchTeamStats(globalData, decryptedEvent);
       }
 
       break;
 
     case 'playerElim':
-      parsePlayerElim(result, decryptedEvent);
+      parsePlayerElim(globalData, decryptedEvent, startTime);
 
       break;
 
     case 'ZoneUpdate':
-      parseZoneUpdate(result, decryptedEvent);
+      parseZoneUpdate(globalData, decryptedEvent, startTime);
 
       break;
 
     case 'CharacterSample':
-      parseCharacterSampleMeta(result, decryptedEvent);
+      parseCharacterSampleMeta(globalData, decryptedEvent, startTime);
 
       break;
 
     case 'Timecode':
-      parseTimecode(result, decryptedEvent);
+      parseTimecode(globalData, decryptedEvent, startTime);
 
       break;
 
     case 'ActorsPosition':
-      actorPositions(result, decryptedEvent);
+      actorPositions(globalData, decryptedEvent, startTime);
 
       break;
   }
@@ -237,8 +305,6 @@ const event = (replay, info) => {
   if (!replay.info.isEncrypted) {
     replay.popOffset(1, info.length * 8);
   }
-
-  return result;
 }
 
 module.exports = event;

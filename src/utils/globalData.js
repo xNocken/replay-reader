@@ -46,6 +46,21 @@ class GlobalData {
     this.useCheckpoints = false;
     this.maxConcurrentDownloads = 3;
     this.maxConcurrentEventDownloads = 10;
+    this.exportChunks = false;
+
+    this.eventData = {
+      players: {},
+      safeZones: [],
+      matchStats: {},
+      chests: [],
+    };
+    this.supportedEvents = [
+      'playerElim',
+      'AthenaReplayBrowserEvents',
+      'ZoneUpdate',
+      'CharacterSample',
+      'ActorsPosition',
+    ];
 
     this.fastForwardTo = 0;
     this.fastForwardThreshold = 60;

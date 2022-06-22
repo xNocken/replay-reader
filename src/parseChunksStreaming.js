@@ -71,7 +71,6 @@ const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalDat
 }
 
 const parseChunksStreaming = async (chunks, globalData) => {
-  const events = [];
   const canBeParsed = [];
   const eventPromises = [];
   let time = 0;
@@ -83,6 +82,8 @@ const parseChunksStreaming = async (chunks, globalData) => {
   let exitFunction;
 
   if (globalData.parseEvents) {
+    const events = [];
+
     let continueParsing;
     let eventDownloadCount = 0;
 
@@ -91,6 +92,10 @@ const parseChunksStreaming = async (chunks, globalData) => {
       let debugTime;
       let debugTimeDownload;
       let debugTimeDownloadFinish;
+
+      if (!globalData.supportedEvents.includes(event.group)) {
+        continue;
+      }
 
       if (globalData.debug) {
         debugTimeDownload = Date.now();
@@ -138,6 +143,8 @@ const parseChunksStreaming = async (chunks, globalData) => {
         });
       }));
     };
+
+    globalData.events = buildEvents(events);
   }
 
   await Promise.all(eventPromises);
@@ -286,8 +293,6 @@ const parseChunksStreaming = async (chunks, globalData) => {
   await new Promise((resolve) => {
     exitFunction = resolve;
   });
-
-  return events;
 };
 
 module.exports = parseChunksStreaming;
