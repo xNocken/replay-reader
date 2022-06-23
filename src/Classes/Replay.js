@@ -642,6 +642,10 @@ class Replay {
     return { pitch, yaw, roll };
   }
 
+  readDate() {
+    return new Date(parseInt((this.readUInt64() - 621355968000000000n) / 10000n, 10))
+  }
+
   skipBits(bits) {
     this.offset += bits;
   }

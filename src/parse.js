@@ -28,7 +28,7 @@ const replayInfo = (replay, globalData) => {
   info.isLive = replay.readBoolean();
 
   if (info.fileVersion >= 3) {
-    info.timestamp = new Date(parseInt((replay.readUInt64() - BigInt('621355968000000000')) / BigInt('10000'), 10));
+    info.timestamp = replay.readDate();
   }
 
   if (info.fileVersion >= 2) {

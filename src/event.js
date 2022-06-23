@@ -131,11 +131,11 @@ const parsePlayerElim = (globalData, replay, time) => {
   eliminated.positions[time] = result.eliminated.location;
 
   if (result.knocked && result.eliminated.name !== result.eliminator.name) {
-    eliminated.killScore += 1;
+    eliminator.killScore += 1;
   }
 
   if (result.knocked) {
-    elimited.knockInfo = {
+    eliminated.knockInfo = {
       id: result.eliminator.name,
       time,
       reason: result.gunType,
@@ -237,7 +237,8 @@ const parseCharacterSampleMeta = (globalData, replay) => {
 
 const parseTimecode = (globalData, replay) => {
   const version = replay.readInt32();
-  globalData.eventData.timecode = new Date(parseInt((replay.readUInt64() - 621355968000000000n) / 10000n, 10));
+
+  globalData.eventData.timecode = replay.readDate();
 }
 
 const actorPositions = (globalData, replay) => {
