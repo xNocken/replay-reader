@@ -19,6 +19,10 @@
       "parseFunction": "readNetId",
       "parseType": "default"
     },
+    "BotUniqueId": {
+      "parseFunction": "readNetId",
+      "parseType": "default"
+    },
     "PlayerNamePrivate": {
       "parseFunction": "readString",
       "parseType": "default"
