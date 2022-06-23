@@ -16,6 +16,6 @@ const handleVehicles = ({ actorId, data, states, result, changedProperties }) =>
 
     states.vehicles[actorId][key] = data[key];
   }
-}
+};
 
 module.exports = handleVehicles;

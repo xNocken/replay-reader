@@ -1,13 +1,8 @@
-const PlaybackPacket = require("../Classes/PlaybackPacket");
-const Replay = require("../Classes/Replay");
 const readExportData = require("./netExportData");
 const readExternalData = require("./readExternalData");
 const readPacket = require("./readPacket");
 const receivedPacket = require("./receivedPacket");
 
-/**
- * @param {PlaybackPacket} packet
- */
 const receivedRawPacket = (packet, replay, globalData) => {
   let lastByte = replay.getLastByte();
 
@@ -33,15 +28,9 @@ const receivedRawPacket = (packet, replay, globalData) => {
   replay.popOffset(2, bitSize);
 };
 
-/**
- * Get packets from the replay
- * @param {Replay} replay the replay
- */
 const parsePlaybackPackets = (replay, globalData) => {
-  let currentLevelIndex;
-
   if (replay.header.networkVersion >= 6) {
-    currentLevelIndex = replay.readInt32()
+    replay.skipBytes(4); // current level index
   }
 
   const timeSeconds = replay.readFloat32();

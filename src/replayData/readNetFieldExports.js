@@ -1,5 +1,4 @@
-const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
-const Replay = require('../Classes/Replay');
+const NetFieldExportGroup = require('../Classes/NetFieldExportGroup');
 const readNetFieldExport = require('./readNetFieldExport');
 
 const addToUnreadGroups = (group, netField, globalData) => {
@@ -11,11 +10,11 @@ const addToUnreadGroups = (group, netField, globalData) => {
     globalData.debugNotReadingGroups[group.pathName] = {
       pathName: group.pathName,
       properties: {},
-    }
+    };
   }
 
   globalData.debugNotReadingGroups[group.pathName].properties[netField.handle] = netField;
-}
+};
 
 /**
  * Read net field exports
@@ -46,8 +45,7 @@ const readNetFieldExports = (replay, globalData) => {
       } else if (!group.netFieldExportsLength) {
         group.netFieldExportsLength = numExports;
         group.pathNameIndex = pathNameIndex;
-pathNameIndex
-        globalData.netGuidCache.NetFieldExportGroupIndexToGroup[pathNameIndex] = pathname
+        globalData.netGuidCache.NetFieldExportGroupIndexToGroup[pathNameIndex] = pathname;
       }
     } else {
       group = globalData.netGuidCache.GetNetFieldExportGroupFromIndex(pathNameIndex);
@@ -90,6 +88,6 @@ pathNameIndex
       ...netField,
     };
   }
-}
+};
 
 module.exports = readNetFieldExports;

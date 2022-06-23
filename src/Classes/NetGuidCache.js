@@ -1,31 +1,27 @@
-const cleanPathSuffix = require('../utils/cleanPathSuffix');
 const cleanStaticIdSuffix = require('../utils/cleanStaticIdSuffix');
 const getFullGuidPath = require('../utils/getFullGuidPath');
 const removePathPrefix = require('../utils/removePathPrefix');
-const Actor = require('./Actor');
-const NetFieldExportGroup = require('./NetFieldExports/NetFieldExportGroup');
-const NetFieldParser = require('./NetFieldExports/NetFieldParser');
+const NetFieldExportGroup = require('./NetFieldExportGroup');
 
 class NetGuidCache {
-  NetFieldExportGroupMap = {};
-  NetFieldExportGroupIndexToGroup = {};
-  NetGuids = {};
-  NetFieldExportGroupMapPathFixed = {};
-  ArchTypeToExportGroup = {};
-  failedPaths = [];
-  CleanedPaths = {};
-  CleanedClassNetCache = {};
-  networkGameplayTagNodeIndex = null;
-  actorIdToActorMap = [];
-  netguidToNetFieldExportgroup = [];
-  staticActorIdMap = {};
-  notReadGroup = {};
-
+  constructor() {
+    this.NetFieldExportGroupMap = {};
+    this.NetFieldExportGroupIndexToGroup = {};
+    this.NetGuids = {};
+    this.NetFieldExportGroupMapPathFixed = {};
+    this.ArchTypeToExportGroup = {};
+    this.failedPaths = [];
+    this.CleanedPaths = {};
+    this.CleanedClassNetCache = {};
+    this.networkGameplayTagNodeIndex = null;
+    this.actorIdToActorMap = [];
+    this.netguidToNetFieldExportgroup = [];
+    this.staticActorIdMap = {};
+    this.notReadGroup = {};
+  }
   /**
    *
    * @param {string} pathName
-   * @param {NetFieldExportGroup} exportGroup
-   * @param {GlobalData} globalData
    */
   addToExportGroupMap(pathName, exportGroup, globalData) {
     if (pathName.endsWith('ClassNetCache')) {
@@ -187,10 +183,6 @@ class NetGuidCache {
     return this.NetFieldExportGroupMap[classNetCachePath];
   }
 
-  /**
-   *
-   * @param {Actor} inActor
-   */
   addActor(inActor) {
     this.actorIdToActorMap[inActor.actorNetGUID.value] = inActor;
   }

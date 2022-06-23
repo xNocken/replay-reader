@@ -1,5 +1,3 @@
-const FortSet = require('../../Classes/FortSet');
-
 let healthStartHandle;
 let shieldStartHandle;
 let overShieldStartHandle;

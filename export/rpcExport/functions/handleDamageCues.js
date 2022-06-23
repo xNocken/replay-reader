@@ -19,6 +19,6 @@ const handleDamageCues = ({ data, timeSeconds, states, actorId }) => {
     timeSeconds,
     playerPos: pawn.currentVehicle ? pawn.currentVehicle.ReplicatedMovement.location : pawn.ReplicatedMovement.location,
   });
-}
+};
 
 module.exports = handleDamageCues;

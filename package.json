@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "ffi-napi": "^4.0.3",
-    "needle": "^3.0.0"
+    "needle": "^3.0.0",
+    "prettier": "^2.7.1"
   },
   "version": "1.4.2",
   "scripts": {
@@ -12,6 +13,11 @@
   "description": "A libary created to parse Fortnite replays in Node",
   "main": "index.js",
   "devDependencies": {
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
     "mocha": "^9.1.1"
   },
   "repository": {

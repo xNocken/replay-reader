@@ -11,6 +11,6 @@ const handlePlayerBuilds = ({ actorId, data, states, result, changedProperties }
 
     states.playerBuilds[actorId][key] = data[key];
   }
-}
+};
 
 module.exports = handlePlayerBuilds;

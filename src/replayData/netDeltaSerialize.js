@@ -48,7 +48,15 @@ const NetDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
   for (let i = 0; i < header.numChanged; i++) {
     const elementIndex = reader.readInt32();
 
-    const properties = receiveProperties(reader, group, bunch, !enablePropertyChecksum, true, globalData, staticActorId);
+    const properties = receiveProperties(
+      reader,
+      group,
+      bunch,
+      !enablePropertyChecksum,
+      true,
+      globalData,
+      staticActorId,
+    );
 
     if (!properties?.changedProperties?.length) {
       continue;

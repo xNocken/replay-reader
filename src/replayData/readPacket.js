@@ -1,8 +1,3 @@
-const Replay = require('../Classes/Replay');
-
-/**
- * @param {Replay} replay
- */
 const readPacket = (replay) => {
   const packet = {};
 
@@ -30,6 +25,6 @@ const readPacket = (replay) => {
   packet.state = 0;
 
   return packet;
-}
+};
 
 module.exports = readPacket;

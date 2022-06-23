@@ -17,5 +17,5 @@ const onChannelOpened = (chIndex, actor, globalData) => {
   } catch (err) {
     console.error(`Error while exporting "channelOpened": ${err.stack}`);
   }
-}
+};
 module.exports = onChannelOpened;

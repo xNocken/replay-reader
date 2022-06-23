@@ -1,9 +1,5 @@
-const DataBunch = require('../Classes/DataBunch');
 const receivedSequencedBunch = require('./receivedSequenceBunch');
 
-/**
- * @param {DataBunch} bunch
- */
 const receivedNextBunch = (bunch, globalData) => {
   if (bunch.bReliable) {
     globalData.inReliable = bunch.chSequence;
@@ -61,12 +57,18 @@ const receivedNextBunch = (bunch, globalData) => {
 
       if (globalData.partialBunch) {
         const bReliableSequencesMatches = bunch.chSequence === globalData.partialBunch.chSequence + 1;
-        const bUnreliableSequenceMatches = bReliableSequencesMatches || (bunch.chSequence === globalData.partialBunch.chSequence);
+        const bUnreliableSequenceMatches = bReliableSequencesMatches
+          || (bunch.chSequence === globalData.partialBunch.chSequence);
 
         bSequenceMatches = globalData.partialBunch.bReliable ? bReliableSequencesMatches : bUnreliableSequenceMatches;
       }
 
-      if (globalData.partialBunch && !globalData.partialBunch.bPartialFinal && bSequenceMatches && globalData.partialBunch.bReliable == bunch.bReliable) {
+      if (
+        globalData.partialBunch
+        && !globalData.partialBunch.bPartialFinal
+        && bSequenceMatches
+        && globalData.partialBunch.bReliable == bunch.bReliable
+      ) {
         const bitsLeft = bunch.archive.getBitsLeft();
 
         if (!bunch.bHasPackageExportMaps && bitsLeft > 0) {
@@ -92,7 +94,7 @@ const receivedNextBunch = (bunch, globalData) => {
           globalData.partialBunch.bhasMustBeMappedGUIDs = bunch.bHasMustBeMappedGUIDs;
 
           receivedSequencedBunch(globalData.partialBunch, globalData);
-          return
+          return;
         }
         return;
       } else {

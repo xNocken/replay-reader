@@ -1,17 +1,3 @@
-const tryGetPlayerDataFromPawn = (pawn, states) => {
-  const {
-    players,
-    pawnChannelToStateChannel,
-  } = states;
-  const stateChannel = pawnChannelToStateChannel[pawn];
-
-  if (stateChannel) {
-    return players[stateChannel];
-  }
-
-  return null;
-};
-
 const handlePlayerPawn = ({ actorId, data, states, changedProperties }) => {
   const { pawns, players } = states;
   let pawn = pawns[actorId];

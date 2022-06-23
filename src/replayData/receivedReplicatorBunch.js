@@ -1,6 +1,3 @@
-const DataBunch = require("../Classes/DataBunch");
-const Replay = require("../Classes/Replay");
-const GlobalData = require("../utils/globalData");
 const NetDeltaSerialize = require("./netDeltaSerialize");
 const readFieldHeaderAndPayload = require("./ReadFieldHeaderAndPayload");
 const receiveCustomProperty = require("./receiveCustomProperty");
@@ -8,11 +5,8 @@ const receivedRPC = require("./receivedRPC");
 const receiveProperties = require("./receiveProperties");
 
 /**
- * @param {DataBunch} bunch
- * @param {Replay} archive
  * @param {number} repObject
  * @param {boolean} bHasRepLayout
- * @param {GlobalData} globalData
  */
 const receivedReplicatorBunch = (
   bunch,
@@ -20,7 +14,7 @@ const receivedReplicatorBunch = (
   repObject,
   bHasRepLayout,
   bIsActor,
-  globalData
+  globalData,
 ) => {
   let netFieldExportGroup;
   let staticActorId;
@@ -28,12 +22,12 @@ const receivedReplicatorBunch = (
   if (bunch.actor.actorNetGUID.isDynamic() || !bIsActor) {
     netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
       repObject,
-      globalData
+      globalData,
     );
   } else {
     const result = globalData.netGuidCache.getStaticActorExportGroup(
       repObject,
-      globalData
+      globalData,
     );
 
     netFieldExportGroup = result.group;
@@ -59,7 +53,7 @@ const receivedReplicatorBunch = (
         true,
         false,
         globalData,
-        staticActorId
+        staticActorId,
       )
     ) {
       return false;
@@ -72,7 +66,7 @@ const receivedReplicatorBunch = (
 
   const classNetCache = globalData.netGuidCache.tryGetClassNetCache(
     netFieldExportGroup.pathName,
-    bunch.archive.header.engineNetworkVersion >= 15
+    bunch.archive.header.engineNetworkVersion >= 15,
   );
 
   if (!classNetCache) {
@@ -102,7 +96,7 @@ const receivedReplicatorBunch = (
 
     if (fieldCache.parseType === 'function') {
       const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
-        fieldCache.type
+        fieldCache.type,
       );
 
       if (!exportGroup) {
@@ -128,7 +122,7 @@ const receivedReplicatorBunch = (
           bunch,
           classNetCache.pathName,
           globalData,
-          staticActorId
+          staticActorId,
         )
       ) {
         archive.popOffset(5);
@@ -139,14 +133,14 @@ const receivedReplicatorBunch = (
 
     if (fieldCache.parseType === 'netDeltaSerialize') {
       const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
-        fieldCache.type
+        fieldCache.type,
       );
 
       if (!exportGroup) {
         archive.popOffset(5);
 
         if (globalData.debug) {
-          console.error(`class net cache ${fieldCache.name} from ${classNetCache.pathName} has been declared but has no export group`)
+          console.error(`class net cache ${fieldCache.name} from ${classNetCache.pathName} has been declared but has no export group`);
         }
 
         continue;
@@ -165,7 +159,7 @@ const receivedReplicatorBunch = (
           bunch,
           fieldCache.EnablePropertyChecksum || false,
           globalData,
-          staticActorId
+          staticActorId,
         )
       ) {
         archive.popOffset(5);

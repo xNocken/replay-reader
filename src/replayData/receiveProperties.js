@@ -1,17 +1,21 @@
-const DataBunch = require('../Classes/DataBunch');
 const Replay = require('../Classes/Replay');
-const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
-const GlobalData = require('../utils/globalData');
 
 /**
  * @param {Replay} archive
  * @param {NetFieldExportGroup} group
- * @param {DataBunch} bunch
  * @param {boolean} enableProperyChecksum
  * @param {boolean} netDeltaUpdate
  * @param {GlobalData} globalData
  */
-const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, netDeltaUpdate = false, globalData, staticActorId) => {
+const receiveProperties = (
+  archive,
+  group,
+  bunch,
+  enableProperyChecksum = true,
+  netDeltaUpdate = false,
+  globalData,
+  staticActorId,
+) => {
   const { netFieldParser } = globalData;
   const channelIndex = bunch.chIndex;
 
@@ -99,7 +103,7 @@ const receiveProperties = (archive, group, bunch, enableProperyChecksum = true, 
     }
 
     if (globalData.debug && !globalData.exportEmitter.eventNames().includes(exportGroup.type)) {
-      console.log('Unhandled export', exportGroup.type)
+      console.log('Unhandled export', exportGroup.type);
     }
 
     try {

@@ -26,7 +26,10 @@ const handleFortBroadcastSpectatorInfo = require('./propertyExport/handleFortBro
 const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientInfoHitMarkers');
 const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
 
-const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter }, globalData) => {
+const handleEventEmitter = (
+  { actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter },
+  globalData,
+) => {
   actorDespawnEmitter.on('container', handleContainerDespawn);
 
   propertyExportEmitter.on('safeZone', handleSafezone);
@@ -44,7 +47,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('llama', handleLootLlama);
   propertyExportEmitter.on('supplyDrop', handleSupplyDrop);
   propertyExportEmitter.on('soccerGame', handleSoccerGame);
-  propertyExportEmitter.on('inventory', handleInventoryProperty)
+  propertyExportEmitter.on('inventory', handleInventoryProperty);
   propertyExportEmitter.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
   propertyExportEmitter.on('broadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
   propertyExportEmitter.on('vehicleSeatComponent', handleVehicleSeatComponent);
@@ -58,7 +61,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   // class
   propertyExportEmitter.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
 
-  netDeltaReadEmitter.on('activeGamplayModifier', handleActiveGameplayModifiers)
+  netDeltaReadEmitter.on('activeGamplayModifier', handleActiveGameplayModifiers);
   netDeltaReadEmitter.on('inventory', handleInventory);
 
   if (globalData.debug) {

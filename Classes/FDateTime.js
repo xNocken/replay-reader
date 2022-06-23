@@ -1,6 +1,4 @@
 class FDateTime {
-  time;
-
   serialize(reader) {
     this.time = reader.readDate();
   }

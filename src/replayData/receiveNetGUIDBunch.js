@@ -1,10 +1,6 @@
-const Replay = require('../Classes/Replay');
 const internalLoadObject = require('./internalLoadObject');
 const receiveNetFieldExportsCompat = require('./receiveNetFieldExportsCompat');
 
-/**
- * @param {Replay} packet
- */
 const receiveNetGUIDBunch = (packet, globalData) => {
   const bHasRepLayoutExport = packet.readBit();
 

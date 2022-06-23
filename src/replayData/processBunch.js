@@ -1,13 +1,9 @@
-const DataBunch = require('../Classes/DataBunch');
 const conditionallySerializeQuantizedVector = require('./conditionallySerializeQuantizedVector');
 const internalLoadObject = require('./internalLoadObject');
 const onChannelOpened = require('./onChannelOpened');
 const readContentBlockPayload = require('./readContentBlockPayload');
 const receivedReplicatorBunch = require('./receivedReplicatorBunch');
 
-/**
- * @param {DataBunch} bunch
- */
 const processBunch = (bunch, replay, globalData) => {
   const { channels, playerControllerGroups } = globalData;
   const channel = channels[bunch.chIndex];
@@ -62,7 +58,13 @@ const processBunch = (bunch, replay, globalData) => {
   bunch.actor = channel.actor;
 
   while (!bunch.archive.atEnd()) {
-    const { repObject, bObjectDeleted, bOutHasRepLayout, numPayloadBits, bIsActor } = readContentBlockPayload(bunch, globalData);
+    const {
+      repObject,
+      bObjectDeleted,
+      bOutHasRepLayout,
+      numPayloadBits,
+      bIsActor,
+    } = readContentBlockPayload(bunch, globalData);
 
     if (numPayloadBits > 0) {
       replay.addOffset(4, numPayloadBits);

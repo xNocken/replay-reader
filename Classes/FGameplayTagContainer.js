@@ -1,7 +1,9 @@
 const FGameplayTag = require("./FGameplayTag");
 
 class FGameplayTagContainer {
-  tags = [];
+  constructor() {
+    this.tags = [];
+  }
 
   serialize(reader) {
     if (reader.readBit()) {

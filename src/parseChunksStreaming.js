@@ -17,7 +17,7 @@ const getChunk = async (url, globalData) => {
   replay.info = globalData.info;
 
   return replay;
-}
+};
 
 const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalData) => {
   const { checkpoints } = chunks;
@@ -64,11 +64,11 @@ const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalDat
   await parseCheckpoint(replay, checkpoint, globalData);
 
   if (globalData.debug) {
-    console.log(`downloaded checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
+    console.log(`downloaded checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
   }
 
   return checkpoint.end;
-}
+};
 
 const parseChunksStreaming = async (chunks, globalData) => {
   const canBeParsed = [];
@@ -101,7 +101,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
         debugTimeDownload = Date.now();
       }
 
-      await new Promise((resolve, reject) => {
+      await new Promise((resolve) => {
         continueParsing = resolve;
 
         if (eventDownloadCount < globalData.maxConcurrentEventDownloads) {
@@ -109,7 +109,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
         }
       });
 
-      eventPromises.push(new Promise(async (resolve, reject) => {
+      eventPromises.push(new Promise(async (resolve) => {
         eventDownloadCount += 1;
 
         getChunk(event.link, globalData).then((replay) => {
@@ -138,19 +138,17 @@ const parseChunksStreaming = async (chunks, globalData) => {
           resolve();
 
           if (globalData.debug) {
-            console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`)
+            console.log(`downloaded eventChunk with ${event.length} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
           }
         });
       }));
     };
-
-    globalData.events = buildEvents(events);
   }
 
   await Promise.all(eventPromises);
 
   if (!globalData.parsePackets) {
-    return events;
+    return;
   }
 
   if (globalData.useCheckpoints) {
@@ -215,7 +213,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
         time = chunk.chunk.end;
 
         if (globalData.debug) {
-          console.log(`downloaded dataChunk at ${chunk.chunk.start / 1000}s with ${chunk.chunk.length} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`)
+          console.log(`downloaded dataChunk at ${chunk.chunk.start / 1000}s with ${chunk.chunk.length} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`);
         }
 
         if (time < globalData.fastForwardTo * 1000) {
@@ -240,7 +238,6 @@ const parseChunksStreaming = async (chunks, globalData) => {
 
             parseIndex = index;
             downloadIndex = index;
-            wasFastForwarded = true;
           }
         }
 
@@ -286,7 +283,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
     });
 
     downloadNextChunk();
-  }
+  };
 
   downloadNextChunk();
 

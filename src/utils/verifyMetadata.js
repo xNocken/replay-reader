@@ -4,6 +4,6 @@ const verifyMetadata = (metadata) => {
     && metadata.DataChunks
     && metadata.Checkpoints
     && metadata.DownloadLink;
-}
+};
 
 module.exports = verifyMetadata;

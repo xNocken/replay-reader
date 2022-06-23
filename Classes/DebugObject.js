@@ -6,12 +6,6 @@ const FRepMovement = require("./FRepMovement");
 const ItemDefinition = require("./ItemDefinition");
 
 class DebugObject {
-  /**
-   * @type {Buffer}
-   */
-  data;
-  name;
-
   constructor(data, exportt, bits, header) {
     if (!data || !exportt) {
       return;

@@ -10,9 +10,9 @@ let isParsing = false;
 
 const debugStuff = (globalData) => {
   fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ key, val, outer }) => `${key}: ${val} -> ${outer}`).join('\n'));
-  fs.writeFileSync('debug-notReadNFE.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
-  fs.writeFileSync('debug-readNFE.txt', Object.values(globalData.netGuidCache.NetFieldExportGroupMap).map(({ pathName, netFieldExports }) => `${pathName}:\n${Object.values(netFieldExports).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'))
-}
+  fs.writeFileSync('debug-notReadNFE.txt', Object.values(globalData.debugNotReadingGroups).map(({ pathName, properties }) => `${pathName}:\n${Object.values(properties).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'));
+  fs.writeFileSync('debug-readNFE.txt', Object.values(globalData.netGuidCache.NetFieldExportGroupMap).map(({ pathName, netFieldExports }) => `${pathName}:\n${Object.values(netFieldExports).map(({ name, handle }) => `  ${name}: ${handle}`).join('\n')}`).join('\n\n'));
+};
 
 const initGlobalData = (options) => {
   const globalData = new GlobalData(options || {});
@@ -29,7 +29,7 @@ const initGlobalData = (options) => {
   }, globalData);
 
   return globalData;
-}
+};
 
 const parseBinary = (data, options) => {
   if (isParsing) {
@@ -79,7 +79,7 @@ const parseBinary = (data, options) => {
   }
 
   return result;
-}
+};
 
 const parseStreaming = async (metadata, options) => {
   if (isParsing) {
@@ -94,7 +94,7 @@ const parseStreaming = async (metadata, options) => {
 
   try {
     if (!verifyMetadata(metadata)) {
-      throw new Error('The data provided is not a valid metadata file')
+      throw new Error('The data provided is not a valid metadata file');
     }
 
     info = replayInfoStreaming(metadata, globalData);
@@ -131,7 +131,7 @@ const parseStreaming = async (metadata, options) => {
   }
 
   return result;
-}
+};
 
 module.exports = {
   parse: parseBinary,

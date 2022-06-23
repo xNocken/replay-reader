@@ -7,10 +7,9 @@ module.exports = {
   FGameplayTagContainer: require('./FGameplayTagContainer'),
   FName: require('./FName'),
   FortItemEntryStateValue: require('./FortItemEntryStateValue'),
-  FortSet: require('./FortSet'),
   FRepMovement: require('./FRepMovement'),
   ItemDefinition: require('./ItemDefinition'),
   NetworkGUID: require('./NetworkGUID'),
   PlaylistInfo: require('./PlaylistInfo'),
   Vector2: require('./Vector2'),
-}
+};

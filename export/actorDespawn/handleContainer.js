@@ -1,4 +1,5 @@
 const handleContainerDespawn = ({ staticActorId, states, actorId, result }) => {
+  const gameState = states.gameState;
   let container = states.containers[actorId];
 
   if (!container) {
@@ -12,7 +13,7 @@ const handleContainerDespawn = ({ staticActorId, states, actorId, result }) => {
 
   container.destroyed = true;
 
-  if (!states.gameState.inited || states.gameState.ReplicatedWorldTimeSeconds < states.gameState.WarmupCountdownEndTime) {
+  if (!gameState.inited || gameState.ReplicatedWorldTimeSeconds < gameState.WarmupCountdownEndTime) {
     container.despawned = true;
   }
 };

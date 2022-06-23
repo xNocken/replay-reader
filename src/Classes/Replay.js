@@ -1,6 +1,5 @@
 const crypto = require('crypto');
-const unrealNames = require('./UnrealNames');
-const Header = require('./Header');
+const unrealNames = require('../utils/unrealNames');
 
 class Replay {
   constructor(input, bitCount) {
@@ -20,9 +19,6 @@ class Replay {
     this.float32Array = new Float32Array(1);
     this.uInt8Float32Array = new Uint8Array(this.float32Array.buffer);
 
-    /**
-     * @type {Header}
-     */
     this.header;
   }
 
@@ -37,7 +33,7 @@ class Replay {
   }
 
   addOffsetByte(index, offset) {
-    this.addOffset(index, offset * 8)
+    this.addOffset(index, offset * 8);
   }
 
   popOffset(index, numBits, ignoreError) {
@@ -436,7 +432,7 @@ class Replay {
     for (let i = 0; i < length; i++) {
       const num = bytes[i].toString(16);
 
-      result += `${num.length - 1 ? '' : '0'}${num}`
+      result += `${num.length - 1 ? '' : '0'}${num}`;
     }
 
     return result;
@@ -643,7 +639,7 @@ class Replay {
   }
 
   readDate() {
-    return new Date(parseInt((this.readUInt64() - 621355968000000000n) / 10000n, 10))
+    return new Date(parseInt((this.readUInt64() - 621355968000000000n) / 10000n, 10));
   }
 
   skipBits(bits) {

@@ -1,30 +1,18 @@
-const DataBunch = require('../Classes/DataBunch');
-const NetFieldParser = require('../Classes/NetFieldExports/NetFieldParser');
+const NetFieldParser = require('../Classes/NetFieldParser');
 const NetGuidCache = require('../Classes/NetGuidCache');
-const UChannel = require('../Classes/UChannel');
 const EventEmitter = require('events');
 const handleEventEmitter = require('../../export/handleEventEmitter');
-const Info = require('../Classes/Info');
 const ffi = require('ffi-napi');
 const getOozPath = require('./getOozPath');
 
 class GlobalData {
   constructor(overrideConfig = {}) {
-    /**
-     * @type {Array<UChannel>}
-     */
     this.channels = [];
-    /**
-     * @type {Info}
-     */
     this.info = null;
     this.playerControllerGroups = [
-      "BP_ReplayPC_Athena_C"
+      "BP_ReplayPC_Athena_C",
     ];
     this.netFieldExports = {};
-    /**
-     * @type {DataBunch}
-     */
     this.partialBunch = null;
     this.parseLevel = 1;
     this.inReliable = 0;
@@ -68,11 +56,11 @@ class GlobalData {
 
     this.setFastForward = (time) => {
       this.fastForwardTo = time;
-    }
+    };
 
     this.stopParsingFunc = () => {
       this.stopParsing = true;
-    }
+    };
 
     this.externalData = {};
     this.additionalStates = [
@@ -97,7 +85,7 @@ class GlobalData {
 
     this.oodleLib = ffi.Library(getOozPath(), {
       OodleLZ_Decompress: ["size_t", ["uint8*", "size_t", "uint8*", "size_t", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64"]],
-    })
+    });
   }
 
   resetForCheckpoint() {

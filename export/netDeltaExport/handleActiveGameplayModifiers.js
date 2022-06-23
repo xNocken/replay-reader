@@ -1,4 +1,4 @@
-const handleActiveGameplayModifiers = ({ data, result, changedProperties }) => {
+const handleActiveGameplayModifiers = ({ data, result }) => {
   result.gameData.activeGameplayModifiers.push(data.export.ModifierDef?.name);
 };
 

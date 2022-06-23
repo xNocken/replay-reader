@@ -1,11 +1,5 @@
 const Replay = require("./Classes/Replay");
-const GlobalData = require("./utils/globalData");
 
-/**
- * @param {Replay} replay
- * @param {Boolean} isCompressed
- * @param {GlobalData} globalData
- */
 const decompress = (replay, isCompressed, globalData) => {
   if (!isCompressed) {
     return replay;
@@ -31,7 +25,7 @@ const decompress = (replay, isCompressed, globalData) => {
     0,
     0,
     0,
-    0
+    0,
   );
 
   const newReplay = new Replay(dstBuffer);

@@ -16,7 +16,7 @@ const handleQueuedPlayerPawns = (actorId, states) => {
       data: playerPawn.playerPawn,
       changedProperties: playerPawn.changedProperties,
       states,
-    })
+    });
   });
 };
 
@@ -65,7 +65,7 @@ const handlePlayerState = ({ actorId, data, states, result, changedProperties })
   if (playerData.PlayerNamePrivate_encrypted && data.PlayerNamePrivate) {
     const name = data.PlayerNamePrivate;
 
-    playerData.PlayerNamePrivate = name.split('').map((a, i) => String.fromCharCode(a.charCodeAt() + ((name.length % 4 * 3 % 8 + 1 + i) * 3 % 8))).join('')
+    playerData.PlayerNamePrivate = name.split('').map((a, i) => String.fromCharCode(a.charCodeAt() + ((name.length % 4 * 3 % 8 + 1 + i) * 3 % 8))).join('');
   }
 
   if (newPlayer) {

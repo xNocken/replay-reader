@@ -1,10 +1,9 @@
-const fs = require('fs');
 const pathhhh = require('path');
-const DebugObject = require('../../../Classes/DebugObject');
-const netFieldExports = require('../../../NetFieldExports');
-const enums = require('../../../Enums');
-const classes = require('../../../Classes');
-const Replay = require('../../Classes/Replay');
+const DebugObject = require('../../Classes/DebugObject');
+const netFieldExports = require('../../NetFieldExports');
+const enums = require('../../Enums');
+const classes = require('../../Classes');
+const Replay = require('../Classes/Replay');
 const NetFieldExportGroup = require('./NetFieldExportGroup');
 
 const getExportByType = (type) => {
@@ -19,7 +18,7 @@ const getExportByType = (type) => {
     default:
       return [];
   }
-}
+};
 
 const validateNetFieldExportProperty = (property, pathName, customClasses, customEnums) => {
   switch (property.parseType) {
@@ -70,14 +69,14 @@ const validateNetFieldExportProperty = (property, pathName, customClasses, custo
 };
 
 class NetFieldParser {
-  netFieldGroups = [];
-  classNetCacheToNetFieldGroup = {};
-  theClassCache = {};
-  redirects = {};
-  classPathCache = {};
-  enumCache = {};
-
   constructor(globalData) {
+    this.netFieldGroups = [];
+    this.classNetCacheToNetFieldGroup = {};
+    this.theClassCache = {};
+    this.redirects = {};
+    this.classPathCache = {};
+    this.enumCache = {};
+
     const handleExport = (fieldExport) => {
       let path;
 
@@ -114,7 +113,8 @@ class NetFieldParser {
           break;
 
         default:
-          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(property, path, globalData.customClasses, globalData.customEnums))
+          Object.values(fieldExport.properties).forEach((property) =>
+            validateNetFieldExportProperty(property, path, globalData.customClasses, globalData.customEnums));
           break;
       }
 
@@ -126,7 +126,7 @@ class NetFieldParser {
         if (!globalData.result[group][name]) {
           globalData.result[group][name] = getExportByType(type);
         }
-      }
+      };
 
       if (fieldExport.exports) {
         if (Array.isArray(fieldExport.exports)) {
@@ -168,7 +168,7 @@ class NetFieldParser {
         } else {
           fieldExport.path.forEach((path) => {
             globalData.netGuidCache.NetFieldExportGroupMap[path] = exportGroup;
-          })
+          });
         }
       }
     };
@@ -188,7 +188,7 @@ class NetFieldParser {
         if (theGroup) {
           theGroup[1].isClassNetCacheProperty = true;
         }
-      })
+      });
     });
   }
 
@@ -254,11 +254,12 @@ class NetFieldParser {
     }
 
     theSwitch: switch (exportt.parseType) {
-      case 'ignore':
+      case 'ignore': {
         data = undefined;
         return false;
+      }
 
-      case 'readClass':
+      case 'readClass': {
         const theClass = globalData.customClasses[exportt.type] || classes[exportt.type];
 
         const dingens = new theClass();
@@ -270,8 +271,8 @@ class NetFieldParser {
 
         data = dingens;
         break;
-
-      case 'readDynamicArray':
+      }
+      case 'readDynamicArray': {
         const count = netBitReader.readIntPacked();
         const arr = [];
         const isGroupType = netBitReader[exportt.parseFunction];
@@ -329,7 +330,7 @@ class NetFieldParser {
 
               this.setType(temp, {
                 ...exporttt,
-                parseType: 'default'
+                parseType: 'default',
               }, exportGroup, archive, globalData);
 
               if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
@@ -343,7 +344,7 @@ class NetFieldParser {
               if (exporttt.name === exportt.name) {
                 this.setType(temp, {
                   ...exporttt,
-                  parseType: 'readClass'
+                  parseType: 'readClass',
                 }, exportGroup, archive, globalData);
 
                 newData = temp[exporttt.name];
@@ -370,8 +371,8 @@ class NetFieldParser {
 
         data = arr;
         break;
-
-      case 'readEnum':
+      }
+      case 'readEnum': {
         const enumm = globalData.customEnums[exportt.type] || enums[exportt.type];
 
         if (!enumm) {
@@ -384,10 +385,12 @@ class NetFieldParser {
         data = enumm[value] || null;
 
         break;
+      }
 
-      case 'default':
+      case 'default': {
         data = netBitReader[exportt.parseFunction](...(exportt.args || []));
         break;
+      }
     }
 
     if (exportGroup.storeAsHandle || exportt.storeAsHandle) {

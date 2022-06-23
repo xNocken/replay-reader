@@ -1,10 +1,5 @@
-const Replay = require("../Classes/Replay");
 const internalLoadObject = require("./internalLoadObject");
 
-/**
- * same as above
- * @param {Replay} replay the replay
- */
 const readNetExportGuids = (replay, globalData) => {
   const numGuids = replay.readIntPacked();
 
@@ -17,7 +12,7 @@ const readNetExportGuids = (replay, globalData) => {
 
     replay.popOffset(2);
   }
-}
+};
 
 
 module.exports = readNetExportGuids;

@@ -1,11 +1,7 @@
-const DataBunch = require('../Classes/DataBunch');
 const onChannelClosed = require('./onChannelClosed');
 const receivedActorBunch = require('./receivedActorBunch');
 const pathhhh = require('path');
 
-/**
- * @param {DataBunch} bunch
- */
 const receivedSequencedBunch = (bunch, globalData) => {
   receivedActorBunch(bunch, bunch.archive, globalData);
 
@@ -42,7 +38,7 @@ const receivedSequencedBunch = (bunch, globalData) => {
               stopParsing: globalData.stopParsingFunc,
               actor: channel.actor,
               actorId: bunch.actor.actorNetGUID.value,
-            }
+            },
           );
         } catch (err) {
           console.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);

@@ -1,10 +1,4 @@
-const Replay = require("../src/Classes/Replay");
-
 class FRepMovement {
-  /**
-   *
-   * @param {Replay} reader
-   */
   serialize(reader, globalData, { locationQuatLevel = 2, rotationQuatLevel = 0, velocityQuatLevel = 0 }) {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();

@@ -5,7 +5,7 @@ const handleVehicleSeatComponent = ({ actorId, data, states }) => {
 
     data.PlayerSlots.forEach((slot, index) => {
       if (!slot) {
-        return
+        return;
       }
 
       const oldSlot = states.vehicles[actorId].seats[index];
@@ -27,8 +27,8 @@ const handleVehicleSeatComponent = ({ actorId, data, states }) => {
       }
 
       states.vehicles[actorId].seats[index] = slot;
-    })
+    });
   }
-}
+};
 
 module.exports = handleVehicleSeatComponent;

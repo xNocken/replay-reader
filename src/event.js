@@ -1,11 +1,6 @@
-const Replay = require('./Classes/Replay');
 const enums = require('../Enums');
 const halfMapSize = 131328;
 
-/**
- * Parse the player
- * @param {Replay} replay the replay
- */
 const parsePlayer = (replay) => {
   const playerType = replay.readByte();
 
@@ -26,11 +21,6 @@ const parsePlayer = (replay) => {
   }
 };
 
-/**
- * Parse the player elim
- * @param {object} result the event
- * @param {Replay} replay the replay
- */
 const parsePlayerElim = (globalData, replay, time) => {
   const version = replay.readInt32();
   const targetEnum = (globalData.customEnums.EDeathCause || enums.EDeathCause);
@@ -63,7 +53,7 @@ const parsePlayerElim = (globalData, replay, time) => {
       },
       location: replay.readVector(),
       scale: replay.readVector(),
-    }
+    };
 
     // TODO: verify
     if (replay.header.major >= 5) {
@@ -149,11 +139,6 @@ const parsePlayerElim = (globalData, replay, time) => {
   }
 };
 
-/**
- * Parse the match stats
- * @param {object} data the event
- * @param {Replay} replay the replay
- */
 const parseMatchStats = (globalData, replay) => {
   const { matchStats } = globalData.eventData;
   const version = replay.readInt32();
@@ -172,11 +157,6 @@ const parseMatchStats = (globalData, replay) => {
   matchStats.damageToPlayers = matchStats.otherDamage + matchStats.weaponDamage;
 };
 
-/**
- * Parse the match stats
- * @param {object} data the event
- * @param {Replay} replay the replay
- */
 const parseMatchTeamStats = (globalData, replay) => {
   const { matchStats } = globalData.eventData;
   const version = replay.readInt32();
@@ -239,7 +219,7 @@ const parseTimecode = (globalData, replay) => {
   const version = replay.readInt32();
 
   globalData.eventData.timecode = replay.readDate();
-}
+};
 
 const actorPositions = (globalData, replay) => {
   const version = replay.readInt32();
@@ -252,15 +232,10 @@ const actorPositions = (globalData, replay) => {
       x: replay.readInt32() - (halfMapSize >> (16 - size)),
       y: replay.readInt32() - (halfMapSize >> (16 - size)),
       z: replay.readInt32() - (halfMapSize >> (16 - size)),
-    })
+    });
   }
-}
+};
 
-/**
- * Parse the replays meta
- * @param {Replay} replay
- * @param {GlobalData} globalData
- */
 const event = (replay, info, globalData) => {
   const startTime = Math.round(info.startTime / 1000);
 
@@ -306,6 +281,6 @@ const event = (replay, info, globalData) => {
   if (!replay.info.isEncrypted) {
     replay.popOffset(1, info.length * 8);
   }
-}
+};
 
 module.exports = event;

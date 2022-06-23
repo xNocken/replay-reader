@@ -1,16 +1,7 @@
-const Header = require('./Classes/Header');
-const Replay = require('./Classes/Replay');
-
 const headerMagic = 0x2CF5A13D;
 
-/**
- * Parse the replays meta
- * @param {Replay} replay the replay
- *
- * @returns {Header} The header
- */
 const header = (replay) => {
-  const result = new Header();
+  const result = {};
 
   result.magic = replay.readUInt32();
 
@@ -33,7 +24,7 @@ const header = (replay) => {
     result.changelist = replay.readUInt32();
     result.branch = replay.readString();
 
-    const regex = result.branch.match(/\+\+Fortnite\+Release\-(?<major>\d+)\.(?<minor>\d*)/);
+    const regex = result.branch.match(/\+\+Fortnite\+Release-(?<major>\d+)\.(?<minor>\d*)/);
 
     if (regex) {
       result.major = regex.groups.major;
@@ -44,9 +35,9 @@ const header = (replay) => {
   }
 
   if (result.networkVersion <= 6) {
-    throw Error('Not implented')
+    throw Error('Not implented');
   } else {
-    result.levelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32())
+    result.levelNamesAndTimes = replay.readObjectArray((a) => a.readString(), (a) => a.readUInt32());
   }
 
   if (result.networkVersion >= 9) {
@@ -60,10 +51,10 @@ const header = (replay) => {
   }
 
   if (result.networkVersion >= 17) {
-    replay.skipBytes(16)
+    replay.skipBytes(16);
 
     result.platform = replay.readString();
-    replay.skipBytes(2)
+    replay.skipBytes(2);
   }
 
   replay.header = result;

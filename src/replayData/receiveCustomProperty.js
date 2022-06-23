@@ -29,6 +29,6 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
   } catch (err) {
     console.error(`Error while exporting propertyExport "${instance.type}": ${err.stack}`);
   }
-}
+};
 
 module.exports = receiveCustomProperty;

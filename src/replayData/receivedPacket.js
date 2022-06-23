@@ -1,6 +1,4 @@
 const Replay = require('../Classes/Replay');
-const DataBunch = require('../Classes/DataBunch');
-const UChannel = require('../Classes/UChannel');
 const receiveNetGUIDBunch = require('./receiveNetGUIDBunch');
 const receivedNextBunch = require('./receivedNextBunch');
 const onChannelClosed = require('./onChannelClosed');
@@ -78,15 +76,15 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
       chName = packetArchive.readFName();
       switch (chName) {
         case 'Control':
-          chType = 1
+          chType = 1;
           break;
 
         case 'Voice':
-          chType = 4
+          chType = 4;
           break;
 
         case 'Actor':
-          chType = 2
+          chType = 2;
           break;
       }
     }
@@ -102,7 +100,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     const ignoreChannel = globals.ignoredChannels[bunch.chIndex];
 
     if (ignoreChannel) {
-      packetArchive.skipBits(bunchDataBits)
+      packetArchive.skipBits(bunchDataBits);
     } else {
       if (bunch.bPartial) {
         const bits = packetArchive.readBits(bunchDataBits);

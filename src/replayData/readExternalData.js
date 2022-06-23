@@ -1,10 +1,3 @@
-const Replay = require('../Classes/Replay');
-const GlobalData = require('../utils/globalData');
-
-/**
- * @param {Replay} replay
- * @param {GlobalData} globalData
- */
 const readExternalData = (replay, globalData) => {
   while (true) {
     const externalDataNumBits = replay.readIntPacked();

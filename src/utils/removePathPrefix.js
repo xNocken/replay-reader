@@ -11,7 +11,7 @@ const removePathPrefix = (path, toRemove = '') => {
       return path;
     }
 
-    for (var i = 0; i < toRemove.length; i++) {
+    for (let i = 0; i < toRemove.length; i++) {
       if (path[i] != toRemove[i]) {
         return path;
       }
@@ -20,7 +20,7 @@ const removePathPrefix = (path, toRemove = '') => {
     return path.substring(toRemove.length);
   }
 
-  for (var i = path.length - 1; i >= 0; i--) {
+  for (let i = path.length - 1; i >= 0; i--) {
     switch (path[i]) {
       case '.':
         return path.substring(i + 1);
@@ -30,6 +30,6 @@ const removePathPrefix = (path, toRemove = '') => {
   }
 
   return removePathPrefix(path, 'Default__');
-}
+};
 
 module.exports = removePathPrefix;

@@ -20,6 +20,6 @@ const onChannelClosed = (chIndex, actor, globalData) => {
     delete globalData.actorToChannel[actor.actorNetGUID.value];
     delete globalData.channelToActor[chIndex];
   }
-}
+};
 
 module.exports = onChannelClosed;

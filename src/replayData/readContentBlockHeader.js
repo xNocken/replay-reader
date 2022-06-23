@@ -1,9 +1,5 @@
-const DataBunch = require("../Classes/DataBunch");
 const internalLoadObject = require("./internalLoadObject");
 
-/**
- * @param {DataBunch} bunch
- */
 const readContentBlockHeader = (bunch, globalData) => {
   let bObjectDeleted = false;
   const bOutHasRepLayout = bunch.archive.readBit();
@@ -16,7 +12,7 @@ const readContentBlockHeader = (bunch, globalData) => {
       bOutHasRepLayout,
       repObject: actor.archetype?.value || actor.actorNetGUID.value,
       bIsActor,
-    }
+    };
   }
 
   const netGuid = internalLoadObject(bunch.archive, false, globalData);
@@ -28,7 +24,7 @@ const readContentBlockHeader = (bunch, globalData) => {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: netGuid.value,
-    }
+    };
   }
 
   const classNetGUID = internalLoadObject(bunch.archive, false, globalData);
@@ -40,7 +36,7 @@ const readContentBlockHeader = (bunch, globalData) => {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: netGuid.value,
-    }
+    };
   }
 
   if (bunch.archive.header.engineNetworkVersion >= 18) {
@@ -55,7 +51,7 @@ const readContentBlockHeader = (bunch, globalData) => {
     bObjectDeleted,
     bOutHasRepLayout,
     repObject: classNetGUID.value,
-  }
+  };
 };
 
 module.exports = readContentBlockHeader;

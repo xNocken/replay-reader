@@ -3,7 +3,7 @@ const readFieldHeaderAndPayload = (archive, group) => {
     return false;
   }
 
-  const netFieldExportHandle = archive.readSerializedInt(Math.max(group.netFieldExportsLength, 2))
+  const netFieldExportHandle = archive.readSerializedInt(Math.max(group.netFieldExportsLength, 2));
 
   if (archive.isError) {
     return false;

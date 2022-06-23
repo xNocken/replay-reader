@@ -1,18 +1,9 @@
-const Info = require('./Classes/Info');
-const Replay = require('./Classes/Replay');
 const parseHeader = require('./header');
-const GlobalData = require('./utils/globalData');
 
 const replayMagic = 0x1CA2E27F;
 
-/**
- * Parse the replays meta
- * @param {Replay} replay the replay
- *
- * @returns {Info} Informations about the replay
- */
 const replayInfo = (replay, globalData) => {
-  const info = new Info();
+  const info = {};
 
   info.magic = replay.readUInt32();
 
@@ -54,11 +45,6 @@ const replayInfo = (replay, globalData) => {
   return info;
 };
 
-/**
-* Parse the replays meta
-* @param {Replay} replay the replay
-* @param {GlobalData} globalData globals
-*/
 const replayChunks = (replay, globalData) => {
   const chunks = {
     replayData: [],
@@ -136,7 +122,7 @@ const replayChunks = (replay, globalData) => {
   }
 
   return chunks;
-}
+};
 
 module.exports = {
   replayInfo,

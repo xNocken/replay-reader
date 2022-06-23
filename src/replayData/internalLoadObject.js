@@ -1,9 +1,7 @@
 const NetworkGUID = require('../../Classes/NetworkGUID');
-const Replay = require('../Classes/Replay');
 const removePathPrefix = require('../utils/removePathPrefix');
 
 /**
- * @param {Replay} replay
  * @param {boolean} isExportingNetGUIDBunch
  * @param {number} internalLoadObjectRecursionCount
  *

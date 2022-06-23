@@ -11,4 +11,4 @@ module.exports = {
   EFortWeaponType: require('./EFortWeaponType.json'),
   ENetRole: require('./ENetRole.json'),
   EServerStability: require('./EServerStability.json'),
-}
+};

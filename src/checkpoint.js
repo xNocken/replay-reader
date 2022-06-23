@@ -1,4 +1,3 @@
-const NetworkGUID = require('../Classes/NetworkGUID');
 const readNetFieldExportGroup = require('./checkpointData/readNetFieldExportGroup');
 const decompress = require('./decompress');
 const parsePlaybackPackets = require('./replayData/parsePlaybackPackets');
@@ -29,7 +28,7 @@ const parseCheckpoint = (replay, data, globalData) => {
       throw new Error('delta checkpoints not implemented');
     }
 
-    binaryReplay.readArray((replay) => replay.readString())
+    binaryReplay.readArray((replay) => replay.readString());
   }
 
   const guidCount = binaryReplay.readInt32();
@@ -45,14 +44,14 @@ const parseCheckpoint = (replay, data, globalData) => {
       outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId);
 
       if (!outerGuid) {
-        console.log('failed to find outer')
+        console.log('failed to find outer');
       }
     }
 
     const cacheObject = {
       outer: outerGuid,
       value: guid,
-    }
+    };
 
     if (binaryReplay.header.networkVersion < 15) {
       cacheObject.path = removePathPrefix(binaryReplay.readString());
@@ -104,7 +103,7 @@ const parseCheckpoint = (replay, data, globalData) => {
   parsePlaybackPackets(binaryReplay, globalData);
 
   if (!replay.info.isEncrypted) {
-    replay.popOffset(1)
+    replay.popOffset(1);
   }
 };
 

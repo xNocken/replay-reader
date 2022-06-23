@@ -1,8 +1,6 @@
 const NetworkGUID = require("./NetworkGUID");
 
 class ItemDefinition extends NetworkGUID {
-  name;
-
   /**
    *
    * @param {NetGuidCache} cache

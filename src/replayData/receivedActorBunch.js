@@ -1,10 +1,5 @@
-const DataBunch = require("../Classes/DataBunch");
 const processBunch = require("./processBunch");
 
-/**
- *
- * @param {DataBunch} bunch
- */
 const receivedActorBunch = (bunch, replay, globalData) => {
   if (bunch.bHasMustBeMappedGUIDs) {
     const numMusteBeMappedGUIDs = replay.readUInt16();

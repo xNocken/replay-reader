@@ -9,6 +9,6 @@ const cleanPathSuffix = (path) => {
   }
 
   return path;
-}
+};
 
 module.exports = cleanPathSuffix;

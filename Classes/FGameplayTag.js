@@ -1,7 +1,4 @@
 class FGameplayTag {
-  tagIndex;
-  tagName;
-
   constructor (reader) {
     if (reader) {
       this.serialize(reader);

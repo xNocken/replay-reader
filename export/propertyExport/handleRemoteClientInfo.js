@@ -1,4 +1,4 @@
-const handleRemoteClientInfo = ({ states, data, result, actorId, changedProperties }) => {
+const handleRemoteClientInfo = ({ states, data, actorId, changedProperties }) => {
   let remoteClientInfo = states.remoteClientInfo[actorId];
 
   if (!remoteClientInfo) {

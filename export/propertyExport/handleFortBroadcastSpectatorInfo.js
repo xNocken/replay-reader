@@ -1,6 +1,6 @@
 const savePlayerData = (data, player) => {
   player.clientInfoId = data.PlayerClientInfo;
-}
+};
 
 const handleFortBroadcastSpectatorInfo = ({ data, states }) => {
   data.PerPlayerInfo.forEach((playerData) => {
@@ -15,7 +15,7 @@ const handleFortBroadcastSpectatorInfo = ({ data, states }) => {
         states.queuedSpectatorInfo[PlayerState] = playerData;
       }
     }
-  })
+  });
 };
 
 module.exports = handleFortBroadcastSpectatorInfo;

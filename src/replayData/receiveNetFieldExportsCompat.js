@@ -1,10 +1,6 @@
-const NetFieldExportGroup = require('../Classes/NetFieldExports/NetFieldExportGroup');
-const Replay = require('../Classes/Replay');
+const NetFieldExportGroup = require('../Classes/NetFieldExportGroup');
 const readNetFieldExport = require('./readNetFieldExport');
 
-/**
- * @param {Replay} packet
- */
 const receiveNetFieldExportsCompat = (packet, globalData) => {
 const { netFieldParser } = globalData;
 const numLayoutCmdLayout = packet.readUInt32();

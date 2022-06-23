@@ -39,13 +39,13 @@ const parseChunks = (replay, chunks, globalData) => {
         }
 
         if (globalData.debug) {
-          console.log(`read eventChunk with ${event.length} bytes in ${Date.now() - debugTime}ms`)
+          console.log(`read eventChunk with ${event.length} bytes in ${Date.now() - debugTime}ms`);
         }
       });
   }
 
   if (!globalData.parsePackets) {
-    return events;
+    return;
   }
 
   if (globalData.useCheckpoints && chunks.checkpoints.length) {
@@ -57,10 +57,10 @@ const parseChunks = (replay, chunks, globalData) => {
       debugTime = Date.now();
     }
 
-    parseCheckpoint(replay, checkpoint, globalData)
+    parseCheckpoint(replay, checkpoint, globalData);
 
     if (globalData.debug) {
-      console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`)
+      console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`);
     }
 
     time = checkpoint.end;
@@ -74,7 +74,10 @@ const parseChunks = (replay, chunks, globalData) => {
     }
 
     if ((fastForwardTo * 1000) > time) {
-      const checkpoint = chunks.checkpoints.reduce((prev, curr) => curr.start < (fastForwardTo * 1000) ? curr : prev, null);
+      const checkpoint = chunks.checkpoints.reduce(
+        (prev, curr) => curr.start < (fastForwardTo * 1000) ? curr : prev,
+        null,
+      );
 
       if (checkpoint && (time + (globalData.fastForwardThreshold * 1000)) < checkpoint.start) {
         let debugTime;
@@ -100,14 +103,14 @@ const parseChunks = (replay, chunks, globalData) => {
           console.error(`Error while exporting "nextChunk": ${err.stack}`);
         }
 
-        parseCheckpoint(replay, checkpoint, globalData)
+        parseCheckpoint(replay, checkpoint, globalData);
 
         globalData.fastForwardTo = 0;
 
         time = checkpoint.start;
 
         if (globalData.debug) {
-          console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`)
+          console.log(`read checkpointChunk with ${checkpoint.sizeInBytes} bytes in ${Date.now() - debugTime}ms`);
         }
       }
     }
@@ -136,7 +139,7 @@ const parseChunks = (replay, chunks, globalData) => {
       time = chunks.replayData[i].end;
 
       if (globalData.debug) {
-        console.log(`read replayDataChunk with ${chunks.replayData[i].length} bytes in ${Date.now() - debugTime}ms`)
+        console.log(`read replayDataChunk with ${chunks.replayData[i].length} bytes in ${Date.now() - debugTime}ms`);
       }
     }
   }

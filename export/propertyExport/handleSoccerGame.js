@@ -20,7 +20,7 @@ const handleSoccerGame = ({ actorId, result, states, data, changedProperties }) 
     current.scoreHistory.push({
       Score_Team_A: current.Score_Team_A,
       Score_Team_B: current.Score_Team_B,
-    })
+    });
   }
 };
 

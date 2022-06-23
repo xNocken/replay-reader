@@ -1,7 +1,4 @@
 class PlaylistInfo {
-  id;
-  name;
-
   serialize(reader) {
     if (reader.header.engineNetworkVersion >= 11) {
       reader.readBit();

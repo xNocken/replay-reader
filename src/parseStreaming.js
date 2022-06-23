@@ -1,16 +1,9 @@
 const needle = require('needle');
-const Info = require('./Classes/Info');
 const Replay = require('./Classes/Replay');
 const parseHeader = require('./header');
-const GlobalData = require('./utils/globalData');
 
-/**
- * Parse the replays meta
- *
- * @returns {Info} Informations about the replay
- */
 const replayInfoStreaming = (metadata, globalData) => {
-  const info = new Info();
+  const info = {};
 
   info.lengthInMs = metadata.LengthInMS;
   info.networkVersion = metadata.NetworkVersion;
@@ -27,10 +20,6 @@ const replayInfoStreaming = (metadata, globalData) => {
   return info;
 };
 
-/**
-* Parse the replays meta
-* @param {GlobalData} globalData globals
-*/
 const replayChunksStreaming = async (metadata, globalData) => {
   const chunks = {
     replayData: metadata.DataChunks.map((chunk) => ({
@@ -85,11 +74,11 @@ const replayChunksStreaming = async (metadata, globalData) => {
   globalData.header = parseHeader(replay);
 
   if (globalData.debug) {
-    console.log(`downloaded headerChunk in ${debugDownloadFinishTime - debugDownloadStartTime}ms and parsed in ${Date.now() - debugParseTime}ms`)
+    console.log(`downloaded headerChunk in ${debugDownloadFinishTime - debugDownloadStartTime}ms and parsed in ${Date.now() - debugParseTime}ms`);
   }
 
   return chunks;
-}
+};
 
 module.exports = {
   replayInfoStreaming,
