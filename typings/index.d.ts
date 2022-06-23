@@ -53,7 +53,6 @@ interface Info {
   changelist: number,
   friendlyName: string,
   timestamp: Date,
-  totalDataSizeInBytes: number,
   isLive: boolean,
   isCompressed: boolean,
   isEncrypted: boolean,
