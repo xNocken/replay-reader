@@ -1,11 +1,12 @@
 const Replay = require('./src/Classes/Replay');
-const { replayInfo, replayChunks } = require('./src/parse');
-const GlobalData = require('./src/utils/globalData');
+const replayChunks = require('./src/get-chunks-binary');
+const GlobalData = require('./src/Classes/GlobalData');
 const fs = require('fs');
-const parseChunks = require('./src/parseChunks');
-const { replayInfoStreaming, replayChunksStreaming } = require('./src/parseStreaming');
-const parseChunksStreaming = require('./src/parseChunksStreaming');
-const verifyMetadata = require('./src/utils/verifyMetadata');
+const parseChunks = require('./src/parse-chunks-binary');
+const { replayInfoStreaming, replayChunksStreaming } = require('./src/get-chunks-streaming');
+const parseChunksStreaming = require('./src/parse-chunks-streaming');
+const verifyMetadata = require('./src/utils/verify-metadata');
+const parseMeta = require('./src/chunks/parse-meta');
 let isParsing = false;
 
 const debugStuff = (globalData) => {
@@ -45,7 +46,7 @@ const parseBinary = (data, options) => {
   try {
     const replay = new Replay(data);
 
-    info = replayInfo(replay, globalData);
+    info = parseMeta(replay, globalData);
     chunks = replayChunks(replay, globalData);
     parseChunks(replay, chunks, globalData);
   } catch (err) {

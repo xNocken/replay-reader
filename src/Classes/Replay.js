@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const unrealNames = require('../utils/unrealNames');
+const unrealNames = require('../../Enums/UnrealNames');
 
 class Replay {
   constructor(input, bitCount) {

@@ -27,5 +27,5 @@ module.exports = [
   require('./properties/Vehicles.json'),
 
   require('./properties/components/HealthSet.json'),
-  require('./properties/components/VehicleSeatComponent.json'),
+  require('./properties/components/VehicleSeat.json'),
 ];

@@ -71,11 +71,8 @@ const validateNetFieldExportProperty = (property, pathName, customClasses, custo
 class NetFieldParser {
   constructor(globalData) {
     this.netFieldGroups = [];
-    this.classNetCacheToNetFieldGroup = {};
-    this.theClassCache = {};
     this.redirects = {};
     this.classPathCache = {};
-    this.enumCache = {};
 
     const handleExport = (fieldExport) => {
       let path;
@@ -96,9 +93,11 @@ class NetFieldParser {
 
       if (typeof fieldExport.path === 'string') {
         handlePath(fieldExport.path);
+
         path = fieldExport.path;
       } else if (Array.isArray(fieldExport.path)) {
         fieldExport.path.forEach(handlePath);
+
         path = fieldExport.path[0];
       }
 
@@ -113,8 +112,13 @@ class NetFieldParser {
           break;
 
         default:
-          Object.values(fieldExport.properties).forEach((property) =>
-            validateNetFieldExportProperty(property, path, globalData.customClasses, globalData.customEnums));
+          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(
+            property,
+            path,
+            globalData.customClasses,
+            globalData.customEnums,
+          ));
+
           break;
       }
 
@@ -173,12 +177,12 @@ class NetFieldParser {
       }
     };
 
-    if (!globalData.onlyUseCustomNetFieldExports) {
-      netFieldExports.forEach(handleExport);
-    }
-
     if (globalData.customNetFieldExports) {
       globalData.customNetFieldExports.forEach(handleExport);
+    }
+
+    if (!globalData.onlyUseCustomNetFieldExports) {
+      netFieldExports.forEach(handleExport);
     }
 
     this.netFieldGroups.filter(([, { type }]) => type === 'ClassNetCache').forEach(([, { properties }]) => {
@@ -416,7 +420,6 @@ class NetFieldParser {
   }
 
   cleanForCheckpoint() {
-    this.classNetCacheToNetFieldGroup = {};
     this.classPathCache = {};
   }
 }

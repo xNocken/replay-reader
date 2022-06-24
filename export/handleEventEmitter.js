@@ -1,30 +1,30 @@
-const handleContainerDespawn = require('./actorDespawn/handleContainer');
-const handleActiveGameplayModifiers = require('./netDeltaExport/handleActiveGameplayModifiers');
-const handleContainer = require('./propertyExport/handleContainer');
-const handleBroadcastRemoteClientInfoMapMarker = require('./rpcExport/functions/handleBroadCastRemoteClientInfoMapMarker');
-const handlePickup = require('./propertyExport/handlePickup');
-const handlePlayerState = require('./propertyExport/handlePlayerState');
-const handleGameplayCues = require('./rpcExport/functions/handleGameplayCues');
-const handleGameState = require('./propertyExport/handleGameState');
-const handleHealthSet = require('./propertyExport/handleHealthSet');
-const handleLabradorLlama = require('./propertyExport/handleLabradorLlama');
-const handleLootLlama = require('./propertyExport/handleLootLlama');
-const handlePlayerBuilds = require('./propertyExport/handlePlayerBuilds');
-const handlePlayerPawn = require('./propertyExport/handlePlayerPawn');
-const handlePlaylistInfo = require('./propertyExport/handlePlaylistInfo');
-const handleSafezone = require('./propertyExport/handleSafezoneIndicator');
-const handleSoccerGame = require('./propertyExport/handleSoccerGame');
-const handleSpeedSign = require('./propertyExport/handleSpeedSign');
-const handleSupplyDrop = require('./propertyExport/handleSupplyDrop');
-const handleVehicles = require('./propertyExport/handleVehicles');
-const handleInventory = require('./netDeltaExport/handleInventory');
-const handleInventoryProperty = require('./propertyExport/handleInventory');
-const handleSafezoneFastForwarding = require('./propertyExport/handleSafezoneIndicatorFastForwarding');
-const handleDamageCues = require('./rpcExport/functions/handleDamageCues');
-const handleRemoteClientInfo = require('./propertyExport/handleRemoteClientInfo');
-const handleFortBroadcastSpectatorInfo = require('./propertyExport/handleFortBroadcastSpectatorInfo');
-const handleClientInfoHitMarkers = require('./rpcExport/functions/handleClientInfoHitMarkers');
-const handleVehicleSeatComponent = require('./propertyExport/handleVehicleSeatComponent');
+const handleContainerDespawn = require('./actor-despawn/handle-container');
+const handleContainer = require('./property-export/handle-container');
+const handleActiveGameplayModifiers = require('./net-delta-export/handle-active-gameplay-modifiers');
+const handleBroadcastMapMarker = require('./function-export/handle-broadcast-map-marker');
+const handlePickup = require('./property-export/handle-pickup');
+const handlePlayerState = require('./property-export/handle-player-state');
+const handleGameplayCues = require('./function-export/handle-gameplay-cues');
+const handleGameState = require('./property-export/handle-game-state');
+const handleHealthSet = require('./property-export/components/handle-health-set');
+const handleLabradorLlama = require('./property-export/handle-labrador');
+const handleLootLlama = require('./property-export/handle-llama');
+const handlePlayerBuilds = require('./property-export/handle-player-builds');
+const handlePlayerPawn = require('./property-export/handle-player-pawn');
+const handlePlaylistInfo = require('./property-export/handle-playlist-info');
+const handleSafezone = require('./property-export/handle-safezone-indicator');
+const handleSoccerGame = require('./property-export/handle-soccer-game');
+const handleSpeedSign = require('./property-export/handle-speed-sign');
+const handleSupplyDrop = require('./property-export/handle-supply-drop');
+const handleVehicles = require('./property-export/handle-vehicles');
+const handleInventory = require('./net-delta-export/handle-inventory');
+const handleInventoryProperty = require('./property-export/handle-inventory');
+const handleSafezoneFastForwarding = require('./property-export/handle-safezone-indicator-fast-forwarding');
+const handleDamageCues = require('./function-export/handle-damage-cues');
+const handleRemoteClientInfo = require('./property-export/handle-broadcast-remote-client-info');
+const handleBroadcastSpectatorInfo = require('./property-export/handle-broadcast-spectator-info');
+const handleClientInfoHitMarkers = require('./function-export/handle-broadcast-hit-markers');
+const handleVehicleSeatComponent = require('./property-export/components/handle-vehicle-seat');
 
 const handleEventEmitter = (
   { actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter },
@@ -49,12 +49,12 @@ const handleEventEmitter = (
   propertyExportEmitter.on('soccerGame', handleSoccerGame);
   propertyExportEmitter.on('inventory', handleInventoryProperty);
   propertyExportEmitter.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
-  propertyExportEmitter.on('broadcastSpectatorInfo', handleFortBroadcastSpectatorInfo);
+  propertyExportEmitter.on('broadcastSpectatorInfo', handleBroadcastSpectatorInfo);
   propertyExportEmitter.on('vehicleSeatComponent', handleVehicleSeatComponent);
 
   // functions
   propertyExportEmitter.on('batchedDamageCue', handleDamageCues);
-  propertyExportEmitter.on('mapMarker', handleBroadcastRemoteClientInfoMapMarker);
+  propertyExportEmitter.on('mapMarker', handleBroadcastMapMarker);
   propertyExportEmitter.on('hitMarkers', handleClientInfoHitMarkers);
   propertyExportEmitter.on('gameplayCue', handleGameplayCues);
 

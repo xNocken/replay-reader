@@ -1,6 +1,6 @@
-const cleanStaticIdSuffix = require('../utils/cleanStaticIdSuffix');
-const getFullGuidPath = require('../utils/getFullGuidPath');
-const removePathPrefix = require('../utils/removePathPrefix');
+const cleanStaticIdSuffix = require('../utils/clean-static-id-suffix');
+const getFullGuidPath = require('../utils/get-full-guid-path');
+const removePathPrefix = require('../utils/remove-path-prefix');
 const NetFieldExportGroup = require('./NetFieldExportGroup');
 
 class NetGuidCache {

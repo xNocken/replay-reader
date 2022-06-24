@@ -1,6 +1,6 @@
 const Replay = require('../src/Classes/Replay');
 var assert = require('assert');
-const { replayInfo } = require('../src/parse');
+const { replayInfo } = require('../src/get-chunks-binary');
 
 describe('Meta', () => {
   describe('Server', () => {
