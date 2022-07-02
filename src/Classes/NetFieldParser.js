@@ -244,7 +244,7 @@ class NetFieldParser {
   /**
    * @param {Replay} netBitReader
    */
-  setType(obj, exportt, exportGroup, netBitReader, globalData) {
+  setType(obj, exportt, exportGroup, netBitReader, globalData, depth = 1) {
     let data;
 
     if (!exportt.parseType && exportGroup.parseUnknownHandles) {
@@ -276,6 +276,7 @@ class NetFieldParser {
         data = dingens;
         break;
       }
+
       case 'readDynamicArray': {
         const count = netBitReader.readIntPacked();
         const arr = [];
@@ -314,6 +315,10 @@ class NetFieldParser {
             const exporttt = exportGroup.netFieldExports[handle];
             const numBits = netBitReader.readIntPacked();
 
+            const maxDepth = exportGroup.storeAsHandleMaxDepth || exporttt.storeAsHandleMaxDepth;
+            const storeAsHandle = (exportGroup.storeAsHandle || exporttt.storeAsHandle)
+              && (!maxDepth || depth <= maxDepth);
+
             if (numBits === 0) {
               continue;
             }
@@ -335,9 +340,9 @@ class NetFieldParser {
               this.setType(temp, {
                 ...exporttt,
                 parseType: 'default',
-              }, exportGroup, archive, globalData);
+              }, exportGroup, archive, globalData, depth + 1);
 
-              if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+              if (storeAsHandle) {
                 newData = temp[exporttt.handle];
               } else {
                 newData = temp[exporttt.name];
@@ -349,19 +354,19 @@ class NetFieldParser {
                 this.setType(temp, {
                   ...exporttt,
                   parseType: 'readClass',
-                }, exportGroup, archive, globalData);
+                }, exportGroup, archive, globalData, depth + 1);
 
                 newData = temp[exporttt.name];
 
-                if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+                if (storeAsHandle) {
                   newData = temp[exporttt.handle];
                 } else {
                   newData = temp[exporttt.name];
                 }
               } else {
-                this.setType(temp, exporttt, exportGroup, archive, globalData);
+                this.setType(temp, exporttt, exportGroup, archive, globalData, depth + 1);
 
-                if (exportGroup.storeAsHandle || exporttt.storeAsHandle) {
+                if (storeAsHandle) {
                   newData[exporttt.handle] = temp[exporttt.handle];
                 } else {
                   newData[exporttt.name] = temp[exporttt.name];
@@ -397,7 +402,11 @@ class NetFieldParser {
       }
     }
 
-    if (exportGroup.storeAsHandle || exportt.storeAsHandle) {
+    const maxDepth = exportGroup.storeAsHandleMaxDepth || exportt.storeAsHandleMaxDepth;
+    const storeAsHandle = (exportGroup.storeAsHandle || exportt.storeAsHandle)
+      && (!maxDepth || depth <= maxDepth);
+
+    if (storeAsHandle) {
       obj[exportt.handle] = data;
     } else {
       obj[exportt.name] = data;

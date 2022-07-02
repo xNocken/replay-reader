@@ -21,6 +21,10 @@ const handleQueuedPlayerPawns = (actorId, states) => {
 };
 
 const handleQueuedSpectatorInfo = (actorId, states, player) => {
+  if (!states.queuedSpectatorInfo) {
+    return;
+  }
+
   const spectatorInfo = states.queuedSpectatorInfo[actorId];
 
   if (!spectatorInfo) {
