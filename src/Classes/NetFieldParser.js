@@ -315,10 +315,6 @@ class NetFieldParser {
             const exporttt = exportGroup.netFieldExports[handle];
             const numBits = netBitReader.readIntPacked();
 
-            const maxDepth = exportGroup.storeAsHandleMaxDepth || exporttt.storeAsHandleMaxDepth;
-            const storeAsHandle = (exportGroup.storeAsHandle || exporttt.storeAsHandle)
-              && (!maxDepth || depth <= maxDepth);
-
             if (numBits === 0) {
               continue;
             }
@@ -328,6 +324,10 @@ class NetFieldParser {
 
               continue;
             }
+
+            const maxDepth = exportGroup.storeAsHandleMaxDepth || exporttt.storeAsHandleMaxDepth;
+            const storeAsHandle = (exportGroup.storeAsHandle || exporttt.storeAsHandle)
+              && (!maxDepth || depth <= maxDepth);
 
             const archive = new Replay(netBitReader.readBits(numBits), numBits);
 

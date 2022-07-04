@@ -4,7 +4,7 @@ const onChannelClosed = (bunch, globalData) => {
   const channel = globalData.channels[bunch.chIndex];
   const actor = channel.actor;
 
-  if (bunch.closeReason === 0) { // close reason 0 === destroyed
+  if (!bunch.bDormant) {
     let netFieldExportGroup;
     let staticActorId;
 
@@ -40,6 +40,8 @@ const onChannelClosed = (bunch, globalData) => {
         console.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);
       }
     }
+  } else {
+    globalData.dormantActors[bunch.actor.actorNetGUID.value] = true;
   }
 
   try {

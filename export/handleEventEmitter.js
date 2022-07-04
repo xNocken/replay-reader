@@ -26,9 +26,13 @@ const handleBroadcastSpectatorInfo = require('./property-export/handle-broadcast
 const handleClientInfoHitMarkers = require('./function-export/handle-broadcast-hit-markers');
 const handleVehicleSeatComponent = require('./property-export/components/handle-vehicle-seat');
 
-const handleEventEmitter = (
-  { actorDespawnEmitter, propertyExportEmitter, netDeltaReadEmitter, parsingEmitter },
-  globalData,
+const handleEventEmitter = ({
+  actorDespawnEmitter,
+  propertyExportEmitter,
+  netDeltaReadEmitter,
+  parsingEmitter,
+  actorSpawnEmitter,
+}, globalData,
 ) => {
   actorDespawnEmitter.on('container', handleContainerDespawn);
 

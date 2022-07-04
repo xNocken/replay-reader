@@ -18,6 +18,7 @@ class GlobalData {
     this.inReliable = 0;
     this.actorToChannel = [];
     this.channelToActor = [];
+    this.dormantActors = {};
     this.result = {};
     this.states = {};
     this.handleEventEmitter = handleEventEmitter;
@@ -69,6 +70,7 @@ class GlobalData {
 
     this.exportEmitter = new EventEmitter();
     this.netDeltaEmitter = new EventEmitter();
+    this.actorSpawnEmitter = new EventEmitter();
     this.actorDespawnEmitter = new EventEmitter();
     this.parsingEmitter = new EventEmitter();
 
@@ -93,6 +95,7 @@ class GlobalData {
     this.inPacketId = 0;
     this.actorToChannel = [];
     this.channelToActor = [];
+    this.dormantActors = {};
     this.externalData = {};
     this.inReliable = 0;
     this.partialBunch = null;

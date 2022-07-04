@@ -24,6 +24,7 @@ const initGlobalData = (options) => {
 
   globalData.handleEventEmitter({
     propertyExportEmitter: globalData.exportEmitter,
+    actorSpawnEmitter: globalData.actorSpawnEmitter,
     actorDespawnEmitter: globalData.actorDespawnEmitter,
     netDeltaReadEmitter: globalData.netDeltaEmitter,
     parsingEmitter: globalData.parsingEmitter,
