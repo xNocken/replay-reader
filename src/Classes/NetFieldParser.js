@@ -20,41 +20,41 @@ const getExportByType = (type) => {
   }
 };
 
-const validateNetFieldExportProperty = (property, pathName, customClasses, customEnums) => {
+const validateNetFieldExportProperty = (name, property, pathName, customClasses, customEnums) => {
   switch (property.parseType) {
     case 'default':
       if (!property.parseFunction) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'default' requires a parseFunction`);
+        throw Error(`Invalid export: ${pathName} -> ${name} parseType 'default' requires a parseFunction`);
       }
 
       if (!Replay.prototype[property.parseFunction]) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} parse function ${property.parseFunction} does not exist`);
+        throw Error(`Invalid export: ${pathName} -> ${name} parse function ${property.parseFunction} does not exist`);
       }
 
       break;
 
     case 'readClass':
       if (!property.type) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType '${property.parseType}' requires a type`);
+        throw Error(`Invalid export: ${pathName} -> ${name} parseType '${property.parseType}' requires a type`);
       }
 
       if (!classes[property.type] && !customClasses[property.type]) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
+        throw Error(`Invalid export: ${pathName} -> ${name} class '${property.type}' does not exist`);
       }
 
       break;
 
     case 'readEnum':
       if (!property.type) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'readEnum' requires a type`);
+        throw Error(`Invalid export: ${pathName} -> ${name} parseType 'readEnum' requires a type`);
       }
 
       if (!enums[property.type] && !customEnums[property.type]) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} class '${property.type}' does not exist`);
+        throw Error(`Invalid export: ${pathName} -> ${name} class '${property.type}' does not exist`);
       }
 
       if (!property.bits) {
-        throw Error(`Invalid export: ${pathName} -> ${property.name} parseType 'readEnum' requires the amount of bits`);
+        throw Error(`Invalid export: ${pathName} -> ${name} parseType 'readEnum' requires the amount of bits`);
       }
 
       break;
@@ -64,7 +64,7 @@ const validateNetFieldExportProperty = (property, pathName, customClasses, custo
       break;
 
     default:
-      throw Error(`Invalid export: ${pathName} -> ${property.name} has no/invalid parsetype`);
+      throw Error(`Invalid export: ${pathName} -> ${name} has no/invalid parsetype`);
   }
 };
 
@@ -112,7 +112,8 @@ class NetFieldParser {
           break;
 
         default:
-          Object.values(fieldExport.properties).forEach((property) => validateNetFieldExportProperty(
+          Object.entries(fieldExport.properties).forEach(([name, property]) => validateNetFieldExportProperty(
+            name,
             property,
             path,
             globalData.customClasses,
