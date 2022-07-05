@@ -73,6 +73,7 @@ const parseBinary = (data, options) => {
       chests: globalData.eventData.chests,
       safeZones: globalData.eventData.safeZones,
       players: Object.values(globalData.eventData.players),
+      gfp: globalData.eventData.gfp,
     };
   }
 
@@ -125,6 +126,7 @@ const parseStreaming = async (metadata, options) => {
       chests: globalData.eventData.chests,
       safeZones: globalData.eventData.safeZones,
       players: Object.values(globalData.eventData.players),
+      gfp: globalData.eventData.gfp,
     };
   }
 

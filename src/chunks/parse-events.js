@@ -236,6 +236,25 @@ const actorPositions = (globalData, replay) => {
   }
 };
 
+const additionGFP = (globalData, replay) => {
+  const version = replay.readInt32();
+  const count = replay.readUInt32();
+
+  const values = [];
+
+  for (let i = 0; i < count; i += 1) {
+    const moduleId = replay.readString();
+    const moduleVersion = replay.readUInt32();
+
+    values.push({
+      moduleId,
+      moduleVersion,
+    });
+  }
+
+  globalData.eventData.gfp = values;
+};
+
 const event = (replay, info, globalData) => {
   const startTime = Math.round(info.startTime / 1000);
 
@@ -274,6 +293,11 @@ const event = (replay, info, globalData) => {
 
     case 'ActorsPosition':
       actorPositions(globalData, decryptedEvent, startTime);
+
+      break;
+
+    case 'AdditionGFPEventGroup':
+      additionGFP(globalData, decryptedEvent, startTime);
 
       break;
   }

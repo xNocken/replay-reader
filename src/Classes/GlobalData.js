@@ -49,6 +49,7 @@ class GlobalData {
       'ZoneUpdate',
       'CharacterSample',
       'ActorsPosition',
+      'AdditionGFPEventGroup',
     ];
 
     this.fastForwardTo = 0;
