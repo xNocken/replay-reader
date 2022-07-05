@@ -25,8 +25,6 @@ const handleRemoteClientInfo = require('./property-export/handle-broadcast-remot
 const handleBroadcastSpectatorInfo = require('./property-export/handle-broadcast-spectator-info');
 const handleClientInfoHitMarkers = require('./function-export/handle-broadcast-hit-markers');
 const handleVehicleSeatComponent = require('./property-export/components/handle-vehicle-seat');
-const handlePoiManager = require('./property-export/handle-poi-manager');
-const handlePoi = require('./property-export/handle-poi');
 const handlePlayerPawnSpawn = require('./actor-spawn/handle-player-pawn');
 
 const setEvents = ({
@@ -59,8 +57,6 @@ const setEvents = ({
   propertyExport.on('inventory', handleInventoryProperty);
   propertyExport.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
   propertyExport.on('broadcastSpectatorInfo', handleBroadcastSpectatorInfo);
-  propertyExport.on('poiManager', handlePoiManager);
-  propertyExport.on('poi', handlePoi);
   propertyExport.on('vehicleSeatComponent', handleVehicleSeatComponent);
 
   // functions

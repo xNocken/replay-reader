@@ -11,7 +11,12 @@
     "safeZones": "object"
   },
   "properties": {
+    "PreviousRadius": {
+      "parseFunction": "readFloat32",
+      "parseType": "default"
+    },
     "LastRadius": {
+      "customExportName": "PreviousRadius",
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
@@ -19,7 +24,12 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
+    "PreviousCenter": {
+      "parseFunction": "readPackedVector100",
+      "parseType": "default"
+    },
     "LastCenter": {
+      "customExportName": "PreviousCenter",
       "parseFunction": "readPackedVector100",
       "parseType": "default"
     },

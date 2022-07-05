@@ -245,30 +245,30 @@ class NetFieldParser {
   /**
    * @param {Replay} netBitReader
    */
-  setType(obj, exportt, exportGroup, netBitReader, globalData, depth = 1) {
+  setType(obj, propertyInfo, exportGroup, netBitReader, globalData, depth = 1) {
     let data;
 
-    if (!exportt.parseType && exportGroup.parseUnknownHandles) {
+    if (!propertyInfo.parseType && exportGroup.parseUnknownHandles) {
       const size = netBitReader.getBitsLeft();
 
-      data = new DebugObject(netBitReader.readBits(size), exportt, size, netBitReader.header);
+      data = new DebugObject(netBitReader.readBits(size), propertyInfo, size, netBitReader.header);
 
-      obj[exportt.handle] = data;
+      obj[propertyInfo.handle] = data;
 
       return true;
     }
 
-    theSwitch: switch (exportt.parseType) {
+    theSwitch: switch (propertyInfo.parseType) {
       case 'ignore': {
         data = undefined;
         return false;
       }
 
       case 'readClass': {
-        const theClass = globalData.customClasses[exportt.type] || classes[exportt.type];
+        const theClass = globalData.customClasses[propertyInfo.type] || classes[propertyInfo.type];
 
         const dingens = new theClass();
-        dingens.serialize(netBitReader, globalData, exportt.config || {});
+        dingens.serialize(netBitReader, globalData, propertyInfo.config || {});
 
         if (dingens.resolve) {
           dingens.resolve(globalData.netGuidCache, globalData);
@@ -281,7 +281,7 @@ class NetFieldParser {
       case 'readDynamicArray': {
         const count = netBitReader.readIntPacked();
         const arr = [];
-        const isGroupType = netBitReader[exportt.parseFunction];
+        const isGroupType = netBitReader[propertyInfo.parseFunction];
 
         while (true) {
           let index = netBitReader.readIntPacked();
@@ -313,22 +313,23 @@ class NetFieldParser {
 
             handle--;
 
-            const exporttt = exportGroup.netFieldExports[handle];
+            const arrayEntryInfo = exportGroup.netFieldExports[handle];
             const numBits = netBitReader.readIntPacked();
 
             if (numBits === 0) {
               continue;
             }
 
-            if (!exporttt) {
+            if (!arrayEntryInfo) {
               netBitReader.skipBits(numBits);
 
               continue;
             }
 
-            const maxDepth = exportGroup.storeAsHandleMaxDepth || exporttt.storeAsHandleMaxDepth;
-            const storeAsHandle = (exportGroup.storeAsHandle || exporttt.storeAsHandle)
+            const maxDepth = exportGroup.storeAsHandleMaxDepth || arrayEntryInfo.storeAsHandleMaxDepth;
+            const storeAsHandle = (exportGroup.storeAsHandle || arrayEntryInfo.storeAsHandle)
               && (!maxDepth || depth <= maxDepth);
+            const propertyName = arrayEntryInfo.customExportName || arrayEntryInfo.name;
 
             const archive = new Replay(netBitReader.readBits(numBits), numBits);
 
@@ -339,38 +340,38 @@ class NetFieldParser {
               const temp = {};
 
               this.setType(temp, {
-                ...exporttt,
+                ...arrayEntryInfo,
                 parseType: 'default',
               }, exportGroup, archive, globalData, depth + 1);
 
               if (storeAsHandle) {
-                newData = temp[exporttt.handle];
+                newData = temp[arrayEntryInfo.handle];
               } else {
-                newData = temp[exporttt.name];
+                newData = temp[propertyName];
               }
             } else {
               const temp = {};
 
-              if (exporttt.name === exportt.name) {
+              if (propertyName === propertyInfo.name) {
                 this.setType(temp, {
-                  ...exporttt,
+                  ...arrayEntryInfo,
                   parseType: 'readClass',
                 }, exportGroup, archive, globalData, depth + 1);
 
-                newData = temp[exporttt.name];
+                newData = temp[propertyName];
 
                 if (storeAsHandle) {
-                  newData = temp[exporttt.handle];
+                  newData = temp[arrayEntryInfo.handle];
                 } else {
-                  newData = temp[exporttt.name];
+                  newData = temp[propertyName];
                 }
               } else {
-                this.setType(temp, exporttt, exportGroup, archive, globalData, depth + 1);
+                this.setType(temp, arrayEntryInfo, exportGroup, archive, globalData, depth + 1);
 
                 if (storeAsHandle) {
-                  newData[exporttt.handle] = temp[exporttt.handle];
+                  newData[arrayEntryInfo.handle] = temp[arrayEntryInfo.handle];
                 } else {
-                  newData[exporttt.name] = temp[exporttt.name];
+                  newData[propertyName] = temp[propertyName];
                 }
               }
             }
@@ -383,14 +384,14 @@ class NetFieldParser {
         break;
       }
       case 'readEnum': {
-        const enumm = globalData.customEnums[exportt.type] || enums[exportt.type];
+        const enumm = globalData.customEnums[propertyInfo.type] || enums[propertyInfo.type];
 
         if (!enumm) {
           data = null;
           break;
         }
 
-        const value = netBitReader.readBitsToUnsignedInt(exportt.bits);
+        const value = netBitReader.readBitsToUnsignedInt(propertyInfo.bits);
 
         data = enumm[value] || null;
 
@@ -398,19 +399,19 @@ class NetFieldParser {
       }
 
       case 'default': {
-        data = netBitReader[exportt.parseFunction](...(exportt.args || []));
+        data = netBitReader[propertyInfo.parseFunction](...(propertyInfo.args || []));
         break;
       }
     }
 
-    const maxDepth = exportGroup.storeAsHandleMaxDepth || exportt.storeAsHandleMaxDepth;
-    const storeAsHandle = (exportGroup.storeAsHandle || exportt.storeAsHandle)
+    const maxDepth = exportGroup.storeAsHandleMaxDepth || propertyInfo.storeAsHandleMaxDepth;
+    const storeAsHandle = (exportGroup.storeAsHandle || propertyInfo.storeAsHandle)
       && (!maxDepth || depth <= maxDepth);
 
     if (storeAsHandle) {
-      obj[exportt.handle] = data;
+      obj[propertyInfo.handle] = data;
     } else {
-      obj[exportt.name] = data;
+      obj[propertyInfo.customExportName || propertyInfo.name] = data;
     }
     return true;
   }

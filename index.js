@@ -23,11 +23,11 @@ const initGlobalData = (options) => {
   });
 
   globalData.setEvents({
-    propertyExport: globalData.export,
-    actorSpawn: globalData.actorSpawn,
-    actorDespawn: globalData.actorDespawn,
-    netDeltaRead: globalData.netDelta,
-    parsing: globalData.parsing,
+    propertyExport: globalData.emitters.export,
+    actorSpawn: globalData.emitters.actorSpawn,
+    actorDespawn: globalData.emitters.actorDespawn,
+    netDeltaRead: globalData.emitters.netDelta,
+    parsing: globalData.emitters.parsing,
   }, globalData);
 
   return globalData;
