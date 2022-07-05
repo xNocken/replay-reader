@@ -30,47 +30,6 @@
     "SearchingPawn": {
       "parseFunction": "readIntPacked",
       "parseType": "default"
-    },
-    "bReplicateMovement": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "RemoteRole": {
-      "type": "ENetRole",
-      "parseType": "readEnum",
-      "bits": 3
-    },
-    "Role": {
-      "type": "ENetRole",
-      "parseType": "readEnum",
-      "bits": 3
-    },
-    "ReplicatedMovement": {
-      "type": "FRepMovement",
-      "parseType": "readClass",
-      "config": {
-        "locationQuatLevel": 0
-      }
-    },
-    "ForceMetadataRelevant": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "StaticMesh": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "SearchedMesh": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "AltMeshIdx": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "ChosenRandomUpgrade": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
     }
   }
 }

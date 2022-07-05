@@ -14,37 +14,9 @@
     "pickups": "object"
   },
   "properties": {
-    "bReplicateMovement": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "ReplicatedMovement": {
       "type": "FRepMovement",
       "parseType": "readClass"
-    },
-    "LocationOffset": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "RelativeScale3D": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "RotationOffset": {
-      "parseFunction": "readRotationShort",
-      "parseType": "default"
-    },
-    "AttachComponent": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "Owner": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "bRandomRotation": {
-      "parseFunction": "readBit",
-      "parseType": "default"
     },
     "Count": {
       "parseFunction": "readInt32",
@@ -65,38 +37,6 @@
     "LoadedAmmo": {
       "parseFunction": "readInt32",
       "parseType": "default"
-    },
-    "A": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "B": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "C": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "D": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "bUpdateStatsOnCollection": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bIsDirty": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "StateValues": {
-      "type": "FortItemEntryStateValue",
-      "parseType": "readDynamicArray"
-    },
-    "CombineTarget": {
-      "type": "ItemDefinition",
-      "parseType": "readClass"
     },
     "PickupTarget": {
       "parseFunction": "readIntPacked",
@@ -131,14 +71,6 @@
       "parseType": "readEnum",
       "bits": 2
     },
-    "bCombinePickupsWhenTossCompletes": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "OptionalOwnerID": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
     "bPickedUp": {
       "parseFunction": "readBit",
       "parseType": "default"
@@ -151,16 +83,8 @@
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "ServerImpactSoundFlash": {
-      "parseFunction": "readByte",
-      "parseType": "default"
-    },
     "PawnWhoDroppedPickup": {
       "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "OrderIndex": {
-      "parseFunction": "readUInt16",
       "parseType": "default"
     }
   }

@@ -8,10 +8,6 @@
     "queuedPlayerPawns": "object"
   },
   "properties": {
-    "Owner": {
-      "type": "ActorGuid",
-      "parseType": "readClass"
-    },
     "bHidden": {
       "parseFunction": "readBit",
       "parseType": "default"
@@ -23,18 +19,6 @@
     "ReplicatedMovement": {
       "type": "FRepMovement",
       "parseType": "readClass"
-    },
-    "LocationOffset": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "RelativeScale3D": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "RotationOffset": {
-      "parseFunction": "readRotationShort",
-      "parseType": "default"
     },
     "AttachSocket": {
       "parseFunction": "readFName",
@@ -48,23 +32,7 @@
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
-    "Instigator": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "RemoteViewPitch": {
-      "parseFunction": "readByte",
-      "parseType": "default"
-    },
     "PlayerState": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "Controller": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "MovementBase": {
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
@@ -72,32 +40,8 @@
       "type": "FName",
       "parseType": "readClass"
     },
-    "Location": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "Rotation": {
-      "parseFunction": "readRotationShort",
-      "parseType": "default"
-    },
-    "bServerHasBaseComponent": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bRelativeRotation": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bServerHasVelocity": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "ReplayLastTransformUpdateTimeStamp": {
       "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "ReplicatedMovementMode": {
-      "parseFunction": "readByte",
       "parseType": "default"
     },
     "bIsCrouched": {
@@ -112,22 +56,10 @@
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "Position": {
-      "parseFunction": "readPackedVector100",
-      "parseType": "default"
-    },
-    "LinearVelocity": {
-      "parseFunction": "readPackedVector10",
-      "parseType": "default"
-    },
     "CurrentMovementStyle": {
       "type": "EFortMovementStyle",
       "parseType": "readEnum",
       "bits": 4
-    },
-    "TeleportCounter": {
-      "parseFunction": "readByte",
-      "parseType": "default"
     },
     "PawnUniqueID": {
       "parseFunction": "readInt32",
@@ -161,10 +93,6 @@
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "JumpFlashCount": {
-      "parseFunction": "readByte",
-      "parseType": "default"
-    },
     "bWeaponHolstered": {
       "parseFunction": "readBit",
       "parseType": "default"
@@ -173,37 +101,9 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
-    "bInterruptCurrentLine": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "LastReplicatedEmoteExecuted": {
       "type": "ItemDefinition",
       "parseType": "readClass"
-    },
-    "bCanBeInterrupted": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bCanQue": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "ForwardAlpha": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "RightAlpha": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "TurnDelta": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "SteerAlpha": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
     },
     "GravityScale": {
       "parseFunction": "readFloat32",
@@ -223,18 +123,6 @@
     },
     "bIsSprinting": {
       "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "Vehicle": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "VehicleApexZ": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "SeatIndex": {
-      "parseFunction": "readByte",
       "parseType": "default"
     },
     "bIsWaterJump": {
@@ -258,32 +146,12 @@
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "PawnMontage": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "bPlayBit": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "bIsPlayingEmote": {
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "FootstepBankOverride": {
-      "parseFunction": "readIntPacked",
-      "parseType": "default"
-    },
-    "PackedReplicatedSlopeAngles": {
-      "parseFunction": "readUInt16",
-      "parseType": "default"
-    },
     "bStartedInteractSearch": {
       "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "AccelerationPack": {
-      "parseFunction": "readUInt16",
       "parseType": "default"
     },
     "bIsWaitingForEmoteInteraction": {
@@ -354,14 +222,6 @@
       "parseFunction": "readIntPacked",
       "parseType": "default"
     },
-    "RemoteViewData32": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "bNetMovementPrioritized": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "EntryTime": {
       "parseFunction": "readUInt32",
       "parseType": "default"
@@ -384,34 +244,6 @@
     },
     "CrouchedSprintSpeed": {
       "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "PlayRate": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "BlendTime": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "ForcePlayBit": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "IsStopped": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "SkipPositionCorrection": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "RepAnimMontageStartSection": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "SimulatedProxyGameplayCues": {
-      "parseFunction": "readInt32",
       "parseType": "default"
     },
     "WeaponActivated": {
@@ -478,22 +310,6 @@
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
-    "EncryptedPawnReplayData": {
-      "type": "FAthenaPawnReplayData",
-      "parseType": "readClass"
-    },
-    "GravityFloorAltitude": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "GravityFloorWidth": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
-    "GravityFloorGravityScalar": {
-      "parseFunction": "readUInt32",
-      "parseType": "default"
-    },
     "ReplicatedWaterBody": {
       "parseFunction": "readIntPacked",
       "parseType": "default"
@@ -515,10 +331,6 @@
       "parseType": "default"
     },
     "bInGliderRedeploy": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bReplicatedIsInVortex": {
       "parseFunction": "readBit",
       "parseType": "default"
     }

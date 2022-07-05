@@ -49,14 +49,6 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
-    "bPausedForPreview": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "MegaStormDelayTimeBeforeDestruction": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
     "Radius": {
       "parseFunction": "readFloat32",
       "parseType": "default"

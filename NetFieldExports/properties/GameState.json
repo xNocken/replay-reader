@@ -19,10 +19,6 @@
       "type": "ItemDefinition",
       "parseType": "readClass"
     },
-    "bReplicatedHasBegunPlay": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "ReplicatedWorldTimeSeconds": {
       "parseFunction": "readFloat32",
       "parseType": "default"
@@ -30,30 +26,6 @@
     "MatchState": {
       "type": "FName",
       "parseType": "readClass"
-    },
-    "ElapsedTime": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "WorldLevel": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "CraftingBonus": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "TeamCount": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "TeamSize": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "WorldDaysElapsed": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
     },
     "GameplayState": {
       "type": "EFortGameplayState",
@@ -63,18 +35,6 @@
     "GameSessionId": {
       "parseFunction": "readString",
       "parseType": "default"
-    },
-    "SpawnPointsCap": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "SpawnPointsAllocated": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "PlayerSharedMaxTrapAttributes": {
-      "parseFunction": "readFloat32",
-      "parseType": "readDynamicArray"
     },
     "TotalPlayerStructures": {
       "parseFunction": "readInt32",
@@ -88,22 +48,10 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
-    "bAllowLayoutRequirementsFeature": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "ServerStability": {
       "type": "EServerStability",
       "parseType": "readEnum",
       "bits": 3
-    },
-    "RoundTimeAccumulated": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "RoundTimeCriticalThreshold": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
     },
     "ServerChangelistNumber": {
       "parseFunction": "readInt32",
@@ -153,10 +101,6 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
-    "bAllowUserPickedCosmeticBattleBus": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
     "StormCapState": {
       "type": "EAthenaStormCapState",
       "parseType": "readEnum",
@@ -200,20 +144,16 @@
       "bits": 3
     },
     "Aircrafts": {
-      "type": "ItemDefinition",
+      "parseFunction": "readIntPacked",
       "parseType": "readDynamicArray"
     },
     "bAircraftIsLocked": {
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "LobbyAction": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
     "WinningPlayerState": {
-      "type": "ActorGuid",
-      "parseType": "readClass"
+      "parseFunction": "readIntPacked",
+      "parseType": "default"
     },
     "WinningPlayerList": {
       "parseFunction": "readUInt32",
@@ -251,10 +191,6 @@
       "parseFunction": "readBit",
       "parseType": "default"
     },
-    "AirCraftBehavior": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
     "DefaultGliderRedeployCanRedeploy": {
       "parseFunction": "readFloat32",
       "parseType": "default"
@@ -278,46 +214,6 @@
     },
     "PlayerBotsLeft": {
       "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "DefaultParachuteDeployTraceForGroundDistance": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "DefaultRebootMachineHotfix": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "SignalInStormRegenSpeed": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "MutatorGenericInt": {
-      "parseFunction": "readInt32",
-      "parseType": "default"
-    },
-    "StormCNDamageVulnerabilityLevel0": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "StormCNDamageVulnerabilityLevel1": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "StormCNDamageVulnerabilityLevel2": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "StormCNDamageVulnerabilityLevel3": {
-      "parseFunction": "readFloat32",
-      "parseType": "default"
-    },
-    "bEnabled": {
-      "parseFunction": "readBit",
-      "parseType": "default"
-    },
-    "bConnectedToRoot": {
-      "parseFunction": "readBit",
       "parseType": "default"
     },
     "TrackedCosmetics": {
