@@ -28,6 +28,8 @@ const onChannelOpened = (channel, actor, bunch, globalData) => {
   let staticActorId;
 
   if (globalData.dormantActors[actor.actorNetGUID.value]) {
+    globalData.dormantActors[actor.actorNetGUID.value] = false;
+
     return;
   }
 
