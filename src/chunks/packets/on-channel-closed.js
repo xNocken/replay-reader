@@ -33,7 +33,7 @@ const onChannelClosed = (bunch, globalData) => {
             setFastForward: globalData.setFastForward,
             stopParsing: globalData.stopParsingFunc,
             actor: channel.actor,
-            actorId: bunch.actor.actorNetGUID.value,
+            actorId: actor.actorNetGUID.value,
           },
         );
       } catch (err) {
@@ -41,7 +41,7 @@ const onChannelClosed = (bunch, globalData) => {
       }
     }
   } else {
-    globalData.dormantActors[bunch.actor.actorNetGUID.value] = true;
+    globalData.dormantActors[actor.actorNetGUID.value] = true;
   }
 
   try {
