@@ -322,6 +322,10 @@ export interface ActorDespawnEmitter extends EventEmitter {
   on(event: string, listener: (exportt: ActorDespawnExport) => void): this,
 }
 
+export interface ActorSpawnEmitter extends EventEmitter {
+  on(event: string, listener: (exportt: ActorDespawnExport) => void): this,
+}
+
 export interface ParsingEmitter extends EventEmitter {
   on(event: 'channelOpened', listener: (exportt: ChannelOpenedClosed) => void): this,
   on(event: 'channelClosed', listener: (exportt: ChannelOpenedClosed) => void): this,
@@ -373,6 +377,7 @@ export interface Player {
 export interface EventEmittersObject {
   propertyExportEmitter: PropertyExportEmitter,
   actorDespawnEmitter: ActorDespawnEmitter,
+  actorSpawnEmitter: ActorSpawnEmitter,
   netDeltaReadEmitter: NetDeltaExportEmitter,
   parsingEmitter: ParsingEmitter,
 }
@@ -404,7 +409,7 @@ export interface NetFieldExport {
   },
 }
 
-type handleEventEmitter = (emitters: EventEmittersObject) => void;
+type setEvents = (emitters: EventEmittersObject) => void;
 
 export interface CustomClass {
   serialize(reader: Replay): void,
@@ -423,7 +428,7 @@ export interface parseOptions {
     [name: string]: Object,
   },
   additionalStates?: string[],
-  handleEventEmitter?: handleEventEmitter,
+  setEvents?: setEvents,
   useCheckpoints?: boolean,
   fastForwardThreshold?: number,
 }

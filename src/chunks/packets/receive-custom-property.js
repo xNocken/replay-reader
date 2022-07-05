@@ -13,7 +13,7 @@ const receiveCustomProperty = (reader, fieldCache, bunch, pathName, globalData) 
   instance.type = fieldCache.customExportName || pathName.split('/').pop();
 
   try {
-    globalData.exportEmitter.emit(
+    globalData.emitters.export.emit(
       instance.type,
       {
         chIndex: bunch.chIndex,

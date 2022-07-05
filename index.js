@@ -22,12 +22,12 @@ const initGlobalData = (options) => {
     globalData.states[stateName] = {};
   });
 
-  globalData.handleEventEmitter({
-    propertyExportEmitter: globalData.exportEmitter,
-    actorSpawnEmitter: globalData.actorSpawnEmitter,
-    actorDespawnEmitter: globalData.actorDespawnEmitter,
-    netDeltaReadEmitter: globalData.netDeltaEmitter,
-    parsingEmitter: globalData.parsingEmitter,
+  globalData.setEvents({
+    propertyExport: globalData.export,
+    actorSpawn: globalData.actorSpawn,
+    actorDespawn: globalData.actorDespawn,
+    netDeltaRead: globalData.netDelta,
+    parsing: globalData.parsing,
   }, globalData);
 
   return globalData;

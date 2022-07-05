@@ -100,12 +100,12 @@ const receiveProperties = (
       }
     }
 
-    if (globalData.debug && !globalData.exportEmitter.eventNames().includes(exportGroup.type)) {
+    if (globalData.debug && !globalData.emitters.export.eventNames().includes(exportGroup.type)) {
       console.log('Unhandled export', exportGroup.type);
     }
 
     try {
-      globalData.exportEmitter.emit(
+      globalData.emitters.export.emit(
         exportGroup.type,
         {
           chIndex: channelIndex,

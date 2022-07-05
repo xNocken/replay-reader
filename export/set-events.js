@@ -25,51 +25,58 @@ const handleRemoteClientInfo = require('./property-export/handle-broadcast-remot
 const handleBroadcastSpectatorInfo = require('./property-export/handle-broadcast-spectator-info');
 const handleClientInfoHitMarkers = require('./function-export/handle-broadcast-hit-markers');
 const handleVehicleSeatComponent = require('./property-export/components/handle-vehicle-seat');
+const handlePoiManager = require('./property-export/handle-poi-manager');
+const handlePoi = require('./property-export/handle-poi');
+const handlePlayerPawnSpawn = require('./actor-spawn/handle-player-pawn');
 
-const handleEventEmitter = ({
-  actorDespawnEmitter,
-  propertyExportEmitter,
-  netDeltaReadEmitter,
-  parsingEmitter,
-  actorSpawnEmitter,
+const setEvents = ({
+  actorDespawn,
+  propertyExport,
+  netDeltaRead,
+  parsing,
+  actorSpawn,
 }, globalData,
 ) => {
-  actorDespawnEmitter.on('container', handleContainerDespawn);
+  actorDespawn.on('container', handleContainerDespawn);
 
-  propertyExportEmitter.on('safeZone', handleSafezone);
-  // propertyExportEmitter.on('safeZone', handleSafezoneFastForwarding);
-  propertyExportEmitter.on('playerPawn', handlePlayerPawn);
-  propertyExportEmitter.on('playerState', handlePlayerState);
-  propertyExportEmitter.on('gameState', handleGameState);
-  propertyExportEmitter.on('pickup', handlePickup);
-  propertyExportEmitter.on('playerBuild', handlePlayerBuilds);
-  propertyExportEmitter.on('vehicle', handleVehicles);
-  propertyExportEmitter.on('speedSign', handleSpeedSign);
-  propertyExportEmitter.on('container', handleContainer);
-  propertyExportEmitter.on('healthSet', handleHealthSet);
-  propertyExportEmitter.on('labrador', handleLabradorLlama);
-  propertyExportEmitter.on('llama', handleLootLlama);
-  propertyExportEmitter.on('supplyDrop', handleSupplyDrop);
-  propertyExportEmitter.on('soccerGame', handleSoccerGame);
-  propertyExportEmitter.on('inventory', handleInventoryProperty);
-  propertyExportEmitter.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
-  propertyExportEmitter.on('broadcastSpectatorInfo', handleBroadcastSpectatorInfo);
-  propertyExportEmitter.on('vehicleSeatComponent', handleVehicleSeatComponent);
+  actorSpawn.on('playerPawn', handlePlayerPawnSpawn);
+
+  propertyExport.on('safeZone', handleSafezone);
+  // propertyExport.on('safeZone', handleSafezoneFastForwarding);
+  propertyExport.on('playerPawn', handlePlayerPawn);
+  propertyExport.on('playerState', handlePlayerState);
+  propertyExport.on('gameState', handleGameState);
+  propertyExport.on('pickup', handlePickup);
+  propertyExport.on('playerBuild', handlePlayerBuilds);
+  propertyExport.on('vehicle', handleVehicles);
+  propertyExport.on('speedSign', handleSpeedSign);
+  propertyExport.on('container', handleContainer);
+  propertyExport.on('healthSet', handleHealthSet);
+  propertyExport.on('labrador', handleLabradorLlama);
+  propertyExport.on('llama', handleLootLlama);
+  propertyExport.on('supplyDrop', handleSupplyDrop);
+  propertyExport.on('soccerGame', handleSoccerGame);
+  propertyExport.on('inventory', handleInventoryProperty);
+  propertyExport.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
+  propertyExport.on('broadcastSpectatorInfo', handleBroadcastSpectatorInfo);
+  propertyExport.on('poiManager', handlePoiManager);
+  propertyExport.on('poi', handlePoi);
+  propertyExport.on('vehicleSeatComponent', handleVehicleSeatComponent);
 
   // functions
-  propertyExportEmitter.on('batchedDamageCue', handleDamageCues);
-  propertyExportEmitter.on('mapMarker', handleBroadcastMapMarker);
-  propertyExportEmitter.on('hitMarkers', handleClientInfoHitMarkers);
-  propertyExportEmitter.on('gameplayCue', handleGameplayCues);
+  propertyExport.on('batchedDamageCue', handleDamageCues);
+  propertyExport.on('mapMarker', handleBroadcastMapMarker);
+  propertyExport.on('hitMarkers', handleClientInfoHitMarkers);
+  propertyExport.on('gameplayCue', handleGameplayCues);
 
   // class
-  propertyExportEmitter.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
+  propertyExport.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
 
-  netDeltaReadEmitter.on('activeGamplayModifier', handleActiveGameplayModifiers);
-  netDeltaReadEmitter.on('inventory', handleInventory);
+  netDeltaRead.on('activeGamplayModifier', handleActiveGameplayModifiers);
+  netDeltaRead.on('inventory', handleInventory);
 
   if (globalData.debug) {
-    parsingEmitter.on('channelOpened', ({ actor, globalData, states }) => {
+    parsing.on('channelOpened', ({ actor, globalData, states }) => {
       let repObject = 0;
 
       if (actor.actorNetGUID.isDynamic()) {
@@ -84,9 +91,9 @@ const handleEventEmitter = ({
     });
   }
 
-  // parsingEmitter.on('channelClosed', console.log);
-  // parsingEmitter.on('nextChunk', console.log);
-  // parsingEmitter.on('nextFrame', console.log);
+  // parsing.on('channelClosed', console.log);
+  // parsing.on('nextChunk', console.log);
+  // parsing.on('nextFrame', console.log);
 };
 
-module.exports = handleEventEmitter;
+module.exports = setEvents;

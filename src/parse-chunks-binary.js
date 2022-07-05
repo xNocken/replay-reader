@@ -20,7 +20,7 @@ const parseChunks = (replay, chunks, globalData) => {
         }
 
         try {
-          globalData.parsingEmitter.emit('nextChunk', {
+          globalData.emitters.parsing.emit('nextChunk', {
             size: event.sizeInBytes,
             type: 3,
             chunks,
@@ -91,7 +91,7 @@ const parseChunks = (replay, chunks, globalData) => {
         }
 
         try {
-          globalData.parsingEmitter.emit('nextChunk', {
+          globalData.emitters.parsing.emit('nextChunk', {
             size: checkpoint.sizeInBytes,
             type: 2,
             chunks,
@@ -123,7 +123,7 @@ const parseChunks = (replay, chunks, globalData) => {
       }
 
       try {
-        globalData.parsingEmitter.emit('nextChunk', {
+        globalData.emitters.parsing.emit('nextChunk', {
           size: chunks.replayData[i].length,
           type: 1,
           chunks,

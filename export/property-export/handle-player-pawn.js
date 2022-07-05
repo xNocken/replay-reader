@@ -1,13 +1,9 @@
 const handlePlayerPawn = ({ actorId, data, states, changedProperties }) => {
   const { pawns, players } = states;
-  let pawn = pawns[actorId];
+  const pawn = pawns[actorId];
 
   if (!pawn) {
-    pawn = {
-      damages: [],
-    };
-
-    pawns[actorId] = pawn;
+    throw new Error('Pawn not found');
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {

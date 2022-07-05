@@ -1,7 +1,7 @@
 const NetFieldParser = require('./NetFieldParser');
 const NetGuidCache = require('./NetGuidCache');
 const EventEmitter = require('events');
-const handleEventEmitter = require('../../export/handleEventEmitter');
+const setEvents = require('../../export/set-events');
 const ffi = require('ffi-napi');
 const getOozPath = require('../utils/get-ooz-path');
 
@@ -21,7 +21,7 @@ class GlobalData {
     this.dormantActors = {};
     this.result = {};
     this.states = {};
-    this.handleEventEmitter = handleEventEmitter;
+    this.setEvents = setEvents;
     this.customClasses = {};
     this.customEnums = {};
     this.customNetFieldExports = [];
@@ -68,11 +68,13 @@ class GlobalData {
       'actorToPath',
     ];
 
-    this.exportEmitter = new EventEmitter();
-    this.netDeltaEmitter = new EventEmitter();
-    this.actorSpawnEmitter = new EventEmitter();
-    this.actorDespawnEmitter = new EventEmitter();
-    this.parsingEmitter = new EventEmitter();
+    this.emitters = {
+      export: new EventEmitter(),
+      netDelta: new EventEmitter(),
+      actorSpawn: new EventEmitter(),
+      actorDespawn: new EventEmitter(),
+      parsing: new EventEmitter(),
+    };
 
     this.debug = false;
     this.debugNetGuidToPathName = [];

@@ -38,7 +38,7 @@ const parsePlaybackPackets = (replay, globalData) => {
 
   if (globalData.lastFrameTime !== timeSeconds) {
     try {
-      globalData.parsingEmitter.emit('nextFrame', {
+      globalData.emitters.parsing.emit('nextFrame', {
         timeSeconds,
         sinceLastFrame: globalData.lastFrameTime - timeSeconds,
         globalData,

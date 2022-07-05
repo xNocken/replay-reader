@@ -49,7 +49,7 @@ const findAndParseCheckpoint = async (chunks, currentTime, targetTime, globalDat
   }
 
   try {
-    globalData.parsingEmitter.emit('nextChunk', {
+    globalData.emitters.parsing.emit('nextChunk', {
       size: checkpoint.sizeInBytes,
       type: 2,
       chunks,
@@ -119,7 +119,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
           }
 
           try {
-            globalData.parsingEmitter.emit('nextChunk', {
+            globalData.emitters.parsing.emit('nextChunk', {
               size: event.length,
               type: 3,
               chunks,
@@ -197,7 +197,7 @@ const parseChunksStreaming = async (chunks, globalData) => {
         isParsing = true;
 
         try {
-          globalData.parsingEmitter.emit('nextChunk', {
+          globalData.emitters.parsing.emit('nextChunk', {
             size: chunk.chunk.length,
             type: 3,
             chunks,

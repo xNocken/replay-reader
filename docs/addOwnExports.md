@@ -55,10 +55,10 @@ The next step is the processing of the exported data.
 If you don't know what type the property is, just use 'readClass' as 'parsetype' and 'DebugObject' as 'type'.
 
 ## Create a custom export function
-First step: create a function like [this](#export-function) and add it to the [handleEventEmitters setting](./settings.md#customnetfieldexports-arraynetfieldexport):
+First step: create a function like [this](#export-function) and add it to the [setEvents setting](./settings.md#customnetfieldexports-arraynetfieldexport):
 ```js
-const onExportRead = ({ propertyExportEmitter }) => {
-  propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone)
+const onExportRead = ({ propertyExport }) => {
+  propertyExport.on('SafeZoneIndicator.SafeZoneIndicator_C', handleSafezone)
 };
 ```
 
@@ -404,13 +404,13 @@ Missing functions can be found [Here](../src/Classes/Replay.js)
 
 ## Export function
 ```js
-const handleEventEmitter = ({
-  propertyExportEmitter,
-  actorDespawnEmitter,
-  netDeltaReadEmitter,
-  parsingEmitter,
+const setEvents = ({
+  propertyExport,
+  actorDespawn,
+  netDeltaRead,
+  parsing,
 }) => {
-    propertyExportEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
+    propertyExport.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
       chIndex: number, // This can be seen as the unique identifier for an object
       data: Export, // The value contains the changed values. It has two consistant properties. Type: this is the type of the export.
       actor: Actor, // the actor that is being exported
@@ -426,7 +426,7 @@ const handleEventEmitter = ({
       changedProperties: string[], // This array contains all property names that changed in this export
     }) => void)
 
-    actorDespawnEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
+    actorDespawn.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
       chIndex: number,
       actor: Actor,
       actorId: number,
@@ -441,7 +441,7 @@ const handleEventEmitter = ({
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
-    netDeltaReadEmitter.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
+    netDeltaRead.on('SafeZoneIndicator.SafeZoneIndicator_C', ({
       chIndex: number,
       actor: Actor,
       actorId: number,
@@ -456,7 +456,7 @@ const handleEventEmitter = ({
       changedProperties: string[], // This array contains all property names that changed in this export
     }) => void)
 
-    parsingEmitter.on('channelClosed|channelOpened', ({
+    parsing.on('channelClosed|channelOpened', ({
       chIndex: number,
       actor: Actor,
       globalData: GlobalData,
@@ -466,7 +466,7 @@ const handleEventEmitter = ({
       endParsing: () => void, // calling this function stops the parsing of thr replay after the chunk
     }) => void)
 
-    parsingEmitter.on('nextChunk', ({
+    parsing.on('nextChunk', ({
       size: number, // size of the next chunk
       type: number, // type of the next chunk
       setFastForward: (time: number) => void, // with this property can be fastforwarded through the replay

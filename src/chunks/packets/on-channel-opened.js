@@ -4,7 +4,7 @@ const onChannelOpened = (channel, actor, bunch, globalData) => {
   const chIndex = channel.chIndex;
 
   try {
-    globalData.parsingEmitter.emit('channelOpened', {
+    globalData.emitters.parsing.emit('channelOpened', {
       chIndex,
       actor,
       globalData,
@@ -47,7 +47,7 @@ const onChannelOpened = (channel, actor, bunch, globalData) => {
   }
 
   try {
-    globalData.actorSpawnEmitter.emit(
+    globalData.emitters.actorSpawn.emit(
       netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName),
       {
         openPacket: bunch.bOpen,

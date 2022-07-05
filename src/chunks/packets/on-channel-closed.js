@@ -19,7 +19,7 @@ const onChannelClosed = (bunch, globalData) => {
 
     if (netFieldExportGroup) {
       try {
-        globalData.actorDespawnEmitter.emit(
+        globalData.emitters.actorDespawn.emit(
           netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName),
           {
             openPacket: bunch.bOpen,
@@ -45,7 +45,7 @@ const onChannelClosed = (bunch, globalData) => {
   }
 
   try {
-    globalData.parsingEmitter.emit('channelClosed', {
+    globalData.emitters.parsing.emit('channelClosed', {
       chIndex: bunch.chIndex,
       actor,
       globalData,

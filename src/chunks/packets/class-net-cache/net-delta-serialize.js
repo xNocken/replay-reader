@@ -23,7 +23,7 @@ const netDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
     const elementIndex = reader.readInt32();
 
     try {
-      globalData.netDeltaEmitter.emit(
+      globalData.emitters.netDelta.emit(
         exportName,
         {
           chIndex: bunch.chIndex,
@@ -69,7 +69,7 @@ const netDeltaSerialize = (reader, group, bunch, enablePropertyChecksum, globalD
     }
 
     try {
-      globalData.netDeltaEmitter.emit(
+      globalData.emitters.netDelta.emit(
         properties.exportGroup.type,
         {
           chIndex: bunch.chIndex,

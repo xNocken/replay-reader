@@ -31,8 +31,8 @@ More about enums and creating your own exports can be found [here](./addOwnExpor
 ## onlyUseCustomNetFieldExports: `boolean`
 This option decides whether or not the parser will use the default netFieldExports. If set to `false`, the default netFieldExports will be used (those can be overwritten by custom ones).
 
-## handleEventEmitter: `function`
-This setting overwrites the export for the parsed data. This function takes as argument an object where 4 event emitters are sent 'propertyExportEmitter', 'actorDespawnEmitter', 'netDeltaReadEmitter' and 'parsingEmitter'.
+## setEvents: `function`
+This setting overwrites the export for the parsed data. This function takes as argument an object where 5 event emitters are sent 'propertyExport', 'actorDespawn', 'actorSpawn', 'netDeltaRead' and 'parsing'.
 
 More about this function and how to parse custom data can be found [here](./addOwnExports.md#custom-on-export-read).
 
