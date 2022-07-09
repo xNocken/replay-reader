@@ -399,7 +399,11 @@ class NetFieldParser {
       }
 
       case 'default': {
-        data = netBitReader[propertyInfo.parseFunction](...(propertyInfo.args || []));
+        if (propertyInfo.args) {
+          data = netBitReader[propertyInfo.parseFunction](...(propertyInfo.args || []));
+        } else {
+          data = netBitReader[propertyInfo.parseFunction]();
+        }
         break;
       }
     }

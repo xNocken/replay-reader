@@ -47,7 +47,9 @@ class Replay {
 
     this.lastBit = this.offsets[index];
 
-    this.offsets.splice(index, this.offsets.length);
+    for (let i = index; i < this.offsets.length; i += 1) {
+      this.offsets.pop();
+    }
   }
 
   getLastByte() {
