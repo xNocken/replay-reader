@@ -3,9 +3,9 @@ let shieldStartHandle;
 let overShieldStartHandle;
 let lastExportAmount = 0;
 
-const hasDataInSet = (handle, value) => value[handle]
-  || value[handle + 1]
-  || value[handle + 3];
+const hasDataInSet = (handle, value) => value[handle] !== undefined
+  || value[handle + 1] !== undefined
+  || value[handle + 3] !== undefined;
 
 const createFortSet = (handle, value, oldValues) => {
   const fortset = {};

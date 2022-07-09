@@ -6,7 +6,7 @@ module.exports = [
   require('./cache/InventoryCache.json'),
   require('./cache/GameplayCues.json'),
   require('./cache/GameStateCache.json'),
-  require('./cache/PlayerPawn_NetMulticast_Athena_BatchedDamageCues.json'),
+  require('./cache/DamageCues.json'),
   require('./cache/PlayerPawnCache.json'),
 
   require('./properties/Containers.json'),

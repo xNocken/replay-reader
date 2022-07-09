@@ -22,7 +22,7 @@ const readClassNetCache = (archive, bunch, staticActorId, classNetCache, globalD
     archive.addOffset(5, numPayloadBits);
 
     if (fieldCache.parseType === 'function') {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
+      const exportGroup = globalData.netGuidCache.getNFEReference(
         fieldCache.type,
       );
 
@@ -59,7 +59,7 @@ const readClassNetCache = (archive, bunch, staticActorId, classNetCache, globalD
     }
 
     if (fieldCache.parseType === 'netDeltaSerialize') {
-      const exportGroup = globalData.netGuidCache.GetNetFieldExportGroupString(
+      const exportGroup = globalData.netGuidCache.getNFEReference(
         fieldCache.type,
       );
 

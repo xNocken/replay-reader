@@ -1,5 +1,8 @@
 {
-  "path": "/Script/FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues",
+  "path": [
+    "/Script/FortniteGame.FortPawn:NetMulticast_Athena_BatchedDamageCues",
+    "/Script/FortniteGame.FortPlayerPawnAthena:NetMulticast_Athena_BatchedDamageCues"
+  ],
   "customExportName": "batchedDamageCue",
   "parseLevel": 3,
   "properties": {

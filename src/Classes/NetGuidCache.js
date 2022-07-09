@@ -18,6 +18,7 @@ class NetGuidCache {
     this.netguidToNetFieldExportgroup = [];
     this.staticActorIdMap = {};
     this.notReadGroup = {};
+    this.nfeReferences = {};
   }
   /**
    *
@@ -57,6 +58,7 @@ class NetGuidCache {
         baseGroup.netFieldExports = [];
 
         this.NetFieldExportGroupMap[baseName] = baseGroup;
+        this.nfeReferences[baseName] = baseGroup;
 
         const failedIndex = this.failedPaths.indexOf(baseName.split('.')[1]);
 
@@ -77,6 +79,7 @@ class NetGuidCache {
     exportGroup.type = netFieldExport.type;
 
     this.NetFieldExportGroupMap[pathName] = exportGroup;
+    this.nfeReferences[exportGroup.customExportName || pathName] = exportGroup;
     this.NetFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
 
     return exportGroup;
@@ -213,6 +216,10 @@ class NetGuidCache {
     return { staticActorId: fullStaticActorId, group: exportGroup || null };
   }
 
+  getNFEReference(pathName) {
+    return this.nfeReferences[pathName];
+  }
+
   cleanForCheckpoint() {
     this.NetFieldExportGroupMap = {};
     this.NetFieldExportGroupIndexToGroup = {};
@@ -226,6 +233,7 @@ class NetGuidCache {
     this.actorIdToActorMap = [];
     this.netguidToNetFieldExportgroup = [];
     this.staticActorIdMap = {};
+    this.nfeReferences = {};
   }
 }
 

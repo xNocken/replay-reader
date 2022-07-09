@@ -7,10 +7,6 @@ const handleGameplayCues = ({ actorId, data, timeSeconds, globalData, states }) 
     return;
   }
 
-  if (!states.pawns[actorId].gameplayCues) {
-    states.pawns[actorId].gameplayCues = [];
-  }
-
   states.pawns[actorId].gameplayCues.push({
     location: states.pawns[actorId]?.ReplicatedMovement?.location || null,
     gameplayCueTag: data.GameplayCueTag,
