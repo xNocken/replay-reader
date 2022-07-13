@@ -51,7 +51,7 @@ class Replay {
   }
 
   getLastByte() {
-    return this.buffer[(~~this.lastBit / 8) - 1];
+    return this.buffer[(this.lastBit >> 3) - 1];
   }
 
   /**
@@ -64,7 +64,7 @@ class Replay {
       return false;
     }
 
-    const byteOffset = ~~(this.offset / 8); // ~~ = math.trunc
+    const byteOffset = this.offset >> 3;
 
     let value = this.buffer[byteOffset] >> (this.offset & 7) & 1;
 
@@ -78,7 +78,7 @@ class Replay {
     let readBytes = 0;
 
     if ((this.offset & 7) === 0) {
-      readBytes = ~~(count / 8);
+      readBytes = count >> 3;
       const bytes = this.readBytes(readBytes);
 
       buffer.set(bytes, 0);
@@ -86,7 +86,7 @@ class Replay {
 
     let currentBit;
     let currentResultOffset;
-    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByte = this.buffer[this.offset >> 3];
     let currentByteBit = 1 << (this.offset & 7);
 
     for (let i = readBytes * 8; i < count; i++) {
@@ -94,13 +94,13 @@ class Replay {
       const resultBitOffset = i & 7;
 
       if (resultBitOffset === 0) {
-        currentResultOffset = i / 8;
+        currentResultOffset = i >> 3;
         currentBit = 1;
       }
 
       if (bitOffset === 0) {
         currentByteBit = 1;
-        currentByte = this.buffer[~~(this.offset / 8)];
+        currentByte = this.buffer[this.offset >> 3];
       }
 
       if (currentByte & currentByteBit) {
@@ -125,7 +125,7 @@ class Replay {
       let index = 0;
 
       while (count >= 8) {
-        val |= this.buffer[this.offset / 8] << (index * 8);
+        val |= this.buffer[this.offset >> 3] << (index * 8);
 
         index += 1;
         count -= 8;
@@ -138,7 +138,7 @@ class Replay {
     }
 
     let currentBit = 1;
-    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByte = this.buffer[this.offset >> 3];
     let currentByteBit = 1 << (this.offset & 7);
 
     for (let i = 0; i < count; i++) {
@@ -146,11 +146,11 @@ class Replay {
 
       if (bitOffset === 0) {
         currentByteBit = 1;
-        currentByte = this.buffer[~~(this.offset / 8)];
+        currentByte = this.buffer[this.offset >> 3];
       }
 
       if (currentByte & currentByteBit) {
-        val |= (currentBit);
+        val |= currentBit;
       }
 
       this.offset += 1;
@@ -171,7 +171,7 @@ class Replay {
   readSerializedInt(maxValue) {
     let value = 0;
 
-    let currentByte = this.buffer[~~(this.offset / 8)];
+    let currentByte = this.buffer[this.offset >> 3];
     let currentByteBit = 1 << (this.offset & 7);
 
     for (let mask = 1; (value + mask) < maxValue; mask *= 2) {
@@ -179,7 +179,7 @@ class Replay {
 
       if (bitOffset === 0) {
         currentByteBit = 1;
-        currentByte = this.buffer[~~(this.offset / 8)];
+        currentByte = this.buffer[this.offset >> 3];
       }
 
       if (currentByte & currentByteBit) {
@@ -224,7 +224,7 @@ class Replay {
 
   readBytes(byteCount) {
     if ((this.offset & 7) === 0) {
-      const start = ~~(this.offset / 8);
+      const start = this.offset >> 3;
 
       if (!this.canRead(byteCount)) {
         this.isError = true;
@@ -385,7 +385,6 @@ class Replay {
   }
 
   /**
-   *
    * @param {Uint8Array} data
    * @param {number} bitCount
    */
@@ -466,7 +465,7 @@ class Replay {
       return 'NULL';
     }
 
-    let bValidHashType = typeHash != 0;
+    let bValidHashType = typeHash !== 0;
     let typeString = '';
 
     if (typeHash === typeHashOther) {
@@ -651,7 +650,7 @@ class Replay {
   }
 
   getByteOffset() {
-    return this.offset / 8;
+    return this.offset >> 3;
   }
 
   goTo(offset) {
