@@ -1,11 +1,13 @@
-const fs = require('fs');
-const { parse, parseStreaming } = require('./index.js');
+import fs from 'fs';
+
+import { DefaultResult } from '$types/result-data';
+import { parseBinary, parseStreaming } from './index';
 
 const parseReplay = () => {
-  const replayBuffer = fs.readFileSync('replays/20.20-server.replay');
+  const replayBuffer = fs.readFileSync('Bars reset.replay');
 
   console.time();
-  const parsedReplay = parse(replayBuffer, {
+  const parsedReplay = parseBinary<DefaultResult>(replayBuffer, {
     parseLevel: 10,
     // customNetFieldExports: [
     //   require('./NetFieldExports/SafeZoneIndicator.json'),
@@ -14,9 +16,10 @@ const parseReplay = () => {
     debug: true,
     useCheckpoints: false,
   });
+
   console.timeEnd();
 
-  fs.writeFileSync('replay.json', JSON.stringify(parsedReplay, null, 2));
+  fs.writeFileSync('replay.json', JSON.stringify(parsedReplay, (__, a) => typeof a === 'bigint' ? parseInt(a.toString(), 10) : a, 2));
 }
 
 const parseMetadata = async () => {

@@ -6,3 +6,4 @@ replay.json
 debug-readNFE.txt
 debug-notReadNFE.txt
 debug-netGuidToPathName.txt
+dist
