@@ -72,7 +72,8 @@ const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: str
 
 export class NetFieldParser<ResultType extends BaseResult> {
   /** contains all netFieldExportConfigs that are used for parsing */
-  netFieldGroups: [string, NetFieldExportGroupConfig][] = [];
+  netFieldGroups: NetFieldExportGroupConfig[] = [];
+  netFieldGroupPaths: string[] = [];
   /** contains net field export paths indexed by the name used by the game */
   redirects: StringToString = {};
   /** maps the path to its classNetCache */
@@ -87,13 +88,15 @@ export class NetFieldParser<ResultType extends BaseResult> {
       }
 
       const handlePath = (path: string) => {
-        const index = this.netFieldGroups.findIndex(([thePath]) => thePath === path);
+        const index = this.netFieldGroupPaths.findIndex((thePath) => thePath === path);
 
         if (index !== -1) {
           this.netFieldGroups.splice(index, 1);
+          this.netFieldGroupPaths.splice(index, 1);
         }
 
-        this.netFieldGroups.push([path, fieldExport]);
+        this.netFieldGroups.push(fieldExport);
+        this.netFieldGroupPaths.push(path);
       };
 
       if (typeof fieldExport.path === 'string') {
@@ -190,12 +193,13 @@ export class NetFieldParser<ResultType extends BaseResult> {
       netFieldExports.forEach(handleExport);
     }
 
-    this.netFieldGroups.filter(([, { type }]) => type === 'ClassNetCache').forEach(([, { properties }]) => {
+    this.netFieldGroups.filter(({ type }) => type === 'ClassNetCache').forEach(({ properties }) => {
       Object.values(properties).forEach(({ type }) => {
-        const theGroup = this.netFieldGroups.find(([path]) => path.includes(type));
+        const groupIndex = this.netFieldGroupPaths.findIndex(([path]) => path.includes(type));
+        const theGroup = this.netFieldGroups[groupIndex];
 
         if (theGroup) {
-          theGroup[1].isClassNetCacheProperty = true;
+          theGroup.isClassNetCacheProperty = true;
         }
       });
     });
@@ -214,7 +218,8 @@ export class NetFieldParser<ResultType extends BaseResult> {
       return this.classPathCache[group];
     }
 
-    const exportt = this.netFieldGroups.find(([key, { partialPath, isClassNetCacheProperty }]) => {
+    const nfeIndex = this.netFieldGroupPaths.findIndex((key, index) => {
+      const { partialPath, isClassNetCacheProperty } = this.netFieldGroups[index];
       if (partialPath) {
         return group.includes(key);
       }
@@ -226,11 +231,12 @@ export class NetFieldParser<ResultType extends BaseResult> {
       return key === group;
     });
 
+    const exportt = this.netFieldGroups[nfeIndex];
 
     if (exportt) {
-      this.classPathCache[group] = exportt[1];
+      this.classPathCache[group] = exportt;
 
-      return exportt[1];
+      return exportt;
     }
 
     this.classPathCache[group] = null;
