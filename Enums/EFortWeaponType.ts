@@ -1,0 +1,19 @@
+export enum EFortWeaponType {
+  None,
+  RangedAny,
+  Pistol,
+  Shotgun,
+  Rifle,
+  SMG,
+  Sniper,
+  GrenadeLauncher,
+  RocketLauncher,
+  Bow,
+  Minigun,
+  LMG,
+  BiplaneGun,
+  MeleeAny,
+  Harvesting,
+  Count,
+  MAX
+}

@@ -1,9 +1,0 @@
-{
-  "0": "NormalGameplay",
-  "1": "WaitingToStart",
-  "2": "EndOfZone",
-  "3": "EnteringZone",
-  "4": "LeavingZone",
-  "5": "Invalid",
-  "6": "EFortGameplayState_MAX"
-}
