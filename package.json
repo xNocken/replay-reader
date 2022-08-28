@@ -12,6 +12,8 @@
   "description": "A libary created to parse Fortnite replays in Node",
   "main": "index.js",
   "devDependencies": {
+    "@types/ffi-napi": "^4.0.5",
+    "@types/needle": "^2.5.3",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@types/node": "^18.7.2",

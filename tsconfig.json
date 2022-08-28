@@ -21,6 +21,7 @@
     "types": ["node"],
     "allowJs": true,
     "resolveJsonModule": true,
-    "declaration": true
+    "declaration": true,
+    "noImplicitAny": true
   }
 }

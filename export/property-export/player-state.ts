@@ -1,6 +1,6 @@
 import { PropertyExportFunction } from '$types/lib';
 import { DefaultResult, DefaultStates, PlayerState, PlayerStateExport } from '$types/result-data';
-const onlySpectatingPlayers = [];
+const onlySpectatingPlayers: Record<number, boolean> = {};
 
 type PlayerStateRecord = Record<keyof PlayerStateExport, PlayerStateExport[keyof PlayerStateExport]>;
 
@@ -20,12 +20,12 @@ const handleQueuedSpectatorInfo = (actorId: number, states: DefaultStates, playe
 
 export const handlePlayerState: PropertyExportFunction<DefaultResult, DefaultStates, PlayerStateExport> = ({ actorId, data, states, result, changedProperties }) => {
   if (data.bOnlySpectator == true) {
-    onlySpectatingPlayers.push(actorId);
+    onlySpectatingPlayers[actorId] = true;
 
     return;
   }
 
-  if (onlySpectatingPlayers.includes(actorId)) {
+  if (onlySpectatingPlayers[actorId]) {
     return;
   }
 

@@ -128,12 +128,15 @@ export class NetFieldParser<ResultType extends BaseResult> {
           break;
       }
 
-      const createExport = (group: string, name: string, type: string) => {
+      const createExport = (group: keyof ResultType, name: string, type: string) => {
         if (!globalData.result[group]) {
-          globalData.result[group] = {};
+          globalData.result[group] = {} as ResultType[keyof ResultType];
         }
 
+        // this needs to be ignored because the base result has no default groups. the type will be defined by the user
+        // @ts-ignore
         if (!globalData.result[group][name]) {
+          // @ts-ignore
           globalData.result[group][name] = getExportByType(type);
         }
       };
@@ -144,7 +147,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
             createExport(group.group, group.name, group.type);
           });
         } else {
-          createExport(fieldExport.exports.group, fieldExport.exports.name, fieldExport.exports.type);
+          createExport(fieldExport.exports.group as keyof ResultType, fieldExport.exports.name, fieldExport.exports.type);
         }
       }
 
@@ -247,7 +250,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
     netBitReader: Replay,
     globalData: GlobalData<ResultType>,
     depth = 1
-  ): unknown {
+  ): any {
     if (!propertyInfo.parseType && exportGroup.parseUnknownHandles) {
       const size = netBitReader.getBitsLeft();
 
@@ -293,7 +296,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
             return arr;
           }
 
-          let arrayData: unknown;
+          let arrayData: any;
 
           while (true) {
             let handle = netBitReader.readIntPacked();

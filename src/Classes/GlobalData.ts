@@ -23,7 +23,7 @@ import { NetGuidCache } from './NetGuidCache';
 import { setEvents } from '../../export/set-events';
 import { getOozPath } from '../utils/get-ooz-path';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
-import { ExternalDataMap, NetFieldExportGroupMap } from '$types/replay';
+import { ExternalDataMap, NetFieldExportGroup } from '$types/replay';
 
 class GlobalData<ResultType extends BaseResult> {
   channels: Channel[] = [];
@@ -86,7 +86,7 @@ class GlobalData<ResultType extends BaseResult> {
   stopParsing = false;
 
   debugNetGuidToPathName: NetworkGUID[] = [];
-  debugNotReadingGroups: NetFieldExportGroupMap = {};
+  debugNotReadingGroups: Record<string, NetFieldExportGroup> = {};
 
   ignoredChannels: NumberToBoolean = {};
 
@@ -110,8 +110,10 @@ class GlobalData<ResultType extends BaseResult> {
 
   constructor(overrideConfig: ParseOptions<ResultType> | ParseStreamOptions<ResultType>) {
     if (overrideConfig) {
+      type OverrideConfigRecord = Record<keyof ParseStreamOptions<ResultType>, ParseStreamOptions<ResultType>[keyof ParseStreamOptions<ResultType>]>
+
       Object.entries(overrideConfig).forEach(([key, value]) => {
-        this.options[key] = value;
+        (this.options as OverrideConfigRecord)[<keyof typeof overrideConfig>key] = value;
       });
     }
 

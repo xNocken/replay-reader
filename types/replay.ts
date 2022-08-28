@@ -10,7 +10,7 @@ export interface NetFieldExportGroup {
   pathName: string,
   pathNameIndex: number,
   netFieldExportsLength: number,
-  properties?: {},
+  properties?: Record<number, NetFieldExport>,
 }
 
 export interface NetFieldExportGroupInternal extends NetFieldExportGroup {
@@ -49,10 +49,6 @@ export interface Packet {
   state: number,
   timeSeconds: number,
   streamingFix?: number,
-}
-
-export interface NetFieldExportGroupMap {
-  [key: string]: NetFieldExportGroup,
 }
 
 export interface NetFieldExportGroupInternalMap {

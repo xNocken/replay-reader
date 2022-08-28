@@ -1,6 +1,8 @@
+import { BaseResult } from '$types/lib';
+import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from '../src/Classes/Replay';
 
-export class PlaylistInfo {
+export class PlaylistInfo<ResultType extends BaseResult> {
   id: number;
   name: string;
 
@@ -14,7 +16,7 @@ export class PlaylistInfo {
     reader.skipBits(31);
   }
 
-  resolve(cache) {
+  resolve(cache: NetGuidCache<ResultType>) {
     this.name = cache.tryGetPathName(this.id);
   }
 

@@ -4,7 +4,7 @@ import Replay from './Classes/Replay';
 import parseEvent from "./chunks/parse-events";
 import { parsePackets } from "./chunks/parse-packets";
 import GlobalData from './Classes/GlobalData';
-import { BaseResult, BaseStates, Checkpoint, Chunks } from '$types/lib';
+import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk } from '$types/lib';
 
 const getChunk = async <ResultType extends BaseResult>(url: string, globalData: GlobalData<ResultType>) => {
   const { body, statusCode } = await needle('get', url);
@@ -72,7 +72,7 @@ const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chu
 };
 
 export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks: Chunks, globalData: GlobalData<ResultType>) => {
-  const canBeParsed = [];
+  const canBeParsed: DownloadedDataChunk[] = [];
   const eventPromises = [];
   let time = 0;
   let isParsing = false;
@@ -184,11 +184,13 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
       while (canBeParsed[parseIndex]) {
         const chunk = canBeParsed[parseIndex];
 
-        if (time > chunk.start) {
+        if (time > chunk.chunk.startTime) {
           parseIndex += 1;
+
+          continue;
         }
 
-        let parseStartTime;
+        let parseStartTime: number;
 
         if (globalData.options.debug) {
           parseStartTime = Date.now();
@@ -211,10 +213,10 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
         }
 
         await parsePackets(chunk.replay, chunk.chunk, globalData);
-        time = chunk.chunk.end;
+        time = chunk.chunk.endTime;
 
         if (globalData.options.debug) {
-          console.log(`downloaded dataChunk at ${chunk.chunk.start / 1000}s with ${chunk.chunk.chunkSize} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`);
+          console.log(`downloaded dataChunk at ${chunk.chunk.startTime / 1000}s with ${chunk.chunk.chunkSize} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`);
         }
 
         if (time < globalData.fastForwardTo * 1000) {
@@ -265,7 +267,7 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
 
     downloadAmount += 1;
 
-    let downloadStartTime;
+    let downloadStartTime: number;
 
     if (globalData.options.debug) {
       downloadStartTime = Date.now();

@@ -132,7 +132,7 @@ export interface PlayerState extends PlayerStateExport {
 export interface PlayerPawnExport extends RemoveIndex<Data> {
   bHidden?: boolean,
   bCanBeDamaged?: boolean,
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
   AttachSocket?: string,
   ExitSocketIndex?: number,
   AttachComponent?: number,
@@ -263,7 +263,7 @@ export interface PlayerBuildExport extends RemoveIndex<Data> {
 }
 
 export interface PickupExport extends RemoveIndex<Data> {
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
   Count?: number,
   ItemDefinition?: ItemDefinition<DefaultResult>,
   Durability?: number,
@@ -285,11 +285,11 @@ export interface PickupExport extends RemoveIndex<Data> {
 
 export interface LlamaExport extends RemoveIndex<Data> {
   Looted?: boolean,
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
 }
 
 export interface LabradorExport extends RemoveIndex<Data> {
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
   bIsHiddenForDeath?: boolean,
   PawnUniqueID?: number,
   NPC_AlertLevel?: EAlertLevel,
@@ -382,7 +382,7 @@ export interface SoccerGame extends SoccerGameExport {
 export interface SpeedSignExport extends RemoveIndex<Data> {
   VehicleSpeed?: number,
   bReplicateMovement?: boolean,
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
 }
 
 export interface SpeedSign extends SpeedSignExport {
@@ -392,7 +392,7 @@ export interface SpeedSign extends SpeedSignExport {
 export interface SupplyDropExport extends RemoveIndex<Data> {
   Opened?: boolean,
   BalloonPopped?: boolean,
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
 }
 
 export interface VehicleSeat {
@@ -408,7 +408,7 @@ export interface VehicleSeatComponentExport extends RemoveIndex<Data> {
 
 export interface VehicleExport extends RemoveIndex<Data> {
   Health?: number,
-  ReplicatedMovement?: FRepMovement,
+  ReplicatedMovement?: FRepMovement<DefaultResult>,
 }
 
 export interface Vehicle extends VehicleExport {

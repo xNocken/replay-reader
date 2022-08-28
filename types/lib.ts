@@ -598,3 +598,9 @@ export interface FortSet {
   CurrentValue: number,
   Maximum: number,
 }
+
+export interface DownloadedDataChunk {
+  chunk: DataChunk,
+  replay: Replay,
+  downloadTime:  number,
+}

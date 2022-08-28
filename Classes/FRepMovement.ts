@@ -1,6 +1,8 @@
-import { FRotator, FVector } from '$types/lib';
+import { BaseResult, CustomClass, FRotator, FVector } from '$types/lib';
+import GlobalData from '../src/Classes/GlobalData';
+import Replay from '../src/Classes/Replay';
 
-export class FRepMovement {
+export class FRepMovement<ResultType extends BaseResult> {
   bSimulatedPhysicSleep: boolean;
   bRepPhysics: boolean;
   location: FVector;
@@ -8,7 +10,7 @@ export class FRepMovement {
   linearVelocity: FVector;
   angularVelocity: FVector;
 
-  serialize(reader, globalData, { locationQuatLevel = 2, rotationQuatLevel = 0, velocityQuatLevel = 0 }) {
+  serialize(reader: Replay, globalData: GlobalData<ResultType>, { locationQuatLevel = 2, rotationQuatLevel = 0, velocityQuatLevel = 0 }) {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();
 

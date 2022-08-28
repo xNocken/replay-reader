@@ -1,10 +1,9 @@
 import needle from 'needle';
 
-import { BaseResult, BaseStates, Checkpoint, Chunks, DataChunk, Event, Meta, MetaDataResult } from '$types/lib';
+import { BaseResult, Checkpoint, Chunks, DataChunk, Event, Meta, MetaDataResult } from '$types/lib';
 import GlobalData from './Classes/GlobalData';
 import Replay from './Classes/Replay';
 import parseHeader from './chunks/parse-header';
-import { parseChunksStreaming } from './parse-chunks-streaming';
 
 export const replayMetaStreaming = <ResultType extends BaseResult>(metadata: MetaDataResult, globalData: GlobalData<ResultType>) => {
   const meta: Meta = {

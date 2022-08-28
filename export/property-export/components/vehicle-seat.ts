@@ -3,7 +3,7 @@ import { DefaultResult, DefaultStates, VehicleSeatComponentExport } from '$types
 
 export const handleVehicleSeatComponent: PropertyExportFunction<DefaultResult, DefaultStates, VehicleSeatComponentExport> = ({ actorId, data, states }) => {
   // fix for switching seats
-  const enteredPlayers = [];
+  const enteredPlayers: number[] = [];
   const vehicle = states.vehicles[actorId];
 
   if (!data.PlayerSlots || !vehicle) {
