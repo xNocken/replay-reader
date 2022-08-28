@@ -1,4 +1,13 @@
-class FRepMovement {
+import { FRotator, FVector } from '$types/lib';
+
+export class FRepMovement {
+  bSimulatedPhysicSleep: boolean;
+  bRepPhysics: boolean;
+  location: FVector;
+  rotation: FRotator
+  linearVelocity: FVector;
+  angularVelocity: FVector;
+
   serialize(reader, globalData, { locationQuatLevel = 2, rotationQuatLevel = 0, velocityQuatLevel = 0 }) {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();
@@ -12,5 +21,3 @@ class FRepMovement {
     }
   }
 }
-
-module.exports = FRepMovement;

@@ -1,8 +1,14 @@
-class PlaylistInfo {
-  serialize(reader) {
+import Replay from '../src/Classes/Replay';
+
+export class PlaylistInfo {
+  id: number;
+  name: string;
+
+  serialize(reader: Replay) {
     if (reader.header.engineNetworkVersion >= 11) {
       reader.readBit();
     }
+
     reader.readBit();
     this.id = reader.readIntPacked();
     reader.skipBits(31);
@@ -16,5 +22,3 @@ class PlaylistInfo {
     return this.name;
   }
 }
-
-module.exports = PlaylistInfo;

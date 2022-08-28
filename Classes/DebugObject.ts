@@ -1,26 +1,23 @@
-const Replay = require("../src/Classes/Replay");
-const FGameplayTag = require("./FGameplayTag");
-const FGameplayTagContainer = require("./FGameplayTagContainer");
-const FName = require("./FName");
-const FRepMovement = require("./FRepMovement");
-const ItemDefinition = require("./ItemDefinition");
+import { BaseResult, BaseStates, CustomClass, Header } from '$types/lib';
+import GlobalData from '../src/Classes/GlobalData';
+import { NetGuidCache } from '../src/Classes/NetGuidCache';
+import Replay from "../src/Classes/Replay";
+import { FGameplayTag } from "./FGameplayTag";
+import { FGameplayTagContainer } from "./FGameplayTagContainer";
+import { FName } from "./FName";
+import { FRepMovement } from "./FRepMovement";
+import { ItemDefinition } from "./ItemDefinition";
 
-class DebugObject {
-  constructor(data, exportt, bits, header) {
-    if (!data || !exportt) {
-      return;
-    }
+export class DebugObject<ResultType extends BaseResult> {
+  data: Buffer;
+  name: string;
+  size: number;
+  header: Header;
+  globalData: GlobalData<ResultType>;
+  config: unknown;
+  cache: NetGuidCache<ResultType>;
 
-    this.data = Buffer.from(data);
-    this.name = exportt.name;
-    this.size = bits;
-    this.header = header;
-  }
-
-  /**
-   * @param {Replay} reader
-   */
-  serialize(reader, globalData, config) {
+  serialize(reader: Replay, globalData: GlobalData<ResultType>, config: unknown) {
     this.size = reader.getBitsLeft();
     this.data = Buffer.from(reader.readBits(this.size));
     this.globalData = globalData;
@@ -28,7 +25,7 @@ class DebugObject {
     this.header = reader.header;
   }
 
-  resolve(cache) {
+  resolve(cache: NetGuidCache<ResultType>) {
     this.cache = cache;
   }
 
@@ -37,7 +34,7 @@ class DebugObject {
       return null;
     }
 
-  return this.data.readFloatLE();
+    return this.data.readFloatLE();
   }
 
   getValueAsInt() {
@@ -68,7 +65,7 @@ class DebugObject {
     return this.data.toString('utf-8', 4, length + 3);
   }
 
-  getValueAsClass(Class) {
+  getValueAsClass(Class: new () => CustomClass<ResultType>) {
     const container = new Class();
     const replay = new Replay(this.data, this.size);
 
@@ -81,7 +78,7 @@ class DebugObject {
     }
 
     if (this.cache && container.resolve) {
-      container.resolve(this.cache);
+      container.resolve(this.cache, this.globalData);
     }
 
     return container;
@@ -128,5 +125,3 @@ class DebugObject {
     };
   }
 }
-
-module.exports = DebugObject;

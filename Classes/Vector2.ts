@@ -1,4 +1,7 @@
-class Vector2 {
+export class Vector2 {
+  x: number;
+  y: number;
+
   serialize(reader) {
     this.x = reader.readFloat32();
     this.y = reader.readFloat32();
@@ -11,5 +14,3 @@ class Vector2 {
     };
   }
 }
-
-module.exports = Vector2;
