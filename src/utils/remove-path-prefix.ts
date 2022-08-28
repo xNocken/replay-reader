@@ -1,0 +1,26 @@
+export const removePathPrefix = (path: string, toRemove: string = ''): string => {
+  if (toRemove !== '') {
+    if (toRemove.length > path.length) {
+      return path;
+    }
+
+    for (let i = 0; i < toRemove.length; i++) {
+      if (path[i] != toRemove[i]) {
+        return path;
+      }
+    }
+
+    return path.substring(toRemove.length);
+  }
+
+  for (let i = path.length - 1; i >= 0; i--) {
+    switch (path[i]) {
+      case '.':
+        return path.substring(i + 1);
+      case '/':
+        return path;
+    }
+  }
+
+  return removePathPrefix(path, 'Default__');
+};
