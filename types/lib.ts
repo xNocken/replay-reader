@@ -5,6 +5,7 @@ import Replay from '../src/Classes/Replay';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import { NetFieldExportInternal } from '$types/replay';
 import { NetworkGUID } from '../Classes/NetworkGUID';
+import { Logger } from '../src/Classes/Logger';
 
 export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector' | 'readPackedVector1' | 'readFName' | 'readNetId';
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
@@ -233,7 +234,7 @@ export interface NetDeltaExportData<DataType> {
   elementIndex: number,
   path: string,
   export: DataType,
-  changedProperties: keyof DataType,
+  changedProperties: (keyof DataType)[],
 }
 
 export interface NetDeltaExport<ResultType extends BaseResult, StateType extends BaseStates, DataType> {
@@ -248,6 +249,7 @@ export interface NetDeltaExport<ResultType extends BaseResult, StateType extends
   stopParsing: StopParsing,
   actor: Actor,
   actorId: number,
+  logger: Logger,
 }
 
 export interface PropertyExport<ResultType extends BaseResult, StateType extends BaseStates, DataType> {
@@ -264,6 +266,7 @@ export interface PropertyExport<ResultType extends BaseResult, StateType extends
   actor: Actor,
   actorId: number,
   netFieldExports: NetFieldExportInternal[],
+  logger: Logger,
 }
 
 export interface ActorDespawnExport<ResultType extends BaseResult, StateType extends BaseStates> {
@@ -279,6 +282,7 @@ export interface ActorDespawnExport<ResultType extends BaseResult, StateType ext
   stopParsing: StopParsing,
   actor: Actor,
   actorId: number,
+  logger: Logger,
 }
 
 export interface ActorSpawnExport<ResultType extends BaseResult, StateType extends BaseStates> {
@@ -294,9 +298,10 @@ export interface ActorSpawnExport<ResultType extends BaseResult, StateType exten
   stopParsing: StopParsing,
   actor: Actor,
   actorId: number,
+  logger: Logger,
 }
 
-export interface ChannelOpenedClosed<ResultType extends BaseResult, StateType extends BaseStates> {
+export interface ChannelOpenedClosedExport<ResultType extends BaseResult, StateType extends BaseStates> {
   chIndex: number,
   actor: any,
   globalData: GlobalData<ResultType>,
@@ -304,27 +309,30 @@ export interface ChannelOpenedClosed<ResultType extends BaseResult, StateType ex
   states: StateType,
   setFastForward: SetFastForward,
   stopParsing: StopParsing,
+  logger: Logger,
 }
 
-export interface NextChunk<ResultType extends BaseResult, StateType extends BaseStates> {
+export interface NextChunkExport<ResultType extends BaseResult, StateType extends BaseStates> {
   size: number,
-  type: string,
   globalData: GlobalData<ResultType>,
   result: ResultType,
   states: StateType,
-  chunk: Event,
+  chunk: Event | Checkpoint | DataChunk,
   chunks: Chunks,
   setFastForward: SetFastForward,
   stopParsing: StopParsing,
+  logger: Logger,
 }
 
-export interface NextFrame<ResultType extends BaseResult, StateType extends BaseStates> {
+export interface NextFrameExport<ResultType extends BaseResult, StateType extends BaseStates> {
   timeSeconds: number,
   globalData: GlobalData<ResultType>,
   result: ResultType,
   states: StateType,
   setFastForward: SetFastForward,
+  sinceLastFrame: number,
   stopParsing: StopParsing,
+  logger: Logger,
 }
 
 export interface NetDeltaExportFunction<ResultType extends BaseResult, StateType extends BaseStates, DataType extends RemoveIndex<Data>> {
@@ -344,15 +352,15 @@ export interface ActorSpawnExportFunction<ResultType extends BaseResult, StateTy
 }
 
 export interface ChannelOpenedClosedFunction<ResultType extends BaseResult, StateType extends BaseStates> {
-  (exportt: ChannelOpenedClosed<ResultType, StateType>): void,
+  (exportt: ChannelOpenedClosedExport<ResultType, StateType>): void,
 }
 
 export interface NextChunkFunction<ResultType extends BaseResult, StateType extends BaseStates> {
-  (exportt: NextChunk<ResultType, StateType>): void,
+  (exportt: NextChunkExport<ResultType, StateType>): void,
 }
 
 export interface NextFrameFunction<ResultType extends BaseResult, StateType extends BaseStates> {
-  (exportt: NextFrame<ResultType, StateType>): void,
+  (exportt: NextFrameExport<ResultType, StateType>): void,
 }
 
 export interface NetDeltaExportEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
@@ -585,6 +593,7 @@ export interface BaseStates {
 export interface BaseResult {
   header: Header,
   info: Meta,
+  logs?: Logs,
   events?: Events,
   chunks?: Chunks,
 }
@@ -603,4 +612,16 @@ export interface DownloadedDataChunk {
   chunk: DataChunk,
   replay: Replay,
   downloadTime:  number,
+}
+
+export interface Logs {
+  message: string[],
+  warn: string[],
+  error: string[],
+}
+
+export interface DownloadProcessResponse {
+  url: string,
+  body: number[],
+  statusCode: number,
 }

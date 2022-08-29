@@ -175,7 +175,7 @@ export const receivedPacket = <ResultType extends BaseResult>(packetArchive: Rep
         onChannelClosed(bunch, globalData);
       }
     } catch (ex) {
-      console.log(ex);
+      globalData.logger.error(ex.stack);
     } finally {
       if (!bPartial && !ignoreChannel) {
         archive.popOffset(3);

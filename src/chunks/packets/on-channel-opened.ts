@@ -1,4 +1,4 @@
-import { Actor, BaseResult, BaseStates, Bunch, Channel } from '$types/lib';
+import { Actor, ActorSpawnExport, BaseResult, BaseStates, Bunch, Channel, ChannelOpenedClosedExport } from '$types/lib';
 import { NetFieldExportGroupInternal } from '$types/replay';
 import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
@@ -7,7 +7,7 @@ export const onChannelOpened = <ResultType extends BaseResult>(channel: Channel,
   const { chIndex } = channel;
 
   try {
-    globalData.emitters.parsing.emit('channelOpened', {
+    const exportData: ChannelOpenedClosedExport<ResultType, BaseStates> = {
       chIndex,
       actor,
       globalData,
@@ -15,9 +15,12 @@ export const onChannelOpened = <ResultType extends BaseResult>(channel: Channel,
       states: globalData.states,
       setFastForward: globalData.setFastForward,
       stopParsing: globalData.stopParsingFunc,
-    });
+      logger: globalData.logger,
+    };
+
+    globalData.emitters.parsing.emit('channelOpened', exportData);
   } catch (err) {
-    console.error(`Error while exporting "channelOpened": ${err.stack}`);
+    globalData.logger.error(`Error while exporting "channelOpened": ${err.stack}`);
   }
 
   if (!actor) {
@@ -62,24 +65,24 @@ export const onChannelOpened = <ResultType extends BaseResult>(channel: Channel,
   }
 
   try {
-    globalData.emitters.actorSpawn.emit(
-      exportName,
-      {
-        openPacket: bunch.bOpen,
-        chIndex: bunch.chIndex,
-        timeSeconds: bunch.timeSeconds,
-        netFieldExportGroup,
-        staticActorId,
-        globalData,
-        actor,
-        result: globalData.result,
-        states: globalData.states,
-        setFastForward: globalData.setFastForward,
-        stopParsing: globalData.stopParsingFunc,
-        actorId: actor.actorNetGUID.value,
-      },
-    );
+    const exportData: ActorSpawnExport<ResultType, BaseStates> = {
+      openPacket: bunch.bOpen,
+      chIndex: bunch.chIndex,
+      timeSeconds: bunch.timeSeconds,
+      netFieldExportGroup,
+      staticActorId,
+      globalData,
+      actor,
+      result: globalData.result,
+      states: globalData.states,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+      actorId: actor.actorNetGUID.value,
+      logger: globalData.logger,
+    };
+
+    globalData.emitters.actorSpawn.emit(exportName, exportData);
   } catch (err) {
-    console.error(`Error while exporting actorSpawn "${exportName}": ${err.stack}`);
+    globalData.logger.error(`Error while exporting actorSpawn "${exportName}": ${err.stack}`);
   }
 };

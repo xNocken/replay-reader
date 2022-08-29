@@ -63,7 +63,7 @@ export const parseCheckpoint = <ResultType extends BaseResult>(encryptedReplay: 
       outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId);
 
       if (!outerGuid) {
-        console.log('failed to find outer');
+        globalData.logger.warn(`failed to find outer of ${guid}`);
       }
     }
 

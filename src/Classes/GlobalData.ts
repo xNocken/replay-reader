@@ -24,6 +24,7 @@ import { setEvents } from '../../export/set-events';
 import { getOozPath } from '../utils/get-ooz-path';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
 import { ExternalDataMap, NetFieldExportGroup } from '$types/replay';
+import { Logger } from './Logger';
 
 class GlobalData<ResultType extends BaseResult> {
   channels: Channel[] = [];
@@ -92,6 +93,7 @@ class GlobalData<ResultType extends BaseResult> {
 
   externalData: ExternalDataMap = {};
 
+  logger: Logger;
   netGuidCache = new NetGuidCache<ResultType>();
   netFieldParser: NetFieldParser<ResultType>;
   actorToPath: Record<number, string> = {};

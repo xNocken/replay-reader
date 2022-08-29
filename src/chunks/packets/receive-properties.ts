@@ -76,7 +76,7 @@ export const receiveProperties = <ResultType extends BaseResult>(
 
       exportGroup[key] = result;
     } catch (ex) {
-      console.log(ex.stack);
+      globalData.logger.error(ex.stack);
     } finally {
       archive.popOffset(6, numbits, true);
     }
@@ -115,7 +115,7 @@ export const receiveProperties = <ResultType extends BaseResult>(
     }
 
     if (globalData.options.debug && !globalData.emitters.properties.eventNames().includes(exportGroup.type)) {
-      console.log('Unhandled export', exportGroup.type);
+      globalData.logger.warn(`Unhandled export ${exportGroup.type}`);
     }
 
     const exportData: PropertyExport<ResultType, BaseStates, BaseExport> = {
@@ -132,15 +132,13 @@ export const receiveProperties = <ResultType extends BaseResult>(
       actor: bunch.actor,
       actorId: bunch.actor.actorNetGUID.value,
       netFieldExports: nfeGroup.netFieldExports,
+      logger: globalData.logger,
     };
 
     try {
-      globalData.emitters.properties.emit(
-        exportGroup.type,
-        exportData,
-      );
+      globalData.emitters.properties.emit(exportGroup.type, exportData);
     } catch (err) {
-      console.error(`Error while exporting propertyExport "${exportGroup.type}": ${err.stack}`);
+      globalData.logger.error(`Error while exporting propertyExport "${exportGroup.type}": ${err.stack}`);
     }
   }
 

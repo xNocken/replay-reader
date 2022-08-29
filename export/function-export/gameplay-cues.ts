@@ -1,11 +1,9 @@
 import { PropertyExportFunction } from '$types/lib';
 import { DefaultResult, DefaultStates, GameplayCueExport } from '$types/result-data';
 
-export const handleGameplayCues: PropertyExportFunction<DefaultResult, DefaultStates, GameplayCueExport> = ({ actorId, data, timeSeconds, globalData, states }) => {
+export const handleGameplayCues: PropertyExportFunction<DefaultResult, DefaultStates, GameplayCueExport> = ({ actorId, data, timeSeconds, globalData, states, logger }) => {
   if (!states.pawns[actorId]) {
-    if (globalData.options.debug) {
-      console.log('Received gameplay cue for not tracked pawn');
-    }
+    logger.warn('Received gameplay cue for not tracked pawn');
 
     return;
   }

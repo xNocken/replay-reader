@@ -67,7 +67,10 @@ export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data:
     throw new Error('No header found');
   }
 
-  return globalData.result;
+  return {
+    ...globalData.result,
+    logs: globalData.logger.logs,
+  };
 };
 
 export const parseStreaming = async <ResultType extends BaseResult = DefaultResult>(metadata: MetaDataResult, options: ParseStreamOptions<ResultType>) => {
@@ -103,5 +106,8 @@ export const parseStreaming = async <ResultType extends BaseResult = DefaultResu
     debugStuff(globalData);
   }
 
-  return globalData.result;
+  return {
+    ...globalData.result,
+    logs: globalData.logger.logs,
+  };
 };

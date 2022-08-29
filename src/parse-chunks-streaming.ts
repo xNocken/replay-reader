@@ -50,22 +50,26 @@ const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chu
   }
 
   try {
-    globalData.emitters.parsing.emit('nextChunk', {
+    const exportData: NextChunkExport<ResultType, BaseStates> = {
       size: checkpoint.chunkSize,
-      type: 2,
       chunks,
       chunk: checkpoint,
       setFastForward: globalData.setFastForward,
       stopParsing: globalData.stopParsingFunc,
-    });
+      logger: globalData.logger,
+      globalData: globalData,
+      result: globalData.result,
+      states: globalData.states,
+    };
+    globalData.emitters.parsing.emit('nextChunk', exportData);
   } catch (err) {
-    console.error(`Error while exporting "nextChunk": ${err.stack}`);
+    globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
   }
 
   await parseCheckpoint(replay, checkpoint, globalData);
 
   if (globalData.options.debug) {
-    console.log(`downloaded checkpointChunk with ${checkpoint.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
+    globalData.logger.message(`downloaded checkpointChunk with ${checkpoint.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
   }
 
   return checkpoint.endTime;
@@ -120,16 +124,21 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
           }
 
           try {
-            globalData.emitters.parsing.emit('nextChunk', {
+            const exportData: NextChunkExport<ResultType, BaseStates> = {
               size: event.chunkSize,
-              type: 3,
               chunks,
               chunk: event,
               setFastForward: globalData.setFastForward,
               stopParsing: globalData.stopParsingFunc,
-            });
+              logger: globalData.logger,
+              globalData: globalData,
+              result: globalData.result,
+              states: globalData.states,
+            };
+
+            globalData.emitters.parsing.emit('nextChunk', exportData);
           } catch (err) {
-            console.error(`Error while exporting "nextChunk": ${err.stack}`);
+            globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
           }
 
           events.push(parseEvent(replay, event, globalData));
@@ -139,7 +148,7 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
           resolve();
 
           if (globalData.options.debug) {
-            console.log(`downloaded eventChunk with ${event.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
+            globalData.logger.message(`downloaded eventChunk with ${event.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
           }
         });
       }));
@@ -200,23 +209,28 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
         isParsing = true;
 
         try {
-          globalData.emitters.parsing.emit('nextChunk', {
+          const exportData: NextChunkExport<ResultType, BaseStates> = {
             size: chunk.chunk.chunkSize,
-            type: 3,
             chunks,
             chunk: chunk.chunk,
             setFastForward: globalData.setFastForward,
             stopParsing: globalData.stopParsingFunc,
-          });
+            logger: globalData.logger,
+            globalData: globalData,
+            result: globalData.result,
+            states: globalData.states,
+          };
+
+          globalData.emitters.parsing.emit('nextChunk', exportData);
         } catch (err) {
-          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+          globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
         }
 
         await parsePackets(chunk.replay, chunk.chunk, globalData);
         time = chunk.chunk.endTime;
 
         if (globalData.options.debug) {
-          console.log(`downloaded dataChunk at ${chunk.chunk.startTime / 1000}s with ${chunk.chunk.chunkSize} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`);
+          globalData.logger.message(`downloaded dataChunk at ${chunk.chunk.startTime / 1000}s with ${chunk.chunk.chunkSize} bytes in ${chunk.downloadTime}ms and parsed it in ${Date.now() - parseStartTime}ms`);
         }
 
         if (time < globalData.fastForwardTo * 1000) {
@@ -228,7 +242,7 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
 
           if (newTime) {
             if (globalData.options.debug) {
-              console.log(`fastForwarded from ${time / 1000}s to ${fastForwardTarget}s using checkpoint at ${newTime / 1000}s`);
+              globalData.logger.message(`fastForwarded from ${time / 1000}s to ${fastForwardTarget}s using checkpoint at ${newTime / 1000}s`);
             }
 
             time = newTime;

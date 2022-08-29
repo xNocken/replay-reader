@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Bunch, CustomClass } from '$types/lib';
+import { BaseResult, BaseStates, Bunch, CustomClass, PropertyExport } from '$types/lib';
 import { NetFieldExportInternal } from '$types/replay';
 import classes from '../../../../Classes';
 import GlobalData from '../../../Classes/GlobalData';
@@ -17,23 +17,25 @@ export const receiveCustomProperty = <ResultType extends BaseResult>(reader: Rep
   const type = fieldCache.customExportName || pathName.split('/').pop();
 
   try {
-    globalData.emitters.properties.emit(
-      type,
-      {
-        chIndex: bunch.chIndex,
-        data: instance,
-        timeSeconds: bunch.timeSeconds,
-        staticActorId,
-        globalData,
-        result: globalData.result,
-        states: globalData.states,
-        setFastForward: globalData.setFastForward,
-        stopParsing: globalData.stopParsingFunc,
-        actor: bunch.actor,
-        actorId: bunch.actor.actorNetGUID.value,
-      },
-    );
+    const exportData: PropertyExport<ResultType, BaseStates, CustomClass<ResultType>> = {
+      chIndex: bunch.chIndex,
+      data: instance,
+      timeSeconds: bunch.timeSeconds,
+      staticActorId,
+      globalData,
+      result: globalData.result,
+      states: globalData.states,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+      actor: bunch.actor,
+      actorId: bunch.actor.actorNetGUID.value,
+      logger: globalData.logger,
+      changedProperties: [],
+      netFieldExports: [],
+    };
+
+    globalData.emitters.properties.emit(type, exportData);
   } catch (err) {
-    console.error(`Error while exporting propertyExport "${type}": ${err.stack}`);
+    globalData.logger.error(`Error while exporting propertyExport "${type}": ${err.stack}`);
   }
 };

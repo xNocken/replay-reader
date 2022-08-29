@@ -73,11 +73,9 @@ export const replayChunksStreaming = async <ResultType extends BaseResult>(metad
   }
 
   const replay = new Replay(body);
-  globalData.header = parseHeader(replay);
+  globalData.header = parseHeader(replay, globalData.logger);
 
-  if (globalData.options.debug) {
-    console.log(`downloaded headerChunk in ${debugDownloadFinishTime - debugDownloadStartTime}ms and parsed in ${Date.now() - debugParseTime}ms`);
-  }
+  globalData.logger.message(`downloaded headerChunk in ${debugDownloadFinishTime - debugDownloadStartTime}ms and parsed in ${Date.now() - debugParseTime}ms`);
 
   return chunks;
 };

@@ -1,7 +1,7 @@
 import { receiveProperties } from "../receive-properties";
 import pathhhh from 'path';
 import Replay from '../../../Classes/Replay';
-import { BaseResult, BaseStates, Bunch } from '$types/lib';
+import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '$types/lib';
 import GlobalData from '../../../Classes/GlobalData';
 import { NetFieldExportGroupInternal } from '$types/replay';
 
@@ -34,31 +34,33 @@ export const netDeltaSerialize = <ResultType extends BaseResult>(
     const elementIndex = reader.readInt32();
 
     try {
-      globalData.emitters.netDelta.emit(
-        exportName,
-        {
-          chIndex: bunch.chIndex,
-          data: {
-            deleted: true,
-            elementIndex,
-            path: group.pathName,
-            export: {
-              type: pathhhh.basename(group.pathName),
-            },
+      const exportData: NetDeltaExport<ResultType, BaseStates, Data> = {
+        chIndex: bunch.chIndex,
+        data: {
+          deleted: true,
+          elementIndex,
+          path: group.pathName,
+          changedProperties: [],
+          export: {
+            type: exportName,
+            pathName: group.pathName,
           },
-          timeSeconds: bunch.timeSeconds,
-          staticActorId,
-          globalData,
-          result: globalData.result,
-          states: globalData.states,
-          setFastForward: globalData.setFastForward,
-          stopParsing: globalData.stopParsingFunc,
-          actor: bunch.actor,
-          actorId: bunch.actor.actorNetGUID.value,
         },
-      );
+        timeSeconds: bunch.timeSeconds,
+        staticActorId,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
+        setFastForward: globalData.setFastForward,
+        stopParsing: globalData.stopParsingFunc,
+        actor: bunch.actor,
+        actorId: bunch.actor.actorNetGUID.value,
+        logger: globalData.logger,
+      };
+
+      globalData.emitters.netDelta.emit(exportName, exportData);
     } catch (err) {
-      console.error(`Error while exporting netDelta "${exportName}": ${err.stack}`);
+      globalData.logger.error(`Error while exporting netDelta "${exportName}": ${err.stack}`);
     }
   }
 
@@ -80,29 +82,29 @@ export const netDeltaSerialize = <ResultType extends BaseResult>(
     }
 
     try {
-      globalData.emitters.netDelta.emit(
-        properties.exportGroup.type,
-        {
-          chIndex: bunch.chIndex,
-          data: {
-            elementIndex,
-            path: group.pathName,
-            export: properties.exportGroup,
-          },
-          timeSeconds: bunch.timeSeconds,
-          staticActorId,
-          globalData,
-          result: globalData.result,
-          states: globalData.states,
-          setFastForward: globalData.setFastForward,
-          stopParsing: globalData.stopParsingFunc,
+      const exportData: NetDeltaExport<ResultType, BaseStates, Data> = {
+        chIndex: bunch.chIndex,
+        data: {
+          elementIndex,
+          path: group.pathName,
+          export: properties.exportGroup,
           changedProperties: properties.changedProperties,
-          actor: bunch.actor,
-          actorId: bunch.actor.actorNetGUID.value,
         },
-      );
+        timeSeconds: bunch.timeSeconds,
+        staticActorId,
+        globalData,
+        result: globalData.result,
+        states: globalData.states,
+        setFastForward: globalData.setFastForward,
+        stopParsing: globalData.stopParsingFunc,
+        actor: bunch.actor,
+        actorId: bunch.actor.actorNetGUID.value,
+        logger: globalData.logger,
+      };
+
+      globalData.emitters.netDelta.emit(properties.exportGroup.type, exportData);
     } catch (err) {
-      console.error(`Error while exporting netDelta "${group.customExportName || pathhhh.basename(group.pathName)}": ${err.stack}`);
+      globalData.logger.error(`Error while exporting netDelta "${exportName}": ${err.stack}`);
     }
   }
 };

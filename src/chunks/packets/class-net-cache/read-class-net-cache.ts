@@ -70,9 +70,7 @@ export const readClassNetCache = <ResultType extends BaseResult>(
       if (!exportGroup) {
         archive.popOffset(5);
 
-        if (globalData.options.debug) {
-          console.error(`class net cache ${fieldCache.name} from ${classNetCache.pathName} has been declared but has no export group`);
-        }
+        globalData.logger.warn(`class net cache ${fieldCache.name} from ${classNetCache.pathName} has been declared but has no export group`);
 
         continue;
       }

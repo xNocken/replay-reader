@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates } from '$types/lib';
+import { BaseResult, BaseStates, NextFrameExport } from '$types/lib';
 import { Packet } from "$types/replay";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
@@ -27,7 +27,7 @@ const receivedRawPacket = <ResultType extends BaseResult>(packet: Packet, replay
   try {
     receivedPacket(replay, packet.timeSeconds, globalData);
   } catch (ex) {
-    console.log(ex);
+    globalData.logger.error(ex.stack);
   }
 
   replay.popOffset(2, bitSize);
@@ -42,7 +42,7 @@ export const parsePlaybackPackets = <ResultType extends BaseResult>(replay: Repl
 
   if (globalData.lastFrameTime !== timeSeconds) {
     try {
-      globalData.emitters.parsing.emit('nextFrame', {
+      const exportData: NextFrameExport<ResultType, BaseStates> = {
         timeSeconds,
         sinceLastFrame: globalData.lastFrameTime - timeSeconds,
         globalData,
@@ -50,9 +50,12 @@ export const parsePlaybackPackets = <ResultType extends BaseResult>(replay: Repl
         states: globalData.states,
         setFastForward: globalData.setFastForward,
         stopParsing: globalData.stopParsingFunc,
-      });
+        logger: globalData.logger,
+      };
+
+      globalData.emitters.parsing.emit('nextFrame', exportData);
     } catch (err) {
-      console.error(`Error while exporting "nextFrame": ${err.stack}`);
+      globalData.logger.error(`Error while exporting "nextFrame": ${err.stack}`);
     }
 
     globalData.lastFrameTime = timeSeconds;

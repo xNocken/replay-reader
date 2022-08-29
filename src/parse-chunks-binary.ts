@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Chunks } from '$types/lib';
+import { BaseResult, BaseStates, Chunks, NextChunkExport } from '$types/lib';
 import GlobalData from './Classes/GlobalData';
 import Replay from './Classes/Replay';
 
@@ -24,27 +24,30 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
         }
 
         try {
-          globalData.emitters.parsing.emit('nextChunk', {
+          const exportData: NextChunkExport<ResultType, BaseStates> = {
             size: event.chunkSize,
-            type: 3,
             chunks,
             chunk: event,
             setFastForward: globalData.setFastForward,
             stopParsing: globalData.stopParsingFunc,
-          });
+            logger: globalData.logger,
+            globalData: globalData,
+            result: globalData.result,
+            states: globalData.states,
+          };
+
+          globalData.emitters.parsing.emit('nextChunk', exportData);
         } catch (err) {
-          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+          globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
         }
 
         try {
           parseEvent(replay, event, globalData);
         } catch (err) {
-          console.log('Error while reading event chunk');
+          globalData.logger.error(`Error while reading event chunk ${event.group} at ${event.startTime}`);
         }
 
-        if (globalData.options.debug) {
-          console.log(`read eventChunk with ${event.chunkSize} bytes in ${Date.now() - debugTime}ms`);
-        }
+        globalData.logger.message(`read eventChunk with ${event.chunkSize} bytes in ${Date.now() - debugTime}ms`);
       });
   }
 
@@ -63,9 +66,7 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
 
     parseCheckpoint(replay, checkpoint, globalData);
 
-    if (globalData.options.debug) {
-      console.log(`read checkpointChunk with ${checkpoint.chunkSize} bytes in ${Date.now() - debugTime}ms`);
-    }
+    globalData.logger.message(`read checkpointChunk with ${checkpoint.chunkSize} bytes in ${Date.now() - debugTime}ms`);
 
     time = checkpoint.endTime;
   }
@@ -90,21 +91,24 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
           debugTime = Date.now();
         }
 
-        if (globalData.options.debug) {
-          console.log(`fast forwarding from ${(time / 1000).toFixed(2)} to ${fastForwardTo.toFixed(2)} with checkpoint at ${(checkpoint.startTime / 1000).toFixed(2)}`);
-        }
+        globalData.logger.message(`fast forwarding from ${(time / 1000).toFixed(2)} to ${fastForwardTo.toFixed(2)} with checkpoint at ${(checkpoint.startTime / 1000).toFixed(2)}`);
 
         try {
-          globalData.emitters.parsing.emit('nextChunk', {
+          const exportData: NextChunkExport<ResultType, BaseStates> = {
             size: checkpoint.chunkSize,
-            type: 2,
             chunks,
             chunk: checkpoint,
             setFastForward: globalData.setFastForward,
             stopParsing: globalData.stopParsingFunc,
-          });
+            logger: globalData.logger,
+            globalData: globalData,
+            result: globalData.result,
+            states: globalData.states,
+          };
+
+          globalData.emitters.parsing.emit('nextChunk', exportData);
         } catch (err) {
-          console.error(`Error while exporting "nextChunk": ${err.stack}`);
+          globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
         }
 
         parseCheckpoint(replay, checkpoint, globalData);
@@ -113,9 +117,7 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
 
         time = checkpoint.startTime;
 
-        if (globalData.options.debug) {
-          console.log(`read checkpointChunk with ${checkpoint.chunkSize} bytes in ${Date.now() - debugTime}ms`);
-        }
+        globalData.logger.message(`read checkpointChunk with ${checkpoint.chunkSize} bytes in ${Date.now() - debugTime}ms`);
       }
     }
 
@@ -127,24 +129,27 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
       }
 
       try {
-        globalData.emitters.parsing.emit('nextChunk', {
+        const exportData: NextChunkExport<ResultType, BaseStates> = {
           size: chunks.replayData[i].chunkSize,
-          type: 1,
           chunks,
-          chunk: chunks.replayData[i].chunkSize,
+          chunk: chunks.replayData[i],
           setFastForward: globalData.setFastForward,
           stopParsing: globalData.stopParsingFunc,
-        });
+          logger: globalData.logger,
+          globalData: globalData,
+          result: globalData.result,
+          states: globalData.states,
+        };
+
+        globalData.emitters.parsing.emit('nextChunk', exportData);
       } catch (err) {
-        console.error(`Error while exporting "nextChunk": ${err.stack}`);
+        globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
       }
 
       parsePackets(replay, chunks.replayData[i], globalData);
       time = chunks.replayData[i].endTime;
 
-      if (globalData.options.debug) {
-        console.log(`read replayDataChunk with ${chunks.replayData[i].chunkSize} bytes in ${Date.now() - debugTime}ms`);
-      }
+      globalData.logger.message(`read replayDataChunk with ${chunks.replayData[i].chunkSize} bytes in ${Date.now() - debugTime}ms`);
     }
   }
 };

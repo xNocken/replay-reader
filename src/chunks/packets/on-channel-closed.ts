@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Bunch } from '$types/lib';
+import { ActorDespawnExport, BaseResult, BaseStates, Bunch, ChannelOpenedClosedExport } from '$types/lib';
 import { NetFieldExportGroupInternal } from '$types/replay';
 import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
@@ -22,25 +22,28 @@ export const onChannelClosed = <ResultType extends BaseResult>(bunch: Bunch, glo
 
     if (netFieldExportGroup) {
       try {
+        const exportData: ActorDespawnExport<ResultType, BaseStates> = {
+          openPacket: bunch.bOpen,
+          chIndex: bunch.chIndex,
+          timeSeconds: bunch.timeSeconds,
+          netFieldExportGroup,
+          staticActorId,
+          globalData,
+          result: globalData.result,
+          states: globalData.states,
+          setFastForward: globalData.setFastForward,
+          stopParsing: globalData.stopParsingFunc,
+          actor: channel.actor,
+          actorId: actor.actorNetGUID.value,
+          logger: globalData.logger,
+        };
+
         globalData.emitters.actorDespawn.emit(
           netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName),
-          {
-            openPacket: bunch.bOpen,
-            chIndex: bunch.chIndex,
-            timeSeconds: bunch.timeSeconds,
-            netFieldExportGroup,
-            staticActorId,
-            globalData,
-            result: globalData.result,
-            states: globalData.states,
-            setFastForward: globalData.setFastForward,
-            stopParsing: globalData.stopParsingFunc,
-            actor: channel.actor,
-            actorId: actor.actorNetGUID.value,
-          },
+          exportData,
         );
       } catch (err) {
-        console.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);
+        globalData.logger.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);
       }
     }
   } else {
@@ -48,7 +51,7 @@ export const onChannelClosed = <ResultType extends BaseResult>(bunch: Bunch, glo
   }
 
   try {
-    globalData.emitters.parsing.emit('channelClosed', {
+    const exportData: ChannelOpenedClosedExport<ResultType, BaseStates> = {
       chIndex: bunch.chIndex,
       actor,
       globalData,
@@ -56,9 +59,12 @@ export const onChannelClosed = <ResultType extends BaseResult>(bunch: Bunch, glo
       states: globalData.states,
       setFastForward: globalData.setFastForward,
       stopParsing: globalData.stopParsingFunc,
-    });
+      logger: globalData.logger,
+    };
+
+    globalData.emitters.parsing.emit('channelClosed', exportData);
   } catch (err) {
-    console.error(`Error while exporting "channelClosed": ${err.stack}`);
+    globalData.logger.error(`Error while exporting "channelClosed": ${err.stack}`);
   }
 
   delete globalData.ignoredChannels[bunch.chIndex];

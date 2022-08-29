@@ -1,6 +1,7 @@
+import { Logger } from '../../../Classes/Logger';
 import Replay from '../../../Classes/Replay';
 
-const parsePlayer = (replay: Replay): string | null => {
+const parsePlayer = (replay: Replay, logger: Logger): string | null => {
   const playerType = replay.readByte();
 
   switch (playerType) {
@@ -16,7 +17,7 @@ const parsePlayer = (replay: Replay): string | null => {
       return replay.readId();
 
     default:
-      console.log('Invalid playerType', playerType, 'while reading event');
+      logger.warn(`Invalid playerType ${playerType} while reading event`);
 
       return null;
   }

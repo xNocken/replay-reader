@@ -1,7 +1,7 @@
 import Replay from './Classes/Replay';
 import parseHeader from './chunks/parse-header';
 import GlobalData from './Classes/GlobalData';
-import { BaseResult, BaseStates, Checkpoint, Chunks, DataChunk, Event } from '$types/lib';
+import { BaseResult, Checkpoint, Chunks, DataChunk, Event } from '$types/lib';
 
 const getChunksBinary = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
   const chunks: Chunks = {
@@ -18,7 +18,7 @@ const getChunksBinary = <ResultType extends BaseResult>(replay: Replay, globalDa
 
     switch (chunkType) {
       case 0:
-        globalData.header = parseHeader(replay);
+        globalData.header = parseHeader(replay, globalData.logger);
         break;
 
       case 1: {
@@ -80,7 +80,7 @@ const getChunksBinary = <ResultType extends BaseResult>(replay: Replay, globalDa
       }
 
       default:
-        console.warn('Unhandled chunkType:', chunkType);
+        globalData.logger.warn(`Unknown chunk type ${chunkType}`);
     }
 
     replay.popOffset(0, chunkSize * 8, false);

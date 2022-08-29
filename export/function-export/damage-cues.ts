@@ -1,7 +1,7 @@
 import { PropertyExportFunction } from '$types/lib';
 import { DamageCueExport, DefaultResult, DefaultStates, PlayerPawn } from '$types/result-data';
 
-export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStates, DamageCueExport> = ({ data, timeSeconds, states, actorId }) => {
+export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStates, DamageCueExport> = ({ data, timeSeconds, states, actorId, logger }) => {
   const hitPlayer = <PlayerPawn>states.playerPawns[data.HitActor];
 
   if (!hitPlayer) {
@@ -15,6 +15,12 @@ export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStat
   }
 
   const pawn = states.playerPawns[actorId];
+
+  if (!pawn) {
+    logger.warn('Received damage cue for not tracked pawn');
+
+    return;
+  }
 
   pawn.damages.push({
     ...data,

@@ -44,8 +44,8 @@ export const parsePlayerElim = <ResultType extends BaseResult>(globalData: Globa
 
     // TODO: verify
     if (replay.header.major >= 5) {
-      eliminated.name = parsePlayer(replay);
-      eliminator.name = parsePlayer(replay);
+      eliminated.name = parsePlayer(replay, globalData.logger);
+      eliminator.name = parsePlayer(replay, globalData.logger);
     } else {
       eliminated.name = replay.readString();
       eliminator.name = replay.readString();
