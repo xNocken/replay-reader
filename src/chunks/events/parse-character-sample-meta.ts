@@ -5,7 +5,6 @@ import enums from '../../../Enums';
 import { parsePosition } from './util/parse-position';
 
 export const parseCharacterSampleMeta = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay) => {
-  const version = replay.readInt32();
   const playerAmount = replay.readInt32();
 
   for (let i = 0; i < playerAmount; i += 1) {
@@ -26,7 +25,6 @@ export const parseCharacterSampleMeta = <ResultType extends BaseResult>(globalDa
     const positionAmount = replay.readUInt32();
 
     for (let i = 0; i < positionAmount; i += 1) {
-      const size = replay.readInt32();
       const targetEnum = (globalData.options.customEnums?.EFortMovementStyle || enums.EFortMovementStyle);
 
       const result: PlayerPosition = {

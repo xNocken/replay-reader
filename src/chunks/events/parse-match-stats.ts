@@ -3,8 +3,6 @@ import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
 export const parseMatchStats = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay) => {
-  const version = replay.readInt32();
-
   const accuracy = replay.readFloat32();
   const assists = replay.readUInt32();
   const eliminations = replay.readUInt32();

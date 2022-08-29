@@ -6,8 +6,7 @@ import enums from '../../../Enums';
 import parsePlayer from './util/parse-player';
 import { BaseResult, BaseStates } from '$types/lib';
 
-export const parsePlayerElim = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay, time: number) => {
-  const version = replay.readInt32();
+export const parsePlayerElim = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay, time: number, version: number) => {
   const targetEnum = (globalData.options.customEnums?.EDeathCause || enums.EDeathCause);
 
   let eliminated: ElimPlayer;

@@ -1,6 +1,7 @@
 import { BaseResult, BaseStates, Meta } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
+import versions from '../constants/versions';
 
 const metaMagic = 0x1CA2E27F;
 
@@ -21,6 +22,10 @@ export const parseMeta = <ResultType extends BaseResult >(replay: Replay, global
   let isCompressed: boolean;
   let isEncrypted: boolean;
   let encryptionKey: Buffer;
+
+  if (fileVersion > versions.fileVersion) {
+    globalData.logger.warn(`File version ${fileVersion} is newer than the latest supported version ${versions.fileVersion}. Parsing may fail`);
+  }
 
   if (fileVersion >= 3) {
     timestamp = replay.readDate();

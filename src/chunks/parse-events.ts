@@ -9,6 +9,7 @@ import { parseCharacterSampleMeta } from './events/parse-character-sample-meta';
 import { parseTimecode } from './events/parse-timecode';
 import { actorPositions } from './events/parse-actor-positions';
 import { parseAdditionGFP } from './events/parse-addition-gfp';
+import versions from '../constants/versions';
 
 const event = <ResultType extends BaseResult>(replay: Replay, info: Event, globalData: GlobalData<ResultType>) => {
   const startTime = Math.round(info.startTime / 1000);
@@ -25,6 +26,14 @@ const event = <ResultType extends BaseResult>(replay: Replay, info: Event, globa
     replay.addOffsetByte(1, info.chunkSize);
   }
 
+  const version = decryptedEvent.readInt32();
+
+  const highestVersion = versions[<keyof typeof versions>info.group];
+
+  if (highestVersion === undefined || version < highestVersion) {
+    globalData.logger.warn(`Event ${info.group} has an unknown version. supported: ${highestVersion} found: ${version}.`);
+  }
+
   switch (info.group) {
     case 'AthenaReplayBrowserEvents':
       if (info.metadata === 'AthenaMatchStats') {
@@ -36,7 +45,7 @@ const event = <ResultType extends BaseResult>(replay: Replay, info: Event, globa
       break;
 
     case 'playerElim':
-      parsePlayerElim(globalData, decryptedEvent, startTime);
+      parsePlayerElim(globalData, decryptedEvent, startTime, version);
 
       break;
 
@@ -61,7 +70,7 @@ const event = <ResultType extends BaseResult>(replay: Replay, info: Event, globa
       break;
 
     case 'AdditionGFPEventGroup':
-      parseAdditionGFP(globalData, decryptedEvent);
+      parseAdditionGFP(globalData, decryptedEvent, version);
 
       break;
   }

@@ -1,9 +1,11 @@
 import { Header, ReadObjectResult } from '$types/lib';
+import { Logger } from '../Classes/Logger';
 import Replay from '../Classes/Replay';
+import versions from '../constants/versions';
 
 const headerMagic = 0x2CF5A13D;
 
-const header = (replay: Replay): Header => {
+const header = (replay: Replay, logger: Logger): Header => {
   const magic = replay.readUInt32();
 
   if (magic !== headerMagic) {
@@ -23,6 +25,14 @@ const header = (replay: Replay): Header => {
   let patch: number;
   let flags: number;
   let platform: string;
+
+  if (networkVersion > versions.networkVersion) {
+    logger.warn('This replay has a higher network version than currently supported. parsing may fail');
+  }
+
+  if (engineNetworkVersion > versions.engineNetworkVersion) {
+    logger.warn('This replay has a higher engine network version than currently supported. parsing may fail');
+  }
 
   if (networkVersion >= 12) {
     guid = replay.readId();
