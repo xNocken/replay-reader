@@ -25,6 +25,7 @@ import { getOozPath } from '../utils/get-ooz-path';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
 import { ExternalDataMap, NetFieldExportGroup } from '$types/replay';
 import { Logger } from './Logger';
+import { ChildProcess } from 'child_process';
 
 class GlobalData<ResultType extends BaseResult> {
   channels: Channel[] = [];
@@ -46,6 +47,8 @@ class GlobalData<ResultType extends BaseResult> {
 
   options: ParseStreamOptions<ResultType> = {
     parseLevel: 1,
+    maxConcurrentDownloads: 3,
+    maxConcurrentEventDownloads: 5,
     debug: false,
     onlyUseCustomNetFieldExports: false,
     setEvents: setEvents,
@@ -92,6 +95,9 @@ class GlobalData<ResultType extends BaseResult> {
   ignoredChannels: NumberToBoolean = {};
 
   externalData: ExternalDataMap = {};
+
+  downloadProcess: ChildProcess = null;
+  downloadProcessResponses: Record<string, (value: any, statusCode: number) => void> = {};
 
   logger: Logger;
   netGuidCache = new NetGuidCache<ResultType>();

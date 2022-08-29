@@ -1,23 +1,46 @@
-import needle from 'needle';
 import { parseCheckpoint } from "./chunks/parse-checkpoint";
 import Replay from './Classes/Replay';
 import parseEvent from "./chunks/parse-events";
 import { parsePackets } from "./chunks/parse-packets";
 import GlobalData from './Classes/GlobalData';
-import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk } from '$types/lib';
+import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk, DownloadProcessResponse, NextChunkExport } from '$types/lib';
+import { fork } from 'child_process';
 
-const getChunk = async <ResultType extends BaseResult>(url: string, globalData: GlobalData<ResultType>) => {
-  const { body, statusCode } = await needle('get', url);
+const getChunk = <ResultType extends BaseResult>(url: string, globalData: GlobalData<ResultType>) => {
+  if (!globalData.downloadProcess) {
+    globalData.downloadProcess = fork(require.resolve('./download-process'));
 
-  if (statusCode !== 200) {
-    throw new Error('Failed to download chunk. Link may be expired');
+    globalData.downloadProcess.on('message', (res) => {
+      const { url, body, statusCode } = res as DownloadProcessResponse;
+      const handleFunc = globalData.downloadProcessResponses[url];
+
+      if (!handleFunc) {
+        globalData.logger.error(`No handler for ${url}`);
+
+        return;
+      }
+
+      handleFunc(body, statusCode);
+    });
   }
 
-  const replay = new Replay(body);
+  globalData.downloadProcess.send(url);
 
-  replay.header = globalData.header;
+  return new Promise<Replay>((resolve, reject) => {
+    globalData.downloadProcessResponses[url] = (body: any, statusCode: number) => {
+      if (statusCode !== 200) {
+        reject(new Error('Failed to download chunk. Link may be expired'));
 
-  return replay;
+        return;
+      }
+
+      const replay = new Replay(Buffer.from(body));
+
+      replay.header = globalData.header;
+
+      resolve(replay);
+    };
+  });
 };
 
 const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chunks, currentTime: number, targetTime: number, globalData: GlobalData<ResultType>) => {
@@ -305,6 +328,9 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
   downloadNextChunk();
 
   await new Promise<void>((resolve) => {
-    exitFunction = resolve;
+    exitFunction = () => {
+      globalData.downloadProcess.kill();
+      resolve();
+    };
   });
 };
