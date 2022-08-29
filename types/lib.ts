@@ -521,31 +521,51 @@ export interface CustomEnumMap {
 }
 
 export interface ParseOptions<ResultType extends BaseResult> {
+  /** Decides which net field exports to parse */
   parseLevel?: number,
+  /** Enables some additional features like debug files and loggin on console */
   debug?: boolean,
+  /** A list of additional net field exports to parse  */
   customNetFieldExports?: NetFieldExportGroupConfig[],
+  /** Decides if the default netFieldExports should be ignored or not */
   onlyUseCustomNetFieldExports?: boolean,
+  /** A list that can be used to add or overwrite classes */
   customClasses?: CustomClassMap<ResultType>,
+  /** A list that can be used to add or overwrite enums */
   customEnums?: CustomEnumMap,
+  /** a function that sends event emitters and allows you to set custom export functions */
   setEvents?: SetEvents<ResultType, BaseStates>,
+  /** decides if parsing for 99% of the replay should be skipped and only parses the last minute  */
   useCheckpoints?: boolean,
+  /** the amount of seconds between the current time and the fast forward to time to really do it */
   fastForwardThreshold?: number,
+  /** decides if event chunks are parsed */
   parseEvents?: boolean,
+  /** decides if data chunks are parsed */
   parsePackets?: boolean,
+  /** decides if a list of all chunks is exported */
   exportChunks?: boolean,
+  /** if enabled every actor that is created will be in globalData.actorToPath even if its not parsed */
   enableActorToPath?: boolean,
 }
 
 export interface ParseStreamOptions<ResultType extends BaseResult> extends ParseOptions<ResultType> {
+  /** amount of chunks that can be downloadded at once */
   maxConcurrentDownloads?: number,
+  /** amount of event chunks that can be downloadded at once */
   maxConcurrentEventDownloads?: number,
 }
 
 export interface Events {
+  /** contains a list of all positions where a chest has spawned */
   chests: FVector[],
+  /** contains a list of all safe zones from the game */
   safeZones: SafeZone[],
+  /** contains a list of all players in the game and where they were */
   players: Player[],
+  /** contains information about the recording player */
   matchStats: MatchStatsEvent,
+  /** contains a list of GFP that are required to watch the replay */
   gfp: GFPEvent[],
 }
 
@@ -592,9 +612,11 @@ export interface BaseStates {
 
 export interface BaseResult {
   header: Header,
-  info: Meta,
+  meta: Meta,
   logs?: Logs,
+  /** contains information about the game acquired by event chunks */
   events?: Events,
+  /** contains a list of all chunks in the replay */
   chunks?: Chunks,
 }
 

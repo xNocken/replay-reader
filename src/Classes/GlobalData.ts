@@ -120,6 +120,7 @@ class GlobalData<ResultType extends BaseResult> {
     }
 
     this.netFieldParser = new NetFieldParser(this);
+    this.logger = new Logger(this.options.debug);
   }
 
   resetForCheckpoint() {

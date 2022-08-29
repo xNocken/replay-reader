@@ -37,10 +37,10 @@ export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data:
   const globalData = initGlobalData<ResultType>(options);
   const replay = new Replay(data);
 
-  const info = parseMeta(replay, globalData);
+  const meta = parseMeta(replay, globalData);
   const chunks = replayChunks(replay, globalData);
 
-  globalData.result.info = info;
+  globalData.result.meta = meta;
   globalData.result.header = globalData.header;
 
   if (globalData.options.parseEvents) {
@@ -80,10 +80,10 @@ export const parseStreaming = async <ResultType extends BaseResult = DefaultResu
     throw new Error('The data provided is not a valid metadata file');
   }
 
-  const info = replayMetaStreaming(metadata, globalData);
+  const meta = replayMetaStreaming(metadata, globalData);
   const chunks = await replayChunksStreaming(metadata, globalData);
 
-  globalData.result.info = info;
+  globalData.result.meta = meta;
   globalData.result.header = globalData.header;
 
   if (globalData.options.parseEvents) {
