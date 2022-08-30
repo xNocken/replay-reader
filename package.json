@@ -41,7 +41,11 @@
     "dist",
     "package.json",
     "types",
-    "docs"
+    "docs",
+    "oo2core_8_win64.dll",
+    "liblinoodle.so",
+    "README.md",
+    "LICENSE"
   ],
   "author": "xNocken",
   "license": "MIT",
