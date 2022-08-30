@@ -1,8 +1,8 @@
-import { BaseResult, BaseStates, GFPEvent } from '$types/lib';
+import { GFPEvent } from '$types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
-export const parseAdditionGFP = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay, version: number) => {
+export const parseAdditionGFP = (globalData: GlobalData, replay: Replay, version: number) => {
   const count = replay.readUInt32();
 
   const values: GFPEvent[] = [];

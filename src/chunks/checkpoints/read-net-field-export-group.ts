@@ -1,11 +1,10 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import { NetFieldExport, NetFieldExportGroup, NetFieldExportGroupInternal } from '$types/replay';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
 import { readNFE } from '../packets/read-nfe';
 
-const addToUnreadGroups = <ResultType extends BaseResult>(group: NetFieldExportGroupInternal, netField: NetFieldExport, globalData: GlobalData<ResultType>) => {
+const addToUnreadGroups = (group: NetFieldExportGroupInternal, netField: NetFieldExport, globalData: GlobalData) => {
   if (!globalData.options.debug) {
     return;
   }
@@ -21,7 +20,7 @@ const addToUnreadGroups = <ResultType extends BaseResult>(group: NetFieldExportG
   globalData.debugNotReadingGroups[group.pathName].properties[netField.handle] = netField;
 };
 
-export const readNetFieldExportGroup = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) => {
   const theGroup: NetFieldExportGroup = {
     pathName: replay.readString(),
     pathNameIndex: replay.readIntPacked(),

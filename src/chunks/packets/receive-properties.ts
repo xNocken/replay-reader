@@ -3,13 +3,13 @@ import { NetFieldExportGroupInternal } from '$types/replay';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
-export const receiveProperties = <ResultType extends BaseResult>(
+export const receiveProperties = (
   archive: Replay,
   nfeGroup: NetFieldExportGroupInternal,
   bunch: Bunch,
   enableProperyChecksum = true,
   netDeltaUpdate = false,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   staticActorId: string,
 ) => {
   const { netFieldParser } = globalData;
@@ -118,7 +118,7 @@ export const receiveProperties = <ResultType extends BaseResult>(
       globalData.logger.warn(`Unhandled export ${exportGroup.type}`);
     }
 
-    const exportData: PropertyExport<ResultType, BaseStates, BaseExport> = {
+    const exportData: PropertyExport<BaseResult, BaseStates, BaseExport> = {
       chIndex: channelIndex,
       data: exportGroup,
       timeSeconds: bunch.timeSeconds,

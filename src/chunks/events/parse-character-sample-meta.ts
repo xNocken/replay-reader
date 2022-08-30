@@ -1,10 +1,10 @@
-import { BaseResult, BaseStates, PlayerPosition } from '$types/lib';
+import { PlayerPosition } from '$types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 import enums from '../../../Enums';
 import { parsePosition } from './util/parse-position';
 
-export const parseCharacterSampleMeta = <ResultType extends BaseResult>(globalData: GlobalData<ResultType>, replay: Replay) => {
+export const parseCharacterSampleMeta = (globalData: GlobalData, replay: Replay) => {
   const playerAmount = replay.readInt32();
 
   for (let i = 0; i < playerAmount; i += 1) {

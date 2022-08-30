@@ -3,8 +3,8 @@ import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from '../src/Classes/Replay';
 import { FGameplayTag } from "./FGameplayTag";
 
-export class FGameplayTagContainer<ResultType extends BaseResult> {
-  tags: FGameplayTag<ResultType>[];
+export class FGameplayTagContainer {
+  tags: FGameplayTag[];
 
   constructor() {
     this.tags = [];
@@ -24,7 +24,7 @@ export class FGameplayTagContainer<ResultType extends BaseResult> {
     }
   }
 
-  resolve(cache: NetGuidCache<ResultType>) {
+  resolve(cache: NetGuidCache) {
     if (!this.tags.length) {
       return;
     }

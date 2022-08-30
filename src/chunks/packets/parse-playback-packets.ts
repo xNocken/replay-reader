@@ -8,7 +8,7 @@ import { readNetFieldExports } from "./read-nfe-group";
 import { readPacket } from "./read-packet";
 import { receivedPacket } from "./received-packet";
 
-const receivedRawPacket = <ResultType extends BaseResult>(packet: Packet, replay: Replay, globalData: GlobalData<ResultType>) => {
+const receivedRawPacket = (packet: Packet, replay: Replay, globalData: GlobalData) => {
   let lastByte = replay.getLastByte();
 
   if (!lastByte) {
@@ -33,7 +33,7 @@ const receivedRawPacket = <ResultType extends BaseResult>(packet: Packet, replay
   replay.popOffset(2, bitSize);
 };
 
-export const parsePlaybackPackets = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+export const parsePlaybackPackets = (replay: Replay, globalData: GlobalData) => {
   if (replay.header.networkVersion >= 6) {
     replay.skipBytes(4); // current level index
   }
@@ -42,7 +42,7 @@ export const parsePlaybackPackets = <ResultType extends BaseResult>(replay: Repl
 
   if (globalData.lastFrameTime !== timeSeconds) {
     try {
-      const exportData: NextFrameExport<ResultType, BaseStates> = {
+      const exportData: NextFrameExport<BaseResult, BaseStates> = {
         timeSeconds,
         sinceLastFrame: globalData.lastFrameTime - timeSeconds,
         globalData,

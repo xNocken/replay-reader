@@ -6,7 +6,7 @@ import { parseCheckpoint } from './chunks/parse-checkpoint';
 import parseEvent from './chunks/parse-events';
 import { parsePackets } from './chunks/parse-packets';
 
-const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chunks, globalData: GlobalData<ResultType>) => {
+const parseChunks = (replay: Replay, chunks: Chunks, globalData: GlobalData) => {
   let time = 0;
 
   if (globalData.options.parseEvents) {
@@ -24,7 +24,7 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
         }
 
         try {
-          const exportData: NextChunkExport<ResultType, BaseStates> = {
+          const exportData: NextChunkExport<BaseResult, BaseStates> = {
             size: event.chunkSize,
             chunks,
             chunk: event,
@@ -94,7 +94,7 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
         globalData.logger.message(`fast forwarding from ${(time / 1000).toFixed(2)} to ${fastForwardTo.toFixed(2)} with checkpoint at ${(checkpoint.startTime / 1000).toFixed(2)}`);
 
         try {
-          const exportData: NextChunkExport<ResultType, BaseStates> = {
+          const exportData: NextChunkExport<BaseResult, BaseStates> = {
             size: checkpoint.chunkSize,
             chunks,
             chunk: checkpoint,
@@ -129,7 +129,7 @@ const parseChunks = <ResultType extends BaseResult>(replay: Replay, chunks: Chun
       }
 
       try {
-        const exportData: NextChunkExport<ResultType, BaseStates> = {
+        const exportData: NextChunkExport<BaseResult, BaseStates> = {
           size: chunks.replayData[i].chunkSize,
           chunks,
           chunk: chunks.replayData[i],

@@ -242,7 +242,7 @@ export interface NetDeltaExport<ResultType extends BaseResult, StateType extends
   data: NetDeltaExportData<DataType>,
   timeSeconds: number,
   staticActorId?: string,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   setFastForward: SetFastForward,
@@ -257,7 +257,7 @@ export interface PropertyExport<ResultType extends BaseResult, StateType extends
   data: DataType,
   timeSeconds: number,
   staticActorId?: string,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   setFastForward: SetFastForward,
@@ -274,7 +274,7 @@ export interface ActorDespawnExport<ResultType extends BaseResult, StateType ext
   openPacket: boolean,
   timeSeconds: number,
   staticActorId?: string,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   netFieldExportGroup: any,
@@ -290,7 +290,7 @@ export interface ActorSpawnExport<ResultType extends BaseResult, StateType exten
   openPacket: boolean,
   timeSeconds: number,
   staticActorId?: string,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   netFieldExportGroup: any,
@@ -304,7 +304,7 @@ export interface ActorSpawnExport<ResultType extends BaseResult, StateType exten
 export interface ChannelOpenedClosedExport<ResultType extends BaseResult, StateType extends BaseStates> {
   chIndex: number,
   actor: any,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   setFastForward: SetFastForward,
@@ -314,7 +314,7 @@ export interface ChannelOpenedClosedExport<ResultType extends BaseResult, StateT
 
 export interface NextChunkExport<ResultType extends BaseResult, StateType extends BaseStates> {
   size: number,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   chunk: Event | Checkpoint | DataChunk,
@@ -326,7 +326,7 @@ export interface NextChunkExport<ResultType extends BaseResult, StateType extend
 
 export interface NextFrameExport<ResultType extends BaseResult, StateType extends BaseStates> {
   timeSeconds: number,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   result: ResultType,
   states: StateType,
   setFastForward: SetFastForward,
@@ -500,27 +500,27 @@ export interface Bunch {
 }
 
 export interface SetEvents<ResultType extends BaseResult, StateType extends BaseStates> {
-  (emitters: EventEmittersObject<ResultType, StateType>, globalData: GlobalData<ResultType>): void,
+  (emitters: EventEmittersObject<ResultType, StateType>, globalData: GlobalData): void,
 }
 
-export interface CustomClass<ResultType extends BaseResult> {
-  serialize(reader: Replay, globalData: GlobalData<ResultType>, config?: unknown): void;
-  resolve?(netGuidCache: NetGuidCache<ResultType>, globalData: GlobalData<ResultType>): void;
+export interface CustomClass {
+  serialize(reader: Replay, globalData: GlobalData, config?: unknown): void;
+  resolve?(netGuidCache: NetGuidCache, globalData: GlobalData): void;
 }
 
 export interface CustomEnum {
   [number: number]: string,
 }
 
-export interface CustomClassMap<ResultType extends BaseResult> {
-  [name: string]: new () => CustomClass<ResultType>,
+export interface CustomClassMap {
+  [name: string]: new () => CustomClass,
 }
 
 export interface CustomEnumMap {
   [name: string]: CustomEnum,
 }
 
-export interface ParseOptions<ResultType extends BaseResult> {
+export interface ParseOptions {
   /** Decides which net field exports to parse */
   parseLevel?: number,
   /** Enables some additional features like debug files and loggin on console */
@@ -530,11 +530,11 @@ export interface ParseOptions<ResultType extends BaseResult> {
   /** Decides if the default netFieldExports should be ignored or not */
   onlyUseCustomNetFieldExports?: boolean,
   /** A list that can be used to add or overwrite classes */
-  customClasses?: CustomClassMap<ResultType>,
+  customClasses?: CustomClassMap,
   /** A list that can be used to add or overwrite enums */
   customEnums?: CustomEnumMap,
   /** a function that sends event emitters and allows you to set custom export functions */
-  setEvents?: SetEvents<ResultType, BaseStates>,
+  setEvents?: SetEvents<BaseResult, BaseStates>,
   /** decides if parsing for 99% of the replay should be skipped and only parses the last minute  */
   useCheckpoints?: boolean,
   /** the amount of seconds between the current time and the fast forward to time to really do it */
@@ -549,7 +549,7 @@ export interface ParseOptions<ResultType extends BaseResult> {
   enableActorToPath?: boolean,
 }
 
-export interface ParseStreamOptions<ResultType extends BaseResult> extends ParseOptions<ResultType> {
+export interface ParseStreamOptions extends ParseOptions {
   /** amount of chunks that can be downloadded at once */
   maxConcurrentDownloads?: number,
   /** amount of event chunks that can be downloadded at once */

@@ -1,9 +1,8 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 import { readNetGuid } from '../../utils/read-net-guid';
 
-export const readNetExportGuids = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+export const readNetExportGuids = (replay: Replay, globalData: GlobalData) => {
   const numGuids = replay.readIntPacked();
 
   for (let i = 0; i < numGuids; i++) {

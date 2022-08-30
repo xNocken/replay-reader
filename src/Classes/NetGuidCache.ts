@@ -5,7 +5,7 @@ import { getFullGuidPath } from '../utils/get-full-guid-path';
 import { removePathPrefix } from '../utils/remove-path-prefix';
 import GlobalData from './GlobalData';
 
-export class NetGuidCache<ResultType extends BaseResult> {
+export class NetGuidCache {
   netFieldExportGroupMap: NetFieldExportGroupInternalMap = {};
   netFieldExportGroupIndexToGroup: NumberToString = {};
   netGuids: NetGuidMap = {};
@@ -23,7 +23,7 @@ export class NetGuidCache<ResultType extends BaseResult> {
   /** Contains all the net field exports and can be accessed by using the path or customExportName */
   nfeReferences: NetFieldExportGroupInternalMap = {};
 
-  addToExportGroupMap(pathName: string, exportGroup: NetFieldExportGroup, globalData: GlobalData<ResultType>) {
+  addToExportGroupMap(pathName: string, exportGroup: NetFieldExportGroup, globalData: GlobalData) {
     if (pathName.endsWith('ClassNetCache')) {
       exportGroup.pathName = removePathPrefix(exportGroup.pathName);
     }
@@ -114,7 +114,7 @@ export class NetGuidCache<ResultType extends BaseResult> {
     return this.netFieldExportGroupMap[path];
   }
 
-  GetNetFieldExportGroup(netguid: number, globalData: GlobalData<ResultType>) {
+  GetNetFieldExportGroup(netguid: number, globalData: GlobalData) {
     const group = this.archTypeToExportGroup[netguid];
 
     if (group) {

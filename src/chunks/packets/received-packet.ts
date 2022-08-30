@@ -4,11 +4,11 @@ import { receiveNetGUIDBunch } from './receive-net-guid-bunch';
 import { receivedNextBunch } from './received-next-bunch';
 import { onChannelClosed } from './on-channel-closed';
 import GlobalData from "../../Classes/GlobalData";
-import { BaseResult, BaseStates, Bunch, Channel } from "$types/lib";
+import { Bunch, Channel } from "$types/lib";
 
 const maxPacketInBits = 1024 * 2 * 8;
 
-export const receivedPacket = <ResultType extends BaseResult>(packetArchive: Replay, timeSeconds: number, globalData: GlobalData<ResultType>) => {
+export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globalData: GlobalData) => {
   const { channels } = globalData;
 
   globalData.inPacketId++;

@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Checkpoint } from '$types/lib';
+import { Checkpoint } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 
@@ -8,7 +8,7 @@ import { parsePlaybackPackets } from './packets/parse-playback-packets';
 import { removePathPrefix } from '../utils/remove-path-prefix';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
 
-export const parseCheckpoint = <ResultType extends BaseResult>(encryptedReplay: Replay, data: Checkpoint, globalData: GlobalData<ResultType>) => {
+export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globalData: GlobalData) => {
   encryptedReplay.goTo(data.startPos);
 
   globalData.resetForCheckpoint();

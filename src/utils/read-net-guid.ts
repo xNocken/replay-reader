@@ -1,10 +1,9 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import { removePathPrefix } from './remove-path-prefix';
 
-export const readNetGuid = <ResultType extends BaseResult>(replay: Replay, isExportingNetGUIDBunch: boolean, globalData: GlobalData<ResultType>, internalLoadObjectRecursionCount = 0): NetworkGUID => {
+export const readNetGuid = (replay: Replay, isExportingNetGUIDBunch: boolean, globalData: GlobalData, internalLoadObjectRecursionCount = 0): NetworkGUID => {
   if (internalLoadObjectRecursionCount > 16) {
     return new NetworkGUID();
   }

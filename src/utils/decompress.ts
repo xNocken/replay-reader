@@ -1,8 +1,7 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 
-export const decompress = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+export const decompress = (replay: Replay, globalData: GlobalData) => {
   const decompressedSize = replay.readInt32();
   const compressedSize = replay.readInt32();
   const compressedBuffer = replay.readBytes(compressedSize);

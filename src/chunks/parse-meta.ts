@@ -1,11 +1,11 @@
-import { BaseResult, BaseStates, Meta } from '$types/lib';
+import { Meta } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import versions from '../constants/versions';
 
 const metaMagic = 0x1CA2E27F;
 
-export const parseMeta = <ResultType extends BaseResult >(replay: Replay, globalData: GlobalData<ResultType>): Meta => {
+export const parseMeta = (replay: Replay, globalData: GlobalData): Meta => {
   const magic = replay.readUInt32();
 
   if (magic !== metaMagic) {

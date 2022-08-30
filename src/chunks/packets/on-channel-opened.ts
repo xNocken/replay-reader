@@ -3,11 +3,11 @@ import { NetFieldExportGroupInternal } from '$types/replay';
 import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
 
-export const onChannelOpened = <ResultType extends BaseResult>(channel: Channel, actor: Actor, bunch: Bunch, globalData: GlobalData<ResultType>) => {
+export const onChannelOpened = (channel: Channel, actor: Actor, bunch: Bunch, globalData: GlobalData) => {
   const { chIndex } = channel;
 
   try {
-    const exportData: ChannelOpenedClosedExport<ResultType, BaseStates> = {
+    const exportData: ChannelOpenedClosedExport<BaseResult, BaseStates> = {
       chIndex,
       actor,
       globalData,
@@ -65,7 +65,7 @@ export const onChannelOpened = <ResultType extends BaseResult>(channel: Channel,
   }
 
   try {
-    const exportData: ActorSpawnExport<ResultType, BaseStates> = {
+    const exportData: ActorSpawnExport<BaseResult, BaseStates> = {
       openPacket: bunch.bOpen,
       chIndex: bunch.chIndex,
       timeSeconds: bunch.timeSeconds,

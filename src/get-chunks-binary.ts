@@ -1,9 +1,9 @@
 import Replay from './Classes/Replay';
 import parseHeader from './chunks/parse-header';
 import GlobalData from './Classes/GlobalData';
-import { BaseResult, Checkpoint, Chunks, DataChunk, Event } from '$types/lib';
+import { Checkpoint, Chunks, DataChunk, Event } from '$types/lib';
 
-const getChunksBinary = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+const getChunksBinary = (replay: Replay, globalData: GlobalData) => {
   const chunks: Chunks = {
     replayData: [],
     checkpoints: [],

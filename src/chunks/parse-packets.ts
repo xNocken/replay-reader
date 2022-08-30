@@ -1,10 +1,10 @@
-import { BaseResult, BaseStates, DataChunk } from '$types/lib';
+import { DataChunk } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import { decompress } from '../utils/decompress';
 import { parsePlaybackPackets } from './packets/parse-playback-packets';
 
-export const parsePackets = <ResultType extends BaseResult>(encryptedReplay: Replay, data: DataChunk, globalData: GlobalData<ResultType>) => {
+export const parsePackets = (encryptedReplay: Replay, data: DataChunk, globalData: GlobalData) => {
   encryptedReplay.goTo(data.startPos);
   let compressedReplay: Replay;
 

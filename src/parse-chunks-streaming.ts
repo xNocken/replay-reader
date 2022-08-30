@@ -6,7 +6,7 @@ import GlobalData from './Classes/GlobalData';
 import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk, DownloadProcessResponse, NextChunkExport } from '$types/lib';
 import { fork } from 'child_process';
 
-const getChunk = <ResultType extends BaseResult>(url: string, globalData: GlobalData<ResultType>) => {
+const getChunk = (url: string, globalData: GlobalData) => {
   if (!globalData.downloadProcess) {
     globalData.downloadProcess = fork(require.resolve('./download-process'));
 
@@ -43,7 +43,7 @@ const getChunk = <ResultType extends BaseResult>(url: string, globalData: Global
   });
 };
 
-const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chunks, currentTime: number, targetTime: number, globalData: GlobalData<ResultType>) => {
+const findAndParseCheckpoint = async (chunks: Chunks, currentTime: number, targetTime: number, globalData: GlobalData) => {
   const { checkpoints } = chunks;
   let checkpoint: Checkpoint;
   let index = 0;
@@ -73,7 +73,7 @@ const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chu
   }
 
   try {
-    const exportData: NextChunkExport<ResultType, BaseStates> = {
+    const exportData: NextChunkExport<BaseResult, BaseStates> = {
       size: checkpoint.chunkSize,
       chunks,
       chunk: checkpoint,
@@ -98,7 +98,7 @@ const findAndParseCheckpoint = async <ResultType extends BaseResult>(chunks: Chu
   return checkpoint.endTime;
 };
 
-export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks: Chunks, globalData: GlobalData<ResultType>) => {
+export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalData) => {
   const canBeParsed: DownloadedDataChunk[] = [];
   const eventPromises = [];
   let time = 0;
@@ -147,7 +147,7 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
           }
 
           try {
-            const exportData: NextChunkExport<ResultType, BaseStates> = {
+            const exportData: NextChunkExport<BaseResult, BaseStates> = {
               size: event.chunkSize,
               chunks,
               chunk: event,
@@ -232,7 +232,7 @@ export const parseChunksStreaming = async <ResultType extends BaseResult>(chunks
         isParsing = true;
 
         try {
-          const exportData: NextChunkExport<ResultType, BaseStates> = {
+          const exportData: NextChunkExport<BaseResult, BaseStates> = {
             size: chunk.chunk.chunkSize,
             chunks,
             chunk: chunk.chunk,

@@ -8,7 +8,7 @@ import { readContentBlockPayload } from './read-content-block-payload';
 import { receivedReplicatorBunch } from './received-replicator-bunch';
 import GlobalData from "../../Classes/GlobalData";
 
-export const processBunch = <ResultType extends BaseResult>(bunch: Bunch, globalData: GlobalData<ResultType>) => {
+export const processBunch = (bunch: Bunch, globalData: GlobalData) => {
   const replay = bunch.archive;
   const { channels, playerControllerGroups } = globalData;
   const channel = channels[bunch.chIndex];

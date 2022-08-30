@@ -27,7 +27,7 @@ import { ExternalDataMap, NetFieldExportGroup } from '$types/replay';
 import { Logger } from './Logger';
 import { ChildProcess } from 'child_process';
 
-class GlobalData<ResultType extends BaseResult> {
+class GlobalData {
   channels: Channel[] = [];
   header?: Header;
   meta?: Meta;
@@ -37,7 +37,7 @@ class GlobalData<ResultType extends BaseResult> {
   partialBunch: Bunch = null;
   inReliable = 0;
 
-  emitters: EventEmittersObject<ResultType, BaseStates> = {
+  emitters: EventEmittersObject<BaseResult, BaseStates> = {
     properties: new EventEmitter(),
     netDelta: new EventEmitter(),
     actorSpawn: new EventEmitter(),
@@ -45,7 +45,7 @@ class GlobalData<ResultType extends BaseResult> {
     parsing: new EventEmitter(),
   };
 
-  options: ParseStreamOptions<ResultType> = {
+  options: ParseStreamOptions = {
     parseLevel: 1,
     maxConcurrentDownloads: 3,
     maxConcurrentEventDownloads: 5,
@@ -61,7 +61,7 @@ class GlobalData<ResultType extends BaseResult> {
     customEnums: {},
   };
 
-  result: ResultType = <ResultType>{};
+  result: BaseResult = <BaseResult>{};
   states: BaseStates = <BaseStates>{};
 
   actorToChannel: NumberToNumber = [];
@@ -100,8 +100,8 @@ class GlobalData<ResultType extends BaseResult> {
   downloadProcessResponses: Record<string, (value: any, statusCode: number) => void> = {};
 
   logger: Logger;
-  netGuidCache = new NetGuidCache<ResultType>();
-  netFieldParser: NetFieldParser<ResultType>;
+  netGuidCache = new NetGuidCache();
+  netFieldParser: NetFieldParser;
   actorToPath: Record<number, string> = {};
 
   setFastForward = (time: number) => {
@@ -116,9 +116,9 @@ class GlobalData<ResultType extends BaseResult> {
     OodleLZ_Decompress: ["size_t", ["uint8*", "size_t", "uint8*", "size_t", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64", "int64"]],
   });
 
-  constructor(overrideConfig: ParseOptions<ResultType> | ParseStreamOptions<ResultType>) {
+  constructor(overrideConfig: ParseOptions | ParseStreamOptions) {
     if (overrideConfig) {
-      type OverrideConfigRecord = Record<keyof ParseStreamOptions<ResultType>, ParseStreamOptions<ResultType>[keyof ParseStreamOptions<ResultType>]>
+      type OverrideConfigRecord = Record<keyof ParseStreamOptions, ParseStreamOptions[keyof ParseStreamOptions]>
 
       Object.entries(overrideConfig).forEach(([key, value]) => {
         (this.options as OverrideConfigRecord)[<keyof typeof overrideConfig>key] = value;

@@ -5,12 +5,12 @@ import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '$types/lib'
 import GlobalData from '../../../Classes/GlobalData';
 import { NetFieldExportGroupInternal } from '$types/replay';
 
-export const netDeltaSerialize = <ResultType extends BaseResult>(
+export const netDeltaSerialize = (
   reader: Replay,
   group: NetFieldExportGroupInternal,
   bunch: Bunch,
   enablePropertyChecksum: boolean,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
   staticActorId: string,
 ) => {
   const exportName = group.customExportName || pathhhh.basename(group.pathName);
@@ -34,7 +34,7 @@ export const netDeltaSerialize = <ResultType extends BaseResult>(
     const elementIndex = reader.readInt32();
 
     try {
-      const exportData: NetDeltaExport<ResultType, BaseStates, Data> = {
+      const exportData: NetDeltaExport<BaseResult, BaseStates, Data> = {
         chIndex: bunch.chIndex,
         data: {
           deleted: true,
@@ -82,7 +82,7 @@ export const netDeltaSerialize = <ResultType extends BaseResult>(
     }
 
     try {
-      const exportData: NetDeltaExport<ResultType, BaseStates, Data> = {
+      const exportData: NetDeltaExport<BaseResult, BaseStates, Data> = {
         chIndex: bunch.chIndex,
         data: {
           elementIndex,

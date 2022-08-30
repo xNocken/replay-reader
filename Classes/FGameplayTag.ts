@@ -1,8 +1,7 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from '../src/Classes/Replay';
 
-export class FGameplayTag<ResultType extends BaseResult> {
+export class FGameplayTag {
   tagIndex: number;
   tagName: string;
 
@@ -10,7 +9,7 @@ export class FGameplayTag<ResultType extends BaseResult> {
     this.tagIndex = reader.readIntPacked();
   }
 
-  resolve(cache: NetGuidCache<ResultType>) {
+  resolve(cache: NetGuidCache) {
     this.tagName = cache.tryGetTagName(this.tagIndex);
   }
 

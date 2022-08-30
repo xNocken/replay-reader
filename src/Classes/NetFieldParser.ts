@@ -22,7 +22,7 @@ const getExportByType = (type: string) => {
   }
 };
 
-const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: string, property: NetFieldExportConfig, pathName: string, customClasses: CustomClassMap<ResultType>, customEnums: CustomEnumMap) => {
+const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: string, property: NetFieldExportConfig, pathName: string, customClasses: CustomClassMap, customEnums: CustomEnumMap) => {
   switch (property.parseType) {
     case 'default':
       if (!property.parseFunction) {
@@ -70,7 +70,7 @@ const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: str
   }
 };
 
-export class NetFieldParser<ResultType extends BaseResult> {
+export class NetFieldParser {
   /** contains all netFieldExportConfigs that are used for parsing */
   netFieldGroups: NetFieldExportGroupConfig[] = [];
   netFieldGroupPaths: string[] = [];
@@ -79,7 +79,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
   /** maps the path to its classNetCache */
   classPathCache: NetFieldExportGroupConfigMap = {};
 
-  constructor(globalData: GlobalData<ResultType>) {
+  constructor(globalData: GlobalData) {
     const handleExport = (fieldExport: NetFieldExportGroupConfig) => {
       let path: string;
 
@@ -131,12 +131,13 @@ export class NetFieldParser<ResultType extends BaseResult> {
           break;
       }
 
-      const createExport = (group: keyof ResultType, name: string, type: string) => {
+      const createExport = (group: keyof BaseResult, name: string, type: string) => {
+        // this needs to be ignored because the base result has no default groups. the type will be defined by the user
         if (!globalData.result[group]) {
-          globalData.result[group] = {} as ResultType[keyof ResultType];
+          // @ts-ignore
+          globalData.result[group] = {};
         }
 
-        // this needs to be ignored because the base result has no default groups. the type will be defined by the user
         // @ts-ignore
         if (!globalData.result[group][name]) {
           // @ts-ignore
@@ -150,7 +151,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
             createExport(group.group, group.name, group.type);
           });
         } else {
-          createExport(fieldExport.exports.group as keyof ResultType, fieldExport.exports.name, fieldExport.exports.type);
+          createExport(fieldExport.exports.group as keyof BaseResult, fieldExport.exports.name, fieldExport.exports.type);
         }
       }
 
@@ -254,7 +255,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
     propertyInfo: NetFieldExportInternal,
     exportGroup: NetFieldExportGroupInternal,
     netBitReader: Replay,
-    globalData: GlobalData<ResultType>,
+    globalData: GlobalData,
     depth = 1
   ): any {
     if (!propertyInfo.parseType && exportGroup.parseUnknownHandles) {
@@ -274,7 +275,7 @@ export class NetFieldParser<ResultType extends BaseResult> {
       case 'readClass': {
         const theClass = globalData.options.customClasses[propertyInfo.type] || classes[propertyInfo.type];
 
-        const instance: CustomClass<ResultType> = new theClass();
+        const instance: CustomClass = new theClass();
         instance.serialize(netBitReader, globalData, propertyInfo.config || {});
 
         if (instance.resolve) {

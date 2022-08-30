@@ -1,11 +1,10 @@
-import { BaseResult } from '$types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
 import { readNetGuid } from '../../utils/read-net-guid';
 import { readNetFieldExports } from './read-nfe-group';
 
-export const receiveNetGUIDBunch = <ResultType extends BaseResult>(packet: Replay, globalData: GlobalData<ResultType>) => {
+export const receiveNetGUIDBunch = (packet: Replay, globalData: GlobalData) => {
   const bHasRepLayoutExport = packet.readBit();
 
   if (bHasRepLayoutExport) {

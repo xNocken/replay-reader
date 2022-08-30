@@ -2,17 +2,17 @@ import { receiveCustomProperty } from './receive-custom-property';
 import { receiveProperties } from '../receive-properties';
 import { netDeltaSerialize } from './net-delta-serialize';
 import { readFieldHeader } from './read-field-header';
-import { BaseResult, BaseStates, Bunch } from '$types/lib';
+import { Bunch } from '$types/lib';
 import Replay from '../../../Classes/Replay';
 import { NetFieldExportGroupInternal } from '$types/replay';
 import GlobalData from '../../../Classes/GlobalData';
 
-export const readClassNetCache = <ResultType extends BaseResult>(
+export const readClassNetCache = (
   archive: Replay,
   bunch: Bunch,
   staticActorId: string,
   classNetCache: NetFieldExportGroupInternal,
-  globalData: GlobalData<ResultType>,
+  globalData: GlobalData,
 ) => {
   while (true) {
     const result = readFieldHeader(archive, classNetCache);

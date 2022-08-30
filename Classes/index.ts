@@ -14,7 +14,7 @@ import { NetworkGUID } from './NetworkGUID';
 import { PlaylistInfo } from './PlaylistInfo';
 import { Vector2 } from './Vector2';
 
-const Classes: CustomClassMap<BaseResult> = {
+const Classes: CustomClassMap = {
   ActorGuid,
   DebugObject,
   FAthenaPawnReplayData,

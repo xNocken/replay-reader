@@ -1,8 +1,8 @@
-import { BaseResult, BaseStates, ExternalData } from "$types/lib";
+import { ExternalData } from "$types/lib";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
 
-export const readExternalData = <ResultType extends BaseResult>(replay: Replay, globalData: GlobalData<ResultType>) => {
+export const readExternalData = (replay: Replay, globalData: GlobalData) => {
   while (true) {
     const externalDataNumBits = replay.readIntPacked();
 

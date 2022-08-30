@@ -5,7 +5,7 @@ import GlobalData from './Classes/GlobalData';
 import Replay from './Classes/Replay';
 import parseHeader from './chunks/parse-header';
 
-export const replayMetaStreaming = <ResultType extends BaseResult>(metadata: MetaDataResult, globalData: GlobalData<ResultType>) => {
+export const replayMetaStreaming = (metadata: MetaDataResult, globalData: GlobalData) => {
   const meta: Meta = {
     lengthInMs: metadata.LengthInMS,
     networkVersion: metadata.NetworkVersion,
@@ -22,7 +22,7 @@ export const replayMetaStreaming = <ResultType extends BaseResult>(metadata: Met
   return meta;
 };
 
-export const replayChunksStreaming = async <ResultType extends BaseResult>(metadata: MetaDataResult, globalData: GlobalData<ResultType>): Promise<Chunks> => {
+export const replayChunksStreaming = async (metadata: MetaDataResult, globalData: GlobalData): Promise<Chunks> => {
   const chunks: Chunks = {
     replayData: metadata.DataChunks.map((chunk): DataChunk => ({
       link: chunk.DownloadLink,

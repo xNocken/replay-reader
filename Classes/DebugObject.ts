@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, CustomClass, Header } from '$types/lib';
+import { CustomClass, Header } from '$types/lib';
 import GlobalData from '../src/Classes/GlobalData';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from "../src/Classes/Replay";
@@ -8,16 +8,16 @@ import { FName } from "./FName";
 import { FRepMovement } from "./FRepMovement";
 import { ItemDefinition } from "./ItemDefinition";
 
-export class DebugObject<ResultType extends BaseResult> {
+export class DebugObject {
   data: Buffer;
   name: string;
   size: number;
   header: Header;
-  globalData: GlobalData<ResultType>;
+  globalData: GlobalData;
   config: unknown;
-  cache: NetGuidCache<ResultType>;
+  cache: NetGuidCache;
 
-  serialize(reader: Replay, globalData: GlobalData<ResultType>, config: unknown) {
+  serialize(reader: Replay, globalData: GlobalData, config: unknown) {
     this.size = reader.getBitsLeft();
     this.data = Buffer.from(reader.readBits(this.size));
     this.globalData = globalData;
@@ -25,7 +25,7 @@ export class DebugObject<ResultType extends BaseResult> {
     this.header = reader.header;
   }
 
-  resolve(cache: NetGuidCache<ResultType>) {
+  resolve(cache: NetGuidCache) {
     this.cache = cache;
   }
 
@@ -65,7 +65,7 @@ export class DebugObject<ResultType extends BaseResult> {
     return this.data.toString('utf-8', 4, length + 3);
   }
 
-  getValueAsClass(Class: new () => CustomClass<ResultType>) {
+  getValueAsClass(Class: new () => CustomClass) {
     const container = new Class();
     const replay = new Replay(this.data, this.size);
 

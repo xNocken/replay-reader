@@ -1,8 +1,8 @@
-import { BaseResult, BaseStates, Bunch } from '$types/lib';
+import { Bunch } from '$types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import { processBunch } from './process-bunch';
 
-export const receivedNextBunch = <ResultType extends BaseResult>(bunch: Bunch, globalData: GlobalData<ResultType>) => {
+export const receivedNextBunch = (bunch: Bunch, globalData: GlobalData) => {
   if (bunch.bReliable) {
     globalData.inReliable = bunch.chSequence;
   }

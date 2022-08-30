@@ -35,8 +35,8 @@ export interface SafeZone extends RemoveIndex<Data> {
 }
 
 export interface GameStateExport extends RemoveIndex<Data> {
-  GoldenPoiLocationTags?: FGameplayTagContainer<DefaultResult>,
-  DefaultBattleBus?: ItemDefinition<DefaultResult>,
+  GoldenPoiLocationTags?: FGameplayTagContainer,
+  DefaultBattleBus?: ItemDefinition,
   ReplicatedWorldTimeSeconds?: number,
   MatchState?: FName,
   GameplayState?: EFortGameplayState,
@@ -84,7 +84,7 @@ export interface GameStateExport extends RemoveIndex<Data> {
   EventTournamentRound?: EEventTournamentRound,
   EventId?: number,
   PlayerBotsLeft?: number,
-  TrackedCosmetics?: ItemDefinition<DefaultResult>[],
+  TrackedCosmetics?: ItemDefinition[],
   PlayerID?: number,
   PlayerId?: number,
 }
@@ -111,9 +111,9 @@ export interface PlayerStateExport extends RemoveIndex<Data> {
   DeathCause?: EDeathCause,
   bIsDisconnected?: boolean,
   bIsABot?: boolean,
-  DeathTags?: FGameplayTagContainer<DefaultResult>,
-  VictimTags?: FGameplayTagContainer<DefaultResult>,
-  FinisherOrDownerTags?: FGameplayTagContainer<DefaultResult>,
+  DeathTags?: FGameplayTagContainer,
+  VictimTags?: FGameplayTagContainer,
+  FinisherOrDownerTags?: FGameplayTagContainer,
   KillScore?: number,
   PlayerNamePrivate_encrypted?: boolean,
 }
@@ -132,7 +132,7 @@ export interface PlayerState extends PlayerStateExport {
 export interface PlayerPawnExport extends RemoveIndex<Data> {
   bHidden?: boolean,
   bCanBeDamaged?: boolean,
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
   AttachSocket?: string,
   ExitSocketIndex?: number,
   AttachComponent?: number,
@@ -167,7 +167,7 @@ export interface PlayerPawnExport extends RemoveIndex<Data> {
   bIsPlayingEmote?: boolean,
   bStartedInteractSearch?: boolean,
   bIsWaitingForEmoteInteraction?: boolean,
-  GroupEmoteLookTarget?: ItemDefinition<DefaultResult>,
+  GroupEmoteLookTarget?: ItemDefinition,
   bIsSkydiving?: boolean,
   bIsParachuteOpen?: boolean,
   bIsParachuteForcedOpen?: boolean,
@@ -178,7 +178,7 @@ export interface PlayerPawnExport extends RemoveIndex<Data> {
   bIsProxySimulationTimedOut?: boolean,
   bIsInsideSafeZone?: boolean,
   bIsOutsideSafeZone?: boolean,
-  Zipline?: ItemDefinition<DefaultResult>,
+  Zipline?: ItemDefinition,
   PetState?: number,
   bIsZiplining?: boolean,
   bJumped?: boolean,
@@ -193,18 +193,18 @@ export interface PlayerPawnExport extends RemoveIndex<Data> {
   bIsInWaterVolume?: boolean,
   BannerIconId?: string,
   BannerColorId?: string,
-  ItemWraps?: ItemDefinition<DefaultResult>[],
-  SkyDiveContrail?: ItemDefinition<DefaultResult>,
-  Glider?: ItemDefinition<DefaultResult>,
+  ItemWraps?: ItemDefinition[],
+  SkyDiveContrail?: ItemDefinition,
+  Glider?: ItemDefinition,
   bIsDefaultCharacter?: boolean,
-  Pickaxe?: ItemDefinition<DefaultResult>,
-  Character?: ItemDefinition<DefaultResult>
+  Pickaxe?: ItemDefinition,
+  Character?: ItemDefinition
   DBNOHoister?: ActorGuid,
-  Backpack?: ItemDefinition<DefaultResult>
-  LoadingScreen?: ItemDefinition<DefaultResult>
-  Dances?: ItemDefinition<DefaultResult>
-  MusicPack?: ItemDefinition<DefaultResult>
-  PetSkin?: ItemDefinition<DefaultResult>
+  Backpack?: ItemDefinition
+  LoadingScreen?: ItemDefinition
+  Dances?: ItemDefinition
+  MusicPack?: ItemDefinition
+  PetSkin?: ItemDefinition
   ReplicatedWaterBody?: boolean,
   DBNORevivalStacking?: number,
   ServerWorldTimeRevivalTime?: number,
@@ -263,9 +263,9 @@ export interface PlayerBuildExport extends RemoveIndex<Data> {
 }
 
 export interface PickupExport extends RemoveIndex<Data> {
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
   Count?: number,
-  ItemDefinition?: ItemDefinition<DefaultResult>,
+  ItemDefinition?: ItemDefinition,
   Durability?: number,
   Level?: number,
   LoadedAmmo?: number,
@@ -285,11 +285,11 @@ export interface PickupExport extends RemoveIndex<Data> {
 
 export interface LlamaExport extends RemoveIndex<Data> {
   Looted?: boolean,
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
 }
 
 export interface LabradorExport extends RemoveIndex<Data> {
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
   bIsHiddenForDeath?: boolean,
   PawnUniqueID?: number,
   NPC_AlertLevel?: EAlertLevel,
@@ -304,12 +304,12 @@ export interface Labrador extends LabradorExport {
 }
 
 export interface GameplayCueExport extends RemoveIndex<Data> {
-  GameplayCueTag?: FGameplayTag<DefaultResult>,
+  GameplayCueTag?: FGameplayTag,
 }
 
 export interface GameplayCue {
   location?: FVector,
-  gameplayCueTag: FGameplayTag<DefaultResult>,
+  gameplayCueTag: FGameplayTag,
   timeSeconds: number,
 }
 
@@ -325,13 +325,13 @@ export interface Inventory extends InventoryExport {
 
 export interface InventoryDeltaExport extends RemoveIndex<Data> {
   Count?: number,
-  ItemDefinition?: ItemDefinition<DefaultResult>,
+  ItemDefinition?: ItemDefinition,
   LoadedAmmo?: number,
 }
 
 export interface InventoryItem {
   count?: number,
-  item?: ItemDefinition<DefaultResult>,
+  item?: ItemDefinition,
   ammo?: number,
 }
 
@@ -382,7 +382,7 @@ export interface SoccerGame extends SoccerGameExport {
 export interface SpeedSignExport extends RemoveIndex<Data> {
   VehicleSpeed?: number,
   bReplicateMovement?: boolean,
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
 }
 
 export interface SpeedSign extends SpeedSignExport {
@@ -392,7 +392,7 @@ export interface SpeedSign extends SpeedSignExport {
 export interface SupplyDropExport extends RemoveIndex<Data> {
   Opened?: boolean,
   BalloonPopped?: boolean,
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
 }
 
 export interface VehicleSeat {
@@ -408,7 +408,7 @@ export interface VehicleSeatComponentExport extends RemoveIndex<Data> {
 
 export interface VehicleExport extends RemoveIndex<Data> {
   Health?: number,
-  ReplicatedMovement?: FRepMovement<DefaultResult>,
+  ReplicatedMovement?: FRepMovement,
 }
 
 export interface Vehicle extends VehicleExport {
@@ -421,7 +421,7 @@ export interface HealthSetExport extends RemoveIndex<Data> {
 }
 
 export interface ActiveGampeplayModifiersExport extends RemoveIndex<Data> {
-  ModifierDef?: ItemDefinition<BaseResult>,
+  ModifierDef?: ItemDefinition,
 }
 
 export interface PlayerMarkerExport extends RemoveIndex<Data> {

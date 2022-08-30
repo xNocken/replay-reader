@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Event } from '$types/lib';
+import { Event } from '$types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import { parseMatchStats } from './events/parse-match-stats';
@@ -11,7 +11,7 @@ import { actorPositions } from './events/parse-actor-positions';
 import { parseAdditionGFP } from './events/parse-addition-gfp';
 import versions from '../constants/versions';
 
-const event = <ResultType extends BaseResult>(replay: Replay, info: Event, globalData: GlobalData<ResultType>) => {
+const event = (replay: Replay, info: Event, globalData: GlobalData) => {
   const startTime = Math.round(info.startTime / 1000);
   const replayMeta = globalData.meta;
   let decryptedEvent: Replay;

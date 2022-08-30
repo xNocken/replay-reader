@@ -2,7 +2,7 @@ import { BaseResult, BaseStates, Bunch } from "$types/lib";
 import GlobalData from "../../Classes/GlobalData";
 import { readNetGuid } from "../../utils/read-net-guid";
 
-const readContentBlockHeader = <ResultType extends BaseResult>(bunch: Bunch, globalData: GlobalData<ResultType>) => {
+const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
   let bObjectDeleted = false;
   const bOutHasRepLayout = bunch.archive.readBit();
   const bIsActor = bunch.archive.readBit();
@@ -56,7 +56,7 @@ const readContentBlockHeader = <ResultType extends BaseResult>(bunch: Bunch, glo
   };
 };
 
-export const readContentBlockPayload = <ResultType extends BaseResult>(bunch: Bunch, globalData: GlobalData<ResultType>) => {
+export const readContentBlockPayload = (bunch: Bunch, globalData: GlobalData) => {
   let { repObject, bOutHasRepLayout, bObjectDeleted, bIsActor } = readContentBlockHeader(bunch, globalData);
 
   if (bObjectDeleted) {

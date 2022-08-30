@@ -1,11 +1,10 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import { NetworkGUID } from "./NetworkGUID";
 
-export class ItemDefinition<ResultType extends BaseResult> extends NetworkGUID {
+export class ItemDefinition extends NetworkGUID {
   name: string;
 
-  resolve(cache: NetGuidCache<ResultType>) {
+  resolve(cache: NetGuidCache) {
     if (this.isValid()) {
       const name = cache.tryGetPathName(this.value);
 
