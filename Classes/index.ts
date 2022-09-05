@@ -1,5 +1,5 @@
 
-import { BaseResult, CustomClassMap } from '$types/lib';
+import { CustomClassMap } from '$types/lib';
 import { ActorGuid } from './ActorGuid';
 import { DebugObject } from './DebugObject';
 import { FAthenaPawnReplayData } from './FAthenaPawnReplayData';

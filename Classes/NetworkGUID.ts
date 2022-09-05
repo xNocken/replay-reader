@@ -1,4 +1,3 @@
-import { CustomClass } from '$types/lib';
 import Replay from "../src/Classes/Replay";
 
 export class NetworkGUID  {

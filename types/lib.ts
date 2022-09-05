@@ -58,7 +58,7 @@ export interface Header {
   patch?: number,
   changelist?: number,
   branch?: string,
-  levelNamesAndTimes?: ReadObjectResult,
+  levelNamesAndTimes?: ReadObjectResult<number>,
   flags?: number,
   gameSpecificData?: string[],
   platform?: string,
@@ -580,12 +580,12 @@ export interface GlobalDataEvents {
   timecode?: Date,
 }
 
-export interface ReplayParseFunction {
-  (replay: Replay): unknown,
+export interface ReplayParseFunction<T> {
+  (replay: Replay): T,
 }
 
-export interface ReadObjectResult {
-  [key: string]: unknown,
+export interface ReadObjectResult<U> {
+  [key: string]: U,
 }
 
 export interface OodleDecompress {

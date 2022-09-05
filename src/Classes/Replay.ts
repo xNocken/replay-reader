@@ -482,9 +482,9 @@ class Replay {
     return "";
   }
 
-  readArray(fn: ReplayParseFunction): unknown[] {
+  readArray<T>(fn: ReplayParseFunction<T>): T[] {
     const length = this.readUInt32();
-    const returnArray = [];
+    const returnArray: T[] = [];
 
     for (let i = 0; i < length; i += 1) {
       returnArray.push(fn(this));
@@ -493,12 +493,12 @@ class Replay {
     return returnArray;
   }
 
-  readObjectArray(fn1: ReplayParseFunction, fn2: ReplayParseFunction): ReadObjectResult {
+  readObject<T, U>(fn1: ReplayParseFunction<T>, fn2: ReplayParseFunction<U>): ReadObjectResult<U> {
     const length = this.readUInt32();
-    const obj: ReadObjectResult = {};
+    const obj: ReadObjectResult<U> = {};
 
     for (let i = 0; i < length; i += 1) {
-      obj[<string>fn1(this)] = fn2(this);
+      obj[fn1(this).toString()] = fn2(this);
     }
 
     return obj;

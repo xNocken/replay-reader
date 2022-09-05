@@ -16,7 +16,7 @@ const header = (replay: Replay, logger: Logger): Header => {
   const networkChecksum = replay.readUInt32();
   const engineNetworkVersion = replay.readUInt32();
   const gameNetworkProtocolVersion = replay.readUInt32();
-  let levelNamesAndTimes: ReadObjectResult;
+  let levelNamesAndTimes: ReadObjectResult<number>;
   let guid: string;
   let minor: number;
   let changelist: number;
@@ -57,7 +57,7 @@ const header = (replay: Replay, logger: Logger): Header => {
   if (networkVersion <= 6) {
     throw Error('Not implented');
   } else {
-    levelNamesAndTimes = replay.readObjectArray((replay) => replay.readString(), (replay) => replay.readUInt32());
+    levelNamesAndTimes = replay.readObject((replay) => replay.readString(), (replay) => replay.readUInt32());
   }
 
   if (networkVersion >= 9) {

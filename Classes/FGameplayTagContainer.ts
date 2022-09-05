@@ -1,4 +1,3 @@
-import { BaseResult, BaseStates } from '$types/lib';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from '../src/Classes/Replay';
 import { FGameplayTag } from "./FGameplayTag";
