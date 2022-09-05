@@ -1,4 +1,4 @@
-import { NetFieldExport, NetFieldExportGroup, NetFieldExportGroupInternal } from "$types/replay";
+import { NetFieldExport, NetFieldExportGroup, NetFieldExportGroupInternal } from "../../../types/replay";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
 

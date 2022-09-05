@@ -1,4 +1,4 @@
-import { Event } from '$types/lib';
+import { Event } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import { parseMatchStats } from './events/parse-match-stats';

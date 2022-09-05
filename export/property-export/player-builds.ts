@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, PlayerBuildExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, PlayerBuildExport } from '../../types/result-data';
 
 type PlayerBuildRecord = Record<keyof PlayerBuildExport, PlayerBuildExport[keyof PlayerBuildExport]>;
 

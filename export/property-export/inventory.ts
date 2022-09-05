@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, InventoryExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, InventoryExport } from '../../types/result-data';
 
 export const handleInventoryProperty: PropertyExportFunction<DefaultResult, DefaultStates, InventoryExport> = ({ actorId, data, states }) => {
   if (!states.inventories[actorId]) {

@@ -1,5 +1,5 @@
-import { Actor, BaseResult, BaseStates } from '$types/lib';
-import { ActorMap, NetFieldExportGroup, NetFieldExportGroupInternal, NetFieldExportGroupInternalMap, NetGuidMap, NumberToString, StringToString } from '$types/replay';
+import { Actor } from '../../types/lib';
+import { ActorMap, NetFieldExportGroup, NetFieldExportGroupInternal, NetFieldExportGroupInternalMap, NetGuidMap, NumberToString, StringToString } from '../../types/replay';
 import { cleanStaticIdSuffix } from '../utils/clean-static-id-suffix';
 import { getFullGuidPath } from '../utils/get-full-guid-path';
 import { removePathPrefix } from '../utils/remove-path-prefix';

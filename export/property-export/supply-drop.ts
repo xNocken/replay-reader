@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, SupplyDropExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, SupplyDropExport } from '../../types/result-data';
 
 type SupplyDropRecord = Record<keyof SupplyDropExport, SupplyDropExport[keyof SupplyDropExport]>;
 

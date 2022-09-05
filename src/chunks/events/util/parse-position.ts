@@ -1,4 +1,4 @@
-import { FVector } from '$types/lib';
+import { FVector } from '../../../../types/lib';
 import Replay from '../../../Classes/Replay';
 
 const halfMapSize = 131328;

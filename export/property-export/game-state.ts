@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from "$types/lib";
-import { DefaultResult, DefaultStates, GameStateExport } from "$types/result-data";
+import { PropertyExportFunction } from "../../types/lib";
+import { DefaultResult, DefaultStates, GameStateExport } from "../../types/result-data";
 
 type GameStateRecord = Record<keyof GameStateExport, GameStateExport[keyof GameStateExport]>;
 

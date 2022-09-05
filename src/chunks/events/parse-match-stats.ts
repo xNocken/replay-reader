@@ -1,4 +1,4 @@
-import { MatchStatsEvent } from '$types/lib';
+import { MatchStatsEvent } from '../../../types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 

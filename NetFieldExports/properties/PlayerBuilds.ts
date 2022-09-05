@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '$types/lib';
+import { NetFieldExportGroupConfig } from '../../types/lib';
 
 const PlayerBuilds: NetFieldExportGroupConfig = {
   path: "/Game/Building/ActorBlueprints/Player/",

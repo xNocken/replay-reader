@@ -3,7 +3,7 @@ import Replay from './Classes/Replay';
 import parseEvent from "./chunks/parse-events";
 import { parsePackets } from "./chunks/parse-packets";
 import GlobalData from './Classes/GlobalData';
-import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk, DownloadProcessResponse, NextChunkExport } from '$types/lib';
+import { BaseResult, BaseStates, Checkpoint, Chunks, DownloadedDataChunk, DownloadProcessResponse, NextChunkExport } from '../types/lib';
 import { fork } from 'child_process';
 
 const getChunk = (url: string, globalData: GlobalData) => {

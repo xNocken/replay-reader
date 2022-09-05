@@ -1,5 +1,5 @@
-import { BaseResult, BaseStates, NextFrameExport } from '$types/lib';
-import { Packet } from "$types/replay";
+import { BaseResult, BaseStates, NextFrameExport } from '../../../types/lib';
+import { Packet } from "../../../types/replay";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
 import { readExternalData } from "./read-external-data";

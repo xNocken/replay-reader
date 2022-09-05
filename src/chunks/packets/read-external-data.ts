@@ -1,4 +1,4 @@
-import { ExternalData } from "$types/lib";
+import { ExternalData } from "../../../types/lib";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
 

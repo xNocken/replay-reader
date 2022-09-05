@@ -1,5 +1,5 @@
-import { BaseResult, BaseStates, Bunch, CustomClass, PropertyExport } from '$types/lib';
-import { NetFieldExportInternal } from '$types/replay';
+import { BaseResult, BaseStates, Bunch, CustomClass, PropertyExport } from '../../../../types/lib';
+import { NetFieldExportInternal } from '../../../../types/replay';
 import classes from '../../../../Classes';
 import GlobalData from '../../../Classes/GlobalData';
 import Replay from '../../../Classes/Replay';

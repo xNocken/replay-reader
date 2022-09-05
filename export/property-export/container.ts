@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from "$types/lib";
-import { ContainerExport, DefaultResult, DefaultStates } from "$types/result-data";
+import { PropertyExportFunction } from "../../types/lib";
+import { ContainerExport, DefaultResult, DefaultStates } from "../../types/result-data";
 
 type ContainerRecord = Record<keyof ContainerExport, ContainerExport[keyof ContainerExport]>;
 

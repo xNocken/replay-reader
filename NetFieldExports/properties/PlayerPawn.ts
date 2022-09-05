@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '$types/lib';
+import { NetFieldExportGroupConfig } from '../../types/lib';
 
 const PlayerPawn: NetFieldExportGroupConfig = {
   path: "/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C",

@@ -1,4 +1,4 @@
-import { Bunch } from '$types/lib';
+import { Bunch } from '../../../types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import { processBunch } from './process-bunch';
 

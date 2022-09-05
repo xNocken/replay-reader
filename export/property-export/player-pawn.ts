@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, PlayerPawnExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, PlayerPawnExport } from '../../types/result-data';
 
 type PlayerPawnRecord = Record<keyof PlayerPawnExport, PlayerPawnExport[keyof PlayerPawnExport]>;
 

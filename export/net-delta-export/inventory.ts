@@ -1,5 +1,5 @@
-import { NetDeltaExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, InventoryDeltaExport } from '$types/result-data';
+import { NetDeltaExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, InventoryDeltaExport } from '../../types/result-data';
 
 export const handleInventory: NetDeltaExportFunction<DefaultResult, DefaultStates, InventoryDeltaExport> = ({ states, data, actorId }) => {
   const inventory = states.inventories[actorId];

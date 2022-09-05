@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, VehicleExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, VehicleExport } from '../../types/result-data';
 
 type VehicleRecord = Record<keyof VehicleExport, VehicleExport[keyof VehicleExport]>;
 

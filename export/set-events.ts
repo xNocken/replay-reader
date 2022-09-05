@@ -25,8 +25,8 @@ import { handleBroadcastSpectatorInfo } from './property-export/broadcast-specta
 import { handleClientInfoHitMarkers } from './function-export/broadcast-hit-markers';
 import { handleVehicleSeatComponent } from './property-export/components/vehicle-seat';
 import { handlePlayerPawnSpawn } from './actor-spawn/player-pawn';
-import { SetEvents } from '$types/lib';
-import { DefaultResult, DefaultStates } from '$types/result-data';
+import { SetEvents } from '../types/lib';
+import { DefaultResult, DefaultStates } from '../types/result-data';
 
 export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   actorDespawn,

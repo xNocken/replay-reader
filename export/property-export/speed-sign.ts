@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, SpeedSignExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, SpeedSignExport } from '../../types/result-data';
 
 type SpeedSignRecord = Record<keyof SpeedSignExport, SpeedSignExport[keyof SpeedSignExport]>;
 

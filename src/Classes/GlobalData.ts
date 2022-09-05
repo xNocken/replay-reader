@@ -13,7 +13,7 @@ import {
   EventEmittersObject,
   BaseResult,
   BaseStates,
-} from '$types/lib';
+} from '../../types/lib';
 
 import ffi from 'ffi-napi';
 import EventEmitter from 'events';
@@ -23,7 +23,7 @@ import { NetGuidCache } from './NetGuidCache';
 import { setEvents } from '../../export/set-events';
 import { getOozPath } from '../utils/get-ooz-path';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
-import { ExternalDataMap, NetFieldExportGroup } from '$types/replay';
+import { ExternalDataMap, NetFieldExportGroup } from '../../types/replay';
 import { Logger } from './Logger';
 import { ChildProcess } from 'child_process';
 

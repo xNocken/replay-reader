@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, SpectatorInfoExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, SpectatorInfoExport } from '../../types/result-data';
 
 export const handleBroadcastSpectatorInfo: PropertyExportFunction<DefaultResult, DefaultStates, SpectatorInfoExport> = ({ data, states }) => {
   data.PerPlayerInfo.forEach((playerData) => {

@@ -1,9 +1,9 @@
 import { receiveProperties } from './receive-properties';
 import { readClassNetCache } from './class-net-cache/read-class-net-cache';
-import { Bunch } from '$types/lib';
+import { Bunch } from '../../../types/lib';
 import Replay from '../../Classes/Replay';
 import GlobalData from '../../Classes/GlobalData';
-import { NetFieldExportGroupInternal } from '$types/replay';
+import { NetFieldExportGroupInternal } from '../../../types/replay';
 
 export const receivedReplicatorBunch = (
   bunch: Bunch,

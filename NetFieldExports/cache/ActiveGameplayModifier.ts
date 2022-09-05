@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '$types/lib';
+import { NetFieldExportGroupConfig } from '../../types/lib';
 
 const ActiveGameplayModifier: NetFieldExportGroupConfig = {
   path: "/Script/FortniteGame.ActiveGameplayModifier",

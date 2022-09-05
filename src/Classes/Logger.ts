@@ -1,4 +1,4 @@
-import { Logs } from "$types/lib";
+import { Logs } from "../../types/lib";
 
 export class Logger {
   logs: Logs = {

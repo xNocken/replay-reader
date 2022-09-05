@@ -10,8 +10,8 @@ import { replayMetaStreaming, replayChunksStreaming } from './src/get-chunks-str
 import { verifyMetadata } from './src/utils/verify-metadata';
 import { parseMeta } from './src/chunks/parse-meta';
 import { parseChunksStreaming } from './src/parse-chunks-streaming';
-import { DefaultResult } from '$types/result-data';
-import { ParseOptions, ParseStreamOptions, MetaDataResult, BaseResult } from '$types/lib';
+import { DefaultResult } from './types/result-data';
+import { ParseOptions, ParseStreamOptions, MetaDataResult, BaseResult } from './types/lib';
 
 const debugStuff = (globalData: GlobalData) => {
   fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ path, value, outer }) => `${path}: ${value} -> ${outer?.value}`).join('\n'));

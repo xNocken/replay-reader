@@ -1,4 +1,4 @@
-import { Header, ReadObjectResult } from '$types/lib';
+import { Header, ReadObjectResult } from '../../types/lib';
 import { Logger } from '../Classes/Logger';
 import Replay from '../Classes/Replay';
 import versions from '../constants/versions';

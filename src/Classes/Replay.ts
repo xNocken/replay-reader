@@ -1,4 +1,4 @@
-import { FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction } from '$types/lib';
+import { FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction } from '../../types/lib';
 import crypto from 'crypto';
 import { UnrealNames } from '../../Enums/UnrealNames';
 

@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Bunch } from "$types/lib";
+import { Bunch } from "../../../types/lib";
 import GlobalData from "../../Classes/GlobalData";
 import { readNetGuid } from "../../utils/read-net-guid";
 

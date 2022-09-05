@@ -1,4 +1,4 @@
-import { CustomClass, Header } from '$types/lib';
+import { CustomClass, Header } from '../types/lib';
 import GlobalData from '../src/Classes/GlobalData';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from "../src/Classes/Replay";

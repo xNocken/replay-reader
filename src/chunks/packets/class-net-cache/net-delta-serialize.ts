@@ -1,9 +1,9 @@
 import { receiveProperties } from "../receive-properties";
 import pathhhh from 'path';
 import Replay from '../../../Classes/Replay';
-import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '$types/lib';
+import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '../../../../types/lib';
 import GlobalData from '../../../Classes/GlobalData';
-import { NetFieldExportGroupInternal } from '$types/replay';
+import { NetFieldExportGroupInternal } from '../../../../types/replay';
 
 export const netDeltaSerialize = (
   reader: Replay,

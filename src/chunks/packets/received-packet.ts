@@ -4,7 +4,7 @@ import { receiveNetGUIDBunch } from './receive-net-guid-bunch';
 import { receivedNextBunch } from './received-next-bunch';
 import { onChannelClosed } from './on-channel-closed';
 import GlobalData from "../../Classes/GlobalData";
-import { Bunch, Channel } from "$types/lib";
+import { Bunch, Channel } from "../../../types/lib";
 
 const maxPacketInBits = 1024 * 2 * 8;
 

@@ -1,4 +1,4 @@
-import { Actor, BaseResult, BaseStates, Bunch } from "$types/lib";
+import { Actor, Bunch } from "../../../types/lib";
 
 import { serializeQuantizedVector } from '../../utils/serialize-quantized-vector';
 import { readNetGuid } from '../../utils/read-net-guid';

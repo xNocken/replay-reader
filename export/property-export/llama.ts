@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib'
-import { DefaultResult, DefaultStates, LlamaExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib'
+import { DefaultResult, DefaultStates, LlamaExport } from '../../types/result-data';
 
 type LlamaRecord = Record<keyof LlamaExport, LlamaExport[keyof LlamaExport]>;
 

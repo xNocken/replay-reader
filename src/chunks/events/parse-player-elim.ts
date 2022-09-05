@@ -1,4 +1,4 @@
-import { ElimPlayer } from '$types/events';
+import { ElimPlayer } from '../../../types/events';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 

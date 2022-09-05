@@ -1,4 +1,4 @@
-import { PlayerPosition } from '$types/lib';
+import { PlayerPosition } from '../../../types/lib';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 import enums from '../../../Enums';

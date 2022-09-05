@@ -1,4 +1,4 @@
-import { Checkpoint } from '$types/lib';
+import { Checkpoint } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 

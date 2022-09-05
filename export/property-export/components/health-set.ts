@@ -1,5 +1,5 @@
-import { FortSet, PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, HealthSetExport, LlamaExport } from '$types/result-data';
+import { FortSet, PropertyExportFunction } from '../../../types/lib';
+import { DefaultResult, DefaultStates, HealthSetExport } from '../../../types/result-data';
 
 let healthStartHandle: number;
 let shieldStartHandle: number;

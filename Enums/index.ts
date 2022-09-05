@@ -1,4 +1,4 @@
-import { CustomEnumMap } from '$types/lib';
+import { CustomEnumMap } from '../types/lib';
 
 import { EAlertLevel } from './EAlertLevel';
 import { EAthenaGamePhase } from './EAthenaGamePhase';

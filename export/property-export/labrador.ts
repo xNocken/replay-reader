@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, LabradorExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, LabradorExport } from '../../types/result-data';
 
 type LabradorRecord = Record<keyof LabradorExport, LabradorExport[keyof LabradorExport]>;
 

@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, RemoteClientInfoExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, RemoteClientInfoExport } from '../../types/result-data';
 
 type RemoteClientInfoRecord = Record<keyof RemoteClientInfoExport, RemoteClientInfoExport[keyof RemoteClientInfoExport]>;
 

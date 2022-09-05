@@ -1,5 +1,10 @@
 {
-  "include": ["./src/**/*.ts", "index.ts", "test.ts", "src/download-process.ts"],
+  "include": [
+    "./src/**/*.ts",
+    "index.ts",
+    "test.ts",
+    "src/download-process.ts"
+  ],
   "compilerOptions": {
     "strict": false,
     "moduleResolution": "node",
@@ -11,16 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2021", "ESNext"],
     "outDir": "./dist",
-    "paths": {
-      "$types/*": ["./types/*"]
-    },
     "esModuleInterop": true,
     "incremental": true,
     "noEmitHelpers": true,
     "importHelpers": true,
     "types": ["node"],
     "allowJs": true,
-    "resolveJsonModule": true,
     "declaration": true,
     "noImplicitAny": true
   }

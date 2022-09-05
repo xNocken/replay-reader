@@ -1,4 +1,4 @@
-import { Packet } from "$types/replay";
+import { Packet } from "../../../types/replay";
 import Replay from "../../Classes/Replay";
 
 export const readPacket = (replay: Replay, timeSeconds: number): Packet => {

@@ -5,8 +5,8 @@ import enums from '../../Enums';
 import classes from '../../Classes';
 import Replay from '../Classes/Replay';
 import GlobalData from './GlobalData';
-import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnumMap, Data, NetFieldExportConfig, NetFieldExportGroupConfig } from '$types/lib';
-import { NetFieldExportGroupConfigMap, NetFieldExportGroupInternal, NetFieldExportInternal, StringToString } from '$types/replay';
+import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnumMap, Data, NetFieldExportConfig, NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfigMap, NetFieldExportGroupInternal, NetFieldExportInternal, StringToString } from '../../types/replay';
 
 const getExportByType = (type: string) => {
   switch (type) {

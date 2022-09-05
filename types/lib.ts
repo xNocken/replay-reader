@@ -3,7 +3,7 @@ import EventEmitter from 'events';
 import GlobalData from '../src/Classes/GlobalData';
 import Replay from '../src/Classes/Replay';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
-import { NetFieldExportInternal } from '$types/replay';
+import { NetFieldExportInternal } from '../types/replay';
 import { NetworkGUID } from '../Classes/NetworkGUID';
 import { Logger } from '../src/Classes/Logger';
 

@@ -1,5 +1,5 @@
-import { ActorDespawnExport, BaseResult, BaseStates, Bunch, ChannelOpenedClosedExport } from '$types/lib';
-import { NetFieldExportGroupInternal } from '$types/replay';
+import { ActorDespawnExport, BaseResult, BaseStates, Bunch, ChannelOpenedClosedExport } from '../../../types/lib';
+import { NetFieldExportGroupInternal } from '../../../types/replay';
 import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
 

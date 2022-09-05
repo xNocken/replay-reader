@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from "$types/lib";
-import { DefaultResult, DefaultStates, SafeZone } from "$types/result-data";
+import { PropertyExportFunction } from "../../types/lib";
+import { DefaultResult, DefaultStates, SafeZone } from "../../types/result-data";
 
 export const handleSafezoneIndicatorFastForwarding: PropertyExportFunction<DefaultResult, DefaultStates, SafeZone> = ({ data, result, states, setFastForward }) => {
   if (data.SafeZoneFinishShrinkTime && states.safeZones.SafeZoneFinishShrinkTime !== data.SafeZoneFinishShrinkTime) {

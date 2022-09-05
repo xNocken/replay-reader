@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, PlayerState, PlayerStateExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates, PlayerState, PlayerStateExport } from '../../types/result-data';
 const onlySpectatingPlayers: Record<number, boolean> = {};
 
 type PlayerStateRecord = Record<keyof PlayerStateExport, PlayerStateExport[keyof PlayerStateExport]>;

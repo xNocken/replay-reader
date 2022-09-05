@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from "$types/lib";
+import { NetFieldExportGroupConfig } from "../types/lib";
 
 import ActiveGameplayModifier from './cache/ActiveGameplayModifier';
 import BroadcastRemoteClientInfo_ClientRemotePlayerHitMarkers from './cache/BroadcastRemoteClientInfo_ClientRemotePlayerHitMarkers';

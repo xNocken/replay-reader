@@ -1,4 +1,4 @@
-import { FRotator, FVector } from '$types/lib';
+import { FRotator, FVector } from '../types/lib';
 import GlobalData from '../src/Classes/GlobalData';
 import Replay from '../src/Classes/Replay';
 

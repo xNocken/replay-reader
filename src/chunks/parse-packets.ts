@@ -1,4 +1,4 @@
-import { DataChunk } from '$types/lib';
+import { DataChunk } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import { decompress } from '../utils/decompress';

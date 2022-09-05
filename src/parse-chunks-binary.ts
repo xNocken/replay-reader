@@ -1,4 +1,4 @@
-import { BaseResult, BaseStates, Chunks, NextChunkExport } from '$types/lib';
+import { BaseResult, BaseStates, Chunks, NextChunkExport } from '../types/lib';
 import GlobalData from './Classes/GlobalData';
 import Replay from './Classes/Replay';
 

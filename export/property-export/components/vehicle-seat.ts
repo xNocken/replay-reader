@@ -1,5 +1,5 @@
-import { PropertyExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates, VehicleSeatComponentExport } from '$types/result-data';
+import { PropertyExportFunction } from '../../../types/lib';
+import { DefaultResult, DefaultStates, VehicleSeatComponentExport } from '../../../types/result-data';
 
 export const handleVehicleSeatComponent: PropertyExportFunction<DefaultResult, DefaultStates, VehicleSeatComponentExport> = ({ actorId, data, states }) => {
   // fix for switching seats

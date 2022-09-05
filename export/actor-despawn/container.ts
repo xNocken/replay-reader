@@ -1,5 +1,5 @@
-import { ActorDespawnExportFunction } from '$types/lib';
-import { DefaultResult, DefaultStates } from '$types/result-data';
+import { ActorDespawnExportFunction } from '../../types/lib';
+import { DefaultResult, DefaultStates } from '../../types/result-data';
 
 export const handleContainerDespawn: ActorDespawnExportFunction<DefaultResult, DefaultStates> = ({ staticActorId, states, actorId, result }) => {
   const gameState = states.gameState;
