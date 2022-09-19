@@ -41,6 +41,10 @@ const header = (replay) => {
     result.Changelist = replay.readUInt32();
   }
 
+  if (result.NetworkVersion >= 18) {
+    replay.skipBytes(12);
+  }
+
   if (header.networkVersion <= 6) {
     throw Error('Not implented')
   } else {

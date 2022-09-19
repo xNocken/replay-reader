@@ -13,7 +13,7 @@ const conditionallySerializeQuantizedVector = (archive, defaultVector) => {
   if (bWasSerialized) {
     const bShouldQuantize = (archive.header.EngineNetworkVersion < 13) || archive.readBit()
 
-    return bShouldQuantize ? archive.readPackedVector(10, 24) : archive.readVector();
+    return bShouldQuantize ? archive.readPackedVector(10, 24) : archive.readVector3d();
   }
 
   return defaultVector;

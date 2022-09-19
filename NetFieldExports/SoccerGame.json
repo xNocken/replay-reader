@@ -24,7 +24,7 @@
     "ScoreLocation": {
       "name": "ScoreLocation",
       "type": "fVector",
-      "parseFunction": "readVector",
+      "parseFunction": "readVector3d",
       "parseType": "default"
     },
     "WinningTeam": {

@@ -9,12 +9,25 @@ class FRepMovement {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();
 
+    if (globalData.header.EngineNetworkVersion >= 25 && globalData.header.EngineNetworkVersion !== 26) {
+      this.bRepServerFrame = reader.readBit();
+      this.bRepServerHandle = reader.readBit();
+    }
+
     this.location = reader.readPackedVector(10 ** locationQuatLevel, 24 + (3 * locationQuatLevel));
     this.rotation = rotationQuatLevel ? reader.readRotationShort() : reader.readRotation();
     this.linearVelocity = reader.readPackedVector(10 ** velocityQuatLevel, 24 + (3 * velocityQuatLevel));
 
     if (this.bRepPhysics) {
       this.angularVelocity = reader.readPackedVector(10 ** velocityQuatLevel, 24 + (3 * velocityQuatLevel));
+    }
+
+    if (this.bRepServerFrame) {
+      this.serverFrame = reader.readIntPacked();
+    }
+
+    if (this.bRepServerHandle) {
+      this.serverHandle = reader.readIntPacked();
     }
   }
 }

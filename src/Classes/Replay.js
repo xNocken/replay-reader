@@ -430,6 +430,18 @@ class Replay {
     return result;
   }
 
+  readDouble64() {
+    if (!this.canRead(64)) {
+      this.isError = true;
+
+      return 0;
+    }
+
+    const result = this.readBytes(8).readDoubleLE(0);
+
+    return result;
+  }
+
   /**
    * Read an id
    * @returns {string} the id
@@ -520,8 +532,53 @@ class Replay {
   }
 
 
+  readVector3f() {
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+    };
+  }
+
+  readVector4f() {
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+      w: this.readFloat32(),
+    };
+  }
+
+  readVector3d() {
+    if (this.header.EngineNetworkVersion < 23) {
+      return this.readVector3f();
+    }
+
+    return {
+      x: this.readDouble64(),
+      y: this.readDouble64(),
+      z: this.readDouble64(),
+    };
+  }
+
+  readVector4d() {
+    if (this.header.EngineNetworkVersion < 23) {
+      return this.readVector4f();
+    }
+
+    return {
+      x: this.readDouble64(),
+      y: this.readDouble64(),
+      z: this.readDouble64(),
+      w: this.readDouble64(),
+    };
+  }
+
+  /**
+   * @deprecated
+   */
   readVector() {
-    return { x: this.readFloat32(), y: this.readFloat32(), z: this.readFloat32() };
+    return this.readVector3d();
   }
 
   readPackedVector100() {
@@ -529,14 +586,67 @@ class Replay {
   }
 
   readPackedVector10() {
-    return this.readPackedVector(10, 24);
+    return this.readPackedVector(10, 27);
   }
 
   readPackedVector1() {
     return this.readPackedVector(1, 24);
   }
 
-  readPackedVector(scaleFactor, maxBits) {
+  readQuantizedVector(scaleFactor) {
+    const bitsAndInfo = this.readSerializedInt(1 << 7);
+
+    if (this.isError) {
+      return { x: 0, y: 0, z: 0 };
+    }
+
+    const componentBits = bitsAndInfo & 63;
+    const extraInfo = bitsAndInfo >> 6;
+
+    if (componentBits > 0) {
+      const x = this.readBitsToUnsignedInt(componentBits);
+      const y = this.readBitsToUnsignedInt(componentBits);
+      const z = this.readBitsToUnsignedInt(componentBits);
+
+      const signBit = 1 << (componentBits - 1);
+
+      const xSign = (x ^ signBit) - signBit;
+      const ySign = (y ^ signBit) - signBit;
+      const zSign = (z ^ signBit) - signBit;
+
+      if (extraInfo) {
+        return {
+          x: xSign / scaleFactor,
+          y: ySign / scaleFactor,
+          z: zSign / scaleFactor,
+        };
+      }
+
+      return {
+        x: xSign,
+        y: ySign,
+        z: zSign,
+      };
+    }
+
+    const size = extraInfo ? 8 : 4;
+
+    if (size === 8) {
+      return {
+        x: this.readDouble64(),
+        y: this.readDouble64(),
+        z: this.readDouble64(),
+      };
+    }
+
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+    };
+  }
+
+  readPackedVectorLegacy(scaleFactor, maxBits) {
     const bits = this.readSerializedInt(maxBits);
 
     if (this.isError) {
@@ -559,6 +669,14 @@ class Replay {
     const z = (dz - bias) / scaleFactor;
 
     return { x, y, z };
+  }
+
+  readPackedVector(scaleFactor, maxBits) {
+    if (this.header.EngineNetworkVersion >= 23) {
+      return this.readQuantizedVector(scaleFactor);
+    }
+
+    return this.readPackedVectorLegacy(scaleFactor, maxBits);
   }
 
   /**

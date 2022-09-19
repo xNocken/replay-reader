@@ -43,7 +43,7 @@ class DebugObject {
       return null;
     }
 
-  return this.data.readFloatLE();
+    return this.data.readFloatLE();
   }
 
   getValueAsInt() {
@@ -96,7 +96,9 @@ class DebugObject {
   getValueAsFVector() {
     const replay = new Replay(this.data, this.size);
 
-    const vector = replay.readVector();
+    replay.header = this.header;
+
+    const vector = replay.readVector3d();
 
     if (replay.isError) {
       return null;
