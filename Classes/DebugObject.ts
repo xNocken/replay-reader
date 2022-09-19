@@ -34,7 +34,7 @@ export class DebugObject {
       return null;
     }
 
-    return this.data.readFloatLE();
+      return this.data.readFloatLE();
   }
 
   getValueAsInt() {
