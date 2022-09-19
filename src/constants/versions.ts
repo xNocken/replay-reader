@@ -7,6 +7,6 @@ export default {
   ZoneUpdate: 9,
   Timecode: 9,
   fileVersion: 6,
-  networkVersion: 17,
-  engineNetworkVersion: 22,
+  networkVersion: 18,
+  engineNetworkVersion: 27,
 };

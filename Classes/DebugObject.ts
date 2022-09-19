@@ -84,10 +84,22 @@ export class DebugObject {
     return container;
   }
 
-  getValueAsFVector() {
+  getValueAsFVector3d() {
     const replay = new Replay(this.data, this.size);
 
-    const vector = replay.readVector();
+    const vector = replay.readVector3d();
+
+    if (replay.isError) {
+      return null;
+    }
+
+    return vector;
+  }
+
+  getValueAsFVector3f() {
+    const replay = new Replay(this.data, this.size);
+
+    const vector = replay.readVector3f();
 
     if (replay.isError) {
       return null;
@@ -120,7 +132,7 @@ export class DebugObject {
       itemDefinition: this.getValueAsClass(ItemDefinition),
       fRepMovement: this.getValueAsClass(FRepMovement),
       fName: this.getValueAsClass(FName),
-      fVector: this.getValueAsFVector(),
+      fVector: this.getValueAsFVector3d(),
       intPacked: this.getValueAsIntPacked(),
     };
   }

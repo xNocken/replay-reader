@@ -9,17 +9,34 @@ export class FRepMovement {
   rotation: FRotator
   linearVelocity: FVector;
   angularVelocity: FVector;
+  bRepServerFrame: boolean;
+  bRepServerHandle: boolean;
+  serverFrame?: number;
+  serverHandle?: number;
 
   serialize(reader: Replay, globalData: GlobalData, { locationQuatLevel = 2, rotationQuatLevel = 0, velocityQuatLevel = 0 }) {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();
 
-    this.location = reader.readPackedVector(10 ** locationQuatLevel, 24 + (3 * locationQuatLevel));
+    if (globalData.header.engineNetworkVersion >= 25 && globalData.header.engineNetworkVersion !== 26) {
+      this.bRepServerFrame = reader.readBit();
+      this.bRepServerHandle = reader.readBit();
+    }
+
+    this.location = reader.serializeQuantizedVector(locationQuatLevel);
     this.rotation = rotationQuatLevel ? reader.readRotationShort() : reader.readRotation();
-    this.linearVelocity = reader.readPackedVector(10 ** velocityQuatLevel, 24 + (3 * velocityQuatLevel));
+    this.linearVelocity = reader.serializeQuantizedVector(velocityQuatLevel);
 
     if (this.bRepPhysics) {
-      this.angularVelocity = reader.readPackedVector(10 ** velocityQuatLevel, 24 + (3 * velocityQuatLevel));
+      this.angularVelocity = reader.serializeQuantizedVector(velocityQuatLevel);
+    }
+
+    if (this.bRepServerFrame) {
+      this.serverFrame = reader.readIntPacked();
+    }
+
+    if (this.bRepServerHandle) {
+      this.serverHandle = reader.readIntPacked();
     }
   }
 }

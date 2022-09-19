@@ -23,7 +23,7 @@ const SoccerGame: NetFieldExportGroupConfig = {
       parseType: "default",
     },
     ScoreLocation: {
-      parseFunction: "readVector",
+      parseFunction: "readVector3d",
       parseType: "default",
     },
     WinningTeam: {

@@ -7,7 +7,7 @@ import { NetFieldExportInternal } from '../types/replay';
 import { NetworkGUID } from '../Classes/NetworkGUID';
 import { Logger } from '../src/Classes/Logger';
 
-export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector' | 'readPackedVector1' | 'readFName' | 'readNetId';
+export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector3f' | 'readVector3d' | 'readPackedVector1' | 'readFName' | 'readNetId';
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
 export type NetFieldExportTypes = 'ClassNetCache' | 'Default';
 export type NetFieldExportExportTypes = 'array' | 'object' | 'null';
@@ -62,6 +62,9 @@ export interface Header {
   flags?: number,
   gameSpecificData?: string[],
   platform?: string,
+  fileVersionUE4?: number,
+  fileVersionUE5?: number,
+  packageVersionLicenseeUe?: number,
 }
 
 export interface Meta {
@@ -633,7 +636,7 @@ export interface FortSet {
 export interface DownloadedDataChunk {
   chunk: DataChunk,
   replay: Replay,
-  downloadTime:  number,
+  downloadTime: number,
 }
 
 export interface Logs {

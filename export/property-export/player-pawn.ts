@@ -3,7 +3,7 @@ import { DefaultResult, DefaultStates, PlayerPawnExport } from '../../types/resu
 
 type PlayerPawnRecord = Record<keyof PlayerPawnExport, PlayerPawnExport[keyof PlayerPawnExport]>;
 
-export const handlePlayerPawn: PropertyExportFunction<DefaultResult, DefaultStates, PlayerPawnExport> = ({ actorId, data, states, changedProperties }) => {
+export const handlePlayerPawn: PropertyExportFunction<DefaultResult, DefaultStates, PlayerPawnExport> = ({ actorId, actor, data, states, changedProperties }) => {
   const { playerPawns, players } = states;
   const pawn = playerPawns[actorId];
 

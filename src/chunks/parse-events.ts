@@ -30,7 +30,7 @@ const event = (replay: Replay, info: Event, globalData: GlobalData) => {
 
   const highestVersion = versions[<keyof typeof versions>info.group];
 
-  if (highestVersion === undefined || version < highestVersion) {
+  if (highestVersion === undefined || version > highestVersion) {
     globalData.logger.warn(`Event ${info.group} has an unknown version. supported: ${highestVersion} found: ${version}.`);
   }
 

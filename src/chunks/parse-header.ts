@@ -25,6 +25,9 @@ const header = (replay: Replay, logger: Logger): Header => {
   let patch: number;
   let flags: number;
   let platform: string;
+  let fileVersionUE4: number;
+  let fileVersionUE5: number;
+  let packageVersionLicenseeUe: number;
 
   if (networkVersion > versions.networkVersion) {
     logger.warn('This replay has a higher network version than currently supported. parsing may fail');
@@ -52,6 +55,12 @@ const header = (replay: Replay, logger: Logger): Header => {
     }
   } else {
     changelist = replay.readUInt32();
+  }
+
+  if (networkVersion >= 18) {
+    fileVersionUE4 = replay.readUInt32();
+    fileVersionUE5 = replay.readUInt32();
+    packageVersionLicenseeUe = replay.readUInt32();
   }
 
   if (networkVersion <= 6) {
@@ -96,6 +105,9 @@ const header = (replay: Replay, logger: Logger): Header => {
     patch,
     flags,
     platform,
+    fileVersionUE4,
+    fileVersionUE5,
+    packageVersionLicenseeUe,
   };
 
   replay.header = result;

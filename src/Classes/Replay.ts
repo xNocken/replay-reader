@@ -1,4 +1,4 @@
-import { FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction } from '../../types/lib';
+import { FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction, Vector4 } from '../../types/lib';
 import crypto from 'crypto';
 import { UnrealNames } from '../../Enums/UnrealNames';
 
@@ -13,6 +13,9 @@ class Replay {
 
   float32Array = new Float32Array(1);
   uInt8Float32Array = new Uint8Array(this.float32Array.buffer);
+
+  double64Array = new Float64Array(1);
+  uInt8Double64Array = new Uint8Array(this.double64Array.buffer);
 
   header: Header;
 
@@ -415,6 +418,27 @@ class Replay {
     return this.float32Array[0];
   }
 
+  readDouble64(): number {
+    if (!this.canRead(64)) {
+      this.isError = true;
+
+      return 0;
+    }
+
+    const result = this.readBytes(8);
+
+    this.uInt8Double64Array[0] = result[0];
+    this.uInt8Double64Array[1] = result[1];
+    this.uInt8Double64Array[2] = result[2];
+    this.uInt8Double64Array[3] = result[3];
+    this.uInt8Double64Array[4] = result[4];
+    this.uInt8Double64Array[5] = result[5];
+    this.uInt8Double64Array[6] = result[6];
+    this.uInt8Double64Array[7] = result[7];
+
+    return this.double64Array[0];
+  }
+
   /**
    * Read an id
    */
@@ -504,9 +528,46 @@ class Replay {
     return obj;
   }
 
+  readVector3f(): FVector {
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+    };
+  }
 
-  readVector(): FVector {
-    return { x: this.readFloat32(), y: this.readFloat32(), z: this.readFloat32() };
+  readVector4f(): Vector4 {
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+      w: this.readFloat32(),
+    };
+  }
+
+  readVector3d(): FVector {
+    if (this.header.engineNetworkVersion < 23) {
+      return this.readVector3f();
+    }
+
+    return {
+      x: this.readDouble64(),
+      y: this.readDouble64(),
+      z: this.readDouble64(),
+    };
+  }
+
+  readVector4d(): Vector4 {
+    if (this.header.engineNetworkVersion < 23) {
+      return this.readVector4f();
+    }
+
+    return {
+      x: this.readDouble64(),
+      y: this.readDouble64(),
+      z: this.readDouble64(),
+      w: this.readDouble64(),
+    };
   }
 
   readPackedVector100(): FVector {
@@ -514,14 +575,67 @@ class Replay {
   }
 
   readPackedVector10(): FVector {
-    return this.readPackedVector(10, 24);
+    return this.readPackedVector(10, 27);
   }
 
   readPackedVector1(): FVector {
     return this.readPackedVector(1, 24);
   }
 
-  readPackedVector(scaleFactor: number, maxBits: number): FVector {
+  readQuantizedVector(scaleFactor: number): FVector {
+    const bitsAndInfo = this.readSerializedInt(1 << 7);
+
+    if (this.isError) {
+      return { x: 0, y: 0, z: 0 };
+    }
+
+    const componentBits = bitsAndInfo & 63;
+    const extraInfo = bitsAndInfo >> 6;
+
+    if (componentBits > 0) {
+      const x = this.readBitsToUnsignedInt(componentBits);
+      const y = this.readBitsToUnsignedInt(componentBits);
+      const z = this.readBitsToUnsignedInt(componentBits);
+
+      const signBit = 1 << (componentBits - 1);
+
+      const xSign = (x ^ signBit) - signBit;
+      const ySign = (y ^ signBit) - signBit;
+      const zSign = (z ^ signBit) - signBit;
+
+      if (extraInfo) {
+        return {
+          x: xSign / scaleFactor,
+          y: ySign / scaleFactor,
+          z: zSign / scaleFactor,
+        };
+      }
+
+      return {
+        x: xSign,
+        y: ySign,
+        z: zSign,
+      };
+    }
+
+    const size = extraInfo ? 8 : 4;
+
+    if (size === 8) {
+      return {
+        x: this.readDouble64(),
+        y: this.readDouble64(),
+        z: this.readDouble64(),
+      };
+    }
+
+    return {
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+    };
+  }
+
+  readPackedVectorLegacy(scaleFactor: number, maxBits: number): FVector {
     const bits = this.readSerializedInt(maxBits);
 
     if (this.isError) {
@@ -544,6 +658,27 @@ class Replay {
     const z = (dz - bias) / scaleFactor;
 
     return { x, y, z };
+  }
+
+  serializeQuantizedVector(level: number) {
+    switch (level) {
+      case 2:
+        return this.readPackedVector100();
+
+      case 1:
+        return this.readPackedVector10();
+
+      default:
+        return this.readPackedVector1();
+    }
+  }
+
+  readPackedVector(scaleFactor: number, maxBits: number): FVector {
+    if (this.header.engineNetworkVersion >= 23) {
+      return this.readQuantizedVector(scaleFactor);
+    }
+
+    return this.readPackedVectorLegacy(scaleFactor, maxBits);
   }
 
   decryptBuffer(length: number, encryptionKey: Buffer): Replay {

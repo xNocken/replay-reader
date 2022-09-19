@@ -5,7 +5,7 @@ import Replay from '../../Classes/Replay';
 import enums from '../../../Enums';
 import parsePlayer from './util/parse-player';
 
-export const parsePlayerElim =(globalData: GlobalData, replay: Replay, time: number, version: number) => {
+export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: number, version: number) => {
   const targetEnum = (globalData.options.customEnums?.EDeathCause || enums.EDeathCause);
 
   let eliminated: ElimPlayer;
@@ -16,27 +16,17 @@ export const parsePlayerElim =(globalData: GlobalData, replay: Replay, time: num
 
     if (version >= 6) {
       eliminated = {
-        rotation: {
-          x: replay.readFloat32(),
-          y: replay.readFloat32(),
-          z: replay.readFloat32(),
-          w: replay.readFloat32(),
-        },
-        location: replay.readVector(),
-        scale: replay.readVector(),
+        rotation: replay.readVector4d(),
+        location: replay.readVector3d(),
+        scale: replay.readVector3d(),
         name: null,
       };
     }
 
     eliminator = {
-      rotation: {
-        x: replay.readFloat32(),
-        y: replay.readFloat32(),
-        z: replay.readFloat32(),
-        w: replay.readFloat32(),
-      },
-      location: replay.readVector(),
-      scale: replay.readVector(),
+      rotation: replay.readVector4d(),
+      location: replay.readVector3d(),
+      scale: replay.readVector3d(),
       name: null,
     };
 
