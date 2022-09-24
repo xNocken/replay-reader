@@ -1,4 +1,5 @@
-import { Header, ReadObjectResult } from '../../types/lib';
+import { BuildTargetType } from '../../Enums/BuildTargetType';
+import { CustomEnum, Header, ReadObjectResult } from '../../types/lib';
 import { Logger } from '../Classes/Logger';
 import Replay from '../Classes/Replay';
 import versions from '../constants/versions';
@@ -9,7 +10,7 @@ const header = (replay: Replay, logger: Logger): Header => {
   const magic = replay.readUInt32();
 
   if (magic !== headerMagic) {
-    throw new Error('Not a valid replay');
+    throw new Error('header magic invalid');
   }
 
   const networkVersion = replay.readUInt32();
@@ -24,10 +25,16 @@ const header = (replay: Replay, logger: Logger): Header => {
   let major: number;
   let patch: number;
   let flags: number;
-  let platform: string;
   let fileVersionUE4: number;
   let fileVersionUE5: number;
   let packageVersionLicenseeUe: number;
+  let minRecordHz: number;
+  let maxRecordHz: number;
+  let frameLimitInMS: number;
+  let checkpointLimitInMS: number;
+  let platform: string;
+  let buildConfig: number;
+  let buildTargetType: string;
 
   if (networkVersion > versions.networkVersion) {
     logger.warn('This replay has a higher network version than currently supported. parsing may fail');
@@ -85,10 +92,15 @@ const header = (replay: Replay, logger: Logger): Header => {
   }
 
   if (networkVersion >= 17) {
-    replay.skipBytes(16);
+    minRecordHz = replay.readFloat32();
+    maxRecordHz = replay.readFloat32();
+    frameLimitInMS = replay.readFloat32();
+    checkpointLimitInMS = replay.readFloat32();
 
     platform = replay.readString();
-    replay.skipBytes(2);
+
+    buildConfig = replay.readByte();
+    buildTargetType = BuildTargetType[replay.readByte()];
   }
 
   const result: Header = {
@@ -104,10 +116,16 @@ const header = (replay: Replay, logger: Logger): Header => {
     major,
     patch,
     flags,
-    platform,
     fileVersionUE4,
     fileVersionUE5,
     packageVersionLicenseeUe,
+    minRecordHz,
+    maxRecordHz,
+    frameLimitInMS,
+    platform,
+    checkpointLimitInMS,
+    buildConfig,
+    buildTargetType,
   };
 
   replay.header = result;

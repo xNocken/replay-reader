@@ -61,10 +61,16 @@ export interface Header {
   levelNamesAndTimes?: ReadObjectResult<number>,
   flags?: number,
   gameSpecificData?: string[],
-  platform?: string,
   fileVersionUE4?: number,
   fileVersionUE5?: number,
   packageVersionLicenseeUe?: number,
+  minRecordHz: number,
+  maxRecordHz: number,
+  frameLimitInMS: number,
+  checkpointLimitInMS: number,
+  platform?: string,
+  buildConfig: number,
+  buildTargetType: string,
 }
 
 export interface Meta {

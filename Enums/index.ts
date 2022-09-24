@@ -1,5 +1,6 @@
 import { CustomEnumMap } from '../types/lib';
 
+import { BuildTargetType } from './BuildTargetType';
 import { EAlertLevel } from './EAlertLevel';
 import { EAthenaGamePhase } from './EAthenaGamePhase';
 import { EAthenaStormCapState } from './EAthenaStormCapState';
@@ -15,6 +16,7 @@ import { EServerStability } from './EServerStability';
 import { UnrealNames } from './UnrealNames.js';
 
 const Enums: CustomEnumMap = {
+  BuildTargetType,
   EAlertLevel,
   EAthenaGamePhase,
   EAthenaStormCapState,
