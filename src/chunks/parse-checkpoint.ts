@@ -52,7 +52,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
 
   const guidCount = replay.readInt32();
 
-  const cacheGuids = [];
+  const cacheGuids: NetworkGUID[] = [];
 
   for (let i = 0; i < guidCount; i++) {
     const guid = replay.readIntPacked();
@@ -60,11 +60,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
     let outerGuid = new NetworkGUID(outerId);
 
     if (outerId !== 0) {
-      outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId);
-
-      if (!outerGuid) {
-        globalData.logger.warn(`failed to find outer of ${guid}`);
-      }
+      outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId) || outerGuid;
     }
 
     const cacheObject = new NetworkGUID(guid);

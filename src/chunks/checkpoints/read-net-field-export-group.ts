@@ -14,6 +14,7 @@ const addToUnreadGroups = (group: NetFieldExportGroupInternal, netField: NetFiel
       pathName: group.pathName,
       pathNameIndex: group.pathNameIndex,
       netFieldExportsLength: group.netFieldExportsLength,
+      properties: {},
     };
   }
 

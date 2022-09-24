@@ -18,6 +18,10 @@ const getChunksBinary = (replay: Replay, globalData: GlobalData) => {
 
     switch (chunkType) {
       case 0:
+        if (globalData.header) {
+          throw new Error('Found multiple header chunks');
+        }
+
         globalData.header = parseHeader(replay, globalData.logger);
         break;
 

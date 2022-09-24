@@ -1,6 +1,6 @@
 export const cleanStaticIdSuffix = (id: string) => {
   for (let i = id.length - 1; i >= 0; i--) {
-    const isNumber = id[i] >= '0' || id[i] <= '9';
+    const isNumber = id[i] >= '0' && id[i] <= '9';
     const isUnderscore = (id[i] === '_');
 
     if (!isNumber && !isUnderscore) {
