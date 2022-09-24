@@ -110,11 +110,11 @@ export class NetGuidCache {
     return getFullGuidPath(this.netGuids[netGuid]);
   }
 
-  GetNetFieldExportGroupString(path: string) {
+  getNetFieldExportGroupString(path: string) {
     return this.netFieldExportGroupMap[path];
   }
 
-  GetNetFieldExportGroup(netguid: number, globalData: GlobalData) {
+  getNetFieldExportGroup(netguid: number, globalData: GlobalData) {
     const group = this.archTypeToExportGroup[netguid];
 
     if (group) {
@@ -157,7 +157,7 @@ export class NetGuidCache {
     return null;
   }
 
-  GetNetFieldExportGroupFromIndex(index: number) {
+  getNetFieldExportGroupFromIndex(index: number) {
     const group = this.netFieldExportGroupIndexToGroup[index];
 
     if (!group) {

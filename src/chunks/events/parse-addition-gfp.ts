@@ -1,4 +1,4 @@
-import { GFPEvent } from '../../../types/lib';
+import { GFPEvent } from '../../../types/events';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 

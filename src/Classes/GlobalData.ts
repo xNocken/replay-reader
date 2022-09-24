@@ -8,7 +8,6 @@ import {
   SupportedEvents,
   NumberToBoolean,
   Header,
-  GlobalDataEvents,
   OodleLib,
   EventEmittersObject,
   BaseResult,
@@ -26,6 +25,7 @@ import { NetworkGUID } from '../../Classes/NetworkGUID';
 import { ExternalDataMap, NetFieldExportGroup } from '../../types/replay';
 import { Logger } from './Logger';
 import { ChildProcess } from 'child_process';
+import { GlobalDataEvents } from '../../types/events';
 
 class GlobalData {
   channels: Channel[] = [];

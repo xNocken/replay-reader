@@ -42,7 +42,7 @@ export const onChannelOpened = (channel: Channel, actor: Actor, bunch: Bunch, gl
   let repObject = 0;
 
   if (actor?.actorNetGUID.isDynamic()) {
-    netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(actor.archetype.value, globalData);
+    netFieldExportGroup = globalData.netGuidCache.getNetFieldExportGroup(actor.archetype.value, globalData);
     repObject = actor.archetype.value;
   } else if (actor) {
     const result = globalData.netGuidCache.getStaticActorExportGroup(actor.actorNetGUID.value);

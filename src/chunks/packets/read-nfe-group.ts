@@ -53,7 +53,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
         globalData.netGuidCache.netFieldExportGroupIndexToGroup[pathNameIndex] = pathname;
       }
     } else {
-      group = globalData.netGuidCache.GetNetFieldExportGroupFromIndex(pathNameIndex);
+      group = globalData.netGuidCache.getNetFieldExportGroupFromIndex(pathNameIndex);
     }
 
     const netField = readNFE(replay);

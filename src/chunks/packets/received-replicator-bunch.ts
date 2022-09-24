@@ -17,7 +17,7 @@ export const receivedReplicatorBunch = (
   let staticActorId: string;
 
   if (bunch.actor.actorNetGUID.isDynamic() || !bIsActor) {
-    netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(
+    netFieldExportGroup = globalData.netGuidCache.getNetFieldExportGroup(
       repObject,
       globalData,
     );

@@ -6,6 +6,7 @@ import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import { NetFieldExportInternal } from '../types/replay';
 import { NetworkGUID } from '../Classes/NetworkGUID';
 import { Logger } from '../src/Classes/Logger';
+import { Events } from './events';
 
 export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector3f' | 'readVector3d' | 'readPackedVector1' | 'readFName' | 'readNetId';
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
@@ -120,36 +121,6 @@ export interface Chunks {
   replayData: DataChunk[],
   checkpoints: Checkpoint[],
   events: Event[],
-}
-
-export interface PlayerElemEvent {
-  eliminated: string,
-  eliminator: string,
-  gunType: string | number,
-  knocked: boolean,
-}
-
-export interface MatchStatsEvent {
-  accuracy: number,
-  assists: number,
-  eliminations: number,
-  weaponDamage: number,
-  otherDamage: number,
-  revives: number,
-  damageTaken: number,
-  damageToStructures: number,
-  materialsGathered: number,
-  materialsUsed: number,
-  totalTraveled: number,
-  damageToPlayers: number,
-  placement: number,
-  totalPlayers: number,
-}
-
-export interface GFPEvent {
-  moduleId: string,
-  moduleVersion?: number,
-  artifactId?: string,
 }
 
 export interface MetadataCheckpoint {
@@ -395,47 +366,6 @@ export interface ParsingEmitter<ResultType extends BaseResult, StateType extends
   on(event: 'nextFrame', listener: NextFrameFunction<ResultType, StateType>): this,
 }
 
-export interface SafeZone {
-  x: number,
-  y: number,
-  z: number,
-  radius: number,
-}
-
-export interface DeathInfo {
-  id: string,
-  reason: string,
-  time: number,
-}
-
-export interface PlayerPosition {
-  x: number,
-  y: number,
-  z: number,
-  movementType?: string,
-}
-
-export interface PlayerPositionMap {
-  [time: number]: PlayerPosition;
-}
-
-export interface PlayerKill {
-  playerId: string,
-  reason: string,
-  knocked: boolean,
-  location: FVector,
-  time: number,
-}
-
-export interface Player {
-  id: string,
-  positions: PlayerPositionMap,
-  killScore: number,
-  kills: PlayerKill[],
-  knockInfo?: DeathInfo,
-  elimInfo?: DeathInfo,
-}
-
 export interface EventEmittersObject<ResultType extends BaseResult, StateType extends BaseStates> {
   properties: PropertyExportEmitter<ResultType, StateType>,
   netDelta: NetDeltaExportEmitter<ResultType, StateType>,
@@ -544,9 +474,9 @@ export interface ParseOptions {
   customEnums?: CustomEnumMap,
   /** a function that sends event emitters and allows you to set custom export functions */
   setEvents?: SetEvents<BaseResult, BaseStates>,
-  /** decides if parsing for 99% of the replay should be skipped and only parses the last minute  */
+  /** decides if parsing for most of the replay should be skipped and only parses the last minute  */
   useCheckpoints?: boolean,
-  /** the amount of seconds between the current time and the fast forward to time to really do it */
+  /** the minimum amount of seconds between the current time and the fast forward to target. if time is less fast forwarding will be skipped */
   fastForwardThreshold?: number,
   /** decides if event chunks are parsed */
   parseEvents?: boolean,
@@ -563,30 +493,6 @@ export interface ParseStreamOptions extends ParseOptions {
   maxConcurrentDownloads?: number,
   /** amount of event chunks that can be downloadded at once */
   maxConcurrentEventDownloads?: number,
-}
-
-export interface Events {
-  /** contains a list of all positions where a chest has spawned */
-  chests: FVector[],
-  /** contains a list of all safe zones from the game */
-  safeZones: SafeZone[],
-  /** contains a list of all players in the game and where they were */
-  players: Player[],
-  /** contains information about the recording player */
-  matchStats: MatchStatsEvent,
-  /** contains a list of GFP that are required to watch the replay */
-  gfp: GFPEvent[],
-}
-
-export interface GlobalDataEvents {
-  chests: FVector[],
-  safeZones: SafeZone[],
-  players: {
-    [id: string]: Player,
-  },
-  matchStats?: MatchStatsEvent,
-  gfp?: GFPEvent[],
-  timecode?: Date,
 }
 
 export interface ReplayParseFunction<T> {

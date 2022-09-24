@@ -12,7 +12,7 @@ export const onChannelClosed = (bunch: Bunch, globalData: GlobalData) => {
     let staticActorId: string;
 
     if (channel.actor?.actorNetGUID.isDynamic()) {
-      netFieldExportGroup = globalData.netGuidCache.GetNetFieldExportGroup(channel.actor.archetype.value, globalData);
+      netFieldExportGroup = globalData.netGuidCache.getNetFieldExportGroup(channel.actor.archetype.value, globalData);
     } else if (channel.actor) {
       const result = globalData.netGuidCache.getStaticActorExportGroup(channel.actor.actorNetGUID.value);
 
