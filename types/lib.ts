@@ -315,6 +315,13 @@ export interface NextFrameExport<ResultType extends BaseResult, StateType extend
   logger: Logger,
 }
 
+export interface FinishedExport<ResultType extends BaseResult, StateType extends BaseStates> {
+  globalData: GlobalData,
+  result: ResultType,
+  states: StateType,
+  logger: Logger,
+}
+
 export interface NetDeltaExportFunction<ResultType extends BaseResult, StateType extends BaseStates, DataType extends RemoveIndex<Data>> {
   (exportt: NetDeltaExport<ResultType, StateType, DataType>): void,
 }
@@ -343,6 +350,10 @@ export interface NextFrameFunction<ResultType extends BaseResult, StateType exte
   (exportt: NextFrameExport<ResultType, StateType>): void,
 }
 
+export interface FinishedFunction<ResultType extends BaseResult, StateType extends BaseStates> {
+  (exportt: FinishedExport<ResultType, StateType>): void,
+}
+
 export interface NetDeltaExportEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: NetDeltaExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
 }
@@ -364,6 +375,7 @@ export interface ParsingEmitter<ResultType extends BaseResult, StateType extends
   on(event: 'channelClosed', listener: ChannelOpenedClosedFunction<ResultType, StateType>): this,
   on(event: 'nextChunk', listener: NextChunkFunction<ResultType, StateType>): this,
   on(event: 'nextFrame', listener: NextFrameFunction<ResultType, StateType>): this,
+  on(event: 'finished', listener: NextFrameFunction<ResultType, StateType>): this,
 }
 
 export interface EventEmittersObject<ResultType extends BaseResult, StateType extends BaseStates> {

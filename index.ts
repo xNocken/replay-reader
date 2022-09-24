@@ -11,7 +11,7 @@ import { verifyMetadata } from './src/utils/verify-metadata';
 import { parseMeta } from './src/chunks/parse-meta';
 import { parseChunksStreaming } from './src/parse-chunks-streaming';
 import { DefaultResult } from './types/result-data';
-import { ParseOptions, ParseStreamOptions, MetaDataResult, BaseResult } from './types/lib';
+import { ParseOptions, ParseStreamOptions, MetaDataResult, BaseResult, FinishedExport, BaseStates } from './types/lib';
 
 const debugStuff = (globalData: GlobalData) => {
   fs.writeFileSync('debug-netGuidToPathName.txt', globalData.debugNetGuidToPathName.map(({ path, value, outer }) => `${path}: ${value} -> ${outer?.value}`).join('\n'));
@@ -58,6 +58,15 @@ export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data:
   }
 
   parseChunks(replay, chunks, globalData);
+
+  const finishedData: FinishedExport<ResultType, BaseStates> = {
+    result: <ResultType>globalData.result,
+    states: globalData.states,
+    globalData: globalData,
+    logger: globalData.logger,
+  };
+
+  globalData.emitters.parsing.emit('finished', finishedData);
 
   if (globalData.options.debug) {
     debugStuff(globalData);

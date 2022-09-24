@@ -74,4 +74,5 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   // parsing.on('channelClosed', console.log);
   // parsing.on('nextChunk', console.log);
   // parsing.on('nextFrame', console.log);
+  // parsing.on('finished', console.log);
 };
