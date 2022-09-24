@@ -1,9 +1,6 @@
 {
   "include": [
-    "./src/**/*.ts",
-    "index.ts",
-    "test.ts",
-    "src/download-process.ts"
+    "./**/*.ts"
   ],
   "compilerOptions": {
     "strict": false,
