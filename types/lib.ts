@@ -396,6 +396,7 @@ export interface NetFieldExportConfig {
   bits?: number,
   config?: object,
   enablePropertyChecksum?: boolean,
+  storeAsHandle?: boolean,
 }
 
 export interface ExportConfig {
