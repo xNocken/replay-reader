@@ -397,6 +397,8 @@ export interface NetFieldExportConfig {
   config?: object,
   enablePropertyChecksum?: boolean,
   storeAsHandle?: boolean,
+  storeAsHandleMaxDepth?: number,
+  args?: unknown[],
 }
 
 export interface ExportConfig {

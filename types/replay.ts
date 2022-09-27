@@ -31,7 +31,6 @@ export interface NetFieldExport {
 
 export interface NetFieldExportInternal extends NetFieldExport {
   parseType: ParseTypes | ClassNetCacheExportTypes,
-  parseUnknownHandles?: boolean,
   storeAsHandle?: boolean,
   storeAsHandleMaxDepth?: number,
   customExportName?: string,

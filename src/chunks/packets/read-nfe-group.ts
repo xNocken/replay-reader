@@ -107,6 +107,8 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
       parseFunction: netFieldExport.parseFunction,
       customExportName: netFieldExport.customExportName,
       storeAsHandle: netFieldExport.storeAsHandle,
+      storeAsHandleMaxDepth: netFieldExport.storeAsHandleMaxDepth,
+      args: netFieldExport.args,
       parseType: netFieldExport.parseType,
       type: netFieldExport.type,
       bits: netFieldExport.bits,

@@ -327,8 +327,8 @@ export class NetFieldParser {
               continue;
             }
 
-            const maxDepth = exportGroup.storeAsHandleMaxDepth || arrayEntryInfo.storeAsHandleMaxDepth;
-            const storeAsHandle = (exportGroup.storeAsHandle || arrayEntryInfo.storeAsHandle)
+            const maxDepth = arrayEntryInfo.storeAsHandleMaxDepth || exportGroup.storeAsHandleMaxDepth;
+            const storeAsHandle = (arrayEntryInfo.storeAsHandle || exportGroup.storeAsHandle)
               && (!maxDepth || depth <= maxDepth);
             const propertyName = arrayEntryInfo.customExportName || arrayEntryInfo.name;
 
