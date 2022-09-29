@@ -1,4 +1,4 @@
-import { MatchStatsEvent } from '../../../types/events';
+import { MatchStatsEventExport } from '../../../types/events';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
@@ -15,7 +15,7 @@ export const parseMatchStats = (globalData: GlobalData, replay: Replay) => {
   const materialsUsed = replay.readUInt32();
   const totalTraveled = replay.readUInt32();
 
-  const matchStats: MatchStatsEvent = {
+  const matchStats: MatchStatsEventExport = {
     accuracy,
     assists,
     eliminations,
@@ -28,9 +28,18 @@ export const parseMatchStats = (globalData: GlobalData, replay: Replay) => {
     materialsUsed,
     totalTraveled,
     damageToPlayers: weaponDamage + otherDamage,
-    placement: null,
-    totalPlayers: null,
   }
 
-  globalData.eventData.matchStats = matchStats;
+  if (!globalData.eventData.matchStats) {
+    globalData.eventData.matchStats = {
+      ...matchStats,
+      placement: null,
+      totalPlayers: null,
+    };
+  } else {
+    globalData.eventData.matchStats = {
+      ...globalData.eventData.matchStats,
+      ...matchStats,
+    };
+  }
 }

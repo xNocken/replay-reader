@@ -43,6 +43,12 @@ export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data:
   globalData.result.meta = meta;
   globalData.result.header = globalData.header;
 
+  if (globalData.options.exportChunks) {
+    globalData.result.chunks = chunks;
+  }
+
+  parseChunks(replay, chunks, globalData);
+
   if (globalData.options.parseEvents) {
     globalData.result.events = {
       chests: globalData.eventData.chests,
@@ -52,12 +58,6 @@ export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data:
       gfp: globalData.eventData.gfp,
     };
   }
-
-  if (globalData.options.exportChunks) {
-    globalData.result.chunks = chunks;
-  }
-
-  parseChunks(replay, chunks, globalData);
 
   const finishedData: FinishedExport<ResultType, BaseStates> = {
     result: <ResultType>globalData.result,
@@ -95,6 +95,12 @@ export const parseStreaming = async <ResultType extends BaseResult = DefaultResu
   globalData.result.meta = meta;
   globalData.result.header = globalData.header;
 
+  if (globalData.options.exportChunks) {
+    globalData.result.chunks = chunks;
+  }
+
+  await parseChunksStreaming(chunks, globalData);
+
   if (globalData.options.parseEvents) {
     globalData.result.events = {
       chests: globalData.eventData.chests,
@@ -104,12 +110,6 @@ export const parseStreaming = async <ResultType extends BaseResult = DefaultResu
       gfp: globalData.eventData.gfp,
     };
   }
-
-  if (globalData.options.exportChunks) {
-    globalData.result.chunks = chunks;
-  }
-
-  await parseChunksStreaming(chunks, globalData);
 
   if (globalData.options.debug) {
     debugStuff(globalData);

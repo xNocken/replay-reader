@@ -4,13 +4,17 @@ import { DefaultResult, DefaultStates, LabradorExport } from '../../types/result
 type LabradorRecord = Record<keyof LabradorExport, LabradorExport[keyof LabradorExport]>;
 
 export const handleLabrador: PropertyExportFunction<DefaultResult, DefaultStates, LabradorExport> = ({ actorId, data, states, result, changedProperties }) => {
-  if (!states.labradorLlamas[actorId]) {
-    states.pawns[actorId] = data;
-    states.labradorLlamas[actorId] = data;
-    result.mapData.labradorLlamas.push(data);
-  }
+  let currentLlama = states.labradorLlamas[actorId];
 
-  const currentLlama = states.labradorLlamas[actorId];
+  if (!currentLlama) {
+    currentLlama = {
+      gameplayCues: [],
+    };
+
+    states.pawns[actorId] = currentLlama;
+    states.labradorLlamas[actorId] = currentLlama;
+    result.mapData.labradorLlamas.push(currentLlama);
+  }
 
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];

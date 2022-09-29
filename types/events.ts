@@ -14,7 +14,7 @@ export interface PlayerElimEvent {
   knocked: boolean,
 }
 
-export interface MatchStatsEvent {
+export interface MatchStatsEventExport {
   accuracy: number,
   assists: number,
   eliminations: number,
@@ -27,9 +27,14 @@ export interface MatchStatsEvent {
   materialsUsed: number,
   totalTraveled: number,
   damageToPlayers: number,
+}
+
+export interface TeamStatsEventExport {
   placement: number,
   totalPlayers: number,
 }
+
+export interface MatchStatsEvent extends MatchStatsEventExport, TeamStatsEventExport {}
 
 export interface GFPEvent {
   moduleId: string,

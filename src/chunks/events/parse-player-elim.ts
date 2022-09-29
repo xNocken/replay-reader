@@ -4,23 +4,23 @@ import Replay from '../../Classes/Replay';
 
 import enums from '../../../Enums';
 import parsePlayer from './util/parse-player';
+import { isNonZeroPos } from '../../utils/is-non-zero-pos';
 
 export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: number, version: number) => {
   const targetEnum = (globalData.options.customEnums?.EDeathCause || enums.EDeathCause);
 
-  let eliminated: ElimPlayer;
+  let eliminated: ElimPlayer = {
+    name: null,
+  };
   let eliminator: ElimPlayer;
 
   if (version >= 3) {
     replay.skipBytes(1);
 
     if (version >= 6) {
-      eliminated = {
-        rotation: replay.readVector4d(),
-        location: replay.readVector3d(),
-        scale: replay.readVector3d(),
-        name: null,
-      };
+      eliminated.rotation = replay.readVector4d();
+      eliminated.location = replay.readVector3d();
+      eliminated.scale = replay.readVector3d();
     }
 
     eliminator = {
@@ -30,8 +30,7 @@ export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: nu
       name: null,
     };
 
-    // TODO: verify
-    if (replay.header.major >= 5) {
+    if (replay.header.major >= 9) {
       eliminated.name = parsePlayer(replay, globalData.logger);
       eliminator.name = parsePlayer(replay, globalData.logger);
     } else {
@@ -87,16 +86,24 @@ export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: nu
     globalData.eventData.players[eliminated.name] = globalEliminated;
   }
 
+  const eliminatedPosValid = eliminated.location && isNonZeroPos(eliminated.location);
+  const eliminatorPosValid = eliminator.location && isNonZeroPos(eliminator.location);
+
   globalEliminator.kills.push({
     playerId: eliminated.name,
     knocked: knocked,
-    location: eliminated.location,
+    location: eliminatedPosValid ? eliminated.location : null,
     reason,
     time,
   });
 
-  globalEliminator.positions[time] = eliminator.location;
-  globalEliminated.positions[time] = eliminated.location;
+  if (eliminatorPosValid) {
+    globalEliminator.positions[time] = eliminator.location;
+  }
+
+  if (eliminatedPosValid) {
+    globalEliminated.positions[time] = eliminated.location;
+  }
 
   if (knocked && eliminated.name !== eliminator.name) {
     globalEliminator.killScore += 1;

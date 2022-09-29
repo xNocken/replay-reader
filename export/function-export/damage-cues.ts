@@ -26,6 +26,6 @@ export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStat
     ...data,
     hitPlayerName: hitPlayerState.PlayerNamePrivate,
     timeSeconds,
-    playerPos: pawn.currentVehicle ? pawn.currentVehicle.ReplicatedMovement.location : pawn.ReplicatedMovement.location,
+    playerPos: pawn.currentVehicle ? pawn.currentVehicle.ReplicatedMovement?.location : pawn.ReplicatedMovement?.location,
   });
 };

@@ -299,7 +299,7 @@ export interface Labrador extends LabradorExport {
   bIsDisappeared?: boolean,
   bIsRunning?: boolean,
   bIsDisappearing?: boolean,
-  gameplayCues?: GameplayCue[],
+  gameplayCues: GameplayCue[],
   currentVehicle?: Vehicle,
 }
 

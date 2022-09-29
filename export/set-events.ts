@@ -27,6 +27,7 @@ import { handleVehicleSeatComponent } from './property-export/components/vehicle
 import { handlePlayerPawnSpawn } from './actor-spawn/player-pawn';
 import { SetEvents } from '../types/lib';
 import { DefaultResult, DefaultStates } from '../types/result-data';
+import { handleLlama } from './property-export/llama';
 
 export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   actorDespawn,
@@ -34,8 +35,7 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   netDelta,
   parsing,
   actorSpawn,
-}, globalData,
-) => {
+}) => {
   actorDespawn.on('container', handleContainerDespawn);
 
   actorSpawn.on('playerPawn', handlePlayerPawnSpawn);
@@ -58,6 +58,7 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   properties.on('broadcastRemoteClientInfo', handleRemoteClientInfo);
   properties.on('broadcastSpectatorInfo', handleBroadcastSpectatorInfo);
   properties.on('vehicleSeatComponent', handleVehicleSeatComponent);
+  properties.on('llama', handleLlama);
 
   // functions
   properties.on('batchedDamageCue', handleDamageCues);
