@@ -54,6 +54,22 @@ class Replay {
     }
   }
 
+  resolveError(index: number) {
+    if (this.offsets[index] === undefined) {
+      return;
+    }
+
+    this.isError = false;
+
+    this.offset = this.lastBit;
+
+    this.lastBit = this.offsets[index];
+
+    for (let i = index; i < this.offsets.length; i += 1) {
+      this.offsets.pop();
+    }
+  }
+
   getLastByte(): number {
     return this.buffer[(this.lastBit >> 3) - 1];
   }

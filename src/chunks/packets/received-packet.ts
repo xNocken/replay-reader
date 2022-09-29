@@ -174,12 +174,14 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
       } else if (bClose) {
         onChannelClosed(bunch, globalData);
       }
-    } catch (ex) {
-      globalData.logger.error(ex.stack);
-    } finally {
+
       if (!bPartial && !ignoreChannel) {
         archive.popOffset(3);
       }
+    } catch (ex) {
+      globalData.logger.error(ex.stack);
+
+      archive.resolveError(3);
     }
   }
 };

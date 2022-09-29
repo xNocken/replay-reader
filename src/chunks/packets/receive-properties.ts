@@ -75,10 +75,10 @@ export const receiveProperties = (
       }
 
       exportGroup[key] = result;
+      archive.popOffset(6, numbits, true);
     } catch (ex) {
       globalData.logger.error(ex.stack);
-    } finally {
-      archive.popOffset(6, numbits, true);
+      archive.resolveError(6);
     }
   }
 

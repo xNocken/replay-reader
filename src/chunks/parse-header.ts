@@ -87,6 +87,7 @@ const header = (replay: Replay, logger: Logger): Header => {
     gameSpecificData.push(replay.readString());
   }
 
+  // env 9 seems to have had a bug that caused the nfe name to not be stored at all. makes parsing it almost impossible
   if (engineNetworkVersion === 9) {
     throw new Error('Replays with engineNetworkVersion 9 are not supported');
   }

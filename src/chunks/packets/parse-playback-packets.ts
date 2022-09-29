@@ -26,11 +26,12 @@ const receivedRawPacket = (packet: Packet, replay: Replay, globalData: GlobalDat
 
   try {
     receivedPacket(replay, packet.timeSeconds, globalData);
+
+    replay.popOffset(2, bitSize);
   } catch (ex) {
     globalData.logger.error(ex.stack);
+    replay.resolveError(2);
   }
-
-  replay.popOffset(2, bitSize);
 };
 
 export const parsePlaybackPackets = (replay: Replay, globalData: GlobalData) => {

@@ -45,6 +45,7 @@ const parseChunks = (replay: Replay, chunks: Chunks, globalData: GlobalData) => 
           parseEvent(replay, event, globalData);
         } catch (err) {
           globalData.logger.error(`Error while reading event chunk ${event.group} at ${event.startTime}`);
+          replay.resolveError(1);
         }
 
         globalData.logger.message(`read eventChunk with ${event.chunkSize} bytes in ${Date.now() - debugTime}ms`);

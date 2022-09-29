@@ -14,8 +14,8 @@ export const readNFE = (archive: Replay) => {
     if (archive.header.engineNetworkVersion < 9) {
       fieldExport.name = archive.readString();
       fieldExport.origType = archive.readString();
-    } else if (archive.header.engineNetworkVersion < 10) {
-      fieldExport.name = archive.readString();
+    } else if (archive.header.engineNetworkVersion === 9) {
+      // env 9 seems to have had a bug that caused the name to not be stored at all
     } else {
       fieldExport.name = archive.readFNameByte();
     }

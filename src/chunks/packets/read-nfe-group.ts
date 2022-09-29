@@ -33,10 +33,6 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
       const pathname = replay.readString();
       const numExports = usePackedInt ? replay.readIntPacked() : replay.readUInt32();
 
-      if (pathname.match('FortInventory_ClassNetCache')) {
-        console
-      }
-
       group = globalData.netGuidCache.netFieldExportGroupMap[pathname];
 
       if (!group) {
