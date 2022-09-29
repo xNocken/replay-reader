@@ -83,6 +83,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
       customExportName: netFieldExport.customExportName,
       storeAsHandle: netFieldExport.storeAsHandle,
       storeAsHandleMaxDepth: netFieldExport.storeAsHandleMaxDepth,
+      enablePropertyChecksum: netFieldExport.enablePropertyChecksum,
       args: netFieldExport.args,
       parseType: netFieldExport.parseType,
       type: netFieldExport.type,

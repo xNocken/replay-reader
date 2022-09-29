@@ -327,9 +327,9 @@ export class NetFieldParser {
               continue;
             }
 
-            const maxDepth = arrayEntryInfo.storeAsHandleMaxDepth || exportGroup.storeAsHandleMaxDepth;
+            const maxDepth = arrayEntryInfo.storeAsHandleMaxDepth !== undefined ? arrayEntryInfo.storeAsHandleMaxDepth : exportGroup.storeAsHandleMaxDepth;
             const storeAsHandle = (arrayEntryInfo.storeAsHandle || exportGroup.storeAsHandle)
-              && (!maxDepth || depth <= maxDepth);
+              && (maxDepth === undefined || depth <= maxDepth);
             const propertyName = arrayEntryInfo.customExportName || arrayEntryInfo.name;
 
             const archive = new Replay(netBitReader.readBits(numBits), numBits);

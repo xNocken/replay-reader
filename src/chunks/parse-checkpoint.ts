@@ -57,15 +57,14 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
   for (let i = 0; i < guidCount; i++) {
     const guid = replay.readIntPacked();
     const outerId = replay.readIntPacked();
+    const cacheObject = new NetworkGUID(guid);
     let outerGuid = new NetworkGUID(outerId);
 
     if (outerId !== 0) {
       outerGuid = cacheGuids.find((guid) => guid && guid.value === outerId) || outerGuid;
+
+      cacheObject.outer = outerGuid;
     }
-
-    const cacheObject = new NetworkGUID(guid);
-
-    cacheObject.outer = outerGuid;
 
     if (replay.header.networkVersion < 15) {
       cacheObject.path = removePathPrefix(replay.readString());

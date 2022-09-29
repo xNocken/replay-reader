@@ -11,8 +11,6 @@ export const handleSupplyDrop: PropertyExportFunction<DefaultResult, DefaultStat
 
     states.supplyDrops[actorId] = supplyDrop;
     result.mapData.supplyDrops.push(supplyDrop);
-
-    return;
   }
 
   for (let i = 0; i < changedProperties.length; i += 1) {

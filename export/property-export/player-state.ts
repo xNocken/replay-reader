@@ -49,7 +49,7 @@ export const handlePlayerState: PropertyExportFunction<DefaultResult, DefaultSta
     (playerData as PlayerStateRecord)[key] = data[key];
   }
 
-  if (playerData.PlayerNamePrivate_encrypted && data.PlayerNamePrivate) {
+  if (data.PlayerNamePrivate_encrypted && data.PlayerNamePrivate) {
     const name = data.PlayerNamePrivate;
 
     playerData.PlayerNamePrivate = name.split('').map((a, i) => String.fromCharCode(a.charCodeAt(0) + ((name.length % 4 * 3 % 8 + 1 + i) * 3 % 8))).join('');
