@@ -174,6 +174,7 @@ class Replay {
 
   readBitsToUnsignedInt(count) {
     let val = 0;
+    let readBits = 0;
 
     if ((this.offset & 7) === 0) {
       let index = 0;
@@ -183,6 +184,7 @@ class Replay {
 
         index += 1;
         count -= 8;
+        readBits += 8;
         this.offset += 8;
       }
 
@@ -191,7 +193,7 @@ class Replay {
       }
     }
 
-    let currentBit = 1;
+    let currentBit = (1 << readBits);
     let currentByte = this.buffer[~~(this.offset / 8)];
     let currentByteBit = 1 << (this.offset & 7);
 
