@@ -3,7 +3,7 @@
     "ffi-napi": "^4.0.3",
     "needle": "^3.0.0"
   },
-  "version": "1.4.3",
+  "version": "1.4.4",
   "scripts": {
     "run": "node dist/test.js",
     "test": "mocha test",
