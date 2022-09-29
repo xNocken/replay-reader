@@ -3,7 +3,7 @@
     "needle": "^3.0.0",
     "ooz-wasm": "1.0.0"
   },
-  "version": "1.4.3",
+  "version": "1.4.4",
   "scripts": {
     "run": "node --experimental-wasm-simd test.js",
     "test": "mocha"
