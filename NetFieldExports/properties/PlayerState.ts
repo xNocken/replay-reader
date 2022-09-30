@@ -13,6 +13,20 @@ const PlayerState: NetFieldExportGroupConfig = {
     players: "object",
   },
   properties: {
+    TeamIndex: {
+      parseType: 'default',
+      parseFunction: 'readByte',
+      versionOverrides: [{
+        versions: {
+          engineNetworkVersion: 9,
+          method: 'smallerThan',
+        },
+        settings: {
+          parseFunction: 'readBitsToUnsignedInt',
+          args: [7],
+        },
+      }]
+    },
     PlayerID: {
       parseFunction: "readUInt32",
       parseType: "default",

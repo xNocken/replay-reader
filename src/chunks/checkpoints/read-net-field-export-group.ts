@@ -1,6 +1,7 @@
 import { NetFieldExport, NetFieldExportGroup, NetFieldExportGroupInternal } from '../../../types/nfe';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
+import { getNfe } from '../../utils/get-nfe';
 
 import { readNFE } from '../packets/read-nfe';
 
@@ -57,7 +58,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
       continue;
     }
 
-    const netFieldExport = netFieldExportGroup.properties[netField.name];
+    const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData.header);
 
     if (!netFieldExport) {
       if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {

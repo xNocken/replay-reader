@@ -4,6 +4,7 @@ const GameState: NetFieldExportGroupConfig = {
   path: "/Game/Athena/Athena_GameState.Athena_GameState_C",
   parseLevel: 1,
   customExportName: "gameState",
+  type: 'default',
   exports: {
     name: "gameState",
     group: "gameData",
@@ -230,6 +231,10 @@ const GameState: NetFieldExportGroupConfig = {
       parseFunction: "readInt32",
       parseType: "default",
     },
+    CurrentPlaylistId: {
+      parseType: 'readClass',
+      type: 'DebugObject',
+    }
   },
 };
 

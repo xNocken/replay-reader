@@ -129,6 +129,7 @@ export class DebugObject {
   toJSON() {
     return {
       size: this.size,
+      data: Array.from(this.data),
       float: this.getValueAsFloat(),
       int: this.getValueAsInt(),
       boolean: this.getValueAsBoolean(),

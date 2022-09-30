@@ -8,6 +8,15 @@ const InventoryCache: NetFieldExportGroupConfig = {
       parseType: "netDeltaSerialize",
       type: "inventory",
       enablePropertyChecksum: true,
+      versionOverrides: [{
+        versions: {
+          method: 'smallerThanOrEqual',
+          major: 6,
+        },
+        settings: {
+          enablePropertyChecksum: false,
+        },
+      }],
     },
   },
 };

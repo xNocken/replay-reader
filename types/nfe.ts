@@ -1,17 +1,34 @@
-export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector3f' | 'readVector3d' | 'readPackedVector1' | 'readFName' | 'readNetId';
+import Replay from "../src/Classes/Replay";
+
+export type ParseFunctions = Exclude<keyof Replay, 'getBitsLeft' | 'atEnd' | 'canRead' | 'getByteOffset' | 'hasLevelStreamingFixes' | 'hasDeltaCheckpoints' | 'hasGameSpecificFrameData' | 'goToByte' | 'appendDataFromChecked' | 'decryptBuffer' | 'goTo' | 'buffer' | 'lastBit' | 'isError' | 'offset' | 'offsets' | 'float32Array' | 'uInt8Float32Array' | 'double64Array' | 'uInt8Double64Array' | 'header' | 'globalData' | 'UnrealNames' | 'constructor' | 'addOffset' | 'addOffsetByte' | 'popOffset' | 'resolveError' | 'getLastByte'>;
+
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
 export type NetFieldExportTypes = 'classNetCache' | 'default';
 export type NetFieldExportExportTypes = 'array' | 'object' | 'null';
 export type ClassNetCacheExportTypes = 'function' | 'class' | 'netDeltaSerialize';
+export type VersionMethods = 'equals' | 'greaterThan' | 'smallerThan' | 'greaterThanOrEqual' | 'smallerThanOrEqual';
 
 type RemoveFromNFEProps<T> = Omit<T, 'parseType'>
 type RemoveFromNFEGroups<T> = Omit<T, 'type' | 'properties'>
 
+type OverrideConfig<T> = {
+  versions: {
+    method: VersionMethods,
+    major?: number,
+    minor?: number,
+    networkVersion?: number,
+    engineNetworkVersion?: number,
+    changelist?: number,
+  },
+  settings: Omit<Partial<T>, 'versionOverrides' | 'parseType'>,
+}
+
 export interface NetFieldExportCacheConfigBase {
   parseType: ClassNetCacheExportTypes,
-  enablePropertyChecksum?: boolean,
   type: string,
+  enablePropertyChecksum?: boolean,
   customExportName?: string,
+  versionOverrides?: OverrideConfig<NetFieldExportCacheConfigBase>[],
 }
 
 export interface NetFieldExportPropertyConfigBase {
@@ -24,11 +41,13 @@ export interface NetFieldExportPropertyConfigBase {
 export interface NetFieldExportPropertyConfigDefault extends NetFieldExportPropertyConfigBase {
   parseType: 'default',
   parseFunction: ParseFunctions,
+  versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigDefault>[],
   args?: unknown[],
 }
 
 export interface NetFieldExportPropertyConfigArray extends NetFieldExportPropertyConfigBase {
   parseType: 'readDynamicArray',
+  versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigArray>[],
   type?: string,
   config?: object,
   parseFunction?: ParseFunctions,
@@ -38,11 +57,13 @@ export interface NetFieldExportPropertyConfigEnum extends NetFieldExportProperty
   parseType: 'readEnum',
   type: string,
   bits: number,
+  versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigEnum>[],
 }
 
 export interface NetFieldExportPropertyConfigClass extends NetFieldExportPropertyConfigBase {
   parseType: 'readClass',
   type: string,
+  versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigClass>[],
   config?: object,
 }
 
@@ -59,6 +80,7 @@ export interface NetFieldExportPropertyConfigInternal extends
   parseType: ParseTypes | ClassNetCacheExportTypes,
   type: string,
   parseFunction: ParseFunctions,
+  versionOverrides: OverrideConfig<NetFieldExportPropertyConfigInternal>[],
 }
 
 export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass;

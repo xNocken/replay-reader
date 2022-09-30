@@ -1,7 +1,10 @@
 import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const Inventory: NetFieldExportGroupConfig = {
-  path: "/Script/FortniteGame.FortInventory",
+  path: [
+    "/Script/FortniteGame.FortInventory",
+    "/Script/FortniteGame.FortItemEntry",
+  ],
   parseLevel: 1,
   customExportName: "inventory",
   states: {
