@@ -3,7 +3,7 @@ import { NetFieldExportInternal } from '../../../../types/replay';
 import GlobalData from '../../../Classes/GlobalData';
 import Replay from '../../../Classes/Replay';
 
-export const receiveCustomProperty = (reader: Replay, fieldCache: NetFieldExportInternal, bunch: Bunch, pathName: string, globalData: GlobalData, staticActorId: string) => {
+export const receiveCustomProperty = (reader: Replay, fieldCache: NetFieldExportInternal, bunch: Bunch, globalData: GlobalData, staticActorId: string) => {
   const theClass = globalData.netFieldParser.getClass(fieldCache.type);
   const instance: CustomClass = new theClass();
 
@@ -13,9 +13,13 @@ export const receiveCustomProperty = (reader: Replay, fieldCache: NetFieldExport
     instance.resolve(globalData.netGuidCache, globalData);
   }
 
-  const type = fieldCache.customExportName || pathName.split('/').pop();
+  const type = fieldCache.exportName;
 
   try {
+    if (globalData.options.debug && !globalData.emitters.properties.eventNames().includes(type)) {
+      globalData.logger.warn(`custom property export ${type} not handled`);
+    }
+
     const exportData: PropertyExport<BaseResult, BaseStates, CustomClass> = {
       chIndex: bunch.chIndex,
       data: instance,

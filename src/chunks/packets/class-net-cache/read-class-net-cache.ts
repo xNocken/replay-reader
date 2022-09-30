@@ -56,7 +56,6 @@ export const readClassNetCache = (
         archive,
         fieldCache,
         bunch,
-        classNetCache.pathName,
         globalData,
         staticActorId,
       );

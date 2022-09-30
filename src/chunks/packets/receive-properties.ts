@@ -63,7 +63,7 @@ export const receiveProperties = (
       if ((nfeGroup.parseUnknownHandles && !nfe.parseType) || nfeGroup.storeAsHandle || nfe.storeAsHandle) {
         key = nfe.handle;
       } else {
-        key = nfe.name;
+        key = nfe.exportName;
       }
 
       changedProperties.push(key);
@@ -100,7 +100,7 @@ export const receiveProperties = (
         if ((nfeGroup.parseUnknownHandles && !nfe.parseType) || nfeGroup.storeAsHandle || nfe.storeAsHandle) {
           key = nfe.handle;
         } else {
-          key = nfe.name;
+          key = nfe.exportName;
         }
 
         const result = globalData.netFieldParser.setType(nfe, nfeGroup, payloadReader, globalData);

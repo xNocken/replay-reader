@@ -1,5 +1,4 @@
 import { receiveProperties } from "../receive-properties";
-import pathhhh from 'path';
 import Replay from '../../../Classes/Replay';
 import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '../../../../types/lib';
 import GlobalData from '../../../Classes/GlobalData';
@@ -13,7 +12,7 @@ export const netDeltaSerialize = (
   globalData: GlobalData,
   staticActorId: string,
 ) => {
-  const exportName = group.customExportName || pathhhh.basename(group.pathName);
+  const exportName = group.exportName;
 
   if (reader.header.engineNetworkVersion >= 11 && !reader.readBit()) {
     return false;
@@ -32,6 +31,10 @@ export const netDeltaSerialize = (
 
   for (let i = 0; i < header.numDeletes; i++) {
     const elementIndex = reader.readInt32();
+
+    if (globalData.options.debug && !globalData.emitters.netDelta.eventNames().includes(exportName)) {
+      globalData.logger.warn(`Unhandled net delta export ${exportName}`);
+    }
 
     try {
       const exportData: NetDeltaExport<BaseResult, BaseStates, Data> = {
@@ -82,6 +85,10 @@ export const netDeltaSerialize = (
     }
 
     try {
+      if (globalData.options.debug && !globalData.emitters.netDelta.eventNames().includes(exportName)) {
+        globalData.logger.warn(`Unhandled net delta export ${exportName}`);
+      }
+
       const exportData: NetDeltaExport<BaseResult, BaseStates, Data> = {
         chIndex: bunch.chIndex,
         data: {

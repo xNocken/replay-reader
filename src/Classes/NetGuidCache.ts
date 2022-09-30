@@ -1,3 +1,4 @@
+import pathhhh from 'path';
 import { Actor } from '../../types/lib';
 import { ActorMap, NetFieldExportGroup, NetFieldExportGroupInternal, NetFieldExportGroupInternalMap, NetGuidMap, NumberToString, StringToString } from '../../types/replay';
 import { cleanStaticIdSuffix } from '../utils/clean-static-id-suffix';
@@ -36,6 +37,7 @@ export class NetGuidCache {
         pathNameIndex: exportGroup.pathNameIndex,
         netFieldExportsLength: exportGroup.netFieldExportsLength,
         netFieldExports: [],
+        exportName: 'NetworkGameplayTagNodeIndex',
       };
 
       this.networkGameplayTagNodeIndex = baseGroup;
@@ -52,6 +54,7 @@ export class NetGuidCache {
           pathNameIndex: exportGroup.pathNameIndex,
           netFieldExportsLength: exportGroup.netFieldExportsLength,
           netFieldExports: [],
+          exportName: pathhhh.basename(exportGroup.pathName),
         };
 
         this.notReadGroups[exportGroup.pathNameIndex] = baseGroup;
@@ -71,6 +74,7 @@ export class NetGuidCache {
           pathNameIndex: 0,
           netFieldExportsLength: 0,
           netFieldExports: [],
+          exportName: netFieldExport.customExportName || pathhhh.basename(exportGroup.pathName),
         };
 
         this.netFieldExportGroupMap[baseName] = baseGroup;
@@ -88,7 +92,7 @@ export class NetGuidCache {
       parseUnknownHandles: netFieldExport.parseUnknownHandles,
       storeAsHandle: netFieldExport.storeAsHandle,
       storeAsHandleMaxDepth: netFieldExport.storeAsHandleMaxDepth,
-      customExportName: netFieldExport.customExportName,
+      exportName: netFieldExport.customExportName || pathhhh.basename(exportGroup.pathName),
       pathName: exportGroup.pathName,
       pathNameIndex: exportGroup.pathNameIndex,
       netFieldExportsLength: exportGroup.netFieldExportsLength,
@@ -96,7 +100,7 @@ export class NetGuidCache {
     }
 
     this.netFieldExportGroupMap[pathName] = theGroup;
-    this.nfeReferences[theGroup.customExportName || pathName] = theGroup;
+    this.nfeReferences[theGroup.exportName] = theGroup;
     this.netFieldExportGroupIndexToGroup[exportGroup.pathNameIndex] = pathName;
 
     return theGroup;

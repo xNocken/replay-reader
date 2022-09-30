@@ -1,6 +1,5 @@
 import { ActorDespawnExport, BaseResult, BaseStates, Bunch, ChannelOpenedClosedExport } from '../../../types/lib';
 import { NetFieldExportGroupInternal } from '../../../types/replay';
-import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
 
 export const onChannelClosed = (bunch: Bunch, globalData: GlobalData) => {
@@ -39,11 +38,11 @@ export const onChannelClosed = (bunch: Bunch, globalData: GlobalData) => {
         };
 
         globalData.emitters.actorDespawn.emit(
-          netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName),
+          netFieldExportGroup.exportName,
           exportData,
         );
       } catch (err) {
-        globalData.logger.error(`Error while exporting actorDespawn "${pathhhh.basename(netFieldExportGroup.pathName)}": ${err.stack}`);
+        globalData.logger.error(`Error while exporting actorDespawn "${netFieldExportGroup.exportName}": ${err.stack}`);
       }
     }
   } else {

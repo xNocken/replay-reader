@@ -13,6 +13,7 @@ const GameStateCache: NetFieldExportGroupConfig = {
     CurrentPlaylistInfo: {
       type: "PlaylistInfo",
       parseType: "class",
+      customExportName: 'playlistInfo',
     },
     ActiveGameplayModifiers: {
       type: "activeGamplayModifier",

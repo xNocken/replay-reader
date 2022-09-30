@@ -110,6 +110,8 @@ export class NetFieldParser {
       let path: string;
 
       if (fieldExport.parseLevel > globalData.options.parseLevel) {
+        globalData.logger.message(`Skipping export ${fieldExport.path[0] || fieldExport.path} because its parseLevel is too low`);
+
         return;
       }
 
@@ -190,7 +192,7 @@ export class NetFieldParser {
         const exportGroup: NetFieldExportGroupInternal = {
           parseUnknownHandles: fieldExport.parseUnknownHandles,
           storeAsHandle: fieldExport.storeAsHandle,
-          customExportName: fieldExport.customExportName,
+          exportName: fieldExport.customExportName || pathhhh.basename(path),
           pathName: path,
           netFieldExports: [],
           pathNameIndex: null,
@@ -270,7 +272,7 @@ export class NetFieldParser {
 
   createType(group: NetFieldExportGroupInternal): Data {
     return {
-      type: group.customExportName || pathhhh.basename(group.pathName),
+      type: group.exportName,
       pathName: group.pathName,
     };
   }
@@ -355,7 +357,7 @@ export class NetFieldParser {
             const maxDepth = arrayEntryInfo.storeAsHandleMaxDepth !== undefined ? arrayEntryInfo.storeAsHandleMaxDepth : exportGroup.storeAsHandleMaxDepth;
             const storeAsHandle = (arrayEntryInfo.storeAsHandle || exportGroup.storeAsHandle)
               && (maxDepth === undefined || depth <= maxDepth);
-            const propertyName = arrayEntryInfo.customExportName || arrayEntryInfo.name;
+            const propertyName = arrayEntryInfo.exportName;
 
             const archive = new Replay(netBitReader.readBits(numBits), globalData, numBits);
 

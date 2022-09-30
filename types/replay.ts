@@ -19,7 +19,7 @@ export interface NetFieldExportGroupInternal extends NetFieldExportGroup {
   storeAsHandle?: boolean,
   storeAsHandleMaxDepth?: number,
   netFieldExports: NetFieldExportInternal[],
-  customExportName?: string,
+  exportName: string,
 }
 
 export interface NetFieldExport {
@@ -33,7 +33,7 @@ export interface NetFieldExportInternal extends NetFieldExport {
   parseType: ParseTypes | ClassNetCacheExportTypes,
   storeAsHandle?: boolean,
   storeAsHandleMaxDepth?: number,
-  customExportName?: string,
+  exportName: string,
   config?: unknown,
   type?: string,
   parseFunction?: ParseFunctions,

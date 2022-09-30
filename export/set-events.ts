@@ -67,7 +67,7 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   properties.on('gameplayCue', handleGameplayCues);
 
   // class
-  properties.on('Athena_GameState_C_ClassNetCache', handlePlaylistInfo);
+  properties.on('playlistInfo', handlePlaylistInfo);
 
   netDelta.on('activeGamplayModifier', handleActiveGameplayModifiers);
   netDelta.on('inventory', handleInventory);

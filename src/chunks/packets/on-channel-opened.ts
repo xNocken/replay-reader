@@ -1,6 +1,5 @@
 import { Actor, ActorSpawnExport, BaseResult, BaseStates, Bunch, Channel, ChannelOpenedClosedExport } from '../../../types/lib';
 import { NetFieldExportGroupInternal } from '../../../types/replay';
-import pathhhh from 'path';
 import GlobalData from '../../Classes/GlobalData';
 
 export const onChannelOpened = (channel: Channel, actor: Actor, bunch: Bunch, globalData: GlobalData) => {
@@ -56,7 +55,7 @@ export const onChannelOpened = (channel: Channel, actor: Actor, bunch: Bunch, gl
     return;
   }
 
-  const exportName = netFieldExportGroup.customExportName || pathhhh.basename(netFieldExportGroup.pathName);
+  const exportName = netFieldExportGroup.exportName;
 
   if (globalData.options.enableActorToPath) {
     const path = globalData.netGuidCache.tryGetFullPathName(repObject);

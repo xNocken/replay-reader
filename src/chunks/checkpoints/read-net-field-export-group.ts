@@ -46,6 +46,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
           handle: netField.handle,
           name: netField.name,
           compatibleChecksum: netField.compatibleChecksum,
+          exportName: netField.name,
         };
 
         continue;
@@ -65,6 +66,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
           handle: netField.handle,
           name: netField.name,
           compatibleChecksum: netField.compatibleChecksum,
+          exportName: netField.name,
         };
 
         continue;
@@ -80,7 +82,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
       name: netField.name,
       compatibleChecksum: netField.compatibleChecksum,
       parseFunction: netFieldExport.parseFunction,
-      customExportName: netFieldExport.customExportName,
+      exportName: netFieldExport.customExportName || netField.name,
       storeAsHandle: netFieldExport.storeAsHandle,
       storeAsHandleMaxDepth: netFieldExport.storeAsHandleMaxDepth,
       enablePropertyChecksum: netFieldExport.enablePropertyChecksum,

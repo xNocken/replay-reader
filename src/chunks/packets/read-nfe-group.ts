@@ -67,6 +67,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
           handle: netField.handle,
           name: netField.name,
           compatibleChecksum: netField.compatibleChecksum,
+          exportName: netField.name,
         };
 
         continue;
@@ -86,6 +87,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
           handle: netField.handle,
           name: netField.name,
           compatibleChecksum: netField.compatibleChecksum,
+          exportName: netField.name,
         };
 
         continue;
@@ -101,7 +103,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
       name: netField.name,
       compatibleChecksum: netField.compatibleChecksum,
       parseFunction: netFieldExport.parseFunction,
-      customExportName: netFieldExport.customExportName,
+      exportName: netFieldExport.customExportName || netField.name,
       storeAsHandle: netFieldExport.storeAsHandle,
       storeAsHandleMaxDepth: netFieldExport.storeAsHandleMaxDepth,
       args: netFieldExport.args,
