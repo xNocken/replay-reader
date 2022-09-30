@@ -418,7 +418,7 @@ export class NetFieldParser {
           return netBitReader[propertyInfo.parseFunction].call(netBitReader, ...propertyInfo.args);
         }
 
-        return netBitReader[propertyInfo.parseFunction]();
+        return netBitReader[propertyInfo.parseFunction].call(netBitReader);
       }
     }
   }
