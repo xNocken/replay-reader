@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const Inventory: NetFieldExportGroupConfig = {
   path: "/Script/FortniteGame.FortInventory",

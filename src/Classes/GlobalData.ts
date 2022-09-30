@@ -22,10 +22,11 @@ import { NetGuidCache } from './NetGuidCache';
 import { setEvents } from '../../export/set-events';
 import { getOozPath } from '../utils/get-ooz-path';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
-import { ExternalDataMap, NetFieldExportGroup } from '../../types/replay';
+import { ExternalDataMap } from '../../types/replay';
 import { Logger } from './Logger';
 import { ChildProcess } from 'child_process';
 import { GlobalDataEvents } from '../../types/events';
+import { NetFieldExportGroup } from '../../types/nfe';
 
 class GlobalData {
   channels: Channel[] = [];

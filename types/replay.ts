@@ -1,45 +1,8 @@
 import { NetworkGUID } from '../Classes/NetworkGUID';
-import { Actor, ClassNetCacheExportTypes, ExternalData, NetFieldExportPropertyConfigInternal, NetFieldExportGroupConfigInternal, ParseFunctions, ParseTypes } from './lib';
+import { Actor, ExternalData } from './lib';
 
 export interface NetGuidMap {
   [key: number]: NetworkGUID,
-}
-
-export interface NetFieldExportGroup {
-  pathName: string,
-  pathNameIndex: number,
-  netFieldExportsLength: number,
-  properties?: Record<number, NetFieldExport>,
-}
-
-export interface NetFieldExportGroupInternal extends NetFieldExportGroup {
-  type?: string,
-  parseUnknownHandles?: boolean,
-  storeAsHandle?: boolean,
-  storeAsHandleMaxDepth?: number,
-  netFieldExports: NetFieldExportInternal[],
-  exportName: string,
-}
-
-export interface NetFieldExport {
-  name: string,
-  handle: number,
-  compatibleChecksum: number,
-  origType?: string,
-}
-
-export interface NetFieldExportInternal extends NetFieldExport {
-  parseType: ParseTypes | ClassNetCacheExportTypes,
-  storeAsHandle?: boolean,
-  storeAsHandleMaxDepth?: number,
-  exportName: string,
-  config?: unknown,
-  type?: string,
-  parseFunction?: ParseFunctions,
-  bits?: number,
-  args?: unknown[],
-  enablePropertyChecksum?: boolean,
-  incompatible?: boolean,
 }
 
 export interface Packet {
@@ -47,10 +10,6 @@ export interface Packet {
   state: number,
   timeSeconds: number,
   streamingFix?: number,
-}
-
-export interface NetFieldExportGroupInternalMap {
-  [key: string]: NetFieldExportGroupInternal,
 }
 
 export interface StringToNumber {
@@ -67,14 +26,6 @@ export interface StringToString {
 
 export interface ActorMap {
   [key: number]: Actor,
-}
-
-export interface NetFieldExportConfigMap {
-  [key: string]: NetFieldExportPropertyConfigInternal,
-}
-
-export interface NetFieldExportGroupConfigMap {
-  [key: string]: NetFieldExportGroupConfigInternal,
 }
 
 export interface ExternalDataMap {

@@ -1,4 +1,4 @@
-import { NetFieldExportGroupInternal } from "../../../../types/replay";
+import { NetFieldExportGroupInternal } from "../../../../types/nfe";
 import Replay from "../../../Classes/Replay";
 
 export const readFieldHeader = (archive: Replay, group: NetFieldExportGroupInternal) => {

@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const SupplyDrop: NetFieldExportGroupConfig = {
   path: "/Game/Athena/SupplyDrops/AthenaSupplyDrop.AthenaSupplyDrop_C",

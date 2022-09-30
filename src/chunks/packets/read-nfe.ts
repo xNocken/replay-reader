@@ -1,4 +1,4 @@
-import { NetFieldExport } from '../../../types/replay';
+import { NetFieldExport } from '../../../types/nfe';
 import Replay from '../../Classes/Replay';
 
 export const readNFE = (archive: Replay) => {

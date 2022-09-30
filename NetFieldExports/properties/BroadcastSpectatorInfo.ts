@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const BroadcastSpectatorInfo: NetFieldExportGroupConfig = {
   path: "/Script/FortniteGame.FortBroadcastSpectatorInfo",

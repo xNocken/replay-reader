@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const GameStateCache: NetFieldExportGroupConfig = {
   path: "Athena_GameState_C_ClassNetCache",

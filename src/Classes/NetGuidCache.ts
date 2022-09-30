@@ -1,28 +1,28 @@
 import pathhhh from 'path';
 import { Actor } from '../../types/lib';
-import { ActorMap, NetFieldExportGroup, NetFieldExportGroupInternal, NetFieldExportGroupInternalMap, NetGuidMap, NumberToString, StringToString } from '../../types/replay';
+import { NetFieldExportGroup, NetFieldExportGroupInternal } from '../../types/nfe';
+import { ActorMap, NetGuidMap, NumberToString, StringToString } from '../../types/replay';
 import { cleanStaticIdSuffix } from '../utils/clean-static-id-suffix';
 import { getFullGuidPath } from '../utils/get-full-guid-path';
 import { removePathPrefix } from '../utils/remove-path-prefix';
 import GlobalData from './GlobalData';
-
 export class NetGuidCache {
-  netFieldExportGroupMap: NetFieldExportGroupInternalMap = {};
+  netFieldExportGroupMap: Record<string, NetFieldExportGroupInternal> = {};
   netFieldExportGroupIndexToGroup: NumberToString = {};
   netGuids: NetGuidMap = {};
   /** used as a cache for the get export group functions */
-  archTypeToExportGroup: NetFieldExportGroupInternalMap = {};
+  archTypeToExportGroup: Record<string, NetFieldExportGroupInternal> = {};
   failedPaths: string[] = [];
   cleanedClassNetCache: StringToString = {};
   /** Contains some hardcoded strings */
   networkGameplayTagNodeIndex?: NetFieldExportGroupInternal = null;
   /** Contains all actors */
   actorIdToActorMap: ActorMap = {};
-  staticActorIdMap: NetFieldExportGroupInternalMap = {};
+  staticActorIdMap: Record<string, NetFieldExportGroupInternal> = {};
   /** Contains groups that dont have a netFieldExport config but are still required to be parsed in debug mode */
-  notReadGroups: NetFieldExportGroupInternalMap = {};
+  notReadGroups: Record<string, NetFieldExportGroupInternal> = {};
   /** Contains all the net field exports and can be accessed by using the path or customExportName */
-  nfeReferences: NetFieldExportGroupInternalMap = {};
+  nfeReferences: Record<string, NetFieldExportGroupInternal> = {};
 
   addToExportGroupMap(pathName: string, exportGroup: NetFieldExportGroup, globalData: GlobalData) {
     if (pathName.endsWith('ClassNetCache')) {

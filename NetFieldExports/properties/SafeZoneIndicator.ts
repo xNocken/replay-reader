@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const SafeZoneIndicator: NetFieldExportGroupConfig = {
   path: "/Game/Athena/SafeZone/SafeZoneIndicator.SafeZoneIndicator_C",

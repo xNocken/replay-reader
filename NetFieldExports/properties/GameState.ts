@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const GameState: NetFieldExportGroupConfig = {
   path: "/Game/Athena/Athena_GameState.Athena_GameState_C",

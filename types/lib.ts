@@ -3,26 +3,18 @@ import EventEmitter from 'events';
 import GlobalData from '../src/Classes/GlobalData';
 import Replay from '../src/Classes/Replay';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
-import { NetFieldExportInternal } from '../types/replay';
 import { NetworkGUID } from '../Classes/NetworkGUID';
 import { Logger } from '../src/Classes/Logger';
 import { Events } from './events';
+import { NetFieldExportGroupConfigInternal, NetFieldExportInternal } from './nfe';
 
-export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector3f' | 'readVector3d' | 'readPackedVector1' | 'readFName' | 'readNetId';
-export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
-export type NetFieldExportTypes = 'classNetCache' | 'default';
-export type NetFieldExportExportTypes = 'array' | 'object' | 'null';
 export type SupportedEvents = 'playerElim' | 'AthenaReplayBrowserEvents' | 'ZoneUpdate' | 'CharacterSample' | 'ActorsPosition' | 'AdditionGFPEventGroup' | 'Timecode';
-export type ClassNetCacheExportTypes = 'function' | 'class' | 'netDeltaSerialize';
 
 type KnownKeys<T> = keyof {
   [K in keyof T as string extends K ? never : number extends K ? never : K]: never
 };
 
 export type RemoveIndex<T extends Record<any, any>> = Pick<T, KnownKeys<T>>;
-
-type RemoveFromNFEProps<T> = Omit<T, 'parseType'>
-type RemoveFromNFEGroups<T> = Omit<T, 'type' | 'properties'>
 
 export interface FVector {
   x: number;
@@ -388,110 +380,6 @@ export interface EventEmittersObject<ResultType extends BaseResult, StateType ex
   actorDespawn: ActorDespawnEmitter<ResultType, StateType>,
   parsing: ParsingEmitter<ResultType, StateType>,
 }
-
-export interface NetFieldExportCacheConfigBase {
-  parseType: ClassNetCacheExportTypes,
-  enablePropertyChecksum?: boolean,
-  type: string,
-  customExportName?: string,
-}
-
-export interface NetFieldExportPropertyConfigBase {
-  parseType: ParseTypes,
-  customExportName?: string,
-  storeAsHandle?: boolean,
-  storeAsHandleMaxDepth?: number,
-}
-
-export interface NetFieldExportPropertyConfigDefault extends NetFieldExportPropertyConfigBase {
-  parseType: 'default',
-  parseFunction: ParseFunctions,
-  args?: unknown[],
-}
-
-export interface NetFieldExportPropertyConfigArray extends NetFieldExportPropertyConfigBase {
-  parseType: 'readDynamicArray',
-  type?: string,
-  config?: object,
-  parseFunction?: ParseFunctions,
-}
-
-export interface NetFieldExportPropertyConfigEnum extends NetFieldExportPropertyConfigBase {
-  parseType: 'readEnum',
-  type: string,
-  bits: number,
-}
-
-export interface NetFieldExportPropertyConfigClass extends NetFieldExportPropertyConfigBase {
-  parseType: 'readClass',
-  type: string,
-  config?: object,
-}
-
-export interface NetFieldExportPropertyConfigIgnore {
-  parseType: 'ignore',
-}
-
-export interface NetFieldExportPropertyConfigInternal extends
-  RemoveFromNFEProps<NetFieldExportPropertyConfigDefault>,
-  RemoveFromNFEProps<NetFieldExportPropertyConfigArray>,
-  RemoveFromNFEProps<NetFieldExportPropertyConfigEnum>,
-  RemoveFromNFEProps<NetFieldExportPropertyConfigClass>,
-  RemoveFromNFEProps<NetFieldExportCacheConfigBase> {
-  parseType: ParseTypes | ClassNetCacheExportTypes,
-  type: string,
-  parseFunction: ParseFunctions,
-}
-
-export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass;
-
-export interface ExportConfig {
-  name: string,
-  group: string,
-  type: NetFieldExportExportTypes,
-}
-
-interface NetFieldExportGroupConfigBase {
-  exports?: ExportConfig,
-  path: string[] | string,
-  partialPath?: boolean,
-  parseLevel?: number,
-  states?: {
-    [stateName: string]: string,
-  },
-}
-
-export interface NetFieldExportGroupPropertyConfig extends NetFieldExportGroupConfigBase {
-  type?: 'default',
-  staticActorIds?: string[],
-  customExportName?: string,
-  parseUnknownHandles?: boolean,
-  storeAsHandle?: boolean,
-  storeAsHandleMaxDepth?: number,
-  redirects?: string[],
-  properties: {
-    [name: string]: NetFieldExportPropertyConfig,
-  },
-}
-
-export interface NetFieldExportGroupCacheConfig extends NetFieldExportGroupConfigBase {
-  type: 'classNetCache',
-  properties: {
-    [name: string]: NetFieldExportCacheConfigBase,
-  }
-}
-
-export interface NetFieldExportGroupConfigInternal extends
-  RemoveFromNFEGroups<NetFieldExportGroupPropertyConfig>,
-  RemoveFromNFEGroups<NetFieldExportGroupCacheConfig> {
-  type: NetFieldExportTypes,
-  properties: {
-    [name: string]: NetFieldExportPropertyConfigInternal,
-  },
-  isClassNetCacheProperty: boolean,
-}
-
-export type NetFieldExportGroupConfig = NetFieldExportGroupPropertyConfig | NetFieldExportGroupCacheConfig;
 
 export interface Bunch {
   packetId: number,

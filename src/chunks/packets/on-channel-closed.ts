@@ -1,5 +1,5 @@
 import { ActorDespawnExport, BaseResult, BaseStates, Bunch, ChannelOpenedClosedExport } from '../../../types/lib';
-import { NetFieldExportGroupInternal } from '../../../types/replay';
+import { NetFieldExportGroupInternal } from '../../../types/nfe';
 import GlobalData from '../../Classes/GlobalData';
 
 export const onChannelClosed = (bunch: Bunch, globalData: GlobalData) => {

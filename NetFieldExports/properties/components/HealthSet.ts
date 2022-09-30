@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../../types/lib';
+import { NetFieldExportGroupConfig } from '../../../types/nfe';
 
 const HealthSet: NetFieldExportGroupConfig = {
   path: "/Script/FortniteGame.FortRegenHealthSet",

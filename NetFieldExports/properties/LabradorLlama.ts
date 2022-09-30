@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const LabradorLlama: NetFieldExportGroupConfig = {
   path: "/Labrador/Pawn/BP_AIPawn_Labrador.BP_AIPawn_Labrador_C",

@@ -4,7 +4,7 @@ import { netDeltaSerialize } from './net-delta-serialize';
 import { readFieldHeader } from './read-field-header';
 import { Bunch } from '../../../../types/lib';
 import Replay from '../../../Classes/Replay';
-import { NetFieldExportGroupInternal } from '../../../../types/replay';
+import { NetFieldExportGroupInternal } from '../../../../types/nfe';
 import GlobalData from '../../../Classes/GlobalData';
 
 export const readClassNetCache = (

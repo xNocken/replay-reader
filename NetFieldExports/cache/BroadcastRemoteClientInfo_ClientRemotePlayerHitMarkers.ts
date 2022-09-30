@@ -1,4 +1,4 @@
-import { NetFieldExportGroupConfig } from '../../types/lib';
+import { NetFieldExportGroupConfig } from '../../types/nfe';
 
 const BroadcastRemoteClientInfo_ClientRemotePlayerHitMarkers: NetFieldExportGroupConfig = {
   path: "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerHitMarkers",

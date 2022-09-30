@@ -3,8 +3,9 @@ import { DebugObject } from '../../Classes/DebugObject';
 import netFieldExports from '../../NetFieldExports';
 import Replay from '../Classes/Replay';
 import GlobalData from './GlobalData';
-import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnum, CustomEnumMap, Data, NetFieldExportPropertyConfigInternal, NetFieldExportGroupConfigInternal } from '../../types/lib';
-import { NetFieldExportGroupConfigMap, NetFieldExportGroupInternal, NetFieldExportInternal, StringToString } from '../../types/replay';
+import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnum, CustomEnumMap, Data } from '../../types/lib';
+import { NetFieldExportPropertyConfigInternal, NetFieldExportGroupConfigInternal, NetFieldExportGroupInternal, NetFieldExportInternal, NetFieldExportGroupConfig } from '../../types/nfe';
+import { StringToString } from '../../types/replay';
 import Classes from '../../Classes';
 import Enums from '../../Enums';
 
@@ -77,7 +78,7 @@ export class NetFieldParser {
   /** contains net field export paths indexed by the name used by the game */
   redirects: StringToString = {};
   /** maps the path to its classNetCache */
-  classPathCache: NetFieldExportGroupConfigMap = {};
+  classPathCache: Record<string, NetFieldExportGroupConfigInternal> = {};
   enums: CustomEnumMap = {};
   classes: CustomClassMap = {};
 
