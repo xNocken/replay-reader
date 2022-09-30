@@ -65,7 +65,7 @@ export class NetGuidCache {
       return null;
     }
 
-    if (netFieldExport.type === 'ClassNetCache') {
+    if (netFieldExport.type === 'classNetCache') {
       const baseName = pathName.split('_ClassNetCache')[0];
 
       if (!this.netFieldExportGroupMap[baseName]) {

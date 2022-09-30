@@ -1,13 +1,12 @@
 import { NetFieldExportGroupConfig } from '../../types/lib';
 
 const InventoryCache: NetFieldExportGroupConfig = {
+  type: "classNetCache",
   path: "FortInventory_ClassNetCache",
-  type: "ClassNetCache",
-  parseLevel: 1,
   properties: {
     Inventory: {
-      type: "inventory",
       parseType: "netDeltaSerialize",
+      type: "inventory",
       enablePropertyChecksum: true,
     },
   },

@@ -87,6 +87,8 @@ export class DebugObject {
   getValueAsFVector3d() {
     const replay = new Replay(this.data, this.globalData, this.size);
 
+    replay.header = this.header;
+
     const vector = replay.readVector3d();
 
     if (replay.isError) {
@@ -99,6 +101,8 @@ export class DebugObject {
   getValueAsFVector3f() {
     const replay = new Replay(this.data, this.globalData, this.size);
 
+    replay.header = this.header;
+
     const vector = replay.readVector3f();
 
     if (replay.isError) {
@@ -110,6 +114,8 @@ export class DebugObject {
 
   getValueAsIntPacked() {
     const replay = new Replay(this.data, this.globalData, this.size);
+
+    replay.header = this.header;
 
     const înt = replay.readIntPacked();
 

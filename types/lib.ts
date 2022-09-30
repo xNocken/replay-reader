@@ -10,7 +10,7 @@ import { Events } from './events';
 
 export type ParseFunctions = 'readInt32' | 'readInt16' | 'readFloat32' | 'readBit' | 'readPackedVector100' | 'readRotationShort' | 'readIntPacked' | 'readUInt32' | 'readPackedVector10' | 'readByte' | 'readUInt16' | 'readString' | 'readVector3f' | 'readVector3d' | 'readPackedVector1' | 'readFName' | 'readNetId';
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
-export type NetFieldExportTypes = 'ClassNetCache' | 'Default';
+export type NetFieldExportTypes = 'classNetCache' | 'default';
 export type NetFieldExportExportTypes = 'array' | 'object' | 'null';
 export type SupportedEvents = 'playerElim' | 'AthenaReplayBrowserEvents' | 'ZoneUpdate' | 'CharacterSample' | 'ActorsPosition' | 'AdditionGFPEventGroup' | 'Timecode';
 export type ClassNetCacheExportTypes = 'function' | 'class' | 'netDeltaSerialize';
@@ -20,6 +20,9 @@ type KnownKeys<T> = keyof {
 };
 
 export type RemoveIndex<T extends Record<any, any>> = Pick<T, KnownKeys<T>>;
+
+type RemoveFromNFEProps<T> = Omit<T, 'parseType'>
+type RemoveFromNFEGroups<T> = Omit<T, 'type' | 'properties'>
 
 export interface FVector {
   x: number;
@@ -386,20 +389,61 @@ export interface EventEmittersObject<ResultType extends BaseResult, StateType ex
   parsing: ParsingEmitter<ResultType, StateType>,
 }
 
-export interface NetFieldExportConfig {
-  parseType: ParseTypes | ClassNetCacheExportTypes,
-  parseFunction?: ParseFunctions,
-  customExportName?: string,
-  type?: string,
-  isFunction?: boolean,
-  isCustomStruct?: boolean,
-  bits?: number,
-  config?: object,
+export interface NetFieldExportCacheConfigBase {
+  parseType: ClassNetCacheExportTypes,
   enablePropertyChecksum?: boolean,
+  type: string,
+  customExportName?: string,
+}
+
+export interface NetFieldExportPropertyConfigBase {
+  parseType: ParseTypes,
+  customExportName?: string,
   storeAsHandle?: boolean,
   storeAsHandleMaxDepth?: number,
+}
+
+export interface NetFieldExportPropertyConfigDefault extends NetFieldExportPropertyConfigBase {
+  parseType: 'default',
+  parseFunction: ParseFunctions,
   args?: unknown[],
 }
+
+export interface NetFieldExportPropertyConfigArray extends NetFieldExportPropertyConfigBase {
+  parseType: 'readDynamicArray',
+  type?: string,
+  config?: object,
+  parseFunction?: ParseFunctions,
+}
+
+export interface NetFieldExportPropertyConfigEnum extends NetFieldExportPropertyConfigBase {
+  parseType: 'readEnum',
+  type: string,
+  bits: number,
+}
+
+export interface NetFieldExportPropertyConfigClass extends NetFieldExportPropertyConfigBase {
+  parseType: 'readClass',
+  type: string,
+  config?: object,
+}
+
+export interface NetFieldExportPropertyConfigIgnore {
+  parseType: 'ignore',
+}
+
+export interface NetFieldExportPropertyConfigInternal extends
+  RemoveFromNFEProps<NetFieldExportPropertyConfigDefault>,
+  RemoveFromNFEProps<NetFieldExportPropertyConfigArray>,
+  RemoveFromNFEProps<NetFieldExportPropertyConfigEnum>,
+  RemoveFromNFEProps<NetFieldExportPropertyConfigClass>,
+  RemoveFromNFEProps<NetFieldExportCacheConfigBase> {
+  parseType: ParseTypes | ClassNetCacheExportTypes,
+  type: string,
+  parseFunction: ParseFunctions,
+}
+
+export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass;
 
 export interface ExportConfig {
   name: string,
@@ -407,27 +451,47 @@ export interface ExportConfig {
   type: NetFieldExportExportTypes,
 }
 
-export interface NetFieldExportGroupConfig {
+interface NetFieldExportGroupConfigBase {
+  exports?: ExportConfig,
   path: string[] | string,
+  partialPath?: boolean,
+  parseLevel?: number,
   states?: {
     [stateName: string]: string,
   },
-  exports?: ExportConfig,
+}
+
+export interface NetFieldExportGroupPropertyConfig extends NetFieldExportGroupConfigBase {
+  type?: 'default',
   staticActorIds?: string[],
   customExportName?: string,
   parseUnknownHandles?: boolean,
   storeAsHandle?: boolean,
   storeAsHandleMaxDepth?: number,
-  parseLevel?: number,
-  parseUnkownHandles?: boolean,
   redirects?: string[],
-  type?: NetFieldExportTypes,
-  isClassNetCacheProperty?: boolean,
-  partialPath?: boolean,
   properties: {
-    [name: string]: NetFieldExportConfig,
+    [name: string]: NetFieldExportPropertyConfig,
   },
 }
+
+export interface NetFieldExportGroupCacheConfig extends NetFieldExportGroupConfigBase {
+  type: 'classNetCache',
+  properties: {
+    [name: string]: NetFieldExportCacheConfigBase,
+  }
+}
+
+export interface NetFieldExportGroupConfigInternal extends
+  RemoveFromNFEGroups<NetFieldExportGroupPropertyConfig>,
+  RemoveFromNFEGroups<NetFieldExportGroupCacheConfig> {
+  type: NetFieldExportTypes,
+  properties: {
+    [name: string]: NetFieldExportPropertyConfigInternal,
+  },
+  isClassNetCacheProperty: boolean,
+}
+
+export type NetFieldExportGroupConfig = NetFieldExportGroupPropertyConfig | NetFieldExportGroupCacheConfig;
 
 export interface Bunch {
   packetId: number,
@@ -480,7 +544,7 @@ export interface ParseOptions {
   /** Enables some additional features like debug files and loggin on console */
   debug?: boolean,
   /** A list of additional net field exports to parse  */
-  customNetFieldExports?: NetFieldExportGroupConfig[],
+  customNetFieldExports?: NetFieldExportGroupConfigInternal[],
   /** Decides if the default netFieldExports should be ignored or not */
   onlyUseCustomNetFieldExports?: boolean,
   /** A list that can be used to add or overwrite classes */

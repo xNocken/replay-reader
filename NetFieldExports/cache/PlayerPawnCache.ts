@@ -7,7 +7,7 @@ const PlayerPawnCache: NetFieldExportGroupConfig = {
     "BP_AIPawn_Labrador_C_ClassNetCache",
   ],
   parseLevel: 1,
-  type: "ClassNetCache",
+  type: "classNetCache",
   properties: {
     NetMulticast_InvokeGameplayCueAdded_WithParams: {
       type: "gameplayCue",

@@ -3,7 +3,7 @@ import { NetFieldExportGroupConfig } from '../../types/lib';
 const GameStateCache: NetFieldExportGroupConfig = {
   path: "Athena_GameState_C_ClassNetCache",
   parseLevel: 1,
-  type: "ClassNetCache",
+  type: "classNetCache",
   exports: {
     name: "playlistInfo",
     group: "gameData",

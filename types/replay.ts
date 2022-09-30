@@ -1,6 +1,5 @@
 import { NetworkGUID } from '../Classes/NetworkGUID';
-import Replay from '../src/Classes/Replay';
-import { Actor, ClassNetCacheExportTypes, ExternalData, NetFieldExportConfig, NetFieldExportGroupConfig, ParseFunctions, ParseTypes } from './lib';
+import { Actor, ClassNetCacheExportTypes, ExternalData, NetFieldExportPropertyConfigInternal, NetFieldExportGroupConfigInternal, ParseFunctions, ParseTypes } from './lib';
 
 export interface NetGuidMap {
   [key: number]: NetworkGUID,
@@ -71,11 +70,11 @@ export interface ActorMap {
 }
 
 export interface NetFieldExportConfigMap {
-  [key: string]: NetFieldExportConfig,
+  [key: string]: NetFieldExportPropertyConfigInternal,
 }
 
 export interface NetFieldExportGroupConfigMap {
-  [key: string]: NetFieldExportGroupConfig,
+  [key: string]: NetFieldExportGroupConfigInternal,
 }
 
 export interface ExternalDataMap {

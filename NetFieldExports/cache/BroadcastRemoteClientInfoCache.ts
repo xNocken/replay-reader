@@ -3,7 +3,7 @@ import { NetFieldExportGroupConfig } from '../../types/lib';
 const BroadcastRemoteClientInfo: NetFieldExportGroupConfig = {
   path: "FortBroadcastRemoteClientInfo_ClassNetCache",
   parseLevel: 3,
-  type: "ClassNetCache",
+  type: "classNetCache",
   properties: {
     ClientRemotePlayerAddMapMarker: {
       type: "/Script/FortniteGame.FortBroadcastRemoteClientInfo:ClientRemotePlayerAddMapMarker",

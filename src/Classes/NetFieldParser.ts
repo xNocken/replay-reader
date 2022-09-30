@@ -3,7 +3,7 @@ import { DebugObject } from '../../Classes/DebugObject';
 import netFieldExports from '../../NetFieldExports';
 import Replay from '../Classes/Replay';
 import GlobalData from './GlobalData';
-import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnum, CustomEnumMap, Data, NetFieldExportConfig, NetFieldExportGroupConfig } from '../../types/lib';
+import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnum, CustomEnumMap, Data, NetFieldExportPropertyConfigInternal, NetFieldExportGroupConfigInternal } from '../../types/lib';
 import { NetFieldExportGroupConfigMap, NetFieldExportGroupInternal, NetFieldExportInternal, StringToString } from '../../types/replay';
 import Classes from '../../Classes';
 import Enums from '../../Enums';
@@ -22,7 +22,7 @@ const getExportByType = (type: string) => {
   }
 };
 
-const validateNetFieldExportProperty = (name: string, property: NetFieldExportConfig, pathName: string, netFieldParser: NetFieldParser) => {
+const validateNetFieldExportProperty = (name: string, property: NetFieldExportPropertyConfigInternal, pathName: string, netFieldParser: NetFieldParser) => {
   switch (property.parseType) {
     case 'default':
       if (!property.parseFunction) {
@@ -72,7 +72,7 @@ const validateNetFieldExportProperty = (name: string, property: NetFieldExportCo
 
 export class NetFieldParser {
   /** contains all netFieldExportConfigs that are used for parsing */
-  netFieldGroups: NetFieldExportGroupConfig[] = [];
+  netFieldGroups: NetFieldExportGroupConfigInternal[] = [];
   netFieldGroupPaths: string[] = [];
   /** contains net field export paths indexed by the name used by the game */
   redirects: StringToString = {};
@@ -106,7 +106,7 @@ export class NetFieldParser {
       this.enums[name] = customEnum;
     });
 
-    const handleExport = (fieldExport: NetFieldExportGroupConfig) => {
+    const handleExport = (fieldExport: NetFieldExportGroupConfigInternal) => {
       let path: string;
 
       if (fieldExport.parseLevel > globalData.options.parseLevel) {
@@ -137,14 +137,14 @@ export class NetFieldParser {
         path = fieldExport.path[0];
       }
 
-      if (fieldExport.redirects) {
+      if (fieldExport.type !== 'classNetCache' && fieldExport.redirects) {
         fieldExport.redirects.forEach((redirect) => {
           this.redirects[redirect] = path;
         });
       }
 
       switch (fieldExport.type) {
-        case 'ClassNetCache':
+        case 'classNetCache':
           break;
 
         default:
@@ -188,7 +188,7 @@ export class NetFieldParser {
         });
       }
 
-      if (fieldExport.staticActorIds) {
+      if (fieldExport.type === 'default' && fieldExport.staticActorIds) {
         const exportGroup: NetFieldExportGroupInternal = {
           parseUnknownHandles: fieldExport.parseUnknownHandles,
           storeAsHandle: fieldExport.storeAsHandle,
@@ -218,10 +218,10 @@ export class NetFieldParser {
     }
 
     if (!globalData.options.onlyUseCustomNetFieldExports) {
-      netFieldExports.forEach(handleExport);
+      (<NetFieldExportGroupConfigInternal[]>netFieldExports).forEach(handleExport);
     }
 
-    this.netFieldGroups.filter(({ type }) => type === 'ClassNetCache').forEach(({ properties }) => {
+    this.netFieldGroups.filter(({ type }) => type === 'classNetCache').forEach(({ properties }) => {
       Object.values(properties).forEach(({ type }) => {
         const groupIndex = this.netFieldGroupPaths.findIndex(([path]) => path.includes(type));
         const theGroup = this.netFieldGroups[groupIndex];
