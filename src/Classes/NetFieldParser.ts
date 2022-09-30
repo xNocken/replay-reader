@@ -1,12 +1,12 @@
 import pathhhh from 'path';
 import { DebugObject } from '../../Classes/DebugObject';
 import netFieldExports from '../../NetFieldExports';
-import enums from '../../Enums';
-import classes from '../../Classes';
 import Replay from '../Classes/Replay';
 import GlobalData from './GlobalData';
-import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnumMap, Data, NetFieldExportConfig, NetFieldExportGroupConfig } from '../../types/lib';
+import { BaseResult, BaseStates, CustomClass, CustomClassMap, CustomEnum, CustomEnumMap, Data, NetFieldExportConfig, NetFieldExportGroupConfig } from '../../types/lib';
 import { NetFieldExportGroupConfigMap, NetFieldExportGroupInternal, NetFieldExportInternal, StringToString } from '../../types/replay';
+import Classes from '../../Classes';
+import Enums from '../../Enums';
 
 const getExportByType = (type: string) => {
   switch (type) {
@@ -22,7 +22,7 @@ const getExportByType = (type: string) => {
   }
 };
 
-const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: string, property: NetFieldExportConfig, pathName: string, customClasses: CustomClassMap, customEnums: CustomEnumMap) => {
+const validateNetFieldExportProperty = (name: string, property: NetFieldExportConfig, pathName: string, netFieldParser: NetFieldParser) => {
   switch (property.parseType) {
     case 'default':
       if (!property.parseFunction) {
@@ -40,7 +40,7 @@ const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: str
         throw Error(`Invalid export: ${pathName} -> ${name} parseType '${property.parseType}' requires a type`);
       }
 
-      if (!classes[property.type] && !customClasses[property.type]) {
+      if (!netFieldParser.getClass(property.type)) {
         throw Error(`Invalid export: ${pathName} -> ${name} class '${property.type}' does not exist`);
       }
 
@@ -51,7 +51,7 @@ const validateNetFieldExportProperty = <ResultType extends BaseResult>(name: str
         throw Error(`Invalid export: ${pathName} -> ${name} parseType 'readEnum' requires a type`);
       }
 
-      if (!enums[property.type] && !customEnums[property.type]) {
+      if (!netFieldParser.getEnum(property.type)) {
         throw Error(`Invalid export: ${pathName} -> ${name} class '${property.type}' does not exist`);
       }
 
@@ -78,8 +78,34 @@ export class NetFieldParser {
   redirects: StringToString = {};
   /** maps the path to its classNetCache */
   classPathCache: NetFieldExportGroupConfigMap = {};
+  enums: CustomEnumMap = {};
+  classes: CustomClassMap = {};
+
+  getEnum(enumName: string): CustomEnum | undefined {
+    return this.enums[enumName];
+  }
+
+  getClass(className: string): new () => CustomClass | undefined {
+    return this.classes[className];
+  }
 
   constructor(globalData: GlobalData) {
+    Object.entries(Classes).forEach(([name, customClass]) => {
+      this.classes[name] = customClass;
+    });
+
+    Object.entries(Enums).forEach(([name, customEnum]) => {
+      this.enums[name] = customEnum;
+    });
+
+    Object.entries(globalData.options.customClasses).forEach(([name, customClass]) => {
+      this.classes[name] = customClass;
+    });
+
+    Object.entries(globalData.options.customEnums).forEach(([name, customEnum]) => {
+      this.enums[name] = customEnum;
+    });
+
     const handleExport = (fieldExport: NetFieldExportGroupConfig) => {
       let path: string;
 
@@ -124,8 +150,7 @@ export class NetFieldParser {
             name,
             property,
             path,
-            globalData.options.customClasses,
-            globalData.options.customEnums,
+            this,
           ));
 
           break;
@@ -273,7 +298,7 @@ export class NetFieldParser {
         return null;
 
       case 'readClass': {
-        const theClass = globalData.options.customClasses[propertyInfo.type] || classes[propertyInfo.type];
+        const theClass = this.getClass(propertyInfo.type);
 
         const instance: CustomClass = new theClass();
         instance.serialize(netBitReader, globalData, propertyInfo.config || {});
@@ -332,7 +357,7 @@ export class NetFieldParser {
               && (maxDepth === undefined || depth <= maxDepth);
             const propertyName = arrayEntryInfo.customExportName || arrayEntryInfo.name;
 
-            const archive = new Replay(netBitReader.readBits(numBits), numBits);
+            const archive = new Replay(netBitReader.readBits(numBits), globalData, numBits);
 
             archive.header = netBitReader.header;
 
@@ -374,7 +399,7 @@ export class NetFieldParser {
       }
 
       case 'readEnum': {
-        const enumm = globalData.options.customEnums[propertyInfo.type] || enums[propertyInfo.type];
+        const enumm = this.getEnum(propertyInfo.type);
 
         if (!enumm) {
           return null;

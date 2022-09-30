@@ -91,7 +91,7 @@ export const receiveProperties = (
       const nfe = nfeGroup?.netFieldExports[externalData.handle];
 
       if (nfe) {
-        const payloadReader = new Replay(externalData.payload);
+        const payloadReader = new Replay(externalData.payload, globalData);
 
         payloadReader.header = archive.header;
 

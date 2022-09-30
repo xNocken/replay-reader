@@ -1,6 +1,6 @@
-import { FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction, Vector4 } from '../../types/lib';
+import { CustomEnum, FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction, Vector4 } from '../../types/lib';
 import crypto from 'crypto';
-import { UnrealNames } from '../../Enums/UnrealNames';
+import GlobalData from './GlobalData';
 
 class Replay {
   buffer: Uint8Array;
@@ -18,10 +18,17 @@ class Replay {
   uInt8Double64Array = new Uint8Array(this.double64Array.buffer);
 
   header: Header;
+  globalData: GlobalData;
+  UnrealNames: CustomEnum;
 
-  constructor(input: Uint8Array, bitCount?: number) {
+  constructor(input: Uint8Array, globalData: GlobalData, bitCount?: number) {
     this.buffer = new Uint8Array(input);
     this.lastBit = bitCount || this.buffer.length * 8;
+
+    if (globalData) {
+      this.UnrealNames = globalData.netFieldParser.getEnum('UnrealNames');
+      this.globalData = globalData;
+    }
   }
 
   addOffset(index: number, offset: number) {
@@ -346,6 +353,10 @@ class Replay {
   }
 
   readFName(): string {
+    if (!this.UnrealNames) {
+      throw new Error('UnrealNames not set');
+    }
+
     const isHardcoded = this.readBit();
 
     if (isHardcoded) {
@@ -357,7 +368,7 @@ class Replay {
         nameIndex = this.readIntPacked();
       }
 
-      return UnrealNames[nameIndex];
+      return this.UnrealNames[nameIndex];
     }
 
     const inString = this.readString();
@@ -367,6 +378,10 @@ class Replay {
   }
 
   readFNameByte(): string {
+    if (!this.UnrealNames) {
+      throw new Error('UnrealNames not set');
+    }
+
     const isHardcoded = this.readByte();
 
     if (isHardcoded) {
@@ -378,7 +393,7 @@ class Replay {
         nameIndex = this.readIntPacked();
       }
 
-      return UnrealNames[nameIndex];
+      return this.UnrealNames[nameIndex];
     }
 
     const inString = this.readString();
@@ -698,12 +713,16 @@ class Replay {
   }
 
   decryptBuffer(length: number, encryptionKey: Buffer): Replay {
+    if (!this.globalData) {
+      throw new Error('Global data not set');
+    }
+
     const bytes = this.readBytes(length);
 
     const decipher = crypto.createDecipheriv('aes-256-ecb', encryptionKey, null);
     const newBuffer = Buffer.from(decipher.update(bytes, null, 'binary') + decipher.final('binary'), 'binary');
 
-    const newReplay = new Replay(newBuffer);
+    const newReplay = new Replay(newBuffer, this.globalData);
 
     newReplay.header = this.header;
 

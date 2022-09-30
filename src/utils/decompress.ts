@@ -25,7 +25,7 @@ export const decompress = (replay: Replay, globalData: GlobalData) => {
     0,
   );
 
-  const newReplay = new Replay(dstBuffer);
+  const newReplay = new Replay(dstBuffer, globalData);
 
   newReplay.header = replay.header;
 

@@ -1,11 +1,10 @@
 import { BaseResult, BaseStates, Bunch, CustomClass, PropertyExport } from '../../../../types/lib';
 import { NetFieldExportInternal } from '../../../../types/replay';
-import classes from '../../../../Classes';
 import GlobalData from '../../../Classes/GlobalData';
 import Replay from '../../../Classes/Replay';
 
 export const receiveCustomProperty = (reader: Replay, fieldCache: NetFieldExportInternal, bunch: Bunch, pathName: string, globalData: GlobalData, staticActorId: string) => {
-  const theClass = globalData.options.customClasses[fieldCache.type] || classes[fieldCache.type];
+  const theClass = globalData.netFieldParser.getClass(fieldCache.type);
   const instance: CustomClass = new theClass();
 
   instance.serialize(reader, globalData, fieldCache.config);

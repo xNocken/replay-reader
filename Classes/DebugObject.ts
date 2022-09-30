@@ -34,7 +34,7 @@ export class DebugObject {
       return null;
     }
 
-      return this.data.readFloatLE();
+    return this.data.readFloatLE();
   }
 
   getValueAsInt() {
@@ -67,7 +67,7 @@ export class DebugObject {
 
   getValueAsClass(Class: new () => CustomClass) {
     const container = new Class();
-    const replay = new Replay(this.data, this.size);
+    const replay = new Replay(this.data, this.globalData, this.size);
 
     replay.header = this.header;
 
@@ -85,7 +85,7 @@ export class DebugObject {
   }
 
   getValueAsFVector3d() {
-    const replay = new Replay(this.data, this.size);
+    const replay = new Replay(this.data, this.globalData, this.size);
 
     const vector = replay.readVector3d();
 
@@ -97,7 +97,7 @@ export class DebugObject {
   }
 
   getValueAsFVector3f() {
-    const replay = new Replay(this.data, this.size);
+    const replay = new Replay(this.data, this.globalData, this.size);
 
     const vector = replay.readVector3f();
 
@@ -109,7 +109,7 @@ export class DebugObject {
   }
 
   getValueAsIntPacked() {
-    const replay = new Replay(this.data, this.size);
+    const replay = new Replay(this.data, this.globalData, this.size);
 
     const înt = replay.readIntPacked();
 

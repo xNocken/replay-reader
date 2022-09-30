@@ -22,7 +22,7 @@ const getChunksBinary = (replay: Replay, globalData: GlobalData) => {
           throw new Error('Found multiple header chunks');
         }
 
-        globalData.header = parseHeader(replay, globalData.logger);
+        globalData.header = parseHeader(replay, globalData.logger, globalData);
         break;
 
       case 1: {

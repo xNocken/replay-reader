@@ -1,7 +1,6 @@
 import { PlayerPosition } from '../../../types/events';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
-import enums from '../../../Enums';
 import { parsePosition } from './util/parse-position';
 
 export const parseCharacterSampleMeta = (globalData: GlobalData, replay: Replay) => {
@@ -25,11 +24,11 @@ export const parseCharacterSampleMeta = (globalData: GlobalData, replay: Replay)
     const positionAmount = replay.readUInt32();
 
     for (let i = 0; i < positionAmount; i += 1) {
-      const targetEnum = (globalData.options.customEnums?.EFortMovementStyle || enums.EFortMovementStyle);
+      const MovementStyles = globalData.netFieldParser.getEnum('EFortMovementStyle');
 
       const result: PlayerPosition = {
         ...parsePosition(replay),
-        movementType: targetEnum[replay.readByte()],
+        movementType: MovementStyles[replay.readByte()],
       };
 
       const time = replay.readUInt16();

@@ -72,8 +72,8 @@ export const replayChunksStreaming = async (metadata: MetaDataResult, globalData
     throw new Error('Failed to download the header chunk. Link may be expired');
   }
 
-  const replay = new Replay(body);
-  globalData.header = parseHeader(replay, globalData.logger);
+  const replay = new Replay(body, globalData);
+  globalData.header = parseHeader(replay, globalData.logger, globalData);
 
   globalData.logger.message(`downloaded headerChunk in ${debugDownloadFinishTime - debugDownloadStartTime}ms and parsed in ${Date.now() - debugParseTime}ms`);
 

@@ -1,12 +1,13 @@
-import { BuildTargetType } from '../../Enums/BuildTargetType';
-import { CustomEnum, Header, ReadObjectResult } from '../../types/lib';
+import { Header, ReadObjectResult } from '../../types/lib';
+import GlobalData from '../Classes/GlobalData';
 import { Logger } from '../Classes/Logger';
 import Replay from '../Classes/Replay';
 import versions from '../constants/versions';
 
 const headerMagic = 0x2CF5A13D;
 
-const header = (replay: Replay, logger: Logger): Header => {
+const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header => {
+  const BuildTargetType = globalData.netFieldParser.getEnum('BuildTargetType');
   const magic = replay.readUInt32();
 
   if (magic !== headerMagic) {

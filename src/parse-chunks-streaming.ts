@@ -34,7 +34,7 @@ const getChunk = (url: string, globalData: GlobalData) => {
         return;
       }
 
-      const replay = new Replay(Buffer.from(body));
+      const replay = new Replay(Buffer.from(body), globalData);
 
       replay.header = globalData.header;
 

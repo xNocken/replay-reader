@@ -2,12 +2,11 @@ import { ElimPlayer } from '../../../types/events';
 import GlobalData from '../../Classes/GlobalData';
 import Replay from '../../Classes/Replay';
 
-import enums from '../../../Enums';
 import parsePlayer from './util/parse-player';
 import { isNonZeroPos } from '../../utils/is-non-zero-pos';
 
 export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: number, version: number) => {
-  const targetEnum = (globalData.options.customEnums?.EDeathCause || enums.EDeathCause);
+  const EDeathCause = globalData.netFieldParser.getEnum('EDeathCause');
 
   let eliminated: ElimPlayer = {
     name: null,
@@ -57,7 +56,7 @@ export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: nu
     };
   }
 
-  const reason = targetEnum[replay.readByte()];
+  const reason = EDeathCause[replay.readByte()];
   const knocked = replay.readBoolean();
 
   let globalEliminator = globalData.eventData.players[eliminator.name];

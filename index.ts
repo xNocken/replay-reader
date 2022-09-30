@@ -35,7 +35,7 @@ const initGlobalData = (options: ParseStreamOptions | ParseOptions) => {
 
 export const parseBinary = <ResultType extends BaseResult = DefaultResult>(data: Buffer, options: ParseOptions): ResultType => {
   const globalData = initGlobalData(options);
-  const replay = new Replay(data);
+  const replay = new Replay(data, globalData);
 
   const meta = parseMeta(replay, globalData);
   const chunks = replayChunks(replay, globalData);

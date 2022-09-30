@@ -109,7 +109,7 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
     } else {
       if (bPartial) {
         const bits = packetArchive.readBits(bunchDataBits);
-        archive = new Replay(bits, bunchDataBits);
+        archive = new Replay(bits, globalData, bunchDataBits);
       } else {
         packetArchive.addOffset(3, bunchDataBits);
         archive = packetArchive;
