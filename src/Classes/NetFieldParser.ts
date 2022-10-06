@@ -189,7 +189,7 @@ export class NetFieldParser {
         });
       }
 
-      if (fieldExport.type === 'default' && fieldExport.staticActorIds) {
+      if ((!fieldExport.type || fieldExport.type === 'default') && fieldExport.staticActorIds) {
         const exportGroup: NetFieldExportGroupInternal = {
           parseUnknownHandles: fieldExport.parseUnknownHandles,
           storeAsHandle: fieldExport.storeAsHandle,
