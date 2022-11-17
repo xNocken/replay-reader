@@ -3,9 +3,7 @@ import Replay from '../../Classes/Replay';
 
 export const parseZoneUpdate = (globalData: GlobalData, replay: Replay) => {
   globalData.eventData.safeZones.push({
-    x: replay.readFloat32(),
-    y: replay.readFloat32(),
-    z: replay.readFloat32(),
+    ...replay.readVector3d(),
     radius: replay.readFloat32(),
   });
 }
