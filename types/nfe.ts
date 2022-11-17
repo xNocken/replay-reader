@@ -80,7 +80,7 @@ export interface NetFieldExportPropertyConfigInternal extends
   parseType: ParseTypes | ClassNetCacheExportTypes,
   type: string,
   parseFunction: ParseFunctions,
-  versionOverrides: OverrideConfig<NetFieldExportPropertyConfigInternal>[],
+  versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigInternal>[],
 }
 
 export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass;

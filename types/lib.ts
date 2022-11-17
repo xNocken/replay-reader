@@ -6,7 +6,7 @@ import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import { NetworkGUID } from '../Classes/NetworkGUID';
 import { Logger } from '../src/Classes/Logger';
 import { Events } from './events';
-import { NetFieldExportGroupConfigInternal, NetFieldExportInternal } from './nfe';
+import { NetFieldExportGroupConfig, NetFieldExportInternal } from './nfe';
 
 export type SupportedEvents = 'playerElim' | 'AthenaReplayBrowserEvents' | 'ZoneUpdate' | 'CharacterSample' | 'ActorsPosition' | 'AdditionGFPEventGroup' | 'Timecode';
 
@@ -441,7 +441,7 @@ export interface ParseOptions {
   /** Enables some additional features like debug files and loggin on console */
   debug?: boolean,
   /** A list of additional net field exports to parse  */
-  customNetFieldExports?: NetFieldExportGroupConfigInternal[],
+  customNetFieldExports?: NetFieldExportGroupConfig[],
   /** Decides if the default netFieldExports should be ignored or not */
   onlyUseCustomNetFieldExports?: boolean,
   /** A list that can be used to add or overwrite classes */

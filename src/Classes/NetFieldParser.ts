@@ -111,7 +111,7 @@ export class NetFieldParser {
       let path: string;
 
       if (fieldExport.parseLevel > globalData.options.parseLevel) {
-        globalData.logger.message(`Skipping export ${fieldExport.path[0] || fieldExport.path} because its parseLevel is too low`);
+        globalData.logger.message(`Skipping export ${(fieldExport.path[0].length - 1) ? fieldExport.path : fieldExport.path[0]} because its parseLevel is too low`);
 
         return;
       }
@@ -215,7 +215,8 @@ export class NetFieldParser {
     };
 
     if (globalData.options.customNetFieldExports) {
-      globalData.options.customNetFieldExports.forEach(handleExport);
+      // this cast is needed because else it would require a check for every property. this way it always has all properties and the check is done in the function
+      (globalData.options.customNetFieldExports as NetFieldExportGroupConfigInternal[]).forEach(handleExport);
     }
 
     if (!globalData.options.onlyUseCustomNetFieldExports) {
