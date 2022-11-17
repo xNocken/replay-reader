@@ -85,7 +85,7 @@ const parseChunks = (replay: Replay, chunks: Chunks, globalData: GlobalData) => 
         null,
       );
 
-      if (checkpoint && (time + (globalData.fastForwardThreshold * 1000)) < checkpoint.startTime) {
+      if (checkpoint && (time + (globalData.options.fastForwardThreshold * 1000)) < checkpoint.startTime) {
         let debugTime: number;
 
         if (globalData.options.debug) {

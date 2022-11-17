@@ -87,7 +87,6 @@ class GlobalData {
   lastFrameTime = 0;
 
   fastForwardTo = 0;
-  fastForwardThreshold = 60;
   stopParsing = false;
 
   debugNetGuidToPathName: NetworkGUID[] = [];

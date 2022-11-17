@@ -53,7 +53,7 @@ const findAndParseCheckpoint = async (chunks: Chunks, currentTime: number, targe
     index += 1;
   }
 
-  if (!checkpoint || (currentTime + (globalData.fastForwardThreshold * 1000)) > checkpoint.startTime) {
+  if (!checkpoint || (currentTime + (globalData.options.fastForwardThreshold * 1000)) > checkpoint.startTime) {
     return false;
   }
 
@@ -192,7 +192,7 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
 
       let index = 0;
 
-      while (chunks.replayData[index + 1].startTime <= time) {
+      while (chunks.replayData[index + 1] && chunks.replayData[index + 1].startTime <= time) {
         index += 1;
       }
 
