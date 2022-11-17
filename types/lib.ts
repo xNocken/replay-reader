@@ -351,26 +351,35 @@ export interface FinishedFunction<ResultType extends BaseResult, StateType exten
 
 export interface NetDeltaExportEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: NetDeltaExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
+  once(event: string, listener: NetDeltaExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
 }
 
 export interface PropertyExportEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: PropertyExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
+  once(event: string, listener: PropertyExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
 }
 
 export interface ActorDespawnEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: ActorDespawnExportFunction<ResultType, StateType>): this,
+  once(event: string, listener: ActorDespawnExportFunction<ResultType, StateType>): this,
 }
 
 export interface ActorSpawnEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: ActorSpawnExportFunction<ResultType, StateType>): this,
+  once(event: string, listener: ActorSpawnExportFunction<ResultType, StateType>): this,
 }
 
 export interface ParsingEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: 'channelOpened', listener: ChannelOpenedClosedFunction<ResultType, StateType>): this,
+  once(event: 'channelOpened', listener: ChannelOpenedClosedFunction<ResultType, StateType>): this,
   on(event: 'channelClosed', listener: ChannelOpenedClosedFunction<ResultType, StateType>): this,
+  once(event: 'channelClosed', listener: ChannelOpenedClosedFunction<ResultType, StateType>): this,
   on(event: 'nextChunk', listener: NextChunkFunction<ResultType, StateType>): this,
+  once(event: 'nextChunk', listener: NextChunkFunction<ResultType, StateType>): this,
   on(event: 'nextFrame', listener: NextFrameFunction<ResultType, StateType>): this,
+  once(event: 'nextFrame', listener: NextFrameFunction<ResultType, StateType>): this,
   on(event: 'finished', listener: NextFrameFunction<ResultType, StateType>): this,
+  once(event: 'finished', listener: NextFrameFunction<ResultType, StateType>): this,
 }
 
 export interface EventEmittersObject<ResultType extends BaseResult, StateType extends BaseStates> {
