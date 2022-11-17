@@ -262,6 +262,12 @@ export interface PlayerBuildExport extends RemoveIndex<Data> {
   EditingPlayer?: number,
 }
 
+export interface PlayerBuild extends PlayerBuildExport {
+  pathName?: string,
+  rotation?: FRotator,
+  location?: FVector,
+}
+
 export interface PickupExport extends RemoveIndex<Data> {
   ReplicatedMovement?: FRepMovement,
   Count?: number,
@@ -442,7 +448,7 @@ export interface DefaultStates extends BaseStates {
   playerPawns?: CustomMap<PlayerPawn>,
   pawnChannelToStateChannel: CustomMap<number>,
   queuedPlayerPawns: CustomMap<PlayerPawn[]>,
-  playerBuilds?: CustomMap<PlayerBuildExport>,
+  playerBuilds?: CustomMap<PlayerBuild>,
   pickups?: CustomMap<PickupExport>,
   llamas?: CustomMap<LlamaExport>,
   labradorLlamas?: CustomMap<Labrador>,
@@ -466,7 +472,7 @@ export interface DefaultResult extends BaseResult {
   },
   mapData?: {
     containers?: Container[],
-    playerBuilds?: PlayerBuildExport[],
+    playerBuilds?: PlayerBuild[],
     pickups?: PickupExport[],
     llamas?: LlamaExport[],
     labradorLlamas?: Labrador[],

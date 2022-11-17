@@ -3,11 +3,15 @@ import { DefaultResult, DefaultStates, PlayerBuildExport } from '../../types/res
 
 type PlayerBuildRecord = Record<keyof PlayerBuildExport, PlayerBuildExport[keyof PlayerBuildExport]>;
 
-export const handlePlayerBuilds: PropertyExportFunction<DefaultResult, DefaultStates, PlayerBuildExport> = ({ actorId, data, states, result, changedProperties }) => {
+export const handlePlayerBuilds: PropertyExportFunction<DefaultResult, DefaultStates, PlayerBuildExport> = ({ actorId, actor, data, states, result, changedProperties }) => {
   let playerBuild = states.playerBuilds[actorId];
 
   if (!playerBuild) {
-    playerBuild = {};
+    playerBuild = {
+      pathName: data.pathName,
+      rotation: actor.rotation,
+      location: actor.location,
+    };
 
     states.playerBuilds[actorId] = playerBuild;
     result.mapData.playerBuilds.push(playerBuild);
