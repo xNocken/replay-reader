@@ -1,4 +1,4 @@
-const Replay = require('../src/Classes/Replay');
+const { default: Replay } = require('../dist/src/Classes/Replay');
 var assert = require('assert');
 
 describe('Replay', () => {
@@ -136,6 +136,68 @@ describe('Replay', () => {
 
       assert.equal(replay.readUInt16(), 65535);
     });
+
+    it('should return 65535 off bit', () => {
+      const buffer = Buffer.alloc(4);
+      buffer.writeUInt32LE(0xffffffff);
+      const replay = new Replay(buffer);
+
+      replay.skipBits(4);
+
+      assert.equal(replay.readUInt16(), 65535);
+    });
+  })
+
+  describe('readUInt', () => {
+    it('should return 15', () => {
+      const buffer = Buffer.alloc(2);
+      buffer.writeUInt16LE(0b1111);
+      const replay = new Replay(buffer);
+
+      assert.equal(replay.readBitsToUnsignedInt(4), 15);
+    });
+
+    it('should return 15 off bit', () => {
+      const buffer = Buffer.alloc(2);
+      buffer.writeUInt16LE(0b11110000);
+      const replay = new Replay(buffer);
+
+      replay.skipBits(4);
+
+      assert.equal(replay.readBitsToUnsignedInt(4), 15);
+    });
+
+    it('should work with 20 bits', () => {
+      const buffer = Buffer.alloc(4);
+      buffer.writeUInt32LE(0xFFFFFF);
+      const replay = new Replay(buffer);
+
+      assert.equal(replay.readBitsToUnsignedInt(20), 1048575);
+    });
+
+    it('should work with 10 bits random', () => {
+      const buffer = Buffer.alloc(2);
+      buffer[0] = Math.floor(Math.random() * 255);
+      buffer[1] = Math.floor(Math.random() * 255);
+      const replay = new Replay(buffer);
+
+      const result = (buffer[0] + (buffer[1] << 8));
+
+      assert.equal(replay.readBitsToUnsignedInt(10), result & 0b1111111111);
+    });
+
+    it('should work with 10 bits off bit random', () => {
+      const buffer = Buffer.alloc(2);
+      buffer[0] = Math.floor(Math.random() * 255);
+      buffer[1] = Math.floor(Math.random() * 255);
+      const replay = new Replay(buffer);
+
+      replay.skipBits(4);
+
+      const result = (buffer[0] + (buffer[1] << 8)) >> 4;
+
+      assert.equal(replay.readBitsToUnsignedInt(10), result & 0b1111111111);
+    });
   })
 
   describe('readFloat', () => {
@@ -177,6 +239,71 @@ describe('Replay', () => {
       const replay = new Replay(buffer);
 
       assert.equal(replay.readFloat32(), buffer.readFloatLE());
+    });
+  })
+
+  describe('readIntPacked', () => {
+    for (let i = 0; i < 5; i++) {
+      let number = Math.round(Math.random() * 2147483647);
+      const origNumber = number;
+
+      const bytes = [];
+
+      while (number && bytes.length < 10) {
+        const currentNumber = number & 0x7F;
+
+        number >>= 7;
+        bytes.push(Boolean(number) + (currentNumber << 1))
+      }
+
+      it(`should return ${origNumber}`, () => {
+        const replay = new Replay(Buffer.from(bytes));
+
+        assert.equal(replay.readIntPacked(), origNumber);
+      })
+    }
+  })
+
+  describe('readBits', () => {
+    it('should return 1', () => {
+      const buffer = Buffer.alloc(4);
+      buffer.writeInt32LE(1);
+      const replay = new Replay(buffer);
+
+      assert.deepEqual(Array.from(replay.readBits(4)), [1]);
+    });
+
+    it('should return 3 and 1', () => {
+      const buffer = Buffer.alloc(4);
+      buffer[0] = 3;
+      buffer[1] = 5;
+      const replay = new Replay(buffer);
+
+      assert.deepEqual(Array.from(replay.readBits(9)), [3, 1]);
+    });
+
+    it('off bit should work', () => {
+      const buffer = Buffer.alloc(4);
+      buffer[0] = 0b10001000;
+      buffer[1] = 0b10101010;
+      const replay = new Replay(buffer);
+
+      replay.skipBits(1);
+
+      const result = (buffer[0] + (buffer[1] << 8)) >> 1;
+      assert.deepEqual(Array.from(replay.readBits(9)), [result & 0xff, (result >> 8) & 1]);
+    });
+
+    it('more off bit should work', () => {
+      const buffer = Buffer.alloc(4);
+      buffer[0] = 0b10001000;
+      buffer[1] = 0b10101010;
+      const replay = new Replay(buffer);
+
+      replay.skipBits(4);
+
+      const result = (buffer[0] + (buffer[1] << 8)) >> 4;
+      assert.deepEqual(Array.from(replay.readBits(9)), [result & 0xff, (result >> 8) & 1]);
     });
   })
 })

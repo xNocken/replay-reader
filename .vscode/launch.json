@@ -14,7 +14,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/test.js"
+            "program": "${workspaceFolder}/dist/test.js",
+            "preLaunchTask": "build"
         }
     ]
 }

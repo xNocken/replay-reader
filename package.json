@@ -1,18 +1,32 @@
 {
   "dependencies": {
-    "needle": "^3.0.0",
-    "ooz-wasm": "1.0.0"
+    "ffi-napi": "^4.0.3",
+    "needle": "^3.0.0"
   },
   "version": "1.4.4",
   "scripts": {
-    "run": "node --experimental-wasm-simd test.js",
-    "test": "mocha"
+    "run": "node dist/test.js",
+    "test": "mocha test",
+    "prepare": "tsc"
   },
   "name": "fortnite-replay-parser",
   "description": "A libary created to parse Fortnite replays in Node",
-  "main": "index.js",
+  "main": "dist/index.js",
   "devDependencies": {
-    "mocha": "^9.1.1"
+    "@types/ffi-napi": "^4.0.5",
+    "@types/needle": "^2.5.3",
+    "@types/node": "^18.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "mocha": "^9.1.1",
+    "prettier": "^2.7.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4"
   },
   "repository": {
     "type": "git",
@@ -23,9 +37,21 @@
     "replay",
     "reader"
   ],
+  "files": [
+    "dist",
+    "package.json",
+    "src",
+    "index.ts",
+    "types",
+    "docs",
+    "oo2core_8_win64.dll",
+    "liblinoodle.so",
+    "README.md",
+    "LICENSE"
+  ],
   "author": "xNocken",
   "license": "MIT",
-  "types": "./typings/index.d.ts",
+  "types": "./dist/index.d.ts",
   "bugs": {
     "url": "https://github.com/xNocken/replay-reader/issues"
   },
