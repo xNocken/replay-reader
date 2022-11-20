@@ -35,6 +35,7 @@ export const handlePlayerState: PropertyExportFunction<DefaultResult, DefaultSta
   if (!playerData) {
     playerData = {
       actorId,
+      damageDealt: 0,
     };
 
     states.players[actorId] = playerData;

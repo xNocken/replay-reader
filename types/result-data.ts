@@ -127,6 +127,7 @@ export interface PlayerState extends PlayerStateExport {
   overShield?: FortSet,
   inventory?: Inventory,
   playerPawn?: PlayerPawn,
+  damageDealt: number,
 }
 
 export interface PlayerPawnExport extends RemoveIndex<Data> {

@@ -22,6 +22,16 @@ export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStat
     return;
   }
 
+  const playerState = states.players[pawn.PlayerState];
+
+  if (!playerState) {
+    logger.warn('Received damage cue for not tracked player state');
+
+    return;
+  }
+
+  hitPlayerState.damageDealt += data.Magnitude;
+
   pawn.damages.push({
     ...data,
     hitPlayerName: hitPlayerState.PlayerNamePrivate,
