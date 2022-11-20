@@ -83,7 +83,7 @@ export interface NetFieldExportPropertyConfigInternal extends
   versionOverrides?: OverrideConfig<NetFieldExportPropertyConfigInternal>[],
 }
 
-export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass;
+export type NetFieldExportPropertyConfig = NetFieldExportPropertyConfigDefault | NetFieldExportPropertyConfigArray | NetFieldExportPropertyConfigEnum | NetFieldExportPropertyConfigClass | NetFieldExportPropertyConfigIgnore;
 
 export interface ExportConfig {
   name: string,
