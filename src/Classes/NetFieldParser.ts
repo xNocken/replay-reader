@@ -421,6 +421,14 @@ export class NetFieldParser {
 
         return netBitReader[propertyInfo.parseFunction].call(netBitReader);
       }
+
+      case 'unknown': {
+        return this.setType({
+          ...propertyInfo,
+          parseType: 'readClass',
+          type: 'DebugObject',
+        }, exportGroup, netBitReader, globalData, depth);
+      }
     }
   }
 
