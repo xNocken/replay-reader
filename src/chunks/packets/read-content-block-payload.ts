@@ -29,16 +29,36 @@ const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
     };
   }
 
-  const classNetGUID = readNetGuid(bunch.archive, false, globalData);
+  let bDeleteSubObject = false;
+  let bSerializeClass = true;
 
-  if (classNetGUID == null || !classNetGUID.isValid()) {
+  if (bunch.archive.header.engineNetworkVersion >= 30) {
+    const isDestroyMessage = bunch.archive.readBit();
+
+    if (isDestroyMessage) {
+      bDeleteSubObject = true;
+      bSerializeClass = false;
+
+      bunch.archive.skipBits(8); // destroyFlags
+    }
+  }
+
+  let classNetGUID;
+
+  if (bSerializeClass) {
+    classNetGUID = readNetGuid(bunch.archive, false, globalData);
+
+    bDeleteSubObject = !classNetGUID.isValid();
+  }
+
+  if (bDeleteSubObject) {
     bObjectDeleted = true;
 
     return {
       bObjectDeleted,
       bOutHasRepLayout,
       repObject: netGuid.value,
-    };
+    }
   }
 
   if (bunch.archive.header.engineNetworkVersion >= 18) {
