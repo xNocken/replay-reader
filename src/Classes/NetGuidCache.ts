@@ -209,17 +209,29 @@ export class NetGuidCache {
     return this.actorIdToActorMap[netGuid];
   }
 
-  getStaticActorExportGroup(netGuid: number) {
+  getStaticActorExportGroup(netGuid: number, globalData: GlobalData) {
     let staticActorId = this.netGuids[netGuid];
 
     if (!staticActorId) {
       return { staticActorId: null, group: null };
     }
 
-    const cleanedPath = cleanStaticIdSuffix(staticActorId.path);
-    const fullStaticActorId = getFullGuidPath(staticActorId);
+    let type: string;
 
-    const exportGroup = this.staticActorIdMap[cleanedPath];
+    if (globalData.header.fileVersionUE5 >= 1008) {
+      const index = staticActorId.path.indexOf('_UAID');
+
+      if (index === -1) {
+        type = cleanStaticIdSuffix(staticActorId.path);;
+      } else {
+        type = staticActorId.path.substring(0, index);
+      }
+    } else{
+      type = cleanStaticIdSuffix(staticActorId.path);
+    }
+
+    const fullStaticActorId = getFullGuidPath(staticActorId);
+    const exportGroup = this.staticActorIdMap[type];
 
     return { staticActorId: fullStaticActorId, group: exportGroup || null };
   }

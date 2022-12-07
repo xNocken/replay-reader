@@ -24,6 +24,7 @@ export const receivedReplicatorBunch = (
   } else {
     const result = globalData.netGuidCache.getStaticActorExportGroup(
       repObject,
+      globalData,
     );
 
     netFieldExportGroup = result.group;

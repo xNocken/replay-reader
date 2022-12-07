@@ -15,7 +15,7 @@ const Containers: NetFieldExportGroupConfig = {
   states: {
     containers: "object",
   },
-  staticActorIds: ["Tiered_Chest_Athena", "Tiered_Ammo_Athena"],
+  staticActorIds: ["Tiered_Chest_Athena", "Tiered_Chest_Athena_C", "Tiered_Ammo_Athena", "Tiered_Ammo_Athena_C"],
   properties: {
     bHidden: {
       parseFunction: "readBit",
