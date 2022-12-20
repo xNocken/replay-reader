@@ -13,7 +13,7 @@ export const parsePackets = (encryptedReplay: Replay, data: DataChunk, globalDat
   } else {
     compressedReplay = encryptedReplay;
 
-    encryptedReplay.addOffsetByte(1, data.chunkSize);
+    encryptedReplay.addOffsetByte(0, data.chunkSize);
   }
 
   let replay: Replay;
@@ -29,6 +29,6 @@ export const parsePackets = (encryptedReplay: Replay, data: DataChunk, globalDat
   }
 
   if (!globalData.meta.isEncrypted) {
-    encryptedReplay.popOffset(1, data.chunkSize * 8);
+    encryptedReplay.popOffset(0, data.chunkSize * 8);
   };
 };

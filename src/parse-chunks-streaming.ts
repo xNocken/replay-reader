@@ -108,6 +108,7 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
   let parseIndex = 0;
   let downloadAmount = 0;
   let exitFunction: () => void;
+  let doneBeforeFunc = false;
 
   if (globalData.options.parseEvents) {
     const events = [];
@@ -207,6 +208,12 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
     }
 
     if (globalData.stopParsing) {
+      if (!exitFunction) {
+        doneBeforeFunc = true;
+
+        return;
+      }
+
       exitFunction();
 
       return;
@@ -287,6 +294,12 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
 
     if (chunks.replayData.length <= downloadIndex) {
       if (!isParsing && downloadAmount === 0) {
+        if (!exitFunction) {
+          doneBeforeFunc = true;
+
+          return;
+        }
+
         exitFunction();
       }
 
@@ -329,8 +342,12 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
 
   await new Promise<void>((resolve) => {
     exitFunction = () => {
-      globalData.downloadProcess.kill();
+      globalData.downloadProcess?.kill();
       resolve();
     };
+
+    if (doneBeforeFunc) {
+      exitFunction();
+    }
   });
 };

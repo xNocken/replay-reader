@@ -56,6 +56,10 @@ class Replay {
 
     this.lastBit = this.offsets[index];
 
+    if (!this.lastBit) {
+      throw Error(`No offset found for index ${index}`);
+    }
+
     for (let i = index; i < this.offsets.length; i += 1) {
       this.offsets.pop();
     }

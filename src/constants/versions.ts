@@ -8,5 +8,5 @@ export default {
   Timecode: 9,
   fileVersion: 6,
   networkVersion: 18,
-  engineNetworkVersion: 27,
+  engineNetworkVersion: 30,
 };

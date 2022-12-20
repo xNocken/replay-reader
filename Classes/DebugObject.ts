@@ -126,6 +126,14 @@ export class DebugObject {
     return înt;
   }
 
+  getValueAsDouble() {
+    if (this.data.length < 4) {
+      return null;
+    }
+
+    return this.data.readDoubleLE();
+  }
+
   toJSON() {
     return {
       size: this.size,
@@ -141,6 +149,7 @@ export class DebugObject {
       fName: this.getValueAsClass(FName),
       fVector: this.getValueAsFVector3d(),
       intPacked: this.getValueAsIntPacked(),
+      double: this.getValueAsDouble(),
     };
   }
 }
