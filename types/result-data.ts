@@ -219,6 +219,7 @@ export interface PlayerPawn extends PlayerPawnExport {
   gameplayCues: GameplayCue[],
   resolvedPlayer?: boolean,
   currentVehicle?: Vehicle,
+  successfulBuildingEdits: number,
 }
 
 export interface DamageCueExport extends RemoveIndex<Data> {

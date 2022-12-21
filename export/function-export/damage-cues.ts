@@ -1,7 +1,7 @@
-import { PropertyExportFunction } from '../../types/lib';
+import { FunctionCallFunction } from '../../types/lib';
 import { DamageCueExport, DefaultResult, DefaultStates, PlayerPawn } from '../../types/result-data';
 
-export const handleDamageCues: PropertyExportFunction<DefaultResult, DefaultStates, DamageCueExport> = ({ data, timeSeconds, states, actorId, logger }) => {
+export const handleDamageCues: FunctionCallFunction<DefaultResult, DefaultStates, DamageCueExport> = ({ data, timeSeconds, states, actorId, logger }) => {
   const hitPlayer = <PlayerPawn>states.playerPawns[data.HitActor];
 
   if (!hitPlayer) {

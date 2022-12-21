@@ -46,7 +46,7 @@ export const receivedReplicatorBunch = (
         netFieldExportGroup,
         bunch,
         true,
-        false,
+        true,
         globalData,
         staticActorId,
       )

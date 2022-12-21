@@ -28,10 +28,12 @@ import { handlePlayerPawnSpawn } from './actor-spawn/player-pawn';
 import { SetEvents } from '../types/lib';
 import { DefaultResult, DefaultStates } from '../types/result-data';
 import { handleLlama } from './property-export/llama';
+import { handleSuccessfulBuildingEdit } from './function-export/successful-building-edit';
 
 export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   actorDespawn,
   properties,
+  functionCall,
   netDelta,
   parsing,
   actorSpawn,
@@ -61,10 +63,11 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   properties.on('llama', handleLlama);
 
   // functions
-  properties.on('batchedDamageCue', handleDamageCues);
-  properties.on('mapMarker', handleBroadcastMapMarker);
-  properties.on('hitMarkers', handleClientInfoHitMarkers);
-  properties.on('gameplayCue', handleGameplayCues);
+  functionCall.on('batchedDamageCue', handleDamageCues);
+  functionCall.on('mapMarker', handleBroadcastMapMarker);
+  functionCall.on('hitMarkers', handleClientInfoHitMarkers);
+  functionCall.on('gameplayCue', handleGameplayCues);
+  functionCall.on('successfulBuildingEdit', handleSuccessfulBuildingEdit);
 
   // class
   properties.on('playlistInfo', handlePlaylistInfo);

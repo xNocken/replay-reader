@@ -4,7 +4,6 @@ const GameplayCues: NetFieldExportGroupConfig = {
   path: [
     "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueAdded_WithParams",
     "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_WithParams",
-    "/Script/FortniteGame.FortPawn:NetMulticast_InvokeGameplayCueExecuted_FromSpec",
   ],
   customExportName: "gameplayCue",
   states: {

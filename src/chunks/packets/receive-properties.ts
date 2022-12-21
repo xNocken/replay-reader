@@ -8,7 +8,7 @@ export const receiveProperties = (
   nfeGroup: NetFieldExportGroupInternal,
   bunch: Bunch,
   enableProperyChecksum = true,
-  netDeltaUpdate = false,
+  exportDirectly = true,
   globalData: GlobalData,
   staticActorId: string,
 ) => {
@@ -82,7 +82,7 @@ export const receiveProperties = (
     }
   }
 
-  if (!netDeltaUpdate && changedProperties.length) {
+  if (exportDirectly && changedProperties.length) {
     const actor = bunch.actor;
     const externalData = globalData.externalData[actor.actorNetGUID.value];
 

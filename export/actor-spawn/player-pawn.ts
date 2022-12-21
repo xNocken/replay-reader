@@ -5,6 +5,7 @@ export const handlePlayerPawnSpawn: ActorSpawnExportFunction<DefaultResult, Defa
   const pawn: PlayerPawn = {
     damages: [],
     gameplayCues: [],
+    successfulBuildingEdits: 0,
   };
 
   states.pawns[actorId] = pawn;

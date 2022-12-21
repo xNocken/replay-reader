@@ -244,6 +244,24 @@ export interface PropertyExport<ResultType extends BaseResult, StateType extends
   logger: Logger,
 }
 
+export interface FunctionCall<ResultType extends BaseResult, StateType extends BaseStates, DataType> {
+  chIndex: number,
+  hasData: boolean,
+  data: DataType extends null ? null : DataType,
+  timeSeconds: number,
+  staticActorId?: string,
+  globalData: GlobalData,
+  result: ResultType,
+  states: StateType,
+  setFastForward: SetFastForward,
+  stopParsing: StopParsing,
+  changedProperties: DataType extends null ? null : (keyof DataType)[],
+  actor: Actor,
+  actorId: number,
+  netFieldExports: DataType extends null ? null : NetFieldExportInternal[],
+  logger: Logger,
+}
+
 export interface ActorDespawnExport<ResultType extends BaseResult, StateType extends BaseStates> {
   chIndex: number,
   openPacket: boolean,
@@ -325,6 +343,10 @@ export interface PropertyExportFunction<ResultType extends BaseResult, StateType
   (exportt: PropertyExport<ResultType, StateType, DataType>): void,
 }
 
+export interface FunctionCallFunction<ResultType extends BaseResult, StateType extends BaseStates, DataType extends RemoveIndex<Data> = null> {
+  (exportt: FunctionCall<ResultType, StateType, DataType>): void,
+}
+
 export interface ActorDespawnExportFunction<ResultType extends BaseResult, StateType extends BaseStates> {
   (exportt: ActorDespawnExport<ResultType, StateType>): void,
 }
@@ -359,6 +381,11 @@ export interface PropertyExportEmitter<ResultType extends BaseResult, StateType 
   once(event: string, listener: PropertyExportFunction<ResultType, StateType, RemoveIndex<Data>>): this,
 }
 
+export interface FunctionCallEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
+  on(event: string, listener: FunctionCallFunction<ResultType, StateType, any>): this,
+  once(event: string, listener: FunctionCallFunction<ResultType, StateType, any>): this,
+}
+
 export interface ActorDespawnEmitter<ResultType extends BaseResult, StateType extends BaseStates> extends EventEmitter {
   on(event: string, listener: ActorDespawnExportFunction<ResultType, StateType>): this,
   once(event: string, listener: ActorDespawnExportFunction<ResultType, StateType>): this,
@@ -384,6 +411,7 @@ export interface ParsingEmitter<ResultType extends BaseResult, StateType extends
 
 export interface EventEmittersObject<ResultType extends BaseResult, StateType extends BaseStates> {
   properties: PropertyExportEmitter<ResultType, StateType>,
+  functionCall: FunctionCallEmitter<ResultType, StateType>,
   netDelta: NetDeltaExportEmitter<ResultType, StateType>,
   actorSpawn: ActorSpawnEmitter<ResultType, StateType>,
   actorDespawn: ActorDespawnEmitter<ResultType, StateType>,

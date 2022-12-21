@@ -75,7 +75,7 @@ export const netDeltaSerialize = (
       group,
       bunch,
       !enablePropertyChecksum,
-      true,
+      false,
       globalData,
       staticActorId,
     );

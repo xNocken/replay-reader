@@ -24,6 +24,7 @@ const initGlobalData = (options: ParseStreamOptions | ParseOptions) => {
 
   globalData.options.setEvents({
     properties: globalData.emitters.properties,
+    functionCall: globalData.emitters.functionCall,
     actorSpawn: globalData.emitters.actorSpawn,
     actorDespawn: globalData.emitters.actorDespawn,
     netDelta: globalData.emitters.netDelta,

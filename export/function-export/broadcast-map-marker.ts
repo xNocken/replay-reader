@@ -1,9 +1,9 @@
-import { PropertyExportFunction } from '../../types/lib';
+import { FunctionCallFunction } from '../../types/lib';
 import { DefaultResult, DefaultStates, PlayerMarkerExport } from '../../types/result-data';
 
 type PlayerMarkerRecord = Record<keyof PlayerMarkerExport, PlayerMarkerExport[keyof PlayerMarkerExport]>;
 
-export const handleBroadcastMapMarker: PropertyExportFunction<DefaultResult, DefaultStates, PlayerMarkerExport> = ({ actorId, data, result, states, changedProperties }) => {
+export const handleBroadcastMapMarker: FunctionCallFunction<DefaultResult, DefaultStates, PlayerMarkerExport> = ({ actorId, data, result, states, changedProperties }) => {
   if (data.pathName.match('Remove')) {
     if (states.markers[actorId]) {
       states.markers[actorId].removed = true;

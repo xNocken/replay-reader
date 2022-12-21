@@ -17,12 +17,16 @@ const PlayerPawnCache: NetFieldExportGroupConfig = {
       type: "gameplayCue",
       parseType: "function",
     },
-    NetMulticast_InvokeGameplayCueExecuted_FromSpec: {
-      type: "gameplayCue",
-      parseType: "function",
-    },
+    // NetMulticast_InvokeGameplayCueExecuted_FromSpec: {
+    //   type: "gameplayCue",
+    //   parseType: "function",
+    // },
     NetMulticast_Athena_BatchedDamageCues: {
       type: "batchedDamageCue",
+      parseType: "function",
+    },
+    NetMulticast_SuccessfulBuildingEdit: {
+      customExportName: "successfulBuildingEdit",
       parseType: "function",
     },
   },

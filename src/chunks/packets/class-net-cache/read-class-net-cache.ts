@@ -2,10 +2,11 @@ import { receiveCustomProperty } from './receive-custom-property';
 import { receiveProperties } from '../receive-properties';
 import { netDeltaSerialize } from './net-delta-serialize';
 import { readFieldHeader } from './read-field-header';
-import { Bunch } from '../../../../types/lib';
+import { Bunch, Data } from '../../../../types/lib';
 import Replay from '../../../Classes/Replay';
 import { NetFieldExportGroupInternal } from '../../../../types/nfe';
 import GlobalData from '../../../Classes/GlobalData';
+import { readFunction } from './read-function';
 
 export const readClassNetCache = (
   archive: Replay,
@@ -32,23 +33,15 @@ export const readClassNetCache = (
     archive.addOffset(5, numPayloadBits);
 
     if (fieldCache.parseType === 'function') {
-      const exportGroup = globalData.netGuidCache.getNFEReference(
-        fieldCache.type,
+      readFunction(
+        archive,
+        bunch,
+        numPayloadBits,
+        staticActorId,
+        fieldCache,
+        classNetCache,
+        globalData,
       );
-
-      if (!exportGroup) {
-        archive.popOffset(5);
-
-        return false;
-      }
-
-      receiveProperties(archive, exportGroup, bunch, true, false, globalData, staticActorId);
-
-      if (!archive.atEnd()) {
-        archive.popOffset(5);
-
-        return false;
-      }
     }
 
     if (fieldCache.parseType === 'class') {

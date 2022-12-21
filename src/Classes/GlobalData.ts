@@ -40,6 +40,7 @@ class GlobalData {
 
   emitters: EventEmittersObject<BaseResult, BaseStates> = {
     properties: new EventEmitter(),
+    functionCall: new EventEmitter(),
     netDelta: new EventEmitter(),
     actorSpawn: new EventEmitter(),
     actorDespawn: new EventEmitter(),

@@ -25,7 +25,7 @@ type OverrideConfig<T> = {
 
 export interface NetFieldExportCacheConfigBase {
   parseType: ClassNetCacheExportTypes,
-  type: string,
+  type?: string,
   enablePropertyChecksum?: boolean,
   customExportName?: string,
   versionOverrides?: OverrideConfig<NetFieldExportCacheConfigBase>[],

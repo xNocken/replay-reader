@@ -250,6 +250,7 @@ export class NetFieldParser {
 
     const nfeIndex = this.netFieldGroupPaths.findIndex((key, index) => {
       const { partialPath, isClassNetCacheProperty } = this.netFieldGroups[index];
+
       if (partialPath) {
         return group.includes(key);
       }
