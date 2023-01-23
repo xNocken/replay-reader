@@ -30,7 +30,7 @@ export const handleDamageCues: FunctionCallFunction<DefaultResult, DefaultStates
     return;
   }
 
-  hitPlayerState.damageDealt += data.Magnitude;
+  playerState.damageDealt += data.Magnitude;
 
   pawn.damages.push({
     ...data,
