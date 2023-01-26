@@ -6,6 +6,7 @@ export default {
   CharacterSample: 9,
   ZoneUpdate: 9,
   Timecode: 9,
+  PlayerStateEncryptionKey: -1,
   fileVersion: 6,
   networkVersion: 18,
   engineNetworkVersion: 30,

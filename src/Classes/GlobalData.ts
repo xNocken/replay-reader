@@ -82,6 +82,7 @@ class GlobalData {
     'CharacterSample',
     'ActorsPosition',
     'AdditionGFPEventGroup',
+    'PlayerStateEncryptionKey',
   ];
 
   inPacketId = 0;
@@ -104,6 +105,8 @@ class GlobalData {
   netGuidCache = new NetGuidCache();
   netFieldParser: NetFieldParser;
   actorToPath: Record<number, string> = {};
+
+  playerStateEncryptionKey: Buffer = null;
 
   setFastForward = (time: number) => {
     this.fastForwardTo = time;

@@ -16,6 +16,7 @@ import { EFortPickupTossState } from '../Enums/EFortPickupTossState';
 import { EAlertLevel } from '../Enums/EAlertLevel';
 import { FGameplayTag } from '../Classes/FGameplayTag';
 import { Vector2 } from '../Classes/Vector2';
+import { FAthenaPawnReplayData } from '../Classes/FAthenaPawnReplayData';
 
 interface CustomMap<T> {
   [key: number]: T,
@@ -212,6 +213,7 @@ export interface PlayerPawnExport extends RemoveIndex<Data> {
   FlySpeed?: number,
   bIsSkydivingFromLaunchPad?: boolean,
   bInGliderRedeploy?: boolean,
+  EncryptedPawnReplayData?: FAthenaPawnReplayData,
 }
 
 export interface PlayerPawn extends PlayerPawnExport {

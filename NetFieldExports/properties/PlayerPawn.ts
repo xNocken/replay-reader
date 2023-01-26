@@ -337,6 +337,10 @@ const PlayerPawn: NetFieldExportGroupConfig = {
       parseFunction: "readBit",
       parseType: "default",
     },
+    EncryptedPawnReplayData: {
+      parseType: 'readClass',
+      type: 'FAthenaPawnReplayData',
+    },
   },
 };
 

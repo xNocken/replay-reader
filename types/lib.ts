@@ -8,7 +8,7 @@ import { Logger } from '../src/Classes/Logger';
 import { Events } from './events';
 import { NetFieldExportGroupConfig, NetFieldExportInternal } from './nfe';
 
-export type SupportedEvents = 'playerElim' | 'AthenaReplayBrowserEvents' | 'ZoneUpdate' | 'CharacterSample' | 'ActorsPosition' | 'AdditionGFPEventGroup' | 'Timecode';
+export type SupportedEvents = 'playerElim' | 'AthenaReplayBrowserEvents' | 'ZoneUpdate' | 'CharacterSample' | 'ActorsPosition' | 'AdditionGFPEventGroup' | 'Timecode' | 'PlayerStateEncryptionKey';
 
 type KnownKeys<T> = keyof {
   [K in keyof T as string extends K ? never : number extends K ? never : K]: never
