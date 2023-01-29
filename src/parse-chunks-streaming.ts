@@ -110,74 +110,81 @@ export const parseChunksStreaming = async (chunks: Chunks, globalData: GlobalDat
   let exitFunction: () => void;
   let doneBeforeFunc = false;
 
-  if (globalData.options.parseEvents) {
-    const events = [];
+  const events = [];
 
-    let continueParsing: () => void;
-    let eventDownloadCount = 0;
+  let continueParsing: () => void;
+  let eventDownloadCount = 0;
 
-    for (let i = 0; i < chunks.events.length; i++) {
-      const event = chunks.events[i];
-      let debugTime: number;
-      let debugTimeDownload: number;
-      let debugTimeDownloadFinish: number;
+  for (let i = 0; i < chunks.events.length; i++) {
+    const event = chunks.events[i];
+    let debugTime: number;
+    let debugTimeDownload: number;
+    let debugTimeDownloadFinish: number;
+    let debugIsRequired = false;
 
-      if (!globalData.supportedEvents.find((eventType) => eventType === event.group)) {
-        continue;
+    if (!globalData.supportedEvents.find((eventType) => eventType === event.group)) {
+      continue;
+    }
+
+    if (!globalData.options.parseEvents && !globalData.mustBeParsedEvents.some((eventType) => eventType === event.group)) {
+      continue;
+    }
+
+    if (!globalData.options.parseEvents) {
+      debugIsRequired = true;
+    }
+
+    if (globalData.options.debug) {
+      debugTimeDownload = Date.now();
+    }
+
+    await new Promise<void>((resolve) => {
+      continueParsing = resolve;
+
+      if (eventDownloadCount < globalData.options.maxConcurrentEventDownloads) {
+        resolve();
       }
+    });
 
-      if (globalData.options.debug) {
-        debugTimeDownload = Date.now();
-      }
+    eventPromises.push(new Promise<void>(async (resolve) => {
+      eventDownloadCount += 1;
 
-      await new Promise<void>((resolve) => {
-        continueParsing = resolve;
+      getChunk(event.link, globalData).then((replay) => {
+        if (globalData.options.debug) {
+          debugTimeDownloadFinish = Date.now();
+          debugTime = Date.now();
+        }
 
-        if (eventDownloadCount < globalData.options.maxConcurrentEventDownloads) {
-          resolve();
+        try {
+          const exportData: NextChunkExport<BaseResult, BaseStates> = {
+            size: event.chunkSize,
+            chunks,
+            chunk: event,
+            setFastForward: globalData.setFastForward,
+            stopParsing: globalData.stopParsingFunc,
+            logger: globalData.logger,
+            globalData: globalData,
+            result: globalData.result,
+            states: globalData.states,
+          };
+
+          globalData.emitters.parsing.emit('nextChunk', exportData);
+        } catch (err) {
+          globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
+        }
+
+        events.push(parseEvent(replay, event, globalData));
+        eventDownloadCount -= 1;
+
+        continueParsing();
+        resolve();
+
+        if (globalData.options.debug) {
+          globalData.logger.message(`downloaded ${debugIsRequired ? 'required ' : ''}eventChunk with ${event.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
         }
       });
-
-      eventPromises.push(new Promise<void>(async (resolve) => {
-        eventDownloadCount += 1;
-
-        getChunk(event.link, globalData).then((replay) => {
-          if (globalData.options.debug) {
-            debugTimeDownloadFinish = Date.now();
-            debugTime = Date.now();
-          }
-
-          try {
-            const exportData: NextChunkExport<BaseResult, BaseStates> = {
-              size: event.chunkSize,
-              chunks,
-              chunk: event,
-              setFastForward: globalData.setFastForward,
-              stopParsing: globalData.stopParsingFunc,
-              logger: globalData.logger,
-              globalData: globalData,
-              result: globalData.result,
-              states: globalData.states,
-            };
-
-            globalData.emitters.parsing.emit('nextChunk', exportData);
-          } catch (err) {
-            globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
-          }
-
-          events.push(parseEvent(replay, event, globalData));
-          eventDownloadCount -= 1;
-
-          continueParsing();
-          resolve();
-
-          if (globalData.options.debug) {
-            globalData.logger.message(`downloaded eventChunk with ${event.chunkSize} bytes in ${debugTimeDownloadFinish - debugTimeDownload}ms and parsed it in ${Date.now() - debugTime}ms`);
-          }
-        });
-      }));
-    };
-  }
+    }));
+  };
 
   await Promise.all(eventPromises);
 

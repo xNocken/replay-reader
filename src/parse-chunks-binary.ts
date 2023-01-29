@@ -1,10 +1,54 @@
-import { BaseResult, BaseStates, Chunks, NextChunkExport } from '../types/lib';
+import { BaseResult, BaseStates, Chunks, Event, NextChunkExport } from '../types/lib';
 import GlobalData from './Classes/GlobalData';
 import Replay from './Classes/Replay';
 
 import { parseCheckpoint } from './chunks/parse-checkpoint';
 import parseEvent from './chunks/parse-events';
 import { parsePackets } from './chunks/parse-packets';
+
+const parseEventIntern = (event: Event, globalData: GlobalData, chunks: Chunks, replay: Replay) => {
+  let debugTime;
+  let debugIsRequired = false;
+
+  if (!globalData.supportedEvents.some((value) => value === event.group)) {
+    return;
+  }
+
+  if (globalData.options.debug) {
+    debugTime = Date.now();
+  }
+
+  if (!globalData.options.parseEvents) {
+    debugIsRequired = true;
+  }
+
+  try {
+    const exportData: NextChunkExport<BaseResult, BaseStates> = {
+      size: event.chunkSize,
+      chunks,
+      chunk: event,
+      setFastForward: globalData.setFastForward,
+      stopParsing: globalData.stopParsingFunc,
+      logger: globalData.logger,
+      globalData: globalData,
+      result: globalData.result,
+      states: globalData.states,
+    };
+
+    globalData.emitters.parsing.emit('nextChunk', exportData);
+  } catch (err) {
+    globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
+  }
+
+  try {
+    parseEvent(replay, event, globalData);
+  } catch (err) {
+    globalData.logger.error(`Error while reading event chunk ${event.group} at ${event.startTime}`);
+    replay.resolveError(1);
+  }
+
+  globalData.logger.message(`read ${debugIsRequired ? 'required ' : ''}eventChunk with ${event.chunkSize} bytes in ${Date.now() - debugTime}ms`);
+}
 
 const parseChunks = (replay: Replay, chunks: Chunks, globalData: GlobalData) => {
   let time = 0;
@@ -13,42 +57,13 @@ const parseChunks = (replay: Replay, chunks: Chunks, globalData: GlobalData) => 
     chunks.events
       .sort((a, b) => a.startTime - b.startTime)
       .forEach((event) => {
-        let debugTime;
-
-        if (!globalData.supportedEvents.some((value) => value === event.group)) {
-          return;
-        }
-
-        if (globalData.options.debug) {
-          debugTime = Date.now();
-        }
-
-        try {
-          const exportData: NextChunkExport<BaseResult, BaseStates> = {
-            size: event.chunkSize,
-            chunks,
-            chunk: event,
-            setFastForward: globalData.setFastForward,
-            stopParsing: globalData.stopParsingFunc,
-            logger: globalData.logger,
-            globalData: globalData,
-            result: globalData.result,
-            states: globalData.states,
-          };
-
-          globalData.emitters.parsing.emit('nextChunk', exportData);
-        } catch (err) {
-          globalData.logger.error(`Error while exporting "nextChunk": ${err.stack}`);
-        }
-
-        try {
-          parseEvent(replay, event, globalData);
-        } catch (err) {
-          globalData.logger.error(`Error while reading event chunk ${event.group} at ${event.startTime}`);
-          replay.resolveError(1);
-        }
-
-        globalData.logger.message(`read eventChunk with ${event.chunkSize} bytes in ${Date.now() - debugTime}ms`);
+        parseEventIntern(event, globalData, chunks, replay);
+      });
+  } else {
+    chunks.events
+      .filter((event) => globalData.mustBeParsedEvents.some((value) => value === event.group))
+      .forEach((event) => {
+        parseEventIntern(event, globalData, chunks, replay);
       });
   }
 

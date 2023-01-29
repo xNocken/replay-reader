@@ -85,6 +85,11 @@ class GlobalData {
     'PlayerStateEncryptionKey',
   ];
 
+  mustBeParsedEvents: SupportedEvents[] = [
+    'AdditionGFPEventGroup',
+    'PlayerStateEncryptionKey',
+  ];
+
   inPacketId = 0;
   lastFrameTime = 0;
 
