@@ -127,7 +127,7 @@ export class DebugObject {
   }
 
   getValueAsDouble() {
-    if (this.data.length < 4) {
+    if (this.data.length < 8) {
       return null;
     }
 
