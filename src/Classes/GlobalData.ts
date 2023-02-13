@@ -137,8 +137,8 @@ class GlobalData {
       });
     }
 
-    this.netFieldParser = new NetFieldParser(this);
     this.logger = new Logger(this.options.debug);
+    this.netFieldParser = new NetFieldParser(this);
   }
 
   resetForCheckpoint() {
