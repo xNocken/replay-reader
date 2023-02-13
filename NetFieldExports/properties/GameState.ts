@@ -26,6 +26,11 @@ const GameState: NetFieldExportGroupConfig = {
       parseFunction: "readFloat32",
       parseType: "default",
     },
+    ReplicatedWorldTimeSecondsDouble: {
+      parseType: "default",
+      parseFunction: "readDouble64",
+      customExportName: "ReplicatedWorldTimeSeconds",
+    },
     MatchState: {
       type: "FName",
       parseType: "readClass",

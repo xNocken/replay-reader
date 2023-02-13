@@ -222,7 +222,7 @@ export class NetGuidCache {
       const index = staticActorId.path.indexOf('_UAID');
 
       if (index === -1) {
-        type = cleanStaticIdSuffix(staticActorId.path);;
+        type = cleanStaticIdSuffix(staticActorId.path);
       } else {
         type = staticActorId.path.substring(0, index);
       }

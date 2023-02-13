@@ -2,6 +2,7 @@ import { Meta } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
 import versions from '../constants/versions';
+import ELocalFileReplayCustomVersion from '../versions/ELocalFileReplayCustomVersion';
 
 const metaMagic = 0x1CA2E27F;
 
@@ -13,6 +14,13 @@ export const parseMeta = (replay: Replay, globalData: GlobalData): Meta => {
   }
 
   const fileVersion = replay.readUInt32();
+
+  if (fileVersion >= ELocalFileReplayCustomVersion.CustomVersions) {
+    globalData.customVersion.serialize(replay);
+  } else {
+    globalData.customVersion.setLocalFileReplayVersion(fileVersion);
+  }
+
   const lengthInMs = replay.readUInt32();
   const networkVersion = replay.readUInt32();
   const changelist = replay.readUInt32();
@@ -23,19 +31,19 @@ export const parseMeta = (replay: Replay, globalData: GlobalData): Meta => {
   let isEncrypted: boolean;
   let encryptionKey: Buffer;
 
-  if (fileVersion > versions.fileVersion) {
+  if (fileVersion > ELocalFileReplayCustomVersion.LatestVersion) {
     globalData.logger.warn(`File version ${fileVersion} is newer than the latest supported version ${versions.fileVersion}. Parsing may fail`);
   }
 
-  if (fileVersion >= 3) {
+  if (fileVersion >= ELocalFileReplayCustomVersion.RecordingTimestamp) {
     timestamp = replay.readDate();
   }
 
-  if (fileVersion >= 2) {
+  if (fileVersion >= ELocalFileReplayCustomVersion.CompressionSupport) {
     isCompressed = replay.readBoolean();
   }
 
-  if (fileVersion >= 6) {
+  if (fileVersion >= ELocalFileReplayCustomVersion.EncryptionSupport) {
     isEncrypted = replay.readBoolean();
     encryptionKey = Buffer.from(replay.readBytes(replay.readUInt32()));
   }

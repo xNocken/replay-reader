@@ -474,6 +474,15 @@ class Replay {
     return this.double64Array[0];
   }
 
+  readGuid(): string {
+    const a = this.readUInt32();
+    const b = this.readUInt32();
+    const c = this.readUInt32();
+    const d = this.readUInt32();
+
+    return `${a.toString(16)}-${(b >>> 16).toString(16)}-${(b & 0xFFFF).toString(16)}-${(c >>> 16).toString(16)}-${(c & 0xFFFF).toString(16)}${d.toString(16)}`;
+  }
+
   /**
    * Read an id
    */
