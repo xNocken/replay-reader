@@ -6,6 +6,10 @@ const handleGameState = ({ data, result, states, timeSeconds, changedProperties 
     states.gameState.ingameToReplayTimeDiff = states.gameState.ReplicatedWorldTimeSeconds - timeSeconds;
   }
 
+  if (data.ReplicatedWorldTimeSecondsDouble) {
+    states.gameState.ReplicatedWorldTimeSeconds = data.ReplicatedWorldTimeSecondsDouble;
+  }
+
   for (let i = 0; i < changedProperties.length; i += 1) {
     const key = changedProperties[i];
 

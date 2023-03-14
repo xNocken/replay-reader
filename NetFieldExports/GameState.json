@@ -29,6 +29,12 @@
       "parseFunction": "readFloat32",
       "parseType": "default"
     },
+    "ReplicatedWorldTimeSecondsDouble": {
+      "name": "ReplicatedWorldTimeSecondsDouble",
+      "type": "double",
+      "parseFunction": "readDouble64",
+      "parseType": "default"
+    },
     "MatchState": {
       "name": "MatchState",
       "type": "FName",
