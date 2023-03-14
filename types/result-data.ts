@@ -344,7 +344,6 @@ export interface InventoryItem {
   item?: ItemDefinition,
   ammo?: number,
 }
-
 export interface SpectatorInfoPlayerInfo {
   PlayerState?: number,
   PlayerInventory?: number,

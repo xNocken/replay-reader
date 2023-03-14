@@ -1,6 +1,7 @@
 import { FRotator, FVector } from '../types/lib';
 import GlobalData from '../src/Classes/GlobalData';
 import Replay from '../src/Classes/Replay';
+import EEngineNetworkCustomVersion from '../src/versions/EEngineNetworkCustomVersion';
 
 export class FRepMovement {
   bSimulatedPhysicSleep: boolean;
@@ -18,7 +19,10 @@ export class FRepMovement {
     this.bSimulatedPhysicSleep = reader.readBit();
     this.bRepPhysics = reader.readBit();
 
-    if (globalData.header.engineNetworkVersion >= 25 && globalData.header.engineNetworkVersion !== 26) {
+    const eNVersion = globalData.customVersion.getEngineNetworkVersion();
+
+    if (eNVersion >= EEngineNetworkCustomVersion.RepMoveServerFrameAndHandle
+      && eNVersion !== EEngineNetworkCustomVersion.Ver21AndViewPitchOnly_DONOTUSE) {
       this.bRepServerFrame = reader.readBit();
       this.bRepServerHandle = reader.readBit();
     }

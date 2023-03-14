@@ -42,8 +42,7 @@ export const parsePlayerElim = (globalData: GlobalData, replay: Replay, time: nu
     }
     else if (replay.header.major == 4 && replay.header.minor <= 2) {
       replay.skipBytes(36);
-    }
-    else {
+    } else {
       replay.skipBytes(41);
     }
 

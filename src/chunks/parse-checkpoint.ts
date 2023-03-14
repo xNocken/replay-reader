@@ -7,6 +7,7 @@ import { decompress } from '../utils/decompress';
 import { parsePlaybackPackets } from './packets/parse-playback-packets';
 import { removePathPrefix } from '../utils/remove-path-prefix';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
+import EEngineNetworkCustomVersion from '../versions/EEngineNetworkCustomVersion';
 
 export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globalData: GlobalData) => {
   encryptedReplay.goTo(data.startPos);
@@ -38,11 +39,11 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
     replay.skipBytes(8); // packet offset
   }
 
-  if (replay.header.networkVersion >= 6) {
+  if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.ChannelNames) {
     replay.skipBytes(4); // level for checkpoint
   }
 
-  if (replay.header.networkVersion >= 8) {
+  if (globalData.customVersion.getEngineNetworkVersion() >=EEngineNetworkCustomVersion.AcksIncludedInHeader) {
     if (replay.hasDeltaCheckpoints()) {
       throw new Error('delta checkpoints not implemented');
     }
@@ -66,7 +67,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
       cacheObject.outer = outerGuid;
     }
 
-    if (replay.header.networkVersion < 15) {
+    if (globalData.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ClassNetCacheFullName) {
       cacheObject.path = removePathPrefix(replay.readString());
     } else {
       const isExported = replay.readByte() === 1;
@@ -84,7 +85,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
       }
     }
 
-    if (replay.header.networkVersion < 16) {
+    if (globalData.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ReplayDormancy) {
       cacheObject.checksum = replay.readUInt32();
     }
 

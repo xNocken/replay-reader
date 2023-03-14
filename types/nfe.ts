@@ -1,6 +1,6 @@
 import Replay from "../src/Classes/Replay";
 
-export type ParseFunctions = Exclude<keyof Replay, 'getBitsLeft' | 'atEnd' | 'canRead' | 'getByteOffset' | 'hasLevelStreamingFixes' | 'hasDeltaCheckpoints' | 'hasGameSpecificFrameData' | 'goToByte' | 'appendDataFromChecked' | 'decryptBuffer' | 'goTo' | 'buffer' | 'lastBit' | 'isError' | 'offset' | 'offsets' | 'float32Array' | 'uInt8Float32Array' | 'double64Array' | 'uInt8Double64Array' | 'header' | 'globalData' | 'UnrealNames' | 'constructor' | 'addOffset' | 'addOffsetByte' | 'popOffset' | 'resolveError' | 'getLastByte'>;
+export type ParseFunctions = Exclude<keyof Replay, 'getBitsLeft' | 'atEnd' | 'canRead' | 'getByteOffset' | 'hasLevelStreamingFixes' | 'hasDeltaCheckpoints' | 'hasGameSpecificFrameData' | 'goToByte' | 'appendDataFromChecked' | 'decryptBuffer' | 'goTo' | 'buffer' | 'lastBit' | 'isError' | 'offset' | 'offsets' | 'float32Array' | 'uInt8Float32Array' | 'double64Array' | 'uInt8Double64Array' | 'header' | 'globalData' | 'UnrealNames' | 'constructor' | 'addOffset' | 'addOffsetByte' | 'popOffset' | 'resolveError' | 'getLastByte' | 'customVersion'>;
 
 export type ParseTypes = 'readClass' | 'readDynamicArray' | 'readEnum' | 'ignore' | 'default' | 'unknown';
 export type NetFieldExportTypes = 'classNetCache' | 'default';

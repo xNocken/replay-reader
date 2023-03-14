@@ -1,7 +1,6 @@
 import { Meta } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import Replay from '../Classes/Replay';
-import versions from '../constants/versions';
 import ELocalFileReplayCustomVersion from '../versions/ELocalFileReplayCustomVersion';
 
 const metaMagic = 0x1CA2E27F;
@@ -32,7 +31,7 @@ export const parseMeta = (replay: Replay, globalData: GlobalData): Meta => {
   let encryptionKey: Buffer;
 
   if (fileVersion > ELocalFileReplayCustomVersion.LatestVersion) {
-    globalData.logger.warn(`File version ${fileVersion} is newer than the latest supported version ${versions.fileVersion}. Parsing may fail`);
+    globalData.logger.warn(`File version ${fileVersion} is newer than the latest supported version ${ELocalFileReplayCustomVersion.LatestVersion}. Parsing may fail`);
   }
 
   if (fileVersion >= ELocalFileReplayCustomVersion.RecordingTimestamp) {

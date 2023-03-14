@@ -2,7 +2,7 @@ import { FunctionCallFunction } from '../../types/lib';
 import { DamageCueExport, DefaultResult, DefaultStates, PlayerPawn } from '../../types/result-data';
 
 export const handleDamageCues: FunctionCallFunction<DefaultResult, DefaultStates, DamageCueExport> = ({ data, timeSeconds, states, actorId, logger }) => {
-  const hitPlayer = <PlayerPawn>states.playerPawns[data.HitActor];
+  const hitPlayer = states.playerPawns[data.HitActor];
 
   if (!hitPlayer) {
     return;

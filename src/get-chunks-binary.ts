@@ -2,6 +2,7 @@ import Replay from './Classes/Replay';
 import parseHeader from './chunks/parse-header';
 import GlobalData from './Classes/GlobalData';
 import { Checkpoint, Chunks, DataChunk, Event } from '../types/lib';
+import ELocalFileReplayCustomVersion from './versions/ELocalFileReplayCustomVersion';
 
 const getChunksBinary = (replay: Replay, globalData: GlobalData) => {
   const chunks: Chunks = {
@@ -29,14 +30,14 @@ const getChunksBinary = (replay: Replay, globalData: GlobalData) => {
         let startTime: number;
         let endTime: number;
 
-        if (globalData.meta.fileVersion >= 4) {
+        if (globalData.customVersion.getLocalFileReplayVersion() >= ELocalFileReplayCustomVersion.StreamChunkTimes) {
           startTime = replay.readUInt32();
           endTime = replay.readUInt32();
         }
 
         const dataSize = replay.readUInt32();
 
-        if (globalData.meta.fileVersion >= 6) {
+        if (globalData.customVersion.getLocalFileReplayVersion() >= ELocalFileReplayCustomVersion.EncryptionSupport) {
           replay.skipBytes(4);
         }
 

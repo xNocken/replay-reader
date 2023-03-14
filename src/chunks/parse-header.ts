@@ -63,8 +63,9 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   }
 
   if (replayVersion >= EReplayCustomVersion.SaveFullEngineVersion) {
-    replay.skipBytes(4);
-    patch = replay.readUInt16();
+    // engine version major, minor, patch
+    replay.skipBytes(6);
+
     changelist = replay.readUInt32();
     branch = replay.readString();
 
@@ -103,7 +104,7 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   }
 
   // env 9 seems to have had a bug that caused the nfe name to not be stored at all. makes parsing it almost impossible
-  if (engineNetworkVersion === EReplayCustomVersion.HeaderFlags) {
+  if (engineNetworkVersion === EEngineNetworkCustomVersion.NetExportSerialization) {
     throw new Error('Replays with engineNetworkVersion 9 are not supported');
   }
 
