@@ -21,7 +21,7 @@ const header = (replay) => {
   result.NetworkVersion = replay.readUInt32();
 
   // dont want to properly implement this so just skip it lol
-  if (result.NetworkVersion >= 7) {
+  if (result.NetworkVersion >= 19) {
     const customVersionCount = replay.readInt32();
 
     // version guid -> 16 bytes
