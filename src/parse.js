@@ -21,6 +21,16 @@ const replayInfo = (replay, globalData) => {
   }
 
   info.FileVersion = replay.readUInt32();
+
+  // dont want to properly implement this so just skip it lol
+  if (info.FileVersion >= 7) {
+    const customVersionCount = replay.readInt32();
+
+    // version guid -> 16 bytes
+    // version -> 4 bytes
+    replay.skipBytes(customVersionCount * 20);
+  }
+
   info.LengthInMs = replay.readUInt32();
   info.NetworkVersion = replay.readUInt32();
   info.Changelist = replay.readUInt32();
