@@ -7,7 +7,7 @@ import { decompress } from '../utils/decompress';
 import { parsePlaybackPackets } from './packets/parse-playback-packets';
 import { removePathPrefix } from '../utils/remove-path-prefix';
 import { NetworkGUID } from '../../Classes/NetworkGUID';
-import EEngineNetworkCustomVersion from '../versions/EEngineNetworkCustomVersion';
+import EReplayCustomVersion from '../versions/EReplayCustomVersion';
 
 export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globalData: GlobalData) => {
   encryptedReplay.goTo(data.startPos);
@@ -39,11 +39,11 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
     replay.skipBytes(8); // packet offset
   }
 
-  if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.ChannelNames) {
+  if (globalData.customVersion.getNetworkVersion() >= EReplayCustomVersion.MultipleLevels) {
     replay.skipBytes(4); // level for checkpoint
   }
 
-  if (globalData.customVersion.getEngineNetworkVersion() >=EEngineNetworkCustomVersion.AcksIncludedInHeader) {
+  if (globalData.customVersion.getNetworkVersion() >= EReplayCustomVersion.DeletedStartupActors) {
     if (replay.hasDeltaCheckpoints()) {
       throw new Error('delta checkpoints not implemented');
     }
@@ -67,7 +67,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
       cacheObject.outer = outerGuid;
     }
 
-    if (globalData.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ClassNetCacheFullName) {
+    if (globalData.customVersion.getNetworkVersion() < EReplayCustomVersion.GuidNameTable) {
       cacheObject.path = removePathPrefix(replay.readString());
     } else {
       const isExported = replay.readByte() === 1;
@@ -85,7 +85,7 @@ export const parseCheckpoint = (encryptedReplay: Replay, data: Checkpoint, globa
       }
     }
 
-    if (globalData.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ReplayDormancy) {
+    if (globalData.customVersion.getNetworkVersion() < EReplayCustomVersion.GuidCacheChecksums) {
       cacheObject.checksum = replay.readUInt32();
     }
 

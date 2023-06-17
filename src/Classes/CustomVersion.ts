@@ -1,4 +1,7 @@
 import ECustomVersionSerializationFormat from '../versions/ECustomVersionSerializationFormat';
+import EEngineNetworkCustomVersion from '../versions/EEngineNetworkCustomVersion';
+import ELocalFileReplayCustomVersion from '../versions/ELocalFileReplayCustomVersion';
+import EReplayCustomVersion from '../versions/EReplayCustomVersion';
 import Replay from './Replay';
 
 export default class CustomVersion {
@@ -29,7 +32,7 @@ export default class CustomVersion {
     }
   }
 
-  getLocalFileReplayVersion() {
+  getLocalFileReplayVersion(): ELocalFileReplayCustomVersion {
     return this.versions['95a4f03e-7e0b-49e4-ba43-d35694ff87d9'];
   }
 
@@ -37,7 +40,7 @@ export default class CustomVersion {
     this.versions['95a4f03e-7e0b-49e4-ba43-d35694ff87d9'] = version;
   }
 
-  getNetworkVersion() {
+  getNetworkVersion(): EReplayCustomVersion {
     return this.versions['8417998a-bbc0-43ec-81b3-d119072d2722'];
   }
 
@@ -45,7 +48,7 @@ export default class CustomVersion {
     this.versions['8417998a-bbc0-43ec-81b3-d119072d2722'] = version;
   }
 
-  getEngineNetworkVersion() {
+  getEngineNetworkVersion(): EEngineNetworkCustomVersion {
     return this.versions['62915ca3-1c8e-4bf7-a30e-12c7c8219df7'];
   }
 
