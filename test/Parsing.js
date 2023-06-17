@@ -8,7 +8,6 @@ describe('Meta', () => {
     it('should work with 17.21', () => {
       const expected = {
         lengthInMs: 1527494,
-        networkVersion: 2,
         changelist: 2147483647,
         friendlyName: 'Apollo_Terrain',
         timestamp: new Date('2021-08-01T17:10:12.985Z'),
@@ -31,7 +30,6 @@ describe('Meta', () => {
     it('should work with 15.30', () => {
       const expected = {
         lengthInMs: 1503466,
-        networkVersion: 2,
         changelist: 2147483647,
         friendlyName: 'Apollo_Terrain',
         timestamp: new Date('2021-02-14T18:10:20.715Z'),
@@ -56,7 +54,6 @@ describe('Meta', () => {
     it('should work with 17.10', () => {
       const expected = {
         lengthInMs: 273622,
-        networkVersion: 2,
         changelist: 16745144,
         friendlyName: 'Unsaved Replay',
         timestamp: new Date('2021-07-06T19:56:23.518Z'),
@@ -79,7 +76,6 @@ describe('Meta', () => {
     it('should work with 15.21', () => {
       const expected = {
         lengthInMs: 464697,
-        networkVersion: 2,
         changelist: 15074916,
         friendlyName: 'Unsaved Replay',
         timestamp: new Date('2021-01-24T15:13:18.663Z'),
