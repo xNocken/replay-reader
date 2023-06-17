@@ -58,7 +58,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
       continue;
     }
 
-    const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData.header);
+    const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData);
 
     if (!netFieldExport) {
       if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {

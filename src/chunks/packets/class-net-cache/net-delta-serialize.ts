@@ -15,7 +15,7 @@ export const netDeltaSerialize = (
 ) => {
   const exportName = group.exportName;
 
-  if (reader.customVersion.getNetworkVersion() >= EEngineNetworkCustomVersion.FastArrayDeltaStruct && !reader.readBit()) {
+  if (reader.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.FastArrayDeltaStruct && !reader.readBit()) {
     return false;
   }
 

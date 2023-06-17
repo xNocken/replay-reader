@@ -44,9 +44,7 @@ export interface NumberToBoolean {
 }
 
 export interface Header {
-  networkVersion: number,
   networkChecksum: number,
-  engineNetworkVersion: number,
   gameNetworkProtocolVersion: number,
   guid?: string,
   major?: number,
@@ -71,7 +69,6 @@ export interface Header {
 
 export interface Meta {
   lengthInMs: number,
-  networkVersion: number,
   changelist: number,
   friendlyName: string,
   timestamp: Date,

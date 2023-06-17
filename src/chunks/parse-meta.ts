@@ -58,7 +58,6 @@ export const parseMeta = (replay: Replay, globalData: GlobalData): Meta => {
   const meta: Meta = {
     fileVersion,
     lengthInMs,
-    networkVersion,
     changelist,
     friendlyName,
     isLive,

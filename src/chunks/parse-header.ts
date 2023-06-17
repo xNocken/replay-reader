@@ -122,9 +122,7 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   }
 
   const result: Header = {
-    networkVersion: replayVersion,
     networkChecksum,
-    engineNetworkVersion,
     gameNetworkProtocolVersion,
     levelNamesAndTimes,
     guid,
