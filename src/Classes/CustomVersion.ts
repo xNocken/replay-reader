@@ -41,11 +41,11 @@ export default class CustomVersion {
   }
 
   getNetworkVersion(): EReplayCustomVersion {
-    return this.versions['8417998a-bbc0-43ec-81b3-d119072d2722'];
+    return this.versions['8417998a-bbc0-43ec-81b3-d11972d2722'];
   }
 
   setNetworkVersion(version: number) {
-    this.versions['8417998a-bbc0-43ec-81b3-d119072d2722'] = version;
+    this.versions['8417998a-bbc0-43ec-81b3-d11972d2722'] = version;
   }
 
   getEngineNetworkVersion(): EEngineNetworkCustomVersion {
