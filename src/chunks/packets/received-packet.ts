@@ -5,16 +5,18 @@ import { receivedNextBunch } from './received-next-bunch';
 import { onChannelClosed } from './on-channel-closed';
 import GlobalData from "../../Classes/GlobalData";
 import { Bunch, Channel } from "../../../types/lib";
+import EEngineNetworkCustomVersion from '../../versions/EEngineNetworkCustomVersion';
 
 const maxPacketInBits = 1024 * 2 * 8;
 
 export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globalData: GlobalData) => {
   const { channels } = globalData;
+  const engineNetworkVersion = globalData.customVersion.getEngineNetworkVersion();
 
   globalData.inPacketId++;
 
   while (!packetArchive.atEnd()) {
-    if (packetArchive.header.engineNetworkVersion < 8) {
+    if (engineNetworkVersion < EEngineNetworkCustomVersion.AcksIncludedInHeader) {
       packetArchive.skipBits(1);
     }
 
@@ -26,7 +28,7 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
     let bDormant: boolean;
     let closeReason: number;
 
-    if (packetArchive.header.engineNetworkVersion < 7) {
+    if (engineNetworkVersion < EEngineNetworkCustomVersion.ChannelCloseReason) {
       bDormant = bClose ? packetArchive.readBit() : false;
       closeReason = bDormant ? 1 : 0;
     } else {
@@ -39,7 +41,7 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
 
     let chIndex: number;
 
-    if (packetArchive.header.engineNetworkVersion < 3) {
+    if (engineNetworkVersion < EEngineNetworkCustomVersion.MaxActorChannelsCustomization) {
       chIndex = packetArchive.readSerializedInt(10240);
     } else {
       chIndex = packetArchive.readIntPacked();
@@ -65,7 +67,7 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
     let chType: number;
     let chName: string;
 
-    if (packetArchive.header.engineNetworkVersion < 6) {
+    if (engineNetworkVersion < EEngineNetworkCustomVersion.ChannelNames) {
       chType = (bReliable || bOpen) ? packetArchive.readSerializedInt(8) : 0;
 
       if (chType === 2) {
@@ -106,6 +108,8 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
 
     if (ignoreChannel) {
       packetArchive.skipBits(bunchDataBits);
+
+      return;
     } else {
       if (bPartial) {
         const bits = packetArchive.readBits(bunchDataBits);

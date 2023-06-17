@@ -1,6 +1,8 @@
 import { CustomEnum, FRotator, FVector, Header, ReadObjectResult, ReplayParseFunction, Vector4 } from '../../types/lib';
 import crypto from 'crypto';
 import GlobalData from './GlobalData';
+import CustomVersion from './CustomVersion';
+import EEngineNetworkCustomVersion from '../versions/EEngineNetworkCustomVersion';
 
 class Replay {
   buffer: Uint8Array;
@@ -17,6 +19,7 @@ class Replay {
   double64Array = new Float64Array(1);
   uInt8Double64Array = new Uint8Array(this.double64Array.buffer);
 
+  customVersion: CustomVersion;
   header: Header;
   globalData: GlobalData;
   UnrealNames: CustomEnum;
@@ -28,6 +31,7 @@ class Replay {
     if (globalData) {
       this.UnrealNames = globalData.netFieldParser.getEnum('UnrealNames');
       this.globalData = globalData;
+      this.customVersion = globalData.customVersion;
     }
   }
 
@@ -366,7 +370,7 @@ class Replay {
     if (isHardcoded) {
       let nameIndex;
 
-      if (this.header.engineNetworkVersion < 6) {
+      if (this.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ChannelNames) {
         nameIndex = this.readUInt32();
       } else {
         nameIndex = this.readIntPacked();
@@ -391,7 +395,7 @@ class Replay {
     if (isHardcoded) {
       let nameIndex;
 
-      if (this.header.engineNetworkVersion < 6) {
+      if (this.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.ChannelNames) {
         nameIndex = this.readUInt32();
       } else {
         nameIndex = this.readIntPacked();
@@ -472,6 +476,15 @@ class Replay {
     this.uInt8Double64Array[7] = result[7];
 
     return this.double64Array[0];
+  }
+
+  readGuid(): string {
+    const a = this.readUInt32();
+    const b = this.readUInt32();
+    const c = this.readUInt32();
+    const d = this.readUInt32();
+
+    return `${a.toString(16)}-${(b >>> 16).toString(16)}-${(b & 0xFFFF).toString(16)}-${(c >>> 16).toString(16)}-${(c & 0xFFFF).toString(16)}${d.toString(16)}`;
   }
 
   /**
@@ -581,7 +594,7 @@ class Replay {
   }
 
   readVector3d(): FVector {
-    if (this.header.engineNetworkVersion < 23) {
+    if (this.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.PackedVectorLWCSupport) {
       return this.readVector3f();
     }
 
@@ -593,7 +606,7 @@ class Replay {
   }
 
   readVector4d(): Vector4 {
-    if (this.header.engineNetworkVersion < 23) {
+    if (this.customVersion.getEngineNetworkVersion() < EEngineNetworkCustomVersion.PackedVectorLWCSupport) {
       return this.readVector4f();
     }
 
@@ -709,7 +722,7 @@ class Replay {
   }
 
   readPackedVector(scaleFactor: number, maxBits: number): FVector {
-    if (this.header.engineNetworkVersion >= 23) {
+    if (this.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.PackedVectorLWCSupport) {
       return this.readQuantizedVector(scaleFactor);
     }
 

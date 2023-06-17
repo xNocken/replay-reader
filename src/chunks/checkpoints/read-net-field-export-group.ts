@@ -32,7 +32,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
   const group = globalData.netGuidCache.addToExportGroupMap(theGroup.pathName, theGroup, globalData);
 
   for (let i = 0; i < group.netFieldExportsLength; i++) {
-    const netField: NetFieldExport = readNFE(replay);
+    const netField: NetFieldExport = readNFE(replay, globalData);
 
     if (!netField || !group) {
       continue;
@@ -58,7 +58,7 @@ export const readNetFieldExportGroup = (replay: Replay, globalData: GlobalData) 
       continue;
     }
 
-    const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData.header);
+    const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData);
 
     if (!netFieldExport) {
       if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {

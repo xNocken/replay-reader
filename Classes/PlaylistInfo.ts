@@ -1,12 +1,15 @@
+import GlobalData from '../src/Classes/GlobalData';
 import { NetGuidCache } from '../src/Classes/NetGuidCache';
 import Replay from '../src/Classes/Replay';
+import EEngineNetworkCustomVersion from '../src/versions/EEngineNetworkCustomVersion';
+import { CustomClass } from '../types/lib';
 
-export class PlaylistInfo {
+export class PlaylistInfo implements CustomClass {
   id: number;
   name: string;
 
-  serialize(reader: Replay) {
-    if (reader.header.engineNetworkVersion >= 11) {
+  serialize(reader: Replay, globalData: GlobalData) {
+    if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.FastArrayDeltaStruct) {
       reader.readBit();
     }
 

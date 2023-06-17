@@ -27,6 +27,7 @@ import { Logger } from './Logger';
 import { ChildProcess } from 'child_process';
 import { GlobalDataEvents } from '../../types/events';
 import { NetFieldExportGroup } from '../../types/nfe';
+import CustomVersion from './CustomVersion';
 
 class GlobalData {
   channels: Channel[] = [];
@@ -37,6 +38,8 @@ class GlobalData {
   ];
   partialBunch: Bunch = null;
   inReliable = 0;
+
+  customVersion = new CustomVersion();
 
   emitters: EventEmittersObject<BaseResult, BaseStates> = {
     properties: new EventEmitter(),
@@ -134,8 +137,8 @@ class GlobalData {
       });
     }
 
-    this.netFieldParser = new NetFieldParser(this);
     this.logger = new Logger(this.options.debug);
+    this.netFieldParser = new NetFieldParser(this);
   }
 
   resetForCheckpoint() {

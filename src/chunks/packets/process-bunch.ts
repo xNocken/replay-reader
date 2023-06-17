@@ -7,6 +7,7 @@ import { onChannelOpened } from './on-channel-opened';
 import { readContentBlockPayload } from './read-content-block-payload';
 import { receivedReplicatorBunch } from './received-replicator-bunch';
 import GlobalData from "../../Classes/GlobalData";
+import EEngineNetworkCustomVersion from '../../versions/EEngineNetworkCustomVersion';
 
 export const processBunch = (bunch: Bunch, globalData: GlobalData) => {
   const replay = bunch.archive;
@@ -39,7 +40,7 @@ export const processBunch = (bunch: Bunch, globalData: GlobalData) => {
 
       inActor.archetype = readNetGuid(bunch.archive, false, globalData);
 
-      if (bunch.archive.header.engineNetworkVersion >= 5) {
+      if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.NewActorOverrideLevel) {
         inActor.level = readNetGuid(bunch.archive, false, globalData);
       }
 

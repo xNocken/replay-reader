@@ -8,7 +8,6 @@ import parseHeader from './chunks/parse-header';
 export const replayMetaStreaming = (metadata: MetaDataResult, globalData: GlobalData) => {
   const meta: Meta = {
     lengthInMs: metadata.LengthInMS,
-    networkVersion: metadata.NetworkVersion,
     changelist: metadata.Changelist,
     friendlyName: metadata.FriendlyName,
     isLive: metadata.bIsLive,

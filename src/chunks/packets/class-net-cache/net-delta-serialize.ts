@@ -3,6 +3,7 @@ import Replay from '../../../Classes/Replay';
 import { BaseResult, BaseStates, Bunch, Data, NetDeltaExport } from '../../../../types/lib';
 import GlobalData from '../../../Classes/GlobalData';
 import { NetFieldExportGroupInternal } from '../../../../types/nfe';
+import EEngineNetworkCustomVersion from '../../../versions/EEngineNetworkCustomVersion';
 
 export const netDeltaSerialize = (
   reader: Replay,
@@ -14,7 +15,7 @@ export const netDeltaSerialize = (
 ) => {
   const exportName = group.exportName;
 
-  if (reader.header.engineNetworkVersion >= 11 && !reader.readBit()) {
+  if (reader.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.FastArrayDeltaStruct && !reader.readBit()) {
     return false;
   }
 

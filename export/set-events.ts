@@ -76,7 +76,9 @@ export const setEvents: SetEvents<DefaultResult, DefaultStates> = ({
   netDelta.on('inventory', handleInventory);
 
   // parsing.on('channelClosed', console.log);
-  // parsing.on('nextChunk', console.log);
+  parsing.on('nextChunk', ({ chunks }) => {
+    console
+  });
   // parsing.on('nextFrame', console.log);
   // parsing.on('finished', console.log);
 };

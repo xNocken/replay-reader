@@ -2,6 +2,7 @@ import { BaseResult, BaseStates, NextFrameExport } from '../../../types/lib';
 import { Packet } from "../../../types/replay";
 import GlobalData from "../../Classes/GlobalData";
 import Replay from "../../Classes/Replay";
+import EEngineNetworkCustomVersion from '../../versions/EEngineNetworkCustomVersion';
 import { readExternalData } from "./read-external-data";
 import { readNetExportGuids } from "./read-net-export-guids";
 import { readNetFieldExports } from "./read-nfe-group";
@@ -35,7 +36,7 @@ const receivedRawPacket = (packet: Packet, replay: Replay, globalData: GlobalDat
 };
 
 export const parsePlaybackPackets = (replay: Replay, globalData: GlobalData) => {
-  if (replay.header.networkVersion >= 6) {
+  if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.ChannelNames) {
     replay.skipBytes(4); // current level index
   }
 
@@ -62,7 +63,7 @@ export const parsePlaybackPackets = (replay: Replay, globalData: GlobalData) => 
     globalData.lastFrameTime = timeSeconds;
   }
 
-  if (replay.header.networkVersion >= 10) {
+  if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.NetExportSerialization) {
     readNetFieldExports(replay, globalData);
     readNetExportGuids(replay, globalData);
   }

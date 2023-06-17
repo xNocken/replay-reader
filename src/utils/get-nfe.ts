@@ -1,5 +1,6 @@
 import { Header } from "../../types/lib";
 import { NetFieldExportPropertyConfigInternal, VersionMethods } from "../../types/nfe";
+import GlobalData from '../Classes/GlobalData';
 
 const checkVersion = (currVer: number, targetVer: number, method: VersionMethods): boolean => {
   if (!targetVer) {
@@ -22,7 +23,7 @@ const checkVersion = (currVer: number, targetVer: number, method: VersionMethods
   }
 };
 
-export const getNfe = (nfe: NetFieldExportPropertyConfigInternal, header: Header): NetFieldExportPropertyConfigInternal => {
+export const getNfe = (nfe: NetFieldExportPropertyConfigInternal, globalData: GlobalData): NetFieldExportPropertyConfigInternal => {
   if (!nfe || !nfe.versionOverrides) {
     return nfe;
   }
@@ -33,11 +34,11 @@ export const getNfe = (nfe: NetFieldExportPropertyConfigInternal, header: Header
   };
 
   nfe.versionOverrides.forEach((override) => {
-    const matches = checkVersion(header.major, override.versions.major, override.versions.method)
-      && checkVersion(header.minor, override.versions.minor, override.versions.method)
-      && checkVersion(header.networkVersion, override.versions.networkVersion, override.versions.method)
-      && checkVersion(header.engineNetworkVersion, override.versions.engineNetworkVersion, override.versions.method)
-      && checkVersion(header.changelist, override.versions.changelist, override.versions.method);
+    const matches = checkVersion(globalData.header.major, override.versions.major, override.versions.method)
+      && checkVersion(globalData.header.minor, override.versions.minor, override.versions.method)
+      && checkVersion(globalData.customVersion.getNetworkVersion(), override.versions.networkVersion, override.versions.method)
+      && checkVersion(globalData.customVersion.getEngineNetworkVersion(), override.versions.engineNetworkVersion, override.versions.method)
+      && checkVersion(globalData.header.changelist, override.versions.changelist, override.versions.method);
 
     if (matches) {
       Object.assign(result, override.settings);

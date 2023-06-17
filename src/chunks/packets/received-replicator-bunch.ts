@@ -4,6 +4,7 @@ import { Bunch } from '../../../types/lib';
 import Replay from '../../Classes/Replay';
 import GlobalData from '../../Classes/GlobalData';
 import { NetFieldExportGroupInternal } from '../../../types/nfe';
+import EEngineNetworkCustomVersion from '../../versions/EEngineNetworkCustomVersion';
 
 export const receivedReplicatorBunch = (
   bunch: Bunch,
@@ -40,17 +41,15 @@ export const receivedReplicatorBunch = (
   }
 
   if (bHasRepLayout) {
-    if (
-      !receiveProperties(
-        archive,
-        netFieldExportGroup,
-        bunch,
-        true,
-        true,
-        globalData,
-        staticActorId,
-      )
-    ) {
+    if (!receiveProperties(
+      archive,
+      netFieldExportGroup,
+      bunch,
+      true,
+      true,
+      globalData,
+      staticActorId,
+    )) {
       return false;
     }
   }
@@ -61,7 +60,7 @@ export const receivedReplicatorBunch = (
 
   const classNetCache = globalData.netGuidCache.tryGetClassNetCache(
     netFieldExportGroup.pathName,
-    bunch.archive.header.engineNetworkVersion >= 15,
+    globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.ClassNetCacheFullName,
   );
 
   if (!classNetCache) {

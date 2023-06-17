@@ -1,6 +1,7 @@
 import { Bunch } from "../../../types/lib";
 import GlobalData from "../../Classes/GlobalData";
 import { readNetGuid } from "../../utils/read-net-guid";
+import EEngineNetworkCustomVersion from '../../versions/EEngineNetworkCustomVersion';
 
 const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
   let bObjectDeleted = false;
@@ -12,7 +13,7 @@ const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
     return {
       bObjectDeleted,
       bOutHasRepLayout,
-      repObject: actor.archetype?.value || actor.actorNetGUID.value,
+      repObject: actor.archetype?.value,
       bIsActor,
     };
   }
@@ -32,7 +33,7 @@ const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
   let bDeleteSubObject = false;
   let bSerializeClass = true;
 
-  if (bunch.archive.header.engineNetworkVersion >= 30) {
+  if (globalData.customVersion.getEngineNetworkVersion() >= EEngineNetworkCustomVersion.SubObjectDestroyFlag) {
     const isDestroyMessage = bunch.archive.readBit();
 
     if (isDestroyMessage) {
@@ -61,7 +62,7 @@ const readContentBlockHeader = (bunch: Bunch, globalData: GlobalData) => {
     }
   }
 
-  if (bunch.archive.header.engineNetworkVersion >= 18) {
+  if (globalData.customVersion.getEngineNetworkVersion() >=  EEngineNetworkCustomVersion.SubObjectOuterChain) {
     const bActorIsOuter = bunch.archive.readBit();
 
     if (!bActorIsOuter) {

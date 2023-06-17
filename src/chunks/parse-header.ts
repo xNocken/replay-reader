@@ -2,7 +2,8 @@ import { Header, ReadObjectResult } from '../../types/lib';
 import GlobalData from '../Classes/GlobalData';
 import { Logger } from '../Classes/Logger';
 import Replay from '../Classes/Replay';
-import versions from '../constants/versions';
+import EEngineNetworkCustomVersion from '../versions/EEngineNetworkCustomVersion';
+import EReplayCustomVersion from '../versions/EReplayCustomVersion';
 
 const headerMagic = 0x2CF5A13D;
 
@@ -14,10 +15,22 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
     throw new Error('header magic invalid');
   }
 
-  const networkVersion = replay.readUInt32();
+  const replayVersion = replay.readUInt32();
+
+  if (replayVersion >= EReplayCustomVersion.CustomVersions) {
+    globalData.customVersion.serialize(replay);
+  }
+
   const networkChecksum = replay.readUInt32();
   const engineNetworkVersion = replay.readUInt32();
   const gameNetworkProtocolVersion = replay.readUInt32();
+
+  if (replayVersion < EReplayCustomVersion.CustomVersions) {
+    globalData.customVersion.setNetworkVersion(replayVersion);
+    globalData.customVersion.setEngineNetworkVersion(engineNetworkVersion);
+    globalData.customVersion.setGameNetworkVersion(gameNetworkProtocolVersion);
+  }
+
   let levelNamesAndTimes: ReadObjectResult<number>;
   let guid: string;
   let minor: number;
@@ -37,21 +50,22 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   let buildConfig: number;
   let buildTargetType: string;
 
-  if (networkVersion > versions.networkVersion) {
+  if (replayVersion > EReplayCustomVersion.LatestVersion) {
     logger.warn('This replay has a higher network version than currently supported. parsing may fail');
   }
 
-  if (engineNetworkVersion > versions.engineNetworkVersion) {
+  if (engineNetworkVersion > EEngineNetworkCustomVersion.LatestVersion) {
     logger.warn('This replay has a higher engine network version than currently supported. parsing may fail');
   }
 
-  if (networkVersion >= 12) {
+  if (replayVersion >= EReplayCustomVersion.HeaderGuid) {
     guid = replay.readId();
   }
 
-  if (networkVersion >= 11) {
-    replay.skipBytes(4);
-    patch = replay.readUInt16();
+  if (replayVersion >= EReplayCustomVersion.SaveFullEngineVersion) {
+    // engine version major, minor, patch
+    replay.skipBytes(6);
+
     changelist = replay.readUInt32();
     branch = replay.readString();
 
@@ -65,19 +79,20 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
     changelist = replay.readUInt32();
   }
 
-  if (networkVersion >= 18) {
+  // should be SavePackageVersionUE but fortnite reversed it
+  if (replayVersion >= EReplayCustomVersion.RecordingMetadata) {
     fileVersionUE4 = replay.readUInt32();
     fileVersionUE5 = replay.readUInt32();
     packageVersionLicenseeUe = replay.readUInt32();
   }
 
-  if (networkVersion <= 6) {
+  if (replayVersion <= EReplayCustomVersion.MultipleLevels) {
     throw Error('Not implented');
   } else {
     levelNamesAndTimes = replay.readObject((replay) => replay.readString(), (replay) => replay.readUInt32());
   }
 
-  if (networkVersion >= 9) {
+  if (replayVersion >= EReplayCustomVersion.HeaderFlags) {
     flags = replay.readUInt32();
   }
 
@@ -89,11 +104,12 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   }
 
   // env 9 seems to have had a bug that caused the nfe name to not be stored at all. makes parsing it almost impossible
-  if (engineNetworkVersion === 9) {
+  if (engineNetworkVersion === EEngineNetworkCustomVersion.NetExportSerialization) {
     throw new Error('Replays with engineNetworkVersion 9 are not supported');
   }
 
-  if (networkVersion >= 17) {
+  // should be RecordingMetadata but fortnite reversed it
+  if (replayVersion >= EReplayCustomVersion.SavePackageVersionUE) {
     minRecordHz = replay.readFloat32();
     maxRecordHz = replay.readFloat32();
     frameLimitInMS = replay.readFloat32();
@@ -106,9 +122,7 @@ const header = (replay: Replay, logger: Logger, globalData: GlobalData): Header 
   }
 
   const result: Header = {
-    networkVersion,
     networkChecksum,
-    engineNetworkVersion,
     gameNetworkProtocolVersion,
     levelNamesAndTimes,
     guid,

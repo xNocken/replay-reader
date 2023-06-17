@@ -6,7 +6,7 @@
   "version": "1.4.4",
   "scripts": {
     "run": "node dist/test.js",
-    "test": "mocha test",
+    "test": "tsc && mocha test",
     "prepare": "tsc"
   },
   "name": "fortnite-replay-parser",
