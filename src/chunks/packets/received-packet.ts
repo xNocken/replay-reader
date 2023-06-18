@@ -108,8 +108,6 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
 
     if (ignoreChannel) {
       packetArchive.skipBits(bunchDataBits);
-
-      return;
     } else {
       if (bPartial) {
         const bits = packetArchive.readBits(bunchDataBits);
