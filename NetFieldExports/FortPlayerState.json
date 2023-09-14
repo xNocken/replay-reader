@@ -13,8 +13,8 @@
       "parseFunction": "readUInt32",
       "parseType": "default"
     },
-    "UniqueId": {
-      "name": "UniqueId",
+    "UniqueID": {
+      "name": "UniqueID",
       "type": "string",
       "parseFunction": "readNetId",
       "parseType": "default"
