@@ -19,6 +19,12 @@
       "parseFunction": "readNetId",
       "parseType": "default"
     },
+    "UniqueID": {
+      "name": "UniqueID",
+      "type": "string",
+      "parseFunction": "readNetId",
+      "parseType": "default"
+    },
     "PlayerNamePrivate": {
       "name": "PlayerNamePrivate",
       "type": "string",
