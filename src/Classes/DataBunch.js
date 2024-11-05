@@ -17,6 +17,7 @@ class DataBunch {
     this.bReliable = inBunch.bReliable;
     this.bPartial = inBunch.bPartial;
     this.bPartialInitial = inBunch.bPartialInitial;
+    this.bHasPartialCustomExportsFinalBit  = inBunch.bHasPartialCustomExportsFinalBit;
     this.bPartialFinal = inBunch.bPartialFinal;
     this.bHasPackageMapExports = inBunch.bHasPackageMapExports;
     this.bHasMustBeMappedGUIDs = inBunch.bHasMustBeMappedGUIDs;

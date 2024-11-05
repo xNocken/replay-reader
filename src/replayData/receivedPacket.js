@@ -14,6 +14,8 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
 
   globals.inPacketId++;
 
+  var bHasPartialCustomExportsFinalBit = !(packetArchive.header.EngineNetworkVersion < 36);
+
   while (!packetArchive.atEnd()) {
     if (packetArchive.header.EngineNetworkVersion < 8) {
       packetArchive.skipBits(1);
@@ -59,6 +61,7 @@ const receivedPacket = (packetArchive, timeSeconds, globals) => {
     }
 
     bunch.bPartialInital = bunch.bPartial ? packetArchive.readBit() : false;
+    bunch.bHasPartialCustomExportsFinalBit = bunch.bPartial && bHasPartialCustomExportsFinalBit ? packetArchive.readBit() : false;
     bunch.bPartialFinal = bunch.bPartial ? packetArchive.readBit() : false;
 
     let chType = 0;

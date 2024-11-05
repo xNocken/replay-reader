@@ -11,6 +11,7 @@ class Header {
   Changelist = 0;
   Branch = '';
   LevelNamesAndTimes = [];
+  SubLevels = [];
   Flags = 0;
   gameSpecificData = [];
 }
