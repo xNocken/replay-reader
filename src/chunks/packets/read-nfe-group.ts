@@ -62,7 +62,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
     const netFieldExportGroup = globalData.netFieldParser.getNetFieldExport(group.pathName);
 
     if (!netFieldExportGroup) {
-      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {
+      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex' || group.pathName === 'NetworkGameplayTagDynamicIndex') {
         group.netFieldExports[netField.handle] = {
           parseType: 'unknown',
           handle: netField.handle,
@@ -82,7 +82,7 @@ export const readNetFieldExports = (replay: Replay, globalData: GlobalData, useP
     const netFieldExport = getNfe(netFieldExportGroup.properties[netField.name], globalData);
 
     if (!netFieldExport) {
-      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex') {
+      if (group.parseUnknownHandles || group.pathName === 'NetworkGameplayTagNodeIndex' || group.pathName === 'NetworkGameplayTagDynamicIndex') {
         group.netFieldExports[netField.handle] = {
           parseType: 'unknown',
           handle: netField.handle,

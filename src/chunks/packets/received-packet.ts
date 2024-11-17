@@ -62,6 +62,11 @@ export const receivedPacket = (packetArchive: Replay, timeSeconds: number, globa
     }
 
     const bPartialInital = bPartial ? packetArchive.readBit() : false;
+
+    if (bPartial && engineNetworkVersion >= EEngineNetworkCustomVersion.CustomExports) {
+      packetArchive.skipBits(1);
+    }
+
     const bPartialFinal = bPartial ? packetArchive.readBit() : false;
 
     let chType: number;

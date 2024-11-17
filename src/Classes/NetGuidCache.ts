@@ -31,13 +31,13 @@ export class NetGuidCache {
 
     const netFieldExport = globalData.netFieldParser.getNetFieldExport(exportGroup.pathName);
 
-    if (pathName === 'NetworkGameplayTagNodeIndex') {
+    if (pathName === 'NetworkGameplayTagNodeIndex' || pathName == "NetworkGameplayTagDynamicIndex") {
       const baseGroup: NetFieldExportGroupInternal = {
         pathName: exportGroup.pathName,
         pathNameIndex: exportGroup.pathNameIndex,
         netFieldExportsLength: exportGroup.netFieldExportsLength,
         netFieldExports: [],
-        exportName: 'NetworkGameplayTagNodeIndex',
+        exportName: pathName,
       };
 
       this.networkGameplayTagNodeIndex = baseGroup;
@@ -176,10 +176,8 @@ export class NetGuidCache {
   }
 
   tryGetTagName(tagIndex: number) {
-    if (tagIndex < this.networkGameplayTagNodeIndex.netFieldExportsLength) {
-      if (this.networkGameplayTagNodeIndex.netFieldExports[tagIndex]) {
-        return this.networkGameplayTagNodeIndex.netFieldExports[tagIndex].name;
-      }
+    if (this.networkGameplayTagNodeIndex.netFieldExports[tagIndex]) {
+      return this.networkGameplayTagNodeIndex.netFieldExports[tagIndex].name;
     }
 
     return null;
