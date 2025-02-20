@@ -19,7 +19,7 @@ The customClassPath setting can be used to include your own classes.
 More about classes and creating your own exports can be found [here](./addOwnExports.md#create-classes).
 
 ## customEnumPath: `string`
-The customEnumPath setting cane be used to include your own enums.
+The customEnumPath setting can be used to include your own enums.
 
 More about enums and creating your own exports can be found [here](./addOwnExports.md#create-enums).
 
