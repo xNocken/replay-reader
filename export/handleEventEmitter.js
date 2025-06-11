@@ -6,6 +6,7 @@ const handlePickup = require('./propertyExport/handlePickup');
 const handlePlayerState = require('./propertyExport/handlePlayerState');
 const handleGameplayCues = require('./propertyExport/handleGameplayCues');
 const handleGameState = require('./propertyExport/handleGameState');
+const handleHabanero = require('./propertyExport/handleHabanero');
 const handleHealthSet = require('./propertyExport/handleHealthSet');
 const handleLabradorLlama = require('./propertyExport/handleLabradorLlama');
 const handleLootLlama = require('./propertyExport/handleLootLlama');
@@ -44,6 +45,7 @@ const handleEventEmitter = ({ actorDespawnEmitter, propertyExportEmitter, netDel
   propertyExportEmitter.on('AthenaSupplyDrop.AthenaSupplyDrop_C', handleSupplyDrop);
   propertyExportEmitter.on('Athena_SoccerGame.Athena_SoccerGame_C', handleSoccerGame);
   propertyExportEmitter.on('FortniteGame.FortInventory', handleInventoryProperty)
+  propertyExportEmitter.on('FortniteGame.FortPlayerStateComponent_Habanero', handleHabanero);
 
   netDeltaReadEmitter.on('FortniteGame.ActiveGameplayModifier', handleActiveGameplayModifiers)
   netDeltaReadEmitter.on('FortniteGame.FortInventory', handleInventory);

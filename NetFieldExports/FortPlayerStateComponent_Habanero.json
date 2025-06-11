@@ -1,0 +1,25 @@
+{
+    "path": [
+      "/Script/FortniteGame.FortPlayerStateComponent_Habanero"
+    ],
+    "redirects": ["HabaneroPlayerStateComponent"],
+    "parseLevel": 1,
+    "exportGroup": "gameData",
+    "exportName": "players",
+    "exportType": "array",
+    "properties": {
+      "Rank": {
+        "name": "Rank",
+        "type": "int",
+        "parseFunction": "readInt16",
+        "parseType": "default"
+      },
+      "RankType": {
+        "name": "RankType",
+        "type": "string",
+        "parseFunction": "readString",
+        "parseType": "default"
+      }      
+    }
+  }
+  

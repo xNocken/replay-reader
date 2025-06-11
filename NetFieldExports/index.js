@@ -9,6 +9,7 @@ module.exports = [
   require('./FortInventoryCache.json'),
   require('./FortPickup.json'),
   require('./FortPlayerState.json'),
+  require('./FortPlayerStateComponent_Habanero.json'),
   require('./FortSet.json'),
   require('./GameplayCues.json'),
   require('./GameState.json'),
